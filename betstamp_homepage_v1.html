@@ -1,0 +1,2532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Betstamp — The odds screen for sharps who already win.</title>
+<style>
+  :root {
+    /* Light-first palette — canvas is white, blue is signature, navy is accent, orange is action */
+    --bg: #FFFFFF;
+    --bg-soft: #FAFBFC;
+    --surface: #F4F6F9;          /* pale gray cards */
+    --surface-2: #E9EEF4;
+    --divider: #D8E1EA;
+    --divider-strong: #C2D0DE;
+    --blue: #3E92CC;              /* Betstamp brand blue — signature */
+    --blue-dark: #2B76AA;
+    --blue-deep: #1E5A85;
+    --blue-pale: #D5E8F3;         /* matches product row highlight */
+    --blue-palest: #EEF5FB;
+    --navy: #0A1729;              /* tertiary accent — text, dark moments */
+    --navy-soft: #1E3554;
+    --orange: #EE7722;
+    --orange-hover: #F18A3D;
+    --orange-pale: #FAE0B5;
+    --text: #0A1729;              /* primary text = navy */
+    --text-body: #3A4656;         /* body copy */
+    --muted: #5E7590;
+    --muted-2: #8BA2B8;
+    --green: #17A364;
+    --white: #FFFFFF;
+    --shadow-sm: 0 1px 2px rgba(10,23,41,0.06);
+    --shadow: 0 4px 14px rgba(10,23,41,0.08);
+    --shadow-lg: 0 12px 40px rgba(10,23,41,0.10);
+    --shadow-blue: 0 10px 30px rgba(62,146,204,0.15);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--blue);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 2px 10px rgba(30,90,133,0.15);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 72px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 20px; color: var(--white);
+    letter-spacing: -0.01em; text-decoration: none;
+  }
+  .logo-mark {
+    width: 32px; height: 32px; border-radius: 6px;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue); font-weight: 800; font-size: 18px;
+  }
+  .nav-links { display: flex; gap: 18px; align-items: center; }
+  .nav-links a, .nav-links .nav-trigger {
+    color: rgba(255,255,255,0.9); text-decoration: none; font-size: 13px;
+    font-weight: 500; transition: color .2s;
+    background: none; border: none; padding: 0;
+    font-family: inherit; cursor: pointer; white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+  .nav-links a:hover, .nav-links .nav-trigger:hover { color: var(--white); }
+  .nav-trigger::after {
+    content: " ▾"; color: rgba(255,255,255,0.65); font-size: 10px;
+    margin-left: 2px;
+  }
+  /* dropdown menu */
+  .nav-item { position: relative; display: inline-flex; align-items: center; }
+  .nav-dropdown-menu {
+    position: absolute; top: calc(100% + 14px); left: -14px;
+    background: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 8px;
+    min-width: 260px;
+    box-shadow: 0 16px 40px rgba(10,23,41,0.20);
+    opacity: 0; visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity .18s, transform .18s, visibility .18s;
+    z-index: 110;
+  }
+  .nav-dropdown-menu::before {
+    content: "";
+    position: absolute; top: -8px; left: 28px;
+    width: 0; height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--white);
+  }
+  .nav-item:hover .nav-dropdown-menu,
+  .nav-item:focus-within .nav-dropdown-menu {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  .nav-dropdown-menu a {
+    display: block;
+    padding: 10px 14px;
+    color: var(--navy) !important;
+    font-size: 13.5px; font-weight: 500;
+    border-radius: 6px;
+    transition: background .15s, color .15s;
+    white-space: nowrap;
+  }
+  .nav-dropdown-menu a:hover {
+    background: var(--blue-palest);
+    color: var(--blue-deep) !important;
+  }
+  /* invisible hover bridge so the menu doesn't close mid-jump */
+  .nav-item::after {
+    content: "";
+    position: absolute; top: 100%; left: 0; right: 0;
+    height: 14px;
+  }
+  .nav-cta {
+    display: flex; gap: 12px; align-items: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 20px; border-radius: 8px;
+    font-weight: 600; font-size: 14px;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s; border: none;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--orange); color: var(--white);
+    box-shadow: 0 4px 14px rgba(238,119,34,0.28);
+  }
+  .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
+  .btn-secondary {
+    background: var(--blue); color: var(--white);
+    box-shadow: 0 4px 14px rgba(62,146,204,0.25);
+  }
+  .btn-secondary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--blue-deep);
+    border: 1.5px solid var(--blue);
+  }
+  .btn-ghost:hover { background: var(--blue-palest); }
+  .btn-login {
+    background: transparent; color: var(--white); font-weight: 500;
+    padding: 8px 12px;
+  }
+  .btn-login:hover { color: var(--white); opacity: 0.85; }
+
+  /* ---------- HERO WRAP ---------- */
+  .hero-wrap {
+    background: var(--bg);
+    position: relative;
+  }
+
+  /* ---------- ZOOM HERO (scroll-expansion) ---------- */
+  .zoom-hero {
+    position: relative;
+    height: 240vh;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% 0%, rgba(62,146,204,0.08), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 0% 100%, rgba(238,119,34,0.04), transparent 60%),
+      var(--bg);
+  }
+  .zoom-hero-sticky {
+    position: sticky; top: 0;
+    height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-start;
+    overflow: hidden;
+    padding-top: 24px;
+  }
+  .zoom-text {
+    text-align: center;
+    max-width: 1100px;
+    padding: 0 32px;
+    position: relative;
+    z-index: 3;
+    will-change: opacity, transform;
+    flex-shrink: 0;
+  }
+  .zoom-text .eyebrow { margin-bottom: 16px; }
+  .zoom-text h1 {
+    font-size: clamp(32px, 4.2vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 14px;
+  }
+  .zoom-text h1 .nowrap { white-space: nowrap; }
+  @media (max-width: 760px) {
+    .zoom-text h1 .nowrap { white-space: normal; }
+  }
+  .zoom-text .hero-sub {
+    font-size: 15px;
+    max-width: 560px;
+    margin: 0 auto 20px;
+  }
+  .zoom-text .hero-ctas {
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .scroll-cue {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.16em;
+    font-weight: 700;
+  }
+  .scroll-cue-arrow {
+    display: inline-block;
+    animation: scroll-cue-bounce 1.8s ease-in-out infinite;
+    color: var(--blue); font-size: 14px;
+  }
+  @keyframes scroll-cue-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(5px); opacity: 1; }
+  }
+  .zoom-media {
+    position: relative;
+    margin-top: 24px;
+    width: clamp(380px, 44vw, 680px);
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg);
+    box-shadow:
+      0 30px 60px rgba(10,23,41,0.22),
+      0 0 0 1px rgba(62,146,204,0.35),
+      0 0 80px rgba(62,146,204,0.18);
+    transform: scale(1);
+    transform-origin: center center;
+    will-change: transform;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+  .zoom-media-chrome {
+    background: var(--surface);
+    border-bottom: 1px solid var(--divider);
+    padding: 10px 14px;
+    display: flex; align-items: center; gap: 8px;
+    height: 38px;
+    flex-shrink: 0;
+  }
+  .zoom-media-img {
+    width: 100%;
+    height: calc(100% - 38px);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .zoom-media-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    display: block;
+  }
+  .zoom-media-fallback {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 13px; text-align: center;
+    padding: 20px; background: var(--surface);
+  }
+  .zoom-hero.fully-expanded .zoom-media {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zoom-hero { height: auto; }
+    .zoom-hero-sticky { position: static; height: auto; padding: 80px 32px 60px; }
+    .zoom-media { position: static; transform: none; margin: 40px auto 0; }
+    .scroll-cue { display: none; }
+  }
+
+  /* ---------- HERO (legacy — kept for CSS reuse) ---------- */
+  .hero {
+    padding: 80px 0 100px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% 0%, rgba(62,146,204,0.08), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 0% 100%, rgba(238,119,34,0.04), transparent 60%),
+      var(--bg);
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-palest);
+    border: 1px solid var(--blue-pale);
+    color: var(--blue-deep);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .eyebrow-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 8px rgba(62,146,204,0.5);
+  }
+  h1 {
+    font-size: 60px; font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.03em; margin: 20px 0 20px;
+    color: var(--navy);
+  }
+  h1 .accent { color: var(--blue); }
+  .hero-sub {
+    font-size: 18px; color: var(--muted);
+    margin-bottom: 32px; max-width: 540px; line-height: 1.6;
+  }
+  .hero-ctas { display: flex; gap: 14px; margin-bottom: 40px; }
+  .btn-lg { padding: 14px 26px; font-size: 15px; }
+
+  .hero-visual {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg), 0 0 60px rgba(62,146,204,0.06);
+    overflow: hidden;
+    position: relative;
+  }
+  .window-chrome {
+    background: var(--surface);
+    border-bottom: 1px solid var(--divider);
+    padding: 10px 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .window-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+  .window-dot:nth-child(1) { background: #FF5F56; }
+  .window-dot:nth-child(2) { background: #FFBD2E; }
+  .window-dot:nth-child(3) { background: #27C93F; }
+  .window-url {
+    margin-left: 12px;
+    background: var(--bg); border: 1px solid var(--divider);
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 12px; color: var(--muted);
+    font-family: "SF Mono", Monaco, monospace;
+  }
+
+  /* Fake odds screen — matches actual product aesthetic (light, blue column highlights) */
+  .odds-screen {
+    padding: 14px; font-size: 12px; background: var(--bg);
+  }
+  .odds-tabs {
+    display: flex; gap: 6px; margin-bottom: 12px;
+    padding-bottom: 12px; border-bottom: 1px solid var(--divider);
+  }
+  .odds-tab {
+    padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    background: var(--bg); color: var(--muted); cursor: pointer;
+    border: 1px solid var(--divider);
+  }
+  .odds-tab.active {
+    background: var(--navy); color: var(--white);
+    border-color: var(--navy);
+  }
+  .odds-row {
+    display: grid;
+    grid-template-columns: 2fr repeat(5, 1fr);
+    gap: 2px;
+    padding: 10px 8px;
+    font-size: 12px; align-items: center;
+    border-bottom: 1px solid var(--divider);
+  }
+  .odds-row.header {
+    background: var(--surface);
+    color: var(--muted); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-radius: 4px; padding: 8px;
+    border: none; font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .odds-row.header .true { color: var(--blue-deep); }
+  .odds-team {
+    font-weight: 600; color: var(--navy);
+    display: flex; align-items: center; gap: 6px;
+    padding-left: 4px;
+  }
+  .team-logo {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--blue-pale);
+    color: var(--blue-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700;
+  }
+  .odds-cell {
+    text-align: center; padding: 5px 2px; border-radius: 4px;
+    color: var(--text); font-family: "SF Mono", Monaco, monospace;
+    font-size: 11px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 8px;
+  }
+  .odds-cell .line { color: var(--muted); font-size: 10px; }
+  .odds-cell .price { font-weight: 700; }
+  .odds-cell.true-col {
+    background: var(--blue-palest);
+    border: 1px solid var(--blue-pale);
+  }
+  .odds-cell.true-col .price { color: var(--blue-deep); }
+  .odds-cell.best::after {
+    content: "★"; color: var(--orange); font-size: 11px;
+    position: absolute;
+  }
+  .odds-cell.best {
+    background: rgba(62,146,204,0.08);
+    position: relative;
+  }
+  .live-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 12px; background: var(--surface);
+    border-radius: 6px; font-size: 11px;
+    margin-top: 10px;
+  }
+  .live-bar span { color: var(--muted); }
+  .live-bar strong { color: var(--blue-deep); }
+  .pulse {
+    display: inline-block; width: 8px; height: 8px;
+    background: var(--green); border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(23,163,100,0.6);
+    animation: pulse 1.8s infinite; margin-right: 8px;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(23,163,100,0.5); }
+    70% { box-shadow: 0 0 0 10px rgba(23,163,100,0); }
+    100% { box-shadow: 0 0 0 0 rgba(23,163,100,0); }
+  }
+
+  /* ---------- TRUST BAR ---------- */
+  .trust-bg { background: transparent; padding: 0; }
+  .trust-bar {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 80px;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .trust-bar::before {
+    content: ""; position: absolute; top: -1px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 3px; background: var(--blue);
+    border-radius: 2px;
+  }
+  .trust-stat { text-align: center; }
+  .trust-num {
+    font-size: 32px; font-weight: 800; color: var(--blue-deep);
+    letter-spacing: -0.01em; line-height: 1;
+    margin-bottom: 6px; text-transform: uppercase;
+  }
+  .trust-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  /* ---------- LOGO MARQUEE (Odds Feeds) ---------- */
+  .logo-marquee {
+    background: var(--navy);
+    padding: 44px 0 48px;
+    position: relative;
+    overflow: hidden;
+    color: var(--white);
+    border-top: 2px solid var(--blue);
+    border-bottom: 2px solid var(--blue);
+  }
+  .logo-marquee-label {
+    font-size: 16px; font-weight: 700;
+    color: var(--white);
+    max-width: 1280px;
+    margin: 0 auto 22px;
+    padding: 0 32px;
+    letter-spacing: -0.01em;
+  }
+  .logo-marquee-track {
+    overflow: hidden;
+    position: relative;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+  .logo-marquee-inner {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+    animation: marquee-scroll 42s linear infinite;
+  }
+  .logo-marquee:hover .logo-marquee-inner {
+    animation-play-state: paused;
+  }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .logo-tile {
+    width: 88px; height: 88px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+    color: var(--white); font-weight: 800;
+    flex-shrink: 0;
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    font-size: 22px;
+  }
+  .logo-tile-sub {
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.1em;
+    opacity: 0.85;
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 120px 0; }
+  .section-header { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+  .section-eyebrow {
+    color: var(--blue); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    margin-bottom: 12px; display: inline-block;
+  }
+  h2 {
+    font-size: 44px; font-weight: 800; line-height: 1.1;
+    letter-spacing: -0.025em; color: var(--navy);
+    margin-bottom: 16px;
+  }
+  h2 .accent { color: var(--blue); }
+  .section-sub {
+    font-size: 17px; color: var(--muted); line-height: 1.6;
+  }
+
+  /* ---------- DIFFERENTIATORS ---------- */
+  .diff-block {
+    display: grid; grid-template-columns: 1.15fr 1fr;
+    gap: 64px; align-items: center; margin-bottom: 100px;
+  }
+  .diff-block:nth-child(even) .diff-copy { order: 2; }
+  .diff-block:last-child { margin-bottom: 0; }
+
+  .diff-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--blue-palest);
+    color: var(--blue-deep);
+    padding: 7px 16px;
+    border: 1px solid var(--blue-pale);
+    border-radius: 100px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    margin-bottom: 22px;
+  }
+  .diff-tag::before {
+    content: "";
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 6px rgba(62,146,204,0.6);
+  }
+  .diff-title {
+    font-size: 36px; font-weight: 800; line-height: 1.15;
+    color: var(--navy); margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .diff-copy p {
+    font-size: 16px; color: var(--text-body); margin-bottom: 16px;
+    line-height: 1.65;
+  }
+  .diff-list { margin-top: 28px; border-top: 1px solid var(--divider); }
+  .diff-list li {
+    display: flex; gap: 12px; align-items: center;
+    padding: 14px 0; font-size: 14px; color: var(--text);
+    list-style: none; font-weight: 500; line-height: 1.5;
+    border-bottom: 1px solid var(--divider);
+    white-space: nowrap;
+  }
+  .diff-list li::before {
+    content: "↑";
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800;
+    line-height: 1;
+    box-shadow: 0 0 10px rgba(62,146,204,0.3);
+  }
+  .diff-list li strong {
+    color: var(--navy);
+    font-weight: 700;
+  }
+  .diff-list li .li-desc {
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .diff-cta {
+    display: inline-flex; align-items: center;
+    margin-top: 28px;
+  }
+
+  .diff-visual {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    min-height: 320px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .diff-visual-img {
+    padding: 0;
+    min-height: 0;
+    background: var(--bg);
+    overflow: hidden;
+    position: relative;
+  }
+  .diff-visual-img::before { display: none; }
+  .diff-visual-img img {
+    position: static;
+    width: 100%;
+    height: auto;
+    max-width: none;
+    max-height: none;
+    display: block;
+    border-radius: 0;
+    mask-image: none;
+    -webkit-mask-image: none;
+    left: auto;
+    top: auto;
+  }
+  .diff-visual::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--blue-palest) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* True-line visual */
+  .tl-compare { width: 100%; position: relative; z-index: 1; }
+  .tl-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 13px 18px; border-radius: 8px; margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .tl-row.book {
+    background: var(--bg);
+    color: var(--text-body);
+    border: 1px solid var(--divider);
+  }
+  .tl-row.true-line-row {
+    background: linear-gradient(90deg, var(--blue), var(--blue-deep));
+    color: var(--white); font-weight: 700;
+    box-shadow: var(--shadow-blue);
+    position: relative;
+  }
+  .tl-row.true-line-row::before {
+    content: "●"; position: absolute; left: -10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--orange); font-size: 22px;
+  }
+  .tl-num {
+    font-family: "SF Mono", Monaco, monospace; font-weight: 700;
+  }
+  .tl-num.best { color: var(--blue-deep); }
+
+  /* Prop depth visual */
+  .prop-cols {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    width: 100%; position: relative; z-index: 1;
+  }
+  .prop-col { text-align: center; }
+  .prop-num {
+    font-size: 32px; font-weight: 800; color: var(--blue);
+    line-height: 1;
+  }
+  .prop-lbl {
+    font-size: 11px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-top: 6px; font-weight: 600;
+  }
+  .prop-bar-container { margin: 24px 0 0; }
+  .prop-bar-row {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+  }
+  .prop-bar-name {
+    flex-shrink: 0; width: 90px; font-size: 12px; color: var(--text-body);
+    font-weight: 600;
+  }
+  .prop-bar {
+    flex: 1; height: 8px; background: var(--surface-2); border-radius: 4px;
+    position: relative;
+  }
+  .prop-bar-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-deep));
+  }
+  .prop-bar-val {
+    flex-shrink: 0; width: 32px; text-align: right;
+    font-size: 12px; color: var(--navy); font-weight: 700;
+    font-family: "SF Mono", Monaco, monospace;
+  }
+
+  /* Speed visual */
+  .speed-clock { text-align: center; position: relative; z-index: 1; }
+  .speed-num {
+    font-size: 72px; font-weight: 800; color: var(--blue);
+    line-height: 1; font-family: "SF Mono", Monaco, monospace;
+    letter-spacing: -0.04em;
+  }
+  .speed-unit {
+    font-size: 20px; color: var(--muted); margin-left: 4px;
+  }
+  .speed-lbl {
+    font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.12em; margin-top: 8px; font-weight: 600;
+  }
+  .speed-ticks {
+    display: flex; justify-content: center; gap: 4px; margin-top: 28px;
+  }
+  .speed-tick {
+    width: 3px; height: 22px; background: var(--divider); border-radius: 2px;
+  }
+  .speed-tick.active {
+    background: var(--blue);
+    box-shadow: 0 0 6px rgba(62,146,204,0.4);
+  }
+
+  /* Filter panel visual (Customization diff) */
+  .filter-panel { width: 100%; position: relative; z-index: 1; }
+  .filter-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 14px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .filter-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
+  }
+  .filter-select {
+    background: var(--blue-palest); color: var(--blue-deep);
+    padding: 8px 14px; border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+    border: 1px solid var(--blue-pale);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .filter-select .chev { font-size: 10px; color: var(--muted); }
+  .filter-chips {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 18px;
+  }
+  .filter-chip {
+    padding: 5px 12px; border-radius: 100px;
+    font-size: 12px; font-weight: 600;
+    background: var(--surface); color: var(--muted);
+    border: 1px solid var(--divider);
+  }
+  .filter-chip.active {
+    background: var(--blue); color: var(--white);
+    border-color: var(--blue);
+  }
+  .filter-section-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    font-weight: 700; margin-bottom: 10px;
+  }
+  .filter-view {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 8px;
+    background: var(--surface);
+    margin-bottom: 6px;
+    border: 1px solid transparent;
+  }
+  .filter-view.active { border-color: var(--blue-pale); background: var(--blue-palest); }
+  .view-icon {
+    width: 20px; height: 20px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--blue-deep);
+  }
+  .view-icon svg { width: 100%; height: 100%; }
+  .view-name {
+    flex: 1; font-size: 13px; font-weight: 600; color: var(--navy);
+  }
+  .view-hotkey {
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 10px; color: var(--muted); font-weight: 700;
+    padding: 3px 7px; background: var(--bg);
+    border: 1px solid var(--divider); border-radius: 5px;
+  }
+
+  /* ---------- CAPPED ACCESS (premium scarcity moment) ---------- */
+  .capped-section {
+    background-color: var(--bg);
+    padding: 96px 0;
+    text-align: center;
+    position: relative;
+  }
+  .capped-section::before,
+  .capped-section::after {
+    content: ""; position: absolute;
+    left: 50%; transform: translateX(-50%);
+    width: 80px; height: 1px;
+    background: var(--divider);
+  }
+  .capped-section::before { top: 0; }
+  .capped-section::after  { bottom: 0; }
+  .capped-eyebrow {
+    color: var(--blue);
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    margin-bottom: 18px; display: inline-block;
+  }
+  .capped-title {
+    color: var(--navy);
+    font-size: 44px; font-weight: 800;
+    letter-spacing: -0.025em; line-height: 1.15;
+    margin: 0 0 28px;
+  }
+  .capped-title .accent { color: var(--blue); }
+  .capped-lead {
+    color: var(--text-body);
+    font-size: 18px; line-height: 1.7;
+    max-width: 720px;
+    margin: 0 auto 18px;
+  }
+  .capped-lead:last-child { margin-bottom: 0; }
+  .capped-meters {
+    display: flex; justify-content: center; gap: 56px;
+    margin: 40px auto 0;
+    max-width: 720px;
+  }
+  .capped-meter {
+    text-align: center;
+  }
+  .capped-meter-num {
+    font-size: 48px; font-weight: 800;
+    color: var(--navy); letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .capped-meter-num .of {
+    font-size: 22px; color: var(--muted-2);
+    font-weight: 600; margin-left: 4px;
+  }
+  .capped-meter-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.14em;
+    font-weight: 700; margin-top: 10px;
+  }
+  @media (max-width: 639px) {
+    .capped-section { padding: 64px 0; }
+    .capped-title { font-size: 30px; }
+    .capped-lead { font-size: 16px; }
+    .capped-meters { gap: 32px; flex-direction: column; }
+    .capped-meter-num { font-size: 40px; }
+  }
+
+  /* ---------- METHODOLOGY (editorial dark moment) ---------- */
+  .methodology-section {
+    background-color: var(--navy);
+    padding: 96px 0;
+    text-align: center;
+  }
+  .methodology-eyebrow {
+    color: var(--blue);
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+  .methodology-title {
+    color: var(--white);
+    font-size: 44px; font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0 0 20px;
+  }
+  .methodology-lead {
+    color: var(--muted-2);
+    font-size: 18px; line-height: 1.65;
+    max-width: 720px;
+    margin: 0 auto 56px;
+  }
+  .methodology-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: left;
+  }
+  .methodology-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(62,146,204,0.25);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .methodology-card-num {
+    display: block;
+    font-size: 12px; font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .methodology-card-title {
+    font-size: 17px; font-weight: 600;
+    color: var(--white);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .methodology-card-copy {
+    font-size: 14.5px; line-height: 1.6;
+    color: var(--muted-2);
+    margin: 0;
+  }
+  .methodology-close {
+    font-size: 16px; font-style: italic;
+    color: var(--muted-2);
+    text-align: center;
+    max-width: 720px;
+    margin: 48px auto 32px;
+  }
+  .methodology-cta { text-align: center; }
+  .methodology-section .btn-primary:focus-visible {
+    outline: 2px solid var(--blue-pale);
+    outline-offset: 2px;
+  }
+  @media (max-width: 1023px) {
+    .methodology-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  @media (max-width: 639px) {
+    .methodology-section { padding: 64px 0; }
+    .methodology-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .methodology-title { font-size: 32px; }
+    .methodology-lead { font-size: 16px; }
+  }
+
+  /* ---------- PRO EXPERIENCE (light service moment) ---------- */
+  .pro-experience-section {
+    background-color: var(--bg);
+    padding: 96px 0;
+    text-align: center;
+  }
+  .pro-experience-eyebrow {
+    color: var(--blue);
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+  .pro-experience-title {
+    color: var(--navy);
+    font-size: 44px; font-weight: 800;
+    letter-spacing: -0.025em; line-height: 1.15;
+    margin: 0 0 20px;
+  }
+  .pro-experience-lead {
+    color: var(--text-body);
+    font-size: 18px; line-height: 1.65;
+    max-width: 720px;
+    margin: 0 auto 64px;
+  }
+  .pro-experience-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: left;
+  }
+  .pro-experience-card {
+    background: var(--surface);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+  }
+  @media (hover: hover) {
+    .pro-experience-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+      border-color: var(--divider-strong);
+    }
+  }
+  .pro-experience-icon {
+    width: 48px; height: 48px;
+    background: var(--blue-pale);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+    color: var(--blue);
+  }
+  .pro-experience-icon svg { width: 24px; height: 24px; }
+  .pro-experience-card-title {
+    font-size: 18px; font-weight: 600;
+    color: var(--navy);
+    margin: 0 0 10px;
+    line-height: 1.3;
+  }
+  .pro-experience-card-copy {
+    font-size: 15px; line-height: 1.6;
+    color: var(--text-body);
+    margin: 0;
+  }
+  @media (max-width: 1023px) {
+    .pro-experience-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+  @media (max-width: 639px) {
+    .pro-experience-section { padding: 64px 0; }
+    .pro-experience-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .pro-experience-card { padding: 24px; }
+    .pro-experience-title { font-size: 32px; }
+    .pro-experience-lead { font-size: 16px; }
+  }
+
+  /* ---------- SCREENS SHOWCASE (tabbed) ---------- */
+  .screens-tabs {
+    display: flex; justify-content: center;
+    gap: 8px; margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .screens-tab {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .screens-tab:hover { color: var(--blue-deep); }
+  .screens-tab.active {
+    background: var(--bg);
+    color: var(--navy);
+    border-color: var(--divider);
+    box-shadow: var(--shadow-sm);
+  }
+  .screens-tab.active svg { color: var(--blue); }
+  .screens-tab svg { width: 16px; height: 16px; }
+  .screens-content {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 56px;
+    border: 1px solid var(--divider);
+  }
+  .screens-panel {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .screens-panel[hidden] { display: none; }
+  .screens-copy {
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .screens-badge {
+    display: inline-flex; align-items: center;
+    background: var(--bg);
+    border: 1px solid var(--blue-pale);
+    color: var(--blue-deep);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    width: fit-content;
+  }
+  .screens-title {
+    font-size: 36px; font-weight: 800;
+    color: var(--navy); line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .screens-copy p {
+    font-size: 16px; color: var(--text-body);
+    line-height: 1.6; margin: 0;
+  }
+  .screens-copy .btn {
+    width: fit-content; margin-top: 6px;
+  }
+  .screens-image {
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg);
+    box-shadow: 0 14px 40px rgba(10,23,41,0.14);
+    border: 1px solid var(--divider);
+  }
+  .screens-image img {
+    width: 100%; height: auto;
+    display: block;
+  }
+  .screens-image-fallback {
+    aspect-ratio: 16 / 10;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 13px;
+    text-align: center; padding: 30px;
+    background: var(--surface);
+  }
+  .screens-image-fallback code {
+    background: var(--bg);
+    padding: 2px 6px; border-radius: 4px;
+    font-size: 12px; color: var(--text);
+    font-family: "SF Mono", Monaco, monospace;
+  }
+  @media (max-width: 960px) {
+    .screens-panel { grid-template-columns: 1fr; gap: 32px; }
+    .screens-content { padding: 32px; }
+    .screens-title { font-size: 28px; }
+  }
+
+  /* ---------- SOCIAL PROOF ---------- */
+  .proof-section {
+    background: var(--surface);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+  }
+  .proof-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .testimonial {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+    transition: transform .25s, border-color .25s, box-shadow .25s;
+  }
+  .testimonial:hover {
+    transform: translateY(-4px);
+    border-color: var(--blue);
+    box-shadow: var(--shadow-blue);
+  }
+  .testimonial .quote-mark {
+    font-size: 52px; color: var(--blue);
+    line-height: 0.8; font-family: Georgia, serif;
+    position: absolute; top: 20px; right: 22px;
+    opacity: 0.25;
+  }
+  .testimonial-quote {
+    font-size: 15px; line-height: 1.6; color: var(--text);
+    margin-bottom: 20px; position: relative; z-index: 1;
+  }
+  .testimonial-author {
+    display: flex; align-items: center; gap: 12px;
+    padding-top: 18px; border-top: 1px solid var(--divider);
+  }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--blue-deep));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: var(--white); font-size: 14px;
+    flex-shrink: 0;
+  }
+  .author-meta .name {
+    font-weight: 700; color: var(--navy); font-size: 14px;
+  }
+  .author-meta .role {
+    font-size: 12px; color: var(--muted);
+  }
+
+  .yt-strip {
+    margin-top: 48px;
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+  .yt-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .yt-head h3 {
+    font-size: 16px; font-weight: 700; color: var(--navy);
+  }
+  .yt-head .tag {
+    font-size: 11px; color: var(--orange); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .yt-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .yt-card {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+    border-radius: 8px;
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: transform .25s;
+  }
+  .yt-card:hover { transform: scale(1.01); }
+  .yt-play {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(238,119,34,0.95);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); font-size: 16px;
+    box-shadow: 0 4px 12px rgba(238,119,34,0.4);
+  }
+  .yt-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 10px 12px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    font-size: 12px; color: var(--white); font-weight: 600;
+  }
+
+  /* ---------- ICP TILES ---------- */
+  .icp-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .icp-tile {
+    background: var(--bg);
+    border: 1.5px solid var(--blue);
+    border-radius: 12px; padding: 32px;
+    transition: all .25s;
+    position: relative; overflow: hidden;
+  }
+  .icp-tile::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--blue);
+  }
+  .icp-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-blue);
+  }
+  .icp-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 100px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .icp-badge.primary { background: var(--blue-palest); color: var(--blue-deep); }
+  .icp-badge.secondary { background: var(--surface); color: var(--muted); }
+  .icp-title {
+    font-size: 22px; font-weight: 800; color: var(--navy);
+    margin-bottom: 10px; letter-spacing: -0.01em;
+  }
+  .icp-desc {
+    font-size: 14px; color: var(--text-body); line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .icp-features { display: flex; flex-wrap: wrap; gap: 8px; }
+  .icp-feature {
+    font-size: 11px; padding: 4px 10px;
+    background: var(--surface); border: 1px solid var(--divider);
+    border-radius: 100px;
+    color: var(--text); font-weight: 500;
+  }
+
+  /* ---------- PRODUCT ECOSYSTEM ---------- */
+  .product-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .product-card {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 10px;
+    padding: 22px; text-decoration: none; color: inherit;
+    transition: all .2s;
+    display: block;
+  }
+  .product-card:hover {
+    border-color: var(--blue);
+    box-shadow: var(--shadow-blue);
+    transform: translateY(-2px);
+  }
+  .product-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--blue-palest);
+    border: 1px solid var(--blue-pale);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 12px;
+    font-size: 16px; color: var(--blue-deep);
+  }
+  .product-name {
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .product-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ---------- PRICING ---------- */
+  .billing-toggle {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin: 8px auto 48px;
+  }
+  .billing-label {
+    font-size: 14px; font-weight: 500; color: var(--muted);
+    cursor: pointer; user-select: none;
+  }
+  .billing-label.active { color: var(--navy); font-weight: 600; }
+  .billing-switch {
+    position: relative; width: 46px; height: 24px;
+    background: var(--divider-strong); border-radius: 100px;
+    border: none; cursor: pointer; transition: background 0.2s;
+    padding: 0;
+  }
+  .billing-switch.annual { background: var(--blue); }
+  .billing-switch-knob {
+    position: absolute; top: 3px; left: 3px;
+    width: 18px; height: 18px; background: var(--white);
+    border-radius: 50%; box-shadow: 0 1px 3px rgba(10,23,41,0.2);
+    transition: transform 0.2s;
+  }
+  .billing-switch.annual .billing-switch-knob { transform: translateX(22px); }
+  .billing-save {
+    display: inline-flex; align-items: center;
+    background: #D9F5E6; color: #17A364;
+    padding: 4px 12px; border-radius: 100px;
+    font-size: 12px; font-weight: 600;
+    margin-left: 6px;
+  }
+
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    align-items: stretch;
+  }
+  .tier {
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 32px 28px 28px;
+    position: relative;
+    display: flex; flex-direction: column;
+    box-shadow: var(--shadow-sm);
+  }
+  .tier.featured {
+    border: 2px solid var(--blue);
+    box-shadow: 0 12px 40px rgba(62,146,204,0.15);
+  }
+  .tier-flag {
+    position: absolute; top: -14px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--blue); color: var(--white);
+    padding: 6px 16px; border-radius: 100px;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(62,146,204,0.35);
+    white-space: nowrap;
+  }
+  .tier-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px;
+  }
+  .tier-icon {
+    width: 22px; height: 22px; color: var(--navy);
+    flex-shrink: 0; display: inline-flex;
+    align-items: center; justify-content: center;
+  }
+  .tier-icon svg { width: 100%; height: 100%; }
+  .tier-name {
+    font-size: 18px; font-weight: 700; color: var(--navy);
+    letter-spacing: 0; text-transform: none;
+    margin: 0;
+  }
+  .tier-price {
+    font-size: 34px; font-weight: 800; color: var(--navy);
+    line-height: 1; letter-spacing: -0.02em;
+    display: flex; align-items: baseline; gap: 2px;
+    margin-bottom: 18px;
+  }
+  .tier-price .suffix {
+    font-size: 14px; color: var(--muted); font-weight: 500;
+  }
+  .tier-price.contact { font-size: 30px; }
+  .tier-desc {
+    color: var(--text-body); font-size: 14px;
+    margin-bottom: 22px; line-height: 1.5;
+    min-height: 44px;
+  }
+  .tier-list {
+    list-style: none; padding: 0;
+    margin-bottom: 18px;
+  }
+  .tier-list li {
+    display: flex; gap: 10px; padding: 7px 0;
+    font-size: 14px; color: var(--text);
+    line-height: 1.4; align-items: flex-start;
+  }
+  .tier-list li::before {
+    content: "✓"; color: var(--blue); font-weight: 800;
+    flex-shrink: 0; font-size: 15px; line-height: 1.2;
+  }
+  .tier-list li.locked { color: var(--muted); }
+  .tier-list li.locked::before {
+    content: "🔒"; color: var(--muted);
+    font-size: 12px; font-weight: normal;
+  }
+  .now-live-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(23,163,100,0.12);
+    color: var(--green);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 100px;
+    margin-left: 8px;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .now-live-badge::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px rgba(23,163,100,0.7);
+    flex-shrink: 0;
+  }
+  .tier-limit {
+    color: var(--orange); font-size: 13px; font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .tier-divider {
+    height: 1px; background: var(--divider);
+    margin: 8px 0 18px;
+  }
+  .tier-addons {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-top: auto;
+  }
+  .tier-addon {
+    font-size: 13px; color: var(--muted);
+    text-align: center; line-height: 1.4;
+  }
+  .tier-addon.included {
+    display: flex; align-items: center; gap: 8px;
+    justify-content: center; color: var(--text);
+  }
+  .tier-addon.included::before {
+    content: "✓"; color: var(--blue); font-weight: 800;
+  }
+  .pricing-cta {
+    text-align: center; margin-top: 48px;
+  }
+  .pricing-cta .btn { min-width: 220px; }
+
+  /* ---------- FAQ ---------- */
+  .faq { max-width: 860px; margin: 0 auto; }
+  .faq-item {
+    border-bottom: 1px solid var(--divider);
+    padding: 20px 0;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    font-size: 17px; font-weight: 600; color: var(--navy);
+    list-style: none;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+"; font-size: 22px; color: var(--blue); font-weight: 400;
+    transition: transform .2s;
+  }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item p {
+    color: var(--text-body); padding-top: 14px; font-size: 15px; line-height: 1.6;
+  }
+  .faq-item p a { color: var(--blue-deep); }
+
+  /* ---------- CTA BANNER (editorial dark moment) ---------- */
+  .cta-banner {
+    margin: 120px auto 80px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+    border-radius: 16px;
+    padding: 64px 48px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 500px 300px at 50% 0%, rgba(238,119,34,0.18), transparent),
+      radial-gradient(ellipse 400px 300px at 90% 100%, rgba(62,146,204,0.2), transparent);
+  }
+  .cta-banner h2 {
+    color: var(--white); font-size: 42px;
+    position: relative; z-index: 1;
+  }
+  .cta-banner h2 .accent { color: var(--blue); }
+  .cta-banner p {
+    color: var(--muted-2); font-size: 17px; margin: 16px 0 32px;
+    position: relative; z-index: 1;
+  }
+  .cta-banner .btn { position: relative; z-index: 1; }
+
+  /* ---------- FOOTER (dark editorial moment) ---------- */
+  footer {
+    background: var(--navy);
+    color: var(--muted-2);
+    padding: 64px 0 30px;
+    margin-top: 80px;
+  }
+  footer .logo { color: var(--white); }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-brand p {
+    color: var(--muted-2); font-size: 14px;
+    margin-top: 16px; line-height: 1.6; max-width: 320px;
+  }
+  .footer-col h4 {
+    color: var(--white); font-size: 13px; font-weight: 700;
+    margin-bottom: 16px; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .footer-col a {
+    display: block; color: var(--muted-2); text-decoration: none;
+    font-size: 14px; padding: 6px 0; transition: color .15s;
+  }
+  .footer-col a:hover { color: var(--blue); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 30px; border-top: 1px solid var(--navy-soft);
+    font-size: 12px; color: var(--muted);
+  }
+  .footer-bottom a { color: var(--muted); text-decoration: none; margin-left: 20px; }
+  .footer-bottom a:hover { color: var(--blue); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 960px) {
+    h1 { font-size: 40px; }
+    h2 { font-size: 32px; }
+    .hero-grid, .diff-block { grid-template-columns: 1fr; gap: 40px; }
+    .diff-block:nth-child(even) .diff-copy { order: 0; }
+    .trust-bar { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .proof-grid, .icp-grid, .product-grid, .pricing-grid, .yt-cards, .footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .tier.featured { transform: none; }
+    .nav-links { display: none; }
+  }
+
+  /* ---------- HELPERS ---------- */
+  .mockup-ribbon {
+    position: fixed; top: 16px; right: -40px;
+    background: var(--orange); color: var(--white);
+    padding: 5px 50px; font-size: 11px; font-weight: 700;
+    transform: rotate(45deg); z-index: 200;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(10,23,41,0.2);
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-ribbon">V1 Mockup</div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">b</div>
+      <span>betstamp</span>
+    </a>
+    <div class="nav-links">
+      <a href="#">PRO Odds Screen</a>
+
+      <div class="nav-item">
+        <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Products</button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="#" role="menuitem">Sportsbook Pricing Feed</a>
+          <a href="sgp.html" role="menuitem">SGP Pricing Engine</a>
+          <a href="#" role="menuitem">Sports Betting API</a>
+          <a href="#" role="menuitem">Prediction Market API</a>
+          <a href="#" role="menuitem">Odds Screen</a>
+          <a href="#" role="menuitem">Sports Betting Widgets</a>
+          <a href="#" role="menuitem">Bet Tracking App</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Customers</button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="#" role="menuitem">Professional Bettors</a>
+          <a href="#" role="menuitem">Betting Syndicates</a>
+          <a href="#" role="menuitem">Market Makers</a>
+          <a href="#" role="menuitem">Sportsbooks</a>
+          <a href="#" role="menuitem">Prediction Markets</a>
+          <a href="#" role="menuitem">DFS &amp; Sweepstakes Operators</a>
+          <a href="#" role="menuitem">Media &amp; Affiliates</a>
+          <a href="#" role="menuitem">Professional Sports Organizations</a>
+        </div>
+      </div>
+
+      <div class="nav-item">
+        <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Resources</button>
+        <div class="nav-dropdown-menu" role="menu">
+          <a href="#" role="menuitem">Tools &amp; Calculators</a>
+          <a href="#" role="menuitem">Podcasts</a>
+          <a href="#" role="menuitem">Blog</a>
+        </div>
+      </div>
+
+      <a href="#">Betting Promotions</a>
+      <a href="#">Our Story</a>
+      <a href="#">Careers</a>
+      <a href="#">Contact Us</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-login">Log in</a>
+      <a href="#" class="btn btn-primary">Request a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== BLUE HERO WRAP ==================== -->
+<div class="hero-wrap">
+<!-- ==================== ZOOM HERO ==================== -->
+<section class="zoom-hero" id="zoomHero">
+  <div class="zoom-hero-sticky">
+    <div class="zoom-text" id="zoomText">
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Your odds screen, upgraded
+      </div>
+      <h1>You already win.<br><span class="nowrap">Here's the odds screen to <span class="accent">scale it.</span></span></h1>
+      <p class="hero-sub">
+        Proprietary True Line pricing. The deepest prop coverage in the industry. Real-time edge detection across 200+ books. Built by bettors who needed it themselves.
+      </p>
+      <div class="hero-ctas">
+        <a href="#pricing" class="btn btn-primary btn-lg">Request a Demo →</a>
+        <a href="#differentiators" class="btn btn-ghost btn-lg">See the Screen</a>
+      </div>
+    </div>
+    <div class="zoom-media" id="zoomMedia">
+      <div class="zoom-media-chrome">
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <div class="window-url">app.betstamp.com/odds</div>
+      </div>
+      <div class="zoom-media-img">
+        <img
+          src="assets/betstamp-odds-screen.png"
+          alt="Betstamp Pro odds screen — NBA props with True Line highlighted"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TRUST BAR ==================== -->
+<div class="trust-bg">
+<div class="container">
+  <div class="trust-bar">
+    <div class="trust-stat">
+      <div class="trust-num">200+</div>
+      <div class="trust-label">Sportsbooks</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-num">400ms</div>
+      <div class="trust-label">Median Refresh</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-num">99.99%</div>
+      <div class="trust-label">Uptime</div>
+    </div>
+    <div class="trust-stat">
+      <div class="trust-num">5+</div>
+      <div class="trust-label">Seasons of Data Leveraged</div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- /trust-bg -->
+
+</div>
+<!-- /hero-wrap -->
+
+<!-- ==================== ODDS FEEDS MARQUEE ==================== -->
+<div class="logo-marquee">
+  <div class="logo-marquee-label">Odds Feeds We Support</div>
+  <div class="logo-marquee-track">
+    <div class="logo-marquee-inner">
+      <!-- Set 1 -->
+      <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
+      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
+      <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
+      <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
+      <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
+      <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
+      <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
+      <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
+      <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
+      <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
+      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
+      <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
+      <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
+      <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
+      <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
+      <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
+      <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
+      <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
+      <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DIFFERENTIATORS ==================== -->
+<section id="differentiators" class="container">
+  <div class="section-header" style="max-width: none;">
+    <span class="section-eyebrow">Why Pro</span>
+    <h2 style="white-space: nowrap;">What Makes Betstamp <span class="accent">PRO Different.</span></h2>
+    <p class="section-sub" style="white-space: nowrap;">We're a pricing engine built for an edge — not just another odds screen. Here's why we're unmatched.</p>
+  </div>
+
+  <!-- Differentiator 1: True-Line Pricing -->
+  <div class="diff-block">
+    <div class="diff-copy">
+      <div class="diff-tag">Proprietary Technology</div>
+      <h3 class="diff-title">Proprietary True Line pricing</h3>
+      <p>A market-weighted True Line priced across 200+ books and backtested on 5+ seasons of closing lines. It's not a "sharp book" consensus — it's our own model, calibrated to reliably trade against without worry.</p>
+      <p>If a book is off the True Line, we know. Stop betting blind.</p>
+      <ul class="diff-list">
+        <li><strong>Fair-value devigging across every book</strong> <span class="li-desc">— No single-book bias. No stale lines.</span></li>
+        <li><strong>Closing line value baked in</strong> <span class="li-desc">— Measured against real CLV, not theory.</span></li>
+        <li><strong>Every market. Every league.</strong> <span class="li-desc">— Core, props, alts, futures, live.</span></li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
+    </div>
+    <div class="diff-visual diff-visual-img">
+      <img
+        src="assets/betstamp-edge-tooltip.png"
+        alt="Betstamp Edge tooltip — Hold, Max Edge, Max EV, and Best Available books with one-click Add to Bet Slip"
+        onerror="this.parentElement.innerHTML='<div style=&quot;text-align:center;color:var(--muted);font-size:13px;padding:20px;&quot;>Save the new Edge/True Line screenshot to<br><code>assets/betstamp-edge-tooltip.png</code><br>to see it here.</div>'"
+      />
+    </div>
+  </div>
+
+  <!-- Differentiator 2: Prop Depth -->
+  <div class="diff-block">
+    <div class="diff-copy">
+      <div class="diff-tag">Market Depth</div>
+      <h3 class="diff-title">The deepest props screen in the industry.</h3>
+      <p>The depth of coverage nobody else in the category can match. If a sportsbook posts it, we price it — alts, player milestones, SGPs, live props.</p>
+      <ul class="diff-list">
+        <li><strong>Player props</strong> <span class="li-desc">— Every prop, every milestone — True Line included.</span></li>
+        <li><strong>Alt props</strong> <span class="li-desc">— Full ladder, not just the key number.</span></li>
+        <li><strong>SGPs</strong> <span class="li-desc">— Pricing engine-backed (powered by Betstamp's own model).</span></li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
+    </div>
+    <div class="diff-visual">
+      <div class="tl-compare" style="width:100%">
+        <div class="prop-cols" style="margin-bottom:4px">
+          <div class="prop-col">
+            <div class="prop-num">500+</div>
+            <div class="prop-lbl">Alts / game</div>
+          </div>
+          <div class="prop-col">
+            <div class="prop-num">12</div>
+            <div class="prop-lbl">Prop categories</div>
+          </div>
+          <div class="prop-col">
+            <div class="prop-num">∞</div>
+            <div class="prop-lbl">PPH depth</div>
+          </div>
+        </div>
+        <div class="prop-bar-container">
+          <div class="prop-bar-row">
+            <div class="prop-bar-name">Points</div>
+            <div class="prop-bar"><div class="prop-bar-fill" style="width:96%"></div></div>
+            <div class="prop-bar-val">96</div>
+          </div>
+          <div class="prop-bar-row">
+            <div class="prop-bar-name">Rebounds</div>
+            <div class="prop-bar"><div class="prop-bar-fill" style="width:88%"></div></div>
+            <div class="prop-bar-val">88</div>
+          </div>
+          <div class="prop-bar-row">
+            <div class="prop-bar-name">Assists</div>
+            <div class="prop-bar"><div class="prop-bar-fill" style="width:82%"></div></div>
+            <div class="prop-bar-val">82</div>
+          </div>
+          <div class="prop-bar-row">
+            <div class="prop-bar-name">Threes</div>
+            <div class="prop-bar"><div class="prop-bar-fill" style="width:74%"></div></div>
+            <div class="prop-bar-val">74</div>
+          </div>
+          <div class="prop-bar-row">
+            <div class="prop-bar-name">Milestones</div>
+            <div class="prop-bar"><div class="prop-bar-fill" style="width:68%"></div></div>
+            <div class="prop-bar-val">68</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Differentiator 3: Speed -->
+  <div class="diff-block">
+    <div class="diff-copy">
+      <div class="diff-tag">Real-Time Infrastructure</div>
+      <h3 class="diff-title">Sub-second refresh. Real-time edge detection.</h3>
+      <p>The book moves. The True Line moves. You see it before everyone else on the refresh. Edges flagged the moment they open, not when the screen reloads in 30 seconds.</p>
+      <p>Speed isn't a feature — it's the whole reason an odds screen exists.</p>
+      <ul class="diff-list">
+        <li>Sub-second refresh across every book</li>
+        <li>Real-time edge detection + alerts</li>
+        <li>API-grade pipeline under the hood</li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
+    </div>
+    <div class="diff-visual">
+      <div class="speed-clock">
+        <div>
+          <span class="speed-num">400</span><span class="speed-unit">ms</span>
+        </div>
+        <div class="speed-lbl">Median Refresh</div>
+        <div class="speed-ticks">
+          <div class="speed-tick active"></div>
+          <div class="speed-tick active"></div>
+          <div class="speed-tick active"></div>
+          <div class="speed-tick active"></div>
+          <div class="speed-tick active"></div>
+          <div class="speed-tick active"></div>
+          <div class="speed-tick active"></div>
+          <div class="speed-tick"></div>
+          <div class="speed-tick"></div>
+          <div class="speed-tick"></div>
+          <div class="speed-tick"></div>
+          <div class="speed-tick"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Differentiator 4: Customization & Filtering -->
+  <div class="diff-block">
+    <div class="diff-copy">
+      <div class="diff-tag">Workflow Engine</div>
+      <h3 class="diff-title">Built for the way you actually bet.</h3>
+      <p>Filter by sport, market, player, or book. Sort by EV, Edge, or Hold %. Save custom views for every account you run.</p>
+      <p>This isn't a rec tool with more filters — it's a workflow engine, built by pros who run the same setup you do.</p>
+      <ul class="diff-list">
+        <li><strong>Sort by Edge, EV, or Hold %</strong> <span class="li-desc">— full game slate or by individual book</span></li>
+        <li><strong>Filter by time, game period, or market type</strong> <span class="li-desc">— pin plays to your execution list</span></li>
+        <li><strong>Hot keys for every view</strong> <span class="li-desc">— navigate sorting, leagues and markets without a click</span></li>
+      </ul>
+      <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
+    </div>
+    <div class="diff-visual">
+      <div class="filter-panel">
+        <div class="filter-row">
+          <div class="filter-label">Sort by</div>
+          <div class="filter-select">Edge % <span class="chev">▼</span></div>
+        </div>
+        <div class="filter-chips">
+          <div class="filter-chip active">NBA</div>
+          <div class="filter-chip active">Spreads</div>
+          <div class="filter-chip active">Pinnacle</div>
+          <div class="filter-chip">+ 4 more</div>
+        </div>
+        <div class="filter-section-label">Saved views</div>
+        <div class="filter-view active">
+          <span class="view-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </span>
+          <span class="view-name">Sharp NBA Slate</span>
+          <span class="view-hotkey">⌘1</span>
+        </div>
+        <div class="filter-view">
+          <span class="view-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
+          </span>
+          <span class="view-name">NFL Props Only</span>
+          <span class="view-hotkey">⌘2</span>
+        </div>
+        <div class="filter-view">
+          <span class="view-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg>
+          </span>
+          <span class="view-name">Alts &gt; 2% EV</span>
+          <span class="view-hotkey">⌘3</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== METHODOLOGY ==================== -->
+<section class="methodology-section" aria-labelledby="methodology-title">
+  <div class="container">
+    <span class="methodology-eyebrow">The methodology</span>
+    <h2 id="methodology-title" class="methodology-title">How the True Line actually works.</h2>
+    <p class="methodology-lead">Most odds screens treat one sportsbook as gospel and call that the True Line. We don't. Each market is unique, every book has different biases by sport and prop type, and lines move for reasons. Our True Line is weighted per market, backtested continuously, and built off the most reliable reference books in the industry — not whichever book happened to load first.</p>
+
+    <div class="methodology-grid">
+      <article class="methodology-card">
+        <span class="methodology-card-num" aria-hidden="true">01</span>
+        <h3 class="methodology-card-title">Historical book efficiency</h3>
+        <p class="methodology-card-copy">We weight each book differently by sport, market, and prop type based on how sharp their pricing has been historically. Pinnacle's NBA spread isn't the same signal as their NFL alt totals — and we price them accordingly.</p>
+      </article>
+      <article class="methodology-card">
+        <span class="methodology-card-num" aria-hidden="true">02</span>
+        <h3 class="methodology-card-title">Line move direction &amp; timing</h3>
+        <p class="methodology-card-copy">When and how a market moves matters as much as where it lands. Sharp early action, steam moves, and reverse line movement are all factored into how confidently we price each number.</p>
+      </article>
+      <article class="methodology-card">
+        <span class="methodology-card-num" aria-hidden="true">03</span>
+        <h3 class="methodology-card-title">Bias correction by prop type</h3>
+        <p class="methodology-card-copy">Player props, alts, and exotic markets carry structural biases the sides-and-totals world doesn't. We adjust per prop type so a +EV alt isn't masked by a market that's systemically off.</p>
+      </article>
+      <article class="methodology-card">
+        <span class="methodology-card-num" aria-hidden="true">04</span>
+        <h3 class="methodology-card-title">Offshore + sharp-out reference set</h3>
+        <p class="methodology-card-copy">More offshore and sharp-out books than any other provider — the ones that actually move first when smart money lands. The True Line is built off where the market is going, not where the public books are stuck.</p>
+      </article>
+    </div>
+
+    <p class="methodology-close">The result: a True Line you can backtest, trust, and scale off — priced across every book, every market, every second.</p>
+
+    <div class="methodology-cta">
+      <a href="/top-down-betting" class="btn btn-primary">Learn more about top-down betting →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SCREENS SHOWCASE ==================== -->
+<section id="screens" class="container">
+  <div class="section-header">
+    <span class="section-eyebrow">Three screens. One stack.</span>
+    <h2>The product, <span class="accent">on display.</span></h2>
+    <p class="section-sub">Switch between Main Markets, Props, and Live — all priced from the same proprietary True Line, all built for the way pros actually work.</p>
+  </div>
+
+  <div class="screens-tabs" role="tablist">
+    <button class="screens-tab" role="tab" data-tab="main" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+      <span>Main Markets</span>
+    </button>
+    <button class="screens-tab active" role="tab" data-tab="props" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+      <span>Props</span>
+    </button>
+    <button class="screens-tab" role="tab" data-tab="live" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="currentColor"/><path d="M5.5 5.5a9 9 0 0 0 0 13"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      <span>Live</span>
+    </button>
+  </div>
+
+  <div class="screens-content">
+    <!-- Main Markets -->
+    <div class="screens-panel" data-panel="main" hidden>
+      <div class="screens-copy">
+        <div class="screens-badge">Main Markets</div>
+        <h3 class="screens-title">Spreads, totals, and moneylines — priced to the True Line.</h3>
+        <p>Pre-game core markets across 200+ books with proprietary True Line pricing on every line. Sort by Edge, EV, or Hold %. Filter by sport, market, or book. The screen pros open at 9 a.m. and don't close until tip-off.</p>
+        <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
+      </div>
+      <div class="screens-image">
+        <img
+          src="assets/betstamp-main-screen.png"
+          alt="Betstamp Main Markets odds screen"
+          onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Main Markets screenshot to<br><code>assets/betstamp-main-screen.png</code></div>'"
+        />
+      </div>
+    </div>
+
+    <!-- Props (default) -->
+    <div class="screens-panel" data-panel="props">
+      <div class="screens-copy">
+        <div class="screens-badge">Props · #1 Odds Screen</div>
+        <h3 class="screens-title">The deepest prop screen in the industry.</h3>
+        <p>Player, game, derivatives, alts, milestones, PPHs. If a market's offered at 10+ books, we price it. Hover any cell for instant Edge and EV across every book — the reason syndicates run Betstamp.</p>
+        <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
+      </div>
+      <div class="screens-image">
+        <img
+          src="assets/betstamp-edge-tooltip.png"
+          alt="Betstamp Props odds screen with Edge tooltip"
+          onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Props screenshot to<br><code>assets/betstamp-edge-tooltip.png</code></div>'"
+        />
+      </div>
+    </div>
+
+    <!-- Live -->
+    <div class="screens-panel" data-panel="live" hidden>
+      <div class="screens-copy">
+        <div class="screens-badge">Live</div>
+        <h3 class="screens-title">Real-time edge, the moment books move.</h3>
+        <p>Live betting for main lines, spreads, and totals with sub-second refresh. Edges flagged the instant they open — not 30 seconds later when everyone else's screen reloads. Built for the pace pros actually trade at.</p>
+        <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
+      </div>
+      <div class="screens-image">
+        <img
+          src="assets/betstamp-live-screen.png"
+          alt="Betstamp Live odds screen"
+          onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Live screenshot to<br><code>assets/betstamp-live-screen.png</code></div>'"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRO EXPERIENCE ==================== -->
+<section class="pro-experience-section" aria-labelledby="pro-experience-title">
+  <div class="container">
+    <span class="pro-experience-eyebrow">The Pro experience</span>
+    <h2 id="pro-experience-title" class="pro-experience-title">Beyond the product.</h2>
+    <p class="pro-experience-lead">A subscription gets you software. Pro gets you a team — onboarding that gets you producing on day one, continuous shipping instead of quarterly roadmap theater, and direct access to the people who actually write the code.</p>
+
+    <div class="pro-experience-grid">
+      <article class="pro-experience-card">
+        <span class="pro-experience-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        <h3 class="pro-experience-card-title">1:1 onboarding</h3>
+        <p class="pro-experience-card-copy">A personalized walkthrough with someone on our team who runs the same workflows you do. We help you set the screen up around your books, your sports, and your bet sizing — so you're hitting your stride from day one, not month three.</p>
+      </article>
+
+      <article class="pro-experience-card">
+        <span class="pro-experience-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </span>
+        <h3 class="pro-experience-card-title">Weekly product updates</h3>
+        <p class="pro-experience-card-copy">Continuous shipping, not quarterly roadmap theater. Real features, real fixes, every week. The product you sign up for in April is meaningfully better in June — and you'll see exactly what changed.</p>
+      </article>
+
+      <article class="pro-experience-card">
+        <span class="pro-experience-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </span>
+        <h3 class="pro-experience-card-title">Dedicated 1:1 support</h3>
+        <p class="pro-experience-card-copy">Props and Live subs get a dedicated specialist available on the channel you actually use — Telegram, Slack, WhatsApp, whatever works. Every request also routes directly into the dev and customer success team chat, so the people building the screen see exactly what you need.</p>
+      </article>
+
+      <article class="pro-experience-card">
+        <span class="pro-experience-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        </span>
+        <h3 class="pro-experience-card-title">Feature requests that ship</h3>
+        <p class="pro-experience-card-copy">The backlog is built from user asks, not a PM's wishlist. Many of the screen's best features started as a message from a pro running the same setup you do — when something comes up, it lands in front of the team that can act on it.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SOCIAL PROOF ==================== -->
+<section class="proof-section">
+  <div class="container">
+    <div class="section-header" style="max-width: none;">
+      <span class="section-eyebrow">Built for — and by — pros</span>
+      <h2 style="white-space: nowrap;">From the bettors <span class="accent">moving the lines.</span></h2>
+      <p class="section-sub">We're not for recreational bettors learning to win. We're the tool the people who already win reach for when they need to scale.</p>
+    </div>
+
+    <div class="proof-grid">
+      <div class="testimonial">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-quote">The True Line engine is the only one I've trusted enough to size up on. Everything else is a screen. This is a model.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">TH</div>
+          <div class="author-meta">
+            <div class="name">Tony H.</div>
+            <div class="role">Syndicate lead · NBA / NFL</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-quote">Props depth you can't find anywhere else. Alts, milestones, PPHs — priced to the close. This is the difference between betting props and running prop-book.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">TD</div>
+          <div class="author-meta">
+            <div class="name">Tim D.</div>
+            <div class="role">Pro bettor · Props</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-quote">Refresh is so fast I stopped running the spreadsheet. The odds screen is the workflow now.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">DK</div>
+          <div class="author-meta">
+            <div class="name">Dan K.</div>
+            <div class="role">Sharp · Multi-sport</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="yt-strip">
+      <div class="yt-head">
+        <h3>You've seen it on their channels.</h3>
+        <span class="tag">From the community</span>
+      </div>
+      <div class="yt-cards">
+        <div class="yt-card">
+          <div class="yt-play">▶</div>
+          <div class="yt-caption">Johnny — "The tool we built because we needed it"</div>
+        </div>
+        <div class="yt-card">
+          <div class="yt-play">▶</div>
+          <div class="yt-caption">Rob Pizzola — "The True Line engine changes how I bet"</div>
+        </div>
+        <div class="yt-card">
+          <div class="yt-play">▶</div>
+          <div class="yt-caption">Michael Fiddle — "Why prop depth matters more than book count"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ICP TILES ==================== -->
+<section class="container">
+  <div class="section-header" style="max-width: none;">
+    <span class="section-eyebrow">Who it's for</span>
+    <h2 style="white-space: nowrap;">Built for the people <span class="accent">moving real size.</span></h2>
+    <p class="section-sub">Three audiences. One tool. If you're already winning and need to scale — this is the stack.</p>
+  </div>
+
+  <div class="icp-grid">
+    <div class="icp-tile">
+      <h3 class="icp-title">Pro Bettors</h3>
+      <p class="icp-desc">Full-time winners who need a True Line, deep coverage, and a workflow that keeps up with the board.</p>
+      <div class="icp-features">
+        <span class="icp-feature">True-line pricing</span>
+        <span class="icp-feature">Edge alerts</span>
+        <span class="icp-feature">Multi-sport</span>
+      </div>
+    </div>
+
+    <div class="icp-tile">
+      <h3 class="icp-title">Syndicates</h3>
+      <p class="icp-desc">Teams moving size who need shared access and custody over the model that prices their positions.</p>
+      <div class="icp-features">
+        <span class="icp-feature">Team seats</span>
+        <span class="icp-feature">Priority support</span>
+        <span class="icp-feature">Dedicated success</span>
+      </div>
+    </div>
+
+    <div class="icp-tile">
+      <h3 class="icp-title">Market Makers</h3>
+      <p class="icp-desc">Books and exchanges that need a third-party True Line, prop pricing coverage, and a reliable market reference.</p>
+      <div class="icp-features">
+        <span class="icp-feature">Prediction Markets</span>
+        <span class="icp-feature">SGP engine</span>
+        <span class="icp-feature">Custom builds</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== INSIDE PRO (feature grid) ==================== -->
+<section class="container">
+  <div class="section-header">
+    <span class="section-eyebrow">Inside Pro</span>
+    <h2>Every feature, <span class="accent">built in.</span></h2>
+    <p class="section-sub">The features pros actually use, every day, in every workflow — line history, steam alerts, exchange feeds, bet tracking, the rest. All built into Pro.</p>
+  </div>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-icon">▲</div>
+      <div class="product-name">True Line Steam Alerts</div>
+      <div class="product-desc">Receive on-screen notifications the moment any main-market True Line moves more than 2.5% — instant insight into where sharp money is hitting.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">☰</div>
+      <div class="product-name">Full Line History + Limit Info</div>
+      <div class="product-desc">Every market move from open to close, with current limits per book. See exactly where steam landed and how much the book will actually take.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">⚡</div>
+      <div class="product-name">SGP Pricing &amp; Comparison</div>
+      <div class="product-desc">Same-game parlay fair value, leg by leg, across every book. Find the SGP that's mispriced before it's gone.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">☑</div>
+      <div class="product-name">One-Click Bet Tracking</div>
+      <div class="product-desc">Add to bet slip, place the bet, and track it instantly in the Betstamp app. Plays grade themselves. No spreadsheets. No missing data.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">⊞</div>
+      <div class="product-name">200+ Books. One Screen.</div>
+      <div class="product-desc">Prediction markets. Exchanges. Offshores, PPHs, DFS, sweeps — priced alongside the regulated books. The full pro account stack in one screen.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-icon">⇄</div>
+      <div class="product-name">Arbitrage Detection</div>
+      <div class="product-desc">Sort by negative hold to surface every arb on the slate. Both legs, both books, profit locked.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CAPPED ACCESS ==================== -->
+<section class="capped-section" aria-labelledby="capped-title">
+  <div class="container">
+    <span class="capped-eyebrow">Deliberately capped</span>
+    <h2 id="capped-title" class="capped-title">100 seats on Props. <span class="accent">20 on Live.</span></h2>
+    <p class="capped-lead">Edges decay with scale. The more pros hit the same line, the faster it moves out from under them — sometimes before anyone gets a click in. So the Props Screen is capped at 100 seats. The Live Screen at 20. That's the cap, by design.</p>
+    <p class="capped-lead">When a seat opens, we're selective about who fills it. It's how we keep the edges real for the pros already running the screen — and how we make sure the pros joining can actually use them.</p>
+
+    <div class="capped-meters">
+      <div class="capped-meter">
+        <div class="capped-meter-num">100<span class="of">seats</span></div>
+        <div class="capped-meter-label">Props Screen · capped</div>
+      </div>
+      <div class="capped-meter">
+        <div class="capped-meter-num">20<span class="of">seats</span></div>
+        <div class="capped-meter-label">Live Screen · capped</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PRICING ==================== -->
+<section id="pricing" class="container">
+  <div class="section-header">
+    <h2>Choose Your Pro Plan</h2>
+    <p class="section-sub">Betstamp pricing for our Pro Screens.</p>
+  </div>
+
+  <div class="billing-toggle">
+    <span class="billing-label active" id="labelMonthly">Monthly</span>
+    <button class="billing-switch" id="billingSwitch" aria-label="Toggle billing period">
+      <span class="billing-switch-knob"></span>
+    </button>
+    <span class="billing-label" id="labelAnnual">Annual</span>
+    <span class="billing-save">Save up to 70%</span>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Main -->
+    <div class="tier">
+      <div class="tier-header">
+        <span class="tier-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </span>
+        <h3 class="tier-name">Main</h3>
+      </div>
+      <div class="tier-price">$347<span class="suffix">/month</span></div>
+      <p class="tier-desc">Pre-Game Moneyline, Spreads, and totals (including derivative markets).</p>
+      <ul class="tier-list">
+        <li>Hyper-efficient, market-based True Line</li>
+        <li>Automatic edge detection</li>
+        <li>Split-Second odds refresh</li>
+        <li>Full customization (filters, screens, layout, books, edge, settings)</li>
+      </ul>
+      <div class="tier-divider"></div>
+      <div class="tier-addons">
+        <div class="tier-addon">Additional $99 / month: &nbsp;PPHs</div>
+        <div class="tier-addon">Additional $99 / month: &nbsp;Alts</div>
+      </div>
+    </div>
+
+    <!-- Props (featured) -->
+    <div class="tier featured">
+      <div class="tier-flag">#1 Odds Screen</div>
+      <div class="tier-header">
+        <span class="tier-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+        </span>
+        <h3 class="tier-name">Props</h3>
+      </div>
+      <div class="tier-price contact">Contact Sales</div>
+      <p class="tier-desc">A prop screen in a class of its own. Player, game, derivatives, and alts.</p>
+      <ul class="tier-list">
+        <li>Everything in Main</li>
+        <li>Limited access to preserve edges</li>
+        <li>Trusted by sharps and professional betting syndicates</li>
+      </ul>
+      <div class="tier-limit">Limited seats remaining</div>
+      <div class="tier-divider"></div>
+      <div class="tier-addons">
+        <div class="tier-addon included">Included: PPHs</div>
+        <div class="tier-addon included">Included: Alts</div>
+      </div>
+    </div>
+
+    <!-- Live -->
+    <div class="tier">
+      <div class="tier-header">
+        <span class="tier-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </span>
+        <h3 class="tier-name">Live</h3>
+      </div>
+      <div class="tier-price contact">Contact Sales</div>
+      <p class="tier-desc">Live betting for main lines, spreads &amp; totals with up-to-the-second edge highlighting.</p>
+      <ul class="tier-list">
+        <li>Everything in Props</li>
+        <li>All Leagues Included</li>
+        <li>Built for professional bettors</li>
+        <li>Live player props <span class="now-live-badge">Now Live</span></li>
+      </ul>
+      <div class="tier-limit">Limited seats available, requires approval</div>
+      <div class="tier-divider"></div>
+      <div class="tier-addons">
+        <div class="tier-addon included">Included: PPHs</div>
+        <div class="tier-addon included">Included: Alts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pricing-cta">
+    <a href="#" class="btn btn-primary btn-lg">Request a Demo →</a>
+  </div>
+</section>
+
+<!-- ==================== FAQ ==================== -->
+<section class="container">
+  <div class="section-header">
+    <span class="section-eyebrow">FAQ</span>
+    <h2>The questions <span class="accent">pros actually ask.</span></h2>
+  </div>
+
+  <div class="faq">
+    <details class="faq-item" open>
+      <summary>What does "True Line pricing" actually mean?</summary>
+      <p>It's our proprietary model — a market-weighted True Line priced across 200+ books and calibrated to 5+ seasons of closing lines. Not a sharp-book pull. Not a de-vigged consensus. Our own number, back-tested to the close.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Is there a free trial?</summary>
+      <p>No. The tool is designed for pros who already win and need to scale. We do demos — book one and we'll walk you through the exact features you'd use on your slate.</p>
+    </details>
+    <details class="faq-item">
+      <summary>How deep does the prop coverage go?</summary>
+      <p>Full alt-line trees, milestones, and PPHs across NBA, NFL, MLB, NHL. If a market is offered at 10+ sportsbooks, we price a True Line on it. Coverage keeps expanding — that's the Pro + Props roadmap.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Do you offer an API?</summary>
+      <p>Yes — odds API, props API, SGP pricing engine, widgets, and a prediction markets API. See <a href="#">All Products</a> for specs and docs.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Can I share a seat with my team?</summary>
+      <p>Syndicate seats are a first-class tier. Shared workspace, API access, team dashboards. Contact sales for pricing.</p>
+    </details>
+    <details class="faq-item">
+      <summary>What's the refresh latency?</summary>
+      <p>&lt;1s full-board refresh. Median is 400ms. Live markets and edge detection refresh the moment books move.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ==================== CTA BANNER (editorial dark moment) ==================== -->
+<div class="container">
+  <div class="cta-banner">
+    <h2>See the screen. <span class="accent">Decide for yourself.</span></h2>
+    <p>15-minute demo. No pitch deck. We open the product and run your slate.</p>
+    <a href="#" class="btn btn-primary btn-lg">Request a Demo →</a>
+  </div>
+</div>
+
+<!-- ==================== FOOTER (dark editorial moment) ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-mark">b</div>
+          <span>betstamp</span>
+        </a>
+        <p>The odds screen built for sharps who already win. Proprietary True Line pricing, industry-leading prop depth, and sub-second refresh across 200+ sportsbooks.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">Odds Screen</a>
+        <a href="#">SGP Engine</a>
+        <a href="#">Odds API</a>
+        <a href="#">Widgets</a>
+        <a href="#">Bet Tracking</a>
+      </div>
+      <div class="footer-col">
+        <h4>For</h4>
+        <a href="#">Pro Bettors</a>
+        <a href="#">Syndicates</a>
+        <a href="#">Market Makers</a>
+        <a href="#">Sportsbooks</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Blog</a>
+        <a href="#">Docs</a>
+        <a href="#">Changelog</a>
+        <a href="#">Status</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Press</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Betstamp. All rights reserved.</span>
+      <div>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const hero = document.getElementById('zoomHero');
+  const media = document.getElementById('zoomMedia');
+  const text = document.getElementById('zoomText');
+  if (!hero || !media || !text) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let ticking = false;
+
+  function update() {
+    const rect = hero.getBoundingClientRect();
+    const total = hero.offsetHeight - window.innerHeight;
+    const scrolled = Math.max(0, Math.min(-rect.top, total));
+    const progress = total > 0 ? scrolled / total : 0;
+
+    const initialW = media.offsetWidth;
+    const initialH = media.offsetHeight;
+    const maxScaleX = window.innerWidth / initialW;
+    const maxScaleY = window.innerHeight / initialH;
+    const maxScale = Math.max(maxScaleX, maxScaleY) * 1.02;
+
+    const eased = progress * progress * (3 - 2 * progress);
+    const scale = 1 + eased * (maxScale - 1);
+
+    const sticky = hero.querySelector('.zoom-hero-sticky');
+    const stickyH = sticky.offsetHeight || window.innerHeight;
+    const mediaCenterY = media.offsetTop + initialH / 2;
+    const translateY = (stickyH / 2 - mediaCenterY) * eased;
+
+    media.style.transform = 'translateY(' + translateY + 'px) scale(' + scale + ')';
+
+    const textOpacity = Math.max(0, 1 - progress * 1.6);
+    text.style.opacity = textOpacity;
+    text.style.transform = 'translateY(' + (-progress * 36) + 'px)';
+
+    if (progress > 0.96) {
+      hero.classList.add('fully-expanded');
+    } else {
+      hero.classList.remove('fully-expanded');
+    }
+
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', update);
+})();
+</script>
+
+<script>
+(function() {
+  const tabs = document.querySelectorAll('.screens-tab');
+  const panels = document.querySelectorAll('.screens-panel');
+  if (!tabs.length || !panels.length) return;
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      const target = tab.dataset.tab;
+      tabs.forEach(function(t) {
+        const isActive = t.dataset.tab === target;
+        t.classList.toggle('active', isActive);
+        t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      panels.forEach(function(p) {
+        if (p.dataset.panel === target) {
+          p.removeAttribute('hidden');
+        } else {
+          p.setAttribute('hidden', '');
+        }
+      });
+    });
+  });
+})();
+
+(function() {
+  const sw = document.getElementById('billingSwitch');
+  const labelM = document.getElementById('labelMonthly');
+  const labelA = document.getElementById('labelAnnual');
+  if (!sw || !labelM || !labelA) return;
+  sw.addEventListener('click', function() {
+    const isAnnual = sw.classList.toggle('annual');
+    labelM.classList.toggle('active', !isAnnual);
+    labelA.classList.toggle('active', isAnnual);
+  });
+})();
+</script>
+
+</body>
+</html>
