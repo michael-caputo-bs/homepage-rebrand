@@ -1659,7 +1659,7 @@
     z-index: 4;
   }
   .corp-hero-player {
-    position: absolute; inset: -40px -20px -40px -20px;
+    position: absolute; inset: -30px -10px -30px -10px;
     border-radius: 0;
     overflow: visible;
     background-color: transparent;
@@ -1669,17 +1669,17 @@
     background-position: center;
     background-repeat: no-repeat;
     -webkit-mask-image:
-      radial-gradient(ellipse 80% 80% at 50% 50%, black 35%, transparent 78%);
+      radial-gradient(ellipse 100% 100% at 50% 50%, black 75%, transparent 100%);
     mask-image:
-      radial-gradient(ellipse 80% 80% at 50% 50%, black 35%, transparent 78%);
+      radial-gradient(ellipse 100% 100% at 50% 50%, black 75%, transparent 100%);
     box-shadow: none;
-    filter: contrast(1.05) saturate(0.92);
+    filter: contrast(1.02) saturate(0.95);
   }
   .corp-hero-player::before {
     content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 500px 350px at 50% 60%, rgba(62,146,204,0.25), transparent 65%),
-      linear-gradient(180deg, rgba(7,17,31,0) 50%, rgba(7,17,31,0.7) 100%);
+      radial-gradient(ellipse 600px 400px at 50% 55%, rgba(62,146,204,0.14), transparent 70%),
+      linear-gradient(180deg, rgba(7,17,31,0) 70%, rgba(7,17,31,0.35) 100%);
     pointer-events: none;
     mix-blend-mode: normal;
   }
@@ -1690,118 +1690,91 @@
     z-index: 5;
     pointer-events: none;
   }
-  .tl-badge {
+  /* Leader-line overlay painted over the athlete (anchor dots + lines) */
+  .data-lines {
     position: absolute;
-    background: rgba(10, 23, 41, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(62,146,204,0.36);
-    border-radius: 10px;
-    padding: 9px 13px;
-    color: var(--white);
-    box-shadow:
-      0 14px 38px rgba(0,0,0,0.55),
-      0 0 28px rgba(62,146,204,0.18),
-      inset 0 1px 0 rgba(255,255,255,0.08);
-    min-width: 148px;
-    animation: tl-float 7s ease-in-out infinite;
-    transition: border-color 0.4s, box-shadow 0.4s;
-  }
-  .tl-badge.flash {
-    border-color: rgba(0,208,138,0.85);
-    box-shadow:
-      0 16px 40px rgba(0,0,0,0.55),
-      0 0 32px rgba(0,208,138,0.45),
-      inset 0 1px 0 rgba(255,255,255,0.10);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    color: #D5FA45;
+    filter: drop-shadow(0 0 8px rgba(213, 250, 69, 0.45));
   }
 
-  /* TRUE LINE callout at top of each badge */
-  .tl-badge-callout {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #67BCEC;
-    margin-bottom: 7px;
+  /* Floating metric labels at the end of each leader line */
+  .data-label {
+    position: absolute;
+    z-index: 6;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 120px;
+    color: #D5FA45;
+    text-shadow: 0 0 16px rgba(213, 250, 69, 0.30);
+    transition: color 0.3s, text-shadow 0.3s, transform 0.4s;
+    animation: dl-float 9s ease-in-out infinite;
+  }
+  .data-label.flash .dl-num {
+    color: #ECFFA0;
+    text-shadow: 0 0 22px rgba(213, 250, 69, 0.85);
+  }
+  .dl-eyebrow {
     font-family: "Inter", sans-serif;
-  }
-  .tl-badge-callout-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #00D08A;
-    box-shadow: 0 0 6px #00D08A;
-  }
-  .tl-badge-game {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 6px;
-    line-height: 1.25;
-    letter-spacing: -0.005em;
-  }
-  .tl-badge-game small {
-    display: block;
-    color: rgba(255,255,255,0.55);
     font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.20em;
     text-transform: uppercase;
-    margin-top: 2px;
-  }
-  .tl-badge-line {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 8px;
-    font-family: "SF Mono", Monaco, monospace;
-  }
-  .tl-badge-price {
-    font-size: 18px;
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: -0.02em;
-    transition: color 0.3s;
-  }
-  .tl-badge-delta {
-    font-size: 10px;
     font-weight: 700;
-    font-family: "SF Mono", Monaco, monospace;
+    opacity: 0.92;
   }
-  .tl-badge-delta.up   { color: #00D08A; }
-  .tl-badge-delta.down { color: #F76060; }
+  .dl-num {
+    font-family: "Space Grotesk", "JetBrains Mono", monospace;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    transition: color 0.3s, text-shadow 0.3s;
+  }
+  .dl-spark, .dl-bars {
+    width: 92px;
+    height: 16px;
+    display: block;
+    color: #D5FA45;
+    margin-top: 4px;
+    overflow: visible;
+  }
 
-  /* Badge positions — ALL on/around right column, NEVER spilling left */
-  /* Left edge of stage == left edge of player image. Negative left = over image, not into text. */
-  .tl-badge.b1 { top: 4%;   left: -8%;  animation-delay: 0s;   }
-  .tl-badge.b2 { top: 8%;   right: -8%; animation-delay: 1.2s; }
-  .tl-badge.b3 { top: 38%;  left: -10%; animation-delay: 2.4s; }
-  .tl-badge.b4 { top: 44%;  right: -10%; animation-delay: 3.6s; }
-  .tl-badge.b5 { bottom: 12%; left: 6%;  animation-delay: 4.8s; }
-  .tl-badge.b6 { bottom: 18%; right: -6%; animation-delay: 0.6s; }
+  /* Label positions — anchored along the right side */
+  .data-label.dl-1 { top: 4%;    left: 72%; animation-delay: 0s;   }
+  .data-label.dl-2 { top: 42%;   left: 72%; animation-delay: 1.5s; }
+  .data-label.dl-3 { bottom: 4%; left: 72%; animation-delay: 3s;   }
 
-  @keyframes tl-float {
-    0%, 100% { transform: translateY(0) translateX(0); }
-    50%      { transform: translateY(-8px) translateX(2px); }
+  @keyframes dl-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
   }
 
   /* Responsive */
   @media (max-width: 1100px) {
-    .tl-badge.b1, .tl-badge.b3 { left: -4%; }
-    .tl-badge.b2, .tl-badge.b4, .tl-badge.b6 { right: -4%; }
+    .data-label { min-width: 100px; }
+    .dl-num { font-size: 24px; }
+    .dl-spark, .dl-bars { width: 80px; }
   }
   @media (max-width: 960px) {
     .corp-hero-grid { grid-template-columns: 1fr; }
     .corp-hero-text { max-width: 100%; }
     .corp-hero-visual { aspect-ratio: 16/12; max-height: 480px; }
-    .tl-badge.b3, .tl-badge.b4 { display: none; }
+    .data-label.dl-2 { display: none; }
   }
   @media (max-width: 640px) {
-    .tl-badge.b5, .tl-badge.b6 { display: none; }
+    .data-label.dl-3 { display: none; }
     .corp-hero { padding: 80px 0 100px; }
   }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .tl-badge { animation: none !important; }
+    .data-label { animation: none !important; }
   }
 
   /* Coverage trust bar */
@@ -2067,53 +2040,64 @@
         </div>
 
         <div class="tl-stage" id="tlStage">
-          <div class="tl-badge b1" data-base="-107">
-            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
-            <div class="tl-badge-game">Lakers @ Celtics<small>NBA · Spread BOS −3.5</small></div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-price">−107</span>
-              <span class="tl-badge-delta up">▲ 0.2%</span>
-            </div>
+          <!-- Leader lines + anchor dots painted over the athlete -->
+          <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <!-- Line 1: front shoulder/upper torso → top-right label -->
+            <line x1="58" y1="38" x2="72" y2="14" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
+            <circle cx="58" cy="38" r="0.85" fill="currentColor" />
+
+            <!-- Line 2: extended forearm/hand → middle-right label -->
+            <line x1="74" y1="55" x2="72" y2="56" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
+            <circle cx="74" cy="55" r="0.85" fill="currentColor" />
+
+            <!-- Line 3: front knee → bottom-right label -->
+            <line x1="50" y1="95" x2="72" y2="118" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
+            <circle cx="50" cy="95" r="0.85" fill="currentColor" />
+          </svg>
+
+          <!-- DL 1: True Line probability with sparkline -->
+          <div class="data-label dl-1" data-base="0.3246" data-range="0.0090" data-format="decimal4">
+            <span class="dl-eyebrow">True Line</span>
+            <span class="dl-num">0.3246</span>
+            <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M0 9 Q 9 2, 18 9 T 36 9 T 54 9 T 72 9 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
+            </svg>
           </div>
-          <div class="tl-badge b2" data-base="142">
-            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
-            <div class="tl-badge-game">Yankees @ Red Sox<small>MLB · Moneyline NYY</small></div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-price">+142</span>
-              <span class="tl-badge-delta up">▲ 0.5%</span>
-            </div>
+
+          <!-- DL 2: Edge with bar visualization -->
+          <div class="data-label dl-2" data-base="4.2" data-range="0.30" data-format="pctSigned">
+            <span class="dl-eyebrow">Edge · Live</span>
+            <span class="dl-num">+4.2%</span>
+            <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+              <rect x="0"  y="10" width="6" height="6"  fill="currentColor" />
+              <rect x="9"  y="6"  width="6" height="10" fill="currentColor" />
+              <rect x="18" y="3"  width="6" height="13" fill="currentColor" />
+              <rect x="27" y="8"  width="6" height="8"  fill="currentColor" />
+              <rect x="36" y="2"  width="6" height="14" fill="currentColor" />
+              <rect x="45" y="5"  width="6" height="11" fill="currentColor" />
+              <rect x="54" y="1"  width="6" height="15" fill="currentColor" />
+              <rect x="63" y="4"  width="6" height="12" fill="currentColor" />
+              <rect x="72" y="7"  width="6" height="9"  fill="currentColor" />
+              <rect x="82" y="3"  width="6" height="13" fill="currentColor" />
+            </svg>
           </div>
-          <div class="tl-badge b3" data-base="-105">
-            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
-            <div class="tl-badge-game">J. Tatum Pts<small>NBA · Player Prop O 27.5</small></div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-price">−105</span>
-              <span class="tl-badge-delta up">▲ 0.7%</span>
-            </div>
-          </div>
-          <div class="tl-badge b4" data-base="-118">
-            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
-            <div class="tl-badge-game">Edmonton @ Boston<small>NHL · Total O 5.5</small></div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-price">−118</span>
-              <span class="tl-badge-delta down">▼ 0.1%</span>
-            </div>
-          </div>
-          <div class="tl-badge b5" data-base="-220">
-            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
-            <div class="tl-badge-game">Man City @ Arsenal<small>EPL · Moneyline MCI</small></div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-price">−220</span>
-              <span class="tl-badge-delta down">▼ 0.4%</span>
-            </div>
-          </div>
-          <div class="tl-badge b6" data-base="-108">
-            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
-            <div class="tl-badge-game">SGP · 3-leg correlated<small>NFL · Combined</small></div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-price">−108</span>
-              <span class="tl-badge-delta up">▲ 0.6%</span>
-            </div>
+
+          <!-- DL 3: Probability with bar visualization -->
+          <div class="data-label dl-3" data-base="0.6579" data-range="0.0060" data-format="decimal4">
+            <span class="dl-eyebrow">Probability</span>
+            <span class="dl-num">0.6579</span>
+            <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+              <rect x="0"  y="6" width="6" height="10" fill="currentColor" />
+              <rect x="9"  y="3" width="6" height="13" fill="currentColor" />
+              <rect x="18" y="9" width="6" height="7"  fill="currentColor" />
+              <rect x="27" y="2" width="6" height="14" fill="currentColor" />
+              <rect x="36" y="6" width="6" height="10" fill="currentColor" />
+              <rect x="45" y="4" width="6" height="12" fill="currentColor" />
+              <rect x="54" y="8" width="6" height="8"  fill="currentColor" />
+              <rect x="63" y="2" width="6" height="14" fill="currentColor" />
+              <rect x="72" y="5" width="6" height="11" fill="currentColor" />
+              <rect x="82" y="3" width="6" height="13" fill="currentColor" />
+            </svg>
           </div>
         </div>
       </div>
@@ -2531,47 +2515,39 @@
 (function() {
   var stage = document.getElementById('tlStage');
   if (!stage) return;
-  var badges = stage.querySelectorAll('.tl-badge');
-  if (!badges.length) return;
-
+  var labels = stage.querySelectorAll('.data-label');
+  if (!labels.length) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  function fmt(n) {
-    n = Math.round(n);
-    var sign = n > 0 ? '+' : (n < 0 ? '−' : '');
-    return sign + Math.abs(n);
-  }
-
-  function pct() {
-    return (Math.random() * 0.9 + 0.1).toFixed(1);
+  function format(value, mode) {
+    if (mode === 'decimal4') return value.toFixed(4);
+    if (mode === 'pctSigned') {
+      var sign = value >= 0 ? '+' : '−';
+      return sign + Math.abs(value).toFixed(1) + '%';
+    }
+    return value.toString();
   }
 
   function tick() {
-    var b = badges[Math.floor(Math.random() * badges.length)];
-    var priceEl = b.querySelector('.tl-badge-price');
-    var deltaEl = b.querySelector('.tl-badge-delta');
-    if (!priceEl || !deltaEl) return;
+    var i = Math.floor(Math.random() * labels.length);
+    var label = labels[i];
+    var num = label.querySelector('.dl-num');
+    if (!num) return;
 
-    var base = parseFloat(b.getAttribute('data-base'));
-    if (isNaN(base)) return;
+    var base = parseFloat(label.getAttribute('data-base'));
+    var range = parseFloat(label.getAttribute('data-range'));
+    var mode = label.getAttribute('data-format');
+    if (isNaN(base) || isNaN(range)) return;
 
-    // Larger jitter for high-magnitude bases
-    var amp = Math.abs(base) > 200 ? 8 : 5;
-    var jitter = Math.round((Math.random() - 0.5) * amp * 2);
+    var jitter = (Math.random() - 0.5) * range * 2;
     var newVal = base + jitter;
-    var dir = jitter >= 0 ? 'up' : 'down';
-    var arrow = dir === 'up' ? '▲' : '▼';
+    num.textContent = format(newVal, mode);
 
-    priceEl.textContent = fmt(newVal);
-    deltaEl.textContent = arrow + ' ' + pct() + '%';
-    deltaEl.classList.remove('up', 'down');
-    deltaEl.classList.add(dir);
-
-    b.classList.add('flash');
-    setTimeout(function(){ b.classList.remove('flash'); }, 600);
+    label.classList.add('flash');
+    setTimeout(function(){ label.classList.remove('flash'); }, 500);
   }
 
-  // Stagger initial activity so multiple badges feel alive at once
+  // Stagger initial activity so the data overlay feels alive
   setInterval(tick, 900);
   setTimeout(tick, 200);
   setTimeout(tick, 600);
