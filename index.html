@@ -1572,113 +1572,196 @@
 
   /* ==================== CORPORATE HOMEPAGE ==================== */
   .corp-hero {
-    padding: 90px 0 90px;
-    background: var(--bg);
-    position: relative; overflow: hidden;
+    position: relative;
+    overflow: hidden;
+    background-color: #07111F;
+    background-image:
+      radial-gradient(ellipse 1200px 700px at 50% 30%, rgba(62,146,204,0.22), transparent 65%),
+      radial-gradient(ellipse 800px 500px at 90% 90%, rgba(238,119,34,0.10), transparent 60%),
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+    padding: 140px 0 180px;
+    color: var(--white);
+    isolation: isolate;
   }
   .corp-hero::before {
     content: ""; position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 1000px 600px at 85% 0%, rgba(62,146,204,0.12), transparent 60%),
-      radial-gradient(ellipse 600px 400px at 0% 100%, rgba(238,119,34,0.04), transparent 60%);
-    pointer-events: none;
+    background: radial-gradient(ellipse 1100px 600px at 50% 50%, rgba(62,146,204,0.10), transparent 70%);
+    pointer-events: none; z-index: 1;
   }
-  .corp-hero .container { position: relative; z-index: 1; }
-  .corp-hero-grid {
-    display: grid; grid-template-columns: 1.1fr 1fr;
-    gap: 56px; align-items: center;
+  .corp-hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+    height: 120px;
+    background: linear-gradient(180deg, transparent, var(--bg));
+    pointer-events: none; z-index: 1;
   }
-  .corp-hero-text h1 {
-    font-size: clamp(38px, 4.4vw, 56px);
-    line-height: 1.05; letter-spacing: -0.03em;
-    margin: 22px 0 22px; color: var(--navy);
-  }
-  .corp-hero-text h1 .accent { color: var(--blue); }
-  .corp-hero-text .corp-sub {
-    font-size: 17px; line-height: 1.6;
-    color: var(--text-body);
-    max-width: 540px; margin-bottom: 32px;
+  .corp-hero .container {
+    position: relative; z-index: 5;
   }
 
-  /* Animated True Line ticker */
-  .tl-ticker {
-    background: var(--bg);
-    border: 1px solid var(--divider);
-    border-radius: 14px;
-    box-shadow: var(--shadow-lg), 0 0 60px rgba(62,146,204,0.10);
-    overflow: hidden;
-    position: relative;
+  /* Hero text — centered, big, bright */
+  .corp-hero-text {
+    position: relative; z-index: 5;
+    text-align: center;
+    max-width: 920px;
+    margin: 0 auto;
   }
-  .tl-ticker-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 20px;
-    background: var(--navy); color: var(--white);
-    font-size: 11px; font-weight: 700;
-    letter-spacing: 0.18em; text-transform: uppercase;
+  .corp-hero-text .eyebrow {
+    background: rgba(62,146,204,0.14);
+    border: 1px solid rgba(62,146,204,0.45);
+    color: #67BCEC;
+    backdrop-filter: blur(8px);
   }
-  .tl-pulse {
-    display: inline-block;
+  .corp-hero-text .eyebrow-dot {
+    background: #67BCEC;
+    box-shadow: 0 0 10px #67BCEC;
+  }
+  .corp-hero-text h1 {
+    font-size: clamp(44px, 5.6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 26px 0 24px;
+    color: var(--white);
+    font-weight: 800;
+  }
+  .corp-hero-text h1 .accent {
+    color: #67BCEC;
+    background: linear-gradient(180deg, #92D5FF 0%, #3E92CC 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .corp-hero-text .corp-sub {
+    font-size: 18px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.78);
+    max-width: 720px;
+    margin: 0 auto 36px;
+  }
+  .corp-hero-text .hero-ctas { justify-content: center; }
+  .corp-hero-text .btn-ghost {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.45);
+    color: var(--white);
+    backdrop-filter: blur(8px);
+  }
+  .corp-hero-text .btn-ghost:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: var(--white);
+  }
+
+  /* Floating True Line data badges */
+  .tl-stage {
+    position: absolute; inset: 0;
+    z-index: 2; pointer-events: none;
+  }
+  .tl-badge {
+    position: absolute;
+    background: rgba(10, 23, 41, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(62,146,204,0.32);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--white);
+    box-shadow:
+      0 12px 36px rgba(0,0,0,0.5),
+      0 0 28px rgba(62,146,204,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    min-width: 168px;
+    transform-origin: center;
+    animation: tl-float 7s ease-in-out infinite;
+    transition: border-color 0.4s, box-shadow 0.4s, transform 0.4s;
+  }
+  .tl-badge.flash {
+    border-color: rgba(0,208,138,0.85);
+    box-shadow:
+      0 14px 40px rgba(0,0,0,0.5),
+      0 0 32px rgba(0,208,138,0.45),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+  .tl-badge-league {
+    font-size: 9px; color: #67BCEC;
+    text-transform: uppercase; letter-spacing: 0.16em;
+    font-weight: 700; margin-bottom: 5px;
+  }
+  .tl-badge-game {
+    font-size: 12px; font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .tl-badge-line {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+    font-family: "SF Mono", Monaco, monospace;
+  }
+  .tl-badge-market {
+    font-size: 11px; color: rgba(255,255,255,0.6);
+  }
+  .tl-badge-price {
+    font-size: 17px; font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    transition: color 0.3s;
+  }
+  .tl-badge-delta {
+    font-size: 10px; font-weight: 700;
+    margin-top: 4px; text-align: right;
+  }
+  .tl-badge-delta.up   { color: #00D08A; }
+  .tl-badge-delta.down { color: #F76060; }
+
+  /* Pulse ring on flagship badges */
+  .tl-badge.with-ring::before {
+    content: "";
+    position: absolute; top: 50%; left: 0;
     width: 8px; height: 8px;
-    border-radius: 50%; background: #00D08A;
-    box-shadow: 0 0 0 0 rgba(0,208,138,0.6);
-    animation: tl-pulse 1.6s ease-out infinite;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: #00D08A;
+    box-shadow: 0 0 0 0 rgba(0,208,138,0.7);
+    animation: tl-ring 1.8s ease-out infinite;
   }
-  @keyframes tl-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(0,208,138,0.6); }
+  @keyframes tl-ring {
+    0% { box-shadow: 0 0 0 0 rgba(0,208,138,0.7); }
     100% { box-shadow: 0 0 0 14px rgba(0,208,138,0); }
   }
-  .tl-stamp {
-    margin-left: auto; font-size: 10px;
-    opacity: 0.65; letter-spacing: 0.12em;
-    text-transform: lowercase; font-weight: 600;
+
+  /* Float positions — non-overlapping, distributed around hero */
+  .tl-badge.b1 { top: 9%;  left: 4%;  animation-delay: 0s;   }
+  .tl-badge.b2 { top: 6%;  right: 5%; animation-delay: 1.2s; }
+  .tl-badge.b3 { top: 34%; left: 1%;  animation-delay: 2.4s; }
+  .tl-badge.b4 { top: 38%; right: 1%; animation-delay: 3.6s; }
+  .tl-badge.b5 { bottom: 16%; left: 7%;  animation-delay: 4.8s; }
+  .tl-badge.b6 { bottom: 12%; right: 8%; animation-delay: 0.6s; }
+  .tl-badge.b7 { top: 64%; left: 18%; animation-delay: 5.4s; }
+  .tl-badge.b8 { top: 60%; right: 19%; animation-delay: 2.0s; }
+
+  @keyframes tl-float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50%      { transform: translateY(-10px) translateX(2px); }
   }
-  .tl-row {
-    display: grid;
-    grid-template-columns: 1.4fr 0.85fr 0.7fr;
-    gap: 14px;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--divider);
-    align-items: center;
-    transition: background 0.4s ease;
+
+  /* Hide some badges on smaller viewports to avoid overlap */
+  @media (max-width: 1100px) {
+    .tl-badge.b7, .tl-badge.b8 { display: none; }
   }
-  .tl-row:last-child { border-bottom: none; }
-  .tl-row.flash { background: rgba(62,146,204,0.06); }
-  .tl-game {
-    font-size: 13px; font-weight: 700; color: var(--navy);
-    line-height: 1.35;
+  @media (max-width: 860px) {
+    .tl-badge.b3, .tl-badge.b4 { display: none; }
+    .corp-hero { padding: 100px 0 140px; }
   }
-  .tl-league {
-    display: block; color: var(--muted);
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    margin-bottom: 3px;
+  @media (max-width: 640px) {
+    .tl-badge.b5, .tl-badge.b6 { display: none; }
   }
-  .tl-market {
-    color: var(--text-body); font-size: 12px;
-    font-family: "SF Mono", Monaco, monospace;
+
+  /* Reduced motion respect */
+  @media (prefers-reduced-motion: reduce) {
+    .tl-badge { animation: none !important; }
+    .tl-badge.with-ring::before { animation: none; }
   }
-  .tl-pricecol {
-    text-align: right;
-  }
-  .tl-pricelbl {
-    color: var(--muted); font-size: 9px;
-    text-transform: uppercase; letter-spacing: 0.14em;
-    font-weight: 700; margin-bottom: 3px;
-  }
-  .tl-price {
-    font-family: "SF Mono", Monaco, monospace;
-    font-weight: 800; font-size: 16px;
-    color: var(--navy);
-    transition: color 0.3s;
-    display: inline-flex; align-items: baseline; gap: 4px;
-  }
-  .tl-delta {
-    font-size: 11px; font-weight: 700;
-    font-family: "SF Mono", Monaco, monospace;
-  }
-  .tl-delta.up   { color: #00A877; }
-  .tl-delta.down { color: #D43A3A; }
-  .tl-row.flash .tl-price { color: var(--blue-deep); }
 
   /* Coverage trust bar */
   .coverage-bar {
@@ -1811,11 +1894,41 @@
     .corp-quotes-grid { grid-template-columns: 1fr; }
   }
 
+  
+  /* Draft banner */
+  .draft-banner {
+    background: linear-gradient(90deg, var(--orange), var(--orange-hover));
+    color: var(--white);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 20px;
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+    position: relative;
+    z-index: 150;
+  }
+  .draft-banner strong { font-weight: 800; letter-spacing: 0.04em; }
+  .draft-banner a {
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: 800;
+    margin-left: 4px;
+    transition: opacity 0.2s;
+  }
+  .draft-banner a:hover { opacity: 0.85; }
+
   </style>
 </head>
 <body>
+<div class="draft-banner">
+  ⚠️ <strong>ROUGH DRAFT</strong> — this homepage is a structural mockup for review. For the polished, finished page, see the
+  <a href="/pro">PRO Odds Screen page →</a>
+</div>
 
-<div class="mockup-ribbon">V1 Mockup</div>
+
+<div class="mockup-ribbon">Rough Draft</div>
 
 <!-- ==================== NAV ==================== -->
 <nav class="nav">
@@ -1878,73 +1991,92 @@
 
 <!-- ==================== CORPORATE HERO ==================== -->
 <section class="corp-hero">
-  <div class="container">
-    <div class="corp-hero-grid">
-      <div class="corp-hero-text">
-        <div class="eyebrow">
-          <span class="eyebrow-dot"></span>
-          Sports data &amp; pricing infrastructure
-        </div>
-        <h1>The pricing and data layer for <span class="accent">modern sports markets.</span></h1>
-        <p class="corp-sub">True Line pricing, real-time data, and operator-grade infrastructure — for the sportsbooks, exchanges, syndicates, prediction markets, DFS operators, media, and pro teams shaping modern sports betting.</p>
-        <div class="hero-ctas">
-          <a href="#contact" class="btn btn-primary btn-lg">Talk to Sales →</a>
-          <a href="/pro" class="btn btn-ghost btn-lg">See PRO Odds Screen</a>
-        </div>
+  <div class="tl-stage" id="tlStage">
+    <div class="tl-badge with-ring b1" data-base="-107">
+      <div class="tl-badge-league">NBA · Spread</div>
+      <div class="tl-badge-game">Lakers @ Celtics</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">BOS −3.5</span>
+        <span class="tl-badge-price">−107</span>
       </div>
-      <div class="corp-hero-visual">
-        <div class="tl-ticker" id="tlTicker">
-          <div class="tl-ticker-header">
-            <span class="tl-pulse"></span>
-            <span>True Line · Live</span>
-            <span class="tl-stamp">betstamp</span>
-          </div>
-          <div class="tl-row" data-base="-107">
-            <div class="tl-game"><span class="tl-league">NBA · Spread</span>Lakers @ Celtics</div>
-            <div class="tl-market">BOS −3.5</div>
-            <div class="tl-pricecol">
-              <div class="tl-pricelbl">True Line</div>
-              <div class="tl-price">−107</div>
-              <div class="tl-delta up">▲ 0.2%</div>
-            </div>
-          </div>
-          <div class="tl-row" data-base="-112">
-            <div class="tl-game"><span class="tl-league">NFL · Spread</span>49ers @ Eagles</div>
-            <div class="tl-market">PHI −2.5</div>
-            <div class="tl-pricecol">
-              <div class="tl-pricelbl">True Line</div>
-              <div class="tl-price">−112</div>
-              <div class="tl-delta down">▼ 0.3%</div>
-            </div>
-          </div>
-          <div class="tl-row" data-base="142">
-            <div class="tl-game"><span class="tl-league">MLB · Moneyline</span>Yankees @ Red Sox</div>
-            <div class="tl-market">NYY ML</div>
-            <div class="tl-pricecol">
-              <div class="tl-pricelbl">True Line</div>
-              <div class="tl-price">+142</div>
-              <div class="tl-delta up">▲ 0.5%</div>
-            </div>
-          </div>
-          <div class="tl-row" data-base="-118">
-            <div class="tl-game"><span class="tl-league">NHL · Total</span>Edmonton @ Boston</div>
-            <div class="tl-market">O 5.5</div>
-            <div class="tl-pricecol">
-              <div class="tl-pricelbl">True Line</div>
-              <div class="tl-price">−118</div>
-              <div class="tl-delta down">▼ 0.1%</div>
-            </div>
-          </div>
-          <div class="tl-row" data-base="-105">
-            <div class="tl-game"><span class="tl-league">NBA · Player Prop</span>Jayson Tatum Pts</div>
-            <div class="tl-market">O 27.5</div>
-            <div class="tl-pricecol">
-              <div class="tl-pricelbl">True Line</div>
-              <div class="tl-price">−105</div>
-              <div class="tl-delta up">▲ 0.7%</div>
-            </div>
-          </div>
-        </div>
+      <div class="tl-badge-delta up">▲ 0.2%</div>
+    </div>
+    <div class="tl-badge b2" data-base="-112">
+      <div class="tl-badge-league">NFL · Spread</div>
+      <div class="tl-badge-game">49ers @ Eagles</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">PHI −2.5</span>
+        <span class="tl-badge-price">−112</span>
+      </div>
+      <div class="tl-badge-delta down">▼ 0.3%</div>
+    </div>
+    <div class="tl-badge b3" data-base="142">
+      <div class="tl-badge-league">MLB · Moneyline</div>
+      <div class="tl-badge-game">Yankees @ Red Sox</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">NYY ML</span>
+        <span class="tl-badge-price">+142</span>
+      </div>
+      <div class="tl-badge-delta up">▲ 0.5%</div>
+    </div>
+    <div class="tl-badge b4" data-base="-118">
+      <div class="tl-badge-league">NHL · Total</div>
+      <div class="tl-badge-game">Edmonton @ Boston</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">O 5.5</span>
+        <span class="tl-badge-price">−118</span>
+      </div>
+      <div class="tl-badge-delta down">▼ 0.1%</div>
+    </div>
+    <div class="tl-badge with-ring b5" data-base="-105">
+      <div class="tl-badge-league">NBA · Player Prop</div>
+      <div class="tl-badge-game">J. Tatum Pts</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">O 27.5</span>
+        <span class="tl-badge-price">−105</span>
+      </div>
+      <div class="tl-badge-delta up">▲ 0.7%</div>
+    </div>
+    <div class="tl-badge b6" data-base="-220">
+      <div class="tl-badge-league">EPL · Moneyline</div>
+      <div class="tl-badge-game">Man City @ Arsenal</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">MCI ML</span>
+        <span class="tl-badge-price">−220</span>
+      </div>
+      <div class="tl-badge-delta down">▼ 0.4%</div>
+    </div>
+    <div class="tl-badge b7" data-base="385">
+      <div class="tl-badge-league">UFC · Moneyline</div>
+      <div class="tl-badge-game">Pereira vs. Ankalaev</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">Pereira</span>
+        <span class="tl-badge-price">+385</span>
+      </div>
+      <div class="tl-badge-delta up">▲ 0.9%</div>
+    </div>
+    <div class="tl-badge b8" data-base="-108">
+      <div class="tl-badge-league">NFL · SGP</div>
+      <div class="tl-badge-game">3-leg correlated</div>
+      <div class="tl-badge-line">
+        <span class="tl-badge-market">Combined</span>
+        <span class="tl-badge-price">−108</span>
+      </div>
+      <div class="tl-badge-delta up">▲ 0.6%</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="corp-hero-text">
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Sports data &amp; pricing infrastructure
+      </div>
+      <h1>The pricing and data layer for <span class="accent">modern sports markets.</span></h1>
+      <p class="corp-sub">True Line pricing, real-time data, and operator-grade infrastructure — for the sportsbooks, exchanges, syndicates, prediction markets, DFS operators, media, and pro teams shaping modern sports betting.</p>
+      <div class="hero-ctas">
+        <a href="#contact" class="btn btn-primary btn-lg">Talk to Sales →</a>
+        <a href="/pro" class="btn btn-ghost btn-lg">See PRO Odds Screen</a>
       </div>
     </div>
   </div>
@@ -2357,38 +2489,52 @@
 
 <script>
 (function() {
-  var rows = document.querySelectorAll('#tlTicker .tl-row');
-  if (!rows.length) return;
+  var stage = document.getElementById('tlStage');
+  if (!stage) return;
+  var badges = stage.querySelectorAll('.tl-badge');
+  if (!badges.length) return;
 
-  function ampPercent() {
-    return (Math.random() * 0.9 + 0.1).toFixed(1);
-  }
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   function fmt(n) {
     n = Math.round(n);
-    return (n > 0 ? '+' : (n < 0 ? '−' : '')) + Math.abs(n);
+    var sign = n > 0 ? '+' : (n < 0 ? '−' : '');
+    return sign + Math.abs(n);
+  }
+
+  function pct() {
+    return (Math.random() * 0.9 + 0.1).toFixed(1);
   }
 
   function tick() {
-    var r = rows[Math.floor(Math.random() * rows.length)];
-    var priceEl = r.querySelector('.tl-price');
-    var deltaEl = r.querySelector('.tl-delta');
-    var base = parseFloat(r.getAttribute('data-base'));
+    var b = badges[Math.floor(Math.random() * badges.length)];
+    var priceEl = b.querySelector('.tl-badge-price');
+    var deltaEl = b.querySelector('.tl-badge-delta');
+    if (!priceEl || !deltaEl) return;
 
-    var jitter = Math.round((Math.random() - 0.5) * 6);
+    var base = parseFloat(b.getAttribute('data-base'));
+    if (isNaN(base)) return;
+
+    // Larger jitter for high-magnitude bases
+    var amp = Math.abs(base) > 200 ? 8 : 5;
+    var jitter = Math.round((Math.random() - 0.5) * amp * 2);
     var newVal = base + jitter;
     var dir = jitter >= 0 ? 'up' : 'down';
     var arrow = dir === 'up' ? '▲' : '▼';
 
     priceEl.textContent = fmt(newVal);
-    deltaEl.textContent = arrow + ' ' + ampPercent() + '%';
+    deltaEl.textContent = arrow + ' ' + pct() + '%';
     deltaEl.classList.remove('up', 'down');
     deltaEl.classList.add(dir);
 
-    r.classList.add('flash');
-    setTimeout(function(){ r.classList.remove('flash'); }, 500);
+    b.classList.add('flash');
+    setTimeout(function(){ b.classList.remove('flash'); }, 600);
   }
 
-  setInterval(tick, 1400);
+  // Stagger initial activity so multiple badges feel alive at once
+  setInterval(tick, 900);
+  setTimeout(tick, 200);
+  setTimeout(tick, 600);
 })();
 </script>
 
