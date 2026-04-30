@@ -1659,27 +1659,30 @@
     z-index: 4;
   }
   .corp-hero-player {
-    position: absolute; inset: 0;
-    border-radius: 18px;
-    overflow: hidden;
-    background-color: #0F1F3A;
+    position: absolute; inset: -40px -20px -40px -20px;
+    border-radius: 0;
+    overflow: visible;
+    background-color: transparent;
     background-image:
-      linear-gradient(180deg, rgba(7,17,31,0) 30%, rgba(7,17,31,0.85) 100%),
-      linear-gradient(135deg, rgba(62,146,204,0.20), rgba(0,0,0,0.0)),
       url('/assets/hero-athlete.png');
-    background-size: cover, cover, cover;
+    background-size: contain;
     background-position: center;
-    box-shadow:
-      0 30px 80px rgba(0,0,0,0.55),
-      0 0 60px rgba(62,146,204,0.18),
-      inset 0 0 0 1px rgba(255,255,255,0.06);
+    background-repeat: no-repeat;
+    -webkit-mask-image:
+      radial-gradient(ellipse 80% 80% at 50% 50%, black 35%, transparent 78%);
+    mask-image:
+      radial-gradient(ellipse 80% 80% at 50% 50%, black 35%, transparent 78%);
+    box-shadow: none;
+    filter: contrast(1.05) saturate(0.92);
   }
   .corp-hero-player::before {
     content: ""; position: absolute; inset: 0;
-    background: radial-gradient(ellipse 400px 300px at 50% 80%, rgba(62,146,204,0.30), transparent 60%);
+    background:
+      radial-gradient(ellipse 500px 350px at 50% 60%, rgba(62,146,204,0.25), transparent 65%),
+      linear-gradient(180deg, rgba(7,17,31,0) 50%, rgba(7,17,31,0.7) 100%);
     pointer-events: none;
+    mix-blend-mode: normal;
   }
-
   /* Badge stage — CONSTRAINED TO RIGHT COLUMN ONLY (no overflow into text) */
   .tl-stage {
     position: absolute;
