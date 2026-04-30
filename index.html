@@ -1596,7 +1596,7 @@
   .corp-hero-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    gap: 64px;
     align-items: center;
   }
 
@@ -1638,9 +1638,7 @@
     max-width: 520px;
     margin-bottom: 32px;
   }
-  .corp-hero-text .hero-ctas {
-    justify-content: flex-start;
-  }
+  .corp-hero-text .hero-ctas { justify-content: flex-start; }
   .corp-hero-text .btn-ghost {
     background: rgba(255,255,255,0.08);
     border: 1.5px solid rgba(255,255,255,0.45);
@@ -1652,7 +1650,7 @@
     border-color: var(--white);
   }
 
-  /* RIGHT — visual area with player + badges */
+  /* RIGHT — visual area (player + badges, all contained) */
   .corp-hero-visual {
     position: relative;
     aspect-ratio: 4 / 5;
@@ -1666,9 +1664,9 @@
     overflow: hidden;
     background-color: #0F1F3A;
     background-image:
-      linear-gradient(180deg, rgba(7,17,31,0) 30%, rgba(7,17,31,0.82) 100%),
-      linear-gradient(135deg, rgba(62,146,204,0.18), rgba(0,0,0,0.0)),
-      url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=900&q=80');
+      linear-gradient(180deg, rgba(7,17,31,0) 30%, rgba(7,17,31,0.85) 100%),
+      linear-gradient(135deg, rgba(62,146,204,0.20), rgba(0,0,0,0.0)),
+      url('https://placehold.co/900x1100/0F1F3A/3E92CC.png?text=BRAND+ATHLETE%0APHOTO+PLACEHOLDER');
     background-size: cover, cover, cover;
     background-position: center;
     box-shadow:
@@ -1678,48 +1676,33 @@
   }
   .corp-hero-player::before {
     content: ""; position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse 400px 300px at 50% 80%, rgba(62,146,204,0.30), transparent 60%);
+    background: radial-gradient(ellipse 400px 300px at 50% 80%, rgba(62,146,204,0.30), transparent 60%);
     pointer-events: none;
-  }
-  /* Subtle scan line vibe */
-  .corp-hero-player::after {
-    content: ""; position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      180deg,
-      rgba(255,255,255,0.012) 0px,
-      rgba(255,255,255,0.012) 1px,
-      transparent 1px,
-      transparent 3px);
-    pointer-events: none;
-    mix-blend-mode: overlay;
   }
 
-  /* Floating True Line data badges (clustered around right visual) */
+  /* Badge stage — CONSTRAINED TO RIGHT COLUMN ONLY (no overflow into text) */
   .tl-stage {
     position: absolute;
-    inset: -40px -100px -40px -80px;
+    inset: -16px;
     z-index: 5;
     pointer-events: none;
   }
   .tl-badge {
     position: absolute;
-    background: rgba(10, 23, 41, 0.85);
+    background: rgba(10, 23, 41, 0.88);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(62,146,204,0.36);
     border-radius: 10px;
-    padding: 10px 14px;
+    padding: 9px 13px;
     color: var(--white);
     box-shadow:
       0 14px 38px rgba(0,0,0,0.55),
-      0 0 28px rgba(62,146,204,0.15),
+      0 0 28px rgba(62,146,204,0.18),
       inset 0 1px 0 rgba(255,255,255,0.08);
-    min-width: 168px;
-    transform-origin: center;
+    min-width: 148px;
     animation: tl-float 7s ease-in-out infinite;
     transition: border-color 0.4s, box-shadow 0.4s;
-    pointer-events: auto;
   }
   .tl-badge.flash {
     border-color: rgba(0,208,138,0.85);
@@ -1728,81 +1711,85 @@
       0 0 32px rgba(0,208,138,0.45),
       inset 0 1px 0 rgba(255,255,255,0.10);
   }
-  .tl-badge-league {
-    font-size: 9px; color: #67BCEC;
-    text-transform: uppercase; letter-spacing: 0.16em;
-    font-weight: 700; margin-bottom: 5px;
+
+  /* TRUE LINE callout at top of each badge */
+  .tl-badge-callout {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #67BCEC;
+    margin-bottom: 7px;
     font-family: "Inter", sans-serif;
   }
+  .tl-badge-callout-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #00D08A;
+    box-shadow: 0 0 6px #00D08A;
+  }
   .tl-badge-game {
-    font-size: 12px; font-weight: 700;
+    font-size: 11px;
+    font-weight: 700;
     color: var(--white);
     margin-bottom: 6px;
+    line-height: 1.25;
     letter-spacing: -0.005em;
   }
+  .tl-badge-game small {
+    display: block;
+    color: rgba(255,255,255,0.55);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
   .tl-badge-line {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 12px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 8px;
     font-family: "SF Mono", Monaco, monospace;
   }
-  .tl-badge-market {
-    font-size: 11px; color: rgba(255,255,255,0.6);
-  }
   .tl-badge-price {
-    font-size: 17px; font-weight: 800;
+    font-size: 18px;
+    font-weight: 800;
     color: var(--white);
     letter-spacing: -0.02em;
     transition: color 0.3s;
   }
   .tl-badge-delta {
-    font-size: 10px; font-weight: 700;
-    margin-top: 4px; text-align: right;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: "SF Mono", Monaco, monospace;
   }
   .tl-badge-delta.up   { color: #00D08A; }
   .tl-badge-delta.down { color: #F76060; }
 
-  /* Pulse ring on flagship badges */
-  .tl-badge.with-ring::before {
-    content: "";
-    position: absolute; top: 50%; left: 0;
-    width: 8px; height: 8px;
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: #00D08A;
-    box-shadow: 0 0 0 0 rgba(0,208,138,0.7);
-    animation: tl-ring 1.8s ease-out infinite;
-  }
-  @keyframes tl-ring {
-    0%   { box-shadow: 0 0 0 0 rgba(0,208,138,0.7); }
-    100% { box-shadow: 0 0 0 14px rgba(0,208,138,0); }
-  }
-
-  /* Badge positions — clustered around player image */
-  .tl-badge.b1 { top: 4%;  left: -22%; animation-delay: 0s;   }
-  .tl-badge.b2 { top: 0;   right: -18%; animation-delay: 1.2s; }
-  .tl-badge.b3 { top: 32%; left: -28%; animation-delay: 2.4s; }
-  .tl-badge.b4 { top: 38%; right: -22%; animation-delay: 3.6s; }
-  .tl-badge.b5 { bottom: 24%; left: -20%; animation-delay: 4.8s; }
-  .tl-badge.b6 { bottom: 6%;  right: -14%; animation-delay: 0.6s; }
-  .tl-badge.b7 { top: 64%; left: 8%;  animation-delay: 5.4s; }
-  .tl-badge.b8 { top: 16%; right: 20%; animation-delay: 2.0s; }
+  /* Badge positions — ALL on/around right column, NEVER spilling left */
+  /* Left edge of stage == left edge of player image. Negative left = over image, not into text. */
+  .tl-badge.b1 { top: 4%;   left: -8%;  animation-delay: 0s;   }
+  .tl-badge.b2 { top: 8%;   right: -8%; animation-delay: 1.2s; }
+  .tl-badge.b3 { top: 38%;  left: -10%; animation-delay: 2.4s; }
+  .tl-badge.b4 { top: 44%;  right: -10%; animation-delay: 3.6s; }
+  .tl-badge.b5 { bottom: 12%; left: 6%;  animation-delay: 4.8s; }
+  .tl-badge.b6 { bottom: 18%; right: -6%; animation-delay: 0.6s; }
 
   @keyframes tl-float {
     0%, 100% { transform: translateY(0) translateX(0); }
-    50%      { transform: translateY(-10px) translateX(2px); }
+    50%      { transform: translateY(-8px) translateX(2px); }
   }
 
-  /* Hide overlapping badges on smaller widths */
-  @media (max-width: 1200px) {
-    .tl-badge.b7, .tl-badge.b8 { display: none; }
-    .tl-stage { inset: -20px -60px -20px -40px; }
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .tl-badge.b1, .tl-badge.b3 { left: -4%; }
+    .tl-badge.b2, .tl-badge.b4, .tl-badge.b6 { right: -4%; }
   }
   @media (max-width: 960px) {
     .corp-hero-grid { grid-template-columns: 1fr; }
     .corp-hero-text { max-width: 100%; }
     .corp-hero-visual { aspect-ratio: 16/12; max-height: 480px; }
     .tl-badge.b3, .tl-badge.b4 { display: none; }
-    .tl-stage { inset: -20px -10px; }
   }
   @media (max-width: 640px) {
     .tl-badge.b5, .tl-badge.b6 { display: none; }
@@ -1812,7 +1799,6 @@
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     .tl-badge { animation: none !important; }
-    .tl-badge.with-ring::before { animation: none; }
   }
 
   /* Coverage trust bar */
@@ -2071,84 +2057,60 @@
         </div>
       </div>
 
-      <!-- RIGHT: player visual + floating True Line badges -->
+      <!-- RIGHT: visual + floating True Line badges -->
       <div class="corp-hero-visual">
         <div class="corp-hero-player" aria-hidden="true">
-          <!-- Placeholder Unsplash player image. Swap with brand-shot when ready. -->
+          <!-- Placeholder via placehold.co. Swap background-image URL with brand-shoot photography when ready. -->
         </div>
 
         <div class="tl-stage" id="tlStage">
-          <div class="tl-badge with-ring b1" data-base="-107">
-            <div class="tl-badge-league">NBA · Spread</div>
-            <div class="tl-badge-game">Lakers @ Celtics</div>
+          <div class="tl-badge b1" data-base="-107">
+            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
+            <div class="tl-badge-game">Lakers @ Celtics<small>NBA · Spread BOS −3.5</small></div>
             <div class="tl-badge-line">
-              <span class="tl-badge-market">BOS −3.5</span>
               <span class="tl-badge-price">−107</span>
+              <span class="tl-badge-delta up">▲ 0.2%</span>
             </div>
-            <div class="tl-badge-delta up">▲ 0.2%</div>
           </div>
-          <div class="tl-badge b2" data-base="-112">
-            <div class="tl-badge-league">NFL · Spread</div>
-            <div class="tl-badge-game">49ers @ Eagles</div>
+          <div class="tl-badge b2" data-base="142">
+            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
+            <div class="tl-badge-game">Yankees @ Red Sox<small>MLB · Moneyline NYY</small></div>
             <div class="tl-badge-line">
-              <span class="tl-badge-market">PHI −2.5</span>
-              <span class="tl-badge-price">−112</span>
-            </div>
-            <div class="tl-badge-delta down">▼ 0.3%</div>
-          </div>
-          <div class="tl-badge b3" data-base="142">
-            <div class="tl-badge-league">MLB · Moneyline</div>
-            <div class="tl-badge-game">Yankees @ Red Sox</div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-market">NYY ML</span>
               <span class="tl-badge-price">+142</span>
+              <span class="tl-badge-delta up">▲ 0.5%</span>
             </div>
-            <div class="tl-badge-delta up">▲ 0.5%</div>
+          </div>
+          <div class="tl-badge b3" data-base="-105">
+            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
+            <div class="tl-badge-game">J. Tatum Pts<small>NBA · Player Prop O 27.5</small></div>
+            <div class="tl-badge-line">
+              <span class="tl-badge-price">−105</span>
+              <span class="tl-badge-delta up">▲ 0.7%</span>
+            </div>
           </div>
           <div class="tl-badge b4" data-base="-118">
-            <div class="tl-badge-league">NHL · Total</div>
-            <div class="tl-badge-game">Edmonton @ Boston</div>
+            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
+            <div class="tl-badge-game">Edmonton @ Boston<small>NHL · Total O 5.5</small></div>
             <div class="tl-badge-line">
-              <span class="tl-badge-market">O 5.5</span>
               <span class="tl-badge-price">−118</span>
+              <span class="tl-badge-delta down">▼ 0.1%</span>
             </div>
-            <div class="tl-badge-delta down">▼ 0.1%</div>
           </div>
-          <div class="tl-badge with-ring b5" data-base="-105">
-            <div class="tl-badge-league">NBA · Player Prop</div>
-            <div class="tl-badge-game">J. Tatum Pts</div>
+          <div class="tl-badge b5" data-base="-220">
+            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
+            <div class="tl-badge-game">Man City @ Arsenal<small>EPL · Moneyline MCI</small></div>
             <div class="tl-badge-line">
-              <span class="tl-badge-market">O 27.5</span>
-              <span class="tl-badge-price">−105</span>
-            </div>
-            <div class="tl-badge-delta up">▲ 0.7%</div>
-          </div>
-          <div class="tl-badge b6" data-base="-220">
-            <div class="tl-badge-league">EPL · Moneyline</div>
-            <div class="tl-badge-game">Man City @ Arsenal</div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-market">MCI ML</span>
               <span class="tl-badge-price">−220</span>
+              <span class="tl-badge-delta down">▼ 0.4%</span>
             </div>
-            <div class="tl-badge-delta down">▼ 0.4%</div>
           </div>
-          <div class="tl-badge b7" data-base="385">
-            <div class="tl-badge-league">UFC · Moneyline</div>
-            <div class="tl-badge-game">Pereira vs. Ankalaev</div>
+          <div class="tl-badge b6" data-base="-108">
+            <div class="tl-badge-callout"><span class="tl-badge-callout-dot"></span>True Line · Live</div>
+            <div class="tl-badge-game">SGP · 3-leg correlated<small>NFL · Combined</small></div>
             <div class="tl-badge-line">
-              <span class="tl-badge-market">Pereira</span>
-              <span class="tl-badge-price">+385</span>
-            </div>
-            <div class="tl-badge-delta up">▲ 0.9%</div>
-          </div>
-          <div class="tl-badge b8" data-base="-108">
-            <div class="tl-badge-league">NFL · SGP</div>
-            <div class="tl-badge-game">3-leg correlated</div>
-            <div class="tl-badge-line">
-              <span class="tl-badge-market">Combined</span>
               <span class="tl-badge-price">−108</span>
+              <span class="tl-badge-delta up">▲ 0.6%</span>
             </div>
-            <div class="tl-badge-delta up">▲ 0.6%</div>
           </div>
         </div>
       </div>
