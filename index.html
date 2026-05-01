@@ -1667,10 +1667,10 @@
   .corp-hero-player::before {
     content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 600px 400px at 50% 55%, rgba(62,146,204,0.14), transparent 70%),
-      linear-gradient(180deg, rgba(7,17,31,0) 70%, rgba(7,17,31,0.35) 100%);
+      radial-gradient(ellipse 600px 400px at 50% 55%, rgba(62,146,204,0.10), transparent 75%);
     pointer-events: none;
     z-index: 4;
+    mix-blend-mode: screen;
   }
   .hero-frame {
     position: absolute;
@@ -1681,12 +1681,11 @@
   }
   .hero-frame.active { opacity: 1; z-index: 3; }
   .frame-image {
-    position: absolute; inset: -30px -10px -30px -10px;
+    position: absolute; inset: -20px -10px -20px -10px;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
-    -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 75%, transparent 100%);
-    mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 75%, transparent 100%);
+    /* Alpha feather is baked into the PNG — no CSS mask needed */
     filter: contrast(1.02) saturate(0.95);
     transform: scale(1);
     transform-origin: 50% 55%;
