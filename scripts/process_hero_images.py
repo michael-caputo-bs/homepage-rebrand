@@ -32,7 +32,10 @@ def crop_watermark(img: Image.Image) -> Image.Image:
 
 
 def feather_edges(img: Image.Image) -> Image.Image:
-    """Add a radial alpha falloff so the image dissolves into the page bg."""
+    """Add a radial alpha falloff so the image dissolves into the page bg.
+
+    Stronger falloff = larger transition zone = more seamless blend.
+    """
     img = img.convert("RGBA")
     w, h = img.size
 
@@ -40,11 +43,12 @@ def feather_edges(img: Image.Image) -> Image.Image:
     mask = Image.new("L", (w, h), 0)
     draw = ImageDraw.Draw(mask)
 
-    # Inner solid-opaque ellipse (~70-80% of canvas), heavy blur to feather out.
-    inset_x = int(w * 0.10)
-    inset_y = int(h * 0.05)
+    # Smaller solid-opaque core (~60% of canvas) + heavier blur = longer falloff
+    # so the image dissolves further into the dark page bg.
+    inset_x = int(w * 0.16)
+    inset_y = int(h * 0.10)
     draw.ellipse([inset_x, inset_y, w - inset_x, h - inset_y], fill=255)
-    blur_radius = int(min(w, h) * 0.09)
+    blur_radius = int(min(w, h) * 0.13)
     mask = mask.filter(ImageFilter.GaussianBlur(radius=blur_radius))
 
     # Multiply existing alpha with the new feather mask

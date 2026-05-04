@@ -1658,7 +1658,9 @@
     width: 100%;
     z-index: 4;
   }
-  /* 4-frame rotating hero — Ken Burns + crossfade */
+  /* 4-frame rotating hero — focus-pull (blur+crossfade) + slow Ken Burns
+     Layout: image lives in left 75% of stage, labels in right 25% (own column,
+     never on top of the photo). */
   .corp-hero-player {
     position: absolute; inset: 0;
     overflow: visible;
@@ -1667,7 +1669,7 @@
   .corp-hero-player::before {
     content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 600px 400px at 50% 55%, rgba(62,146,204,0.10), transparent 75%);
+      radial-gradient(ellipse 600px 400px at 40% 55%, rgba(62,146,204,0.08), transparent 75%);
     pointer-events: none;
     z-index: 4;
     mix-blend-mode: screen;
@@ -1675,31 +1677,54 @@
   .hero-frame {
     position: absolute;
     inset: 0;
+    display: grid;
+    grid-template-columns: 75% 1fr;
+    column-gap: 4px;
+    align-items: stretch;
     opacity: 0;
-    transition: opacity 1.4s ease-in-out;
+    filter: blur(10px);
+    transition: opacity 1.0s ease-in-out, filter 1.3s ease-in-out;
     z-index: 1;
   }
-  .hero-frame.active { opacity: 1; z-index: 3; }
+  .hero-frame.active {
+    opacity: 1;
+    filter: blur(0);
+    z-index: 3;
+  }
   .frame-image {
-    position: absolute; inset: -20px -10px -20px -10px;
+    grid-column: 1; grid-row: 1;
+    position: relative; height: 100%;
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
     /* Alpha feather is baked into the PNG — no CSS mask needed */
-    filter: contrast(1.02) saturate(0.95);
+    filter: contrast(1.02) saturate(0.92);
     transform: scale(1);
     transform-origin: 50% 55%;
   }
-  /* Ken Burns slow-zoom on the active frame's image */
+  /* Subtle Ken Burns on the active frame */
   .hero-frame.active .frame-image {
-    animation: ken-burns 7s ease-out forwards;
+    animation: ken-burns 9s ease-out forwards;
   }
   @keyframes ken-burns {
     from { transform: scale(1); }
-    to   { transform: scale(1.07); }
+    to   { transform: scale(1.04); }
   }
-  /* Each frame has its own SVG leader lines + data labels stacked on top */
-  .hero-frame .data-lines,
+  /* SVG leader lines span the entire frame so they bridge image → label column */
+  .hero-frame .data-lines {
+    grid-column: 1 / -1; grid-row: 1;
+    pointer-events: none;
+    align-self: stretch;
+  }
+  /* Labels live in their own column on the right, stacked vertically */
+  .frame-labels-col {
+    grid-column: 2; grid-row: 1;
+    position: relative; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6% 0;
+  }
   .hero-frame .data-label {
     pointer-events: none;
   }
@@ -1710,92 +1735,89 @@
     z-index: 5;
     pointer-events: none;
   }
-  /* Leader-line overlay painted over the athlete (anchor dots + lines) */
+  /* Leader-line overlay painted over the athlete (anchor dots + lines).
+     SVG fills the full frame so lines can travel from the image (left col)
+     into the labels column (right col). */
   .data-lines {
-    position: absolute;
-    inset: 0;
     width: 100%;
     height: 100%;
     overflow: visible;
-    color: #D5FA45;
-    filter: drop-shadow(0 0 8px rgba(213, 250, 69, 0.45));
+    color: #67BCEC;
+    filter: drop-shadow(0 0 6px rgba(103, 188, 236, 0.35));
   }
 
-  /* Floating metric labels at the end of each leader line */
+  /* Floating metric labels — flex children of .frame-labels-col now */
   .data-label {
-    position: absolute;
-    z-index: 6;
-    pointer-events: none;
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 4px;
-    min-width: 120px;
-    color: #D5FA45;
-    text-shadow: 0 0 16px rgba(213, 250, 69, 0.30);
-    transition: color 0.3s, text-shadow 0.3s, transform 0.4s;
-    animation: dl-float 9s ease-in-out infinite;
+    color: #67BCEC;
+    text-shadow: 0 0 16px rgba(103, 188, 236, 0.28);
+    transition: color 0.3s, text-shadow 0.3s;
   }
   .data-label.flash .dl-num {
-    color: #ECFFA0;
-    text-shadow: 0 0 22px rgba(213, 250, 69, 0.85);
+    color: #B8DFF7;
+    text-shadow: 0 0 22px rgba(103, 188, 236, 0.85);
   }
   .dl-eyebrow {
     font-family: "Inter", sans-serif;
     font-size: 9px;
-    letter-spacing: 0.20em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     font-weight: 700;
     opacity: 0.92;
+    white-space: nowrap;
   }
   .dl-num {
     font-family: "Space Grotesk", "JetBrains Mono", monospace;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 600;
-    letter-spacing: 0.005em;
+    letter-spacing: -0.005em;
     font-variant-numeric: tabular-nums;
     line-height: 1;
     transition: color 0.3s, text-shadow 0.3s;
   }
+  /* True Line gets visual primacy — slightly bigger weight to anchor "sharpest
+     pricing in the world" as the flagship metric. */
+  .data-label.dl-1 .dl-num {
+    font-size: 28px;
+    font-weight: 700;
+  }
   .dl-spark, .dl-bars {
-    width: 92px;
-    height: 16px;
+    width: 86px;
+    height: 14px;
     display: block;
-    color: #D5FA45;
+    color: #67BCEC;
     margin-top: 4px;
     overflow: visible;
   }
 
-  /* Label positions — anchored along the right side */
-  .data-label.dl-1 { top: 4%;    left: 72%; animation-delay: 0s;   }
-  .data-label.dl-2 { top: 42%;   left: 72%; animation-delay: 1.5s; }
-  .data-label.dl-3 { bottom: 4%; left: 72%; animation-delay: 3s;   }
-
-  @keyframes dl-float {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-5px); }
-  }
-
   /* Responsive */
   @media (max-width: 1100px) {
-    .data-label { min-width: 100px; }
-    .dl-num { font-size: 24px; }
-    .dl-spark, .dl-bars { width: 80px; }
+    .dl-num { font-size: 22px; }
+    .data-label.dl-1 .dl-num { font-size: 25px; }
+    .dl-spark, .dl-bars { width: 76px; }
+    .hero-frame { grid-template-columns: 72% 1fr; }
   }
   @media (max-width: 960px) {
     .corp-hero-grid { grid-template-columns: 1fr; }
     .corp-hero-text { max-width: 100%; }
     .corp-hero-visual { aspect-ratio: 16/12; max-height: 480px; }
-    .data-label.dl-2 { display: none; }
+    .hero-frame { grid-template-columns: 78% 1fr; }
   }
   @media (max-width: 640px) {
-    .data-label.dl-3 { display: none; }
     .corp-hero { padding: 80px 0 100px; }
+    .hero-frame { grid-template-columns: 70% 1fr; }
+    .dl-num { font-size: 18px; }
+    .data-label.dl-1 .dl-num { font-size: 21px; }
+    .dl-spark, .dl-bars { width: 60px; }
   }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
-    .data-label { animation: none !important; }
     .hero-frame.active .frame-image { animation: none !important; }
+    .hero-frame { transition: opacity 0.4s ease !important; filter: none !important; }
   }
 
   /* Coverage trust bar */
@@ -2063,222 +2085,234 @@
         <div class="tl-stage" id="tlStage">
 
           <!-- ============== FRAME 1: BASKETBALL (NBA) ============== -->
+          <!-- True Line −141 / Probability 58% (141/(141+100)) -->
           <div class="hero-frame active">
             <div class="frame-image" style="background-image: url('/assets/hero-basketball.png')"></div>
-            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <!-- Anchor 1: ball above head -->
-              <line x1="52" y1="22" x2="72" y2="14" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="52" cy="22" r="0.85" fill="currentColor" />
-              <!-- Anchor 2: chest mid -->
-              <line x1="50" y1="55" x2="72" y2="56" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="50" cy="55" r="0.85" fill="currentColor" />
-              <!-- Anchor 3: front knee/leg -->
-              <line x1="48" y1="95" x2="72" y2="118" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="48" cy="95" r="0.85" fill="currentColor" />
+            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+              <!-- L1: ball above head -->
+              <line x1="39" y1="22" x2="78" y2="14"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="39" cy="22" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L2: chest/torso center -->
+              <line x1="38" y1="55" x2="78" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="38" cy="55" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L3: front knee -->
+              <line x1="36" y1="95" x2="78" y2="113" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="36" cy="95" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
-            <div class="data-label dl-1" data-base="0.5847" data-range="0.0080" data-format="decimal4">
-              <span class="dl-eyebrow">NBA · True Line</span>
-              <span class="dl-num">0.5847</span>
-              <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 9 Q 9 2, 18 9 T 36 9 T 54 9 T 72 9 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
-              </svg>
-            </div>
-            <div class="data-label dl-2" data-base="4.2" data-range="0.30" data-format="pctSigned">
-              <span class="dl-eyebrow">Edge · Live</span>
-              <span class="dl-num">+4.2%</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="10" width="6" height="6"  fill="currentColor" />
-                <rect x="9"  y="6"  width="6" height="10" fill="currentColor" />
-                <rect x="18" y="3"  width="6" height="13" fill="currentColor" />
-                <rect x="27" y="8"  width="6" height="8"  fill="currentColor" />
-                <rect x="36" y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="45" y="5"  width="6" height="11" fill="currentColor" />
-                <rect x="54" y="1"  width="6" height="15" fill="currentColor" />
-                <rect x="63" y="4"  width="6" height="12" fill="currentColor" />
-                <rect x="72" y="7"  width="6" height="9"  fill="currentColor" />
-                <rect x="82" y="3"  width="6" height="13" fill="currentColor" />
-              </svg>
-            </div>
-            <div class="data-label dl-3" data-base="0.6131" data-range="0.0060" data-format="decimal4">
-              <span class="dl-eyebrow">Probability</span>
-              <span class="dl-num">0.6131</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="6" width="6" height="10" fill="currentColor" />
-                <rect x="9"  y="3" width="6" height="13" fill="currentColor" />
-                <rect x="18" y="9" width="6" height="7"  fill="currentColor" />
-                <rect x="27" y="2" width="6" height="14" fill="currentColor" />
-                <rect x="36" y="6" width="6" height="10" fill="currentColor" />
-                <rect x="45" y="4" width="6" height="12" fill="currentColor" />
-                <rect x="54" y="8" width="6" height="8"  fill="currentColor" />
-                <rect x="63" y="2" width="6" height="14" fill="currentColor" />
-                <rect x="72" y="5" width="6" height="11" fill="currentColor" />
-                <rect x="82" y="3" width="6" height="13" fill="currentColor" />
-              </svg>
+            <div class="frame-labels-col">
+              <div class="data-label dl-1" data-base="-141" data-range="4" data-format="americanOdds">
+                <span class="dl-eyebrow">True Line · NBA</span>
+                <span class="dl-num">−141</span>
+                <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M0 9 Q 9 2, 18 9 T 36 9 T 54 9 T 72 9 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              </div>
+              <div class="data-label dl-2" data-base="4.2" data-range="0.30" data-format="pctSigned">
+                <span class="dl-eyebrow">Edge · Live</span>
+                <span class="dl-num">+4.2%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="10" width="6" height="6"  fill="currentColor" />
+                  <rect x="9"  y="6"  width="6" height="10" fill="currentColor" />
+                  <rect x="18" y="3"  width="6" height="13" fill="currentColor" />
+                  <rect x="27" y="8"  width="6" height="8"  fill="currentColor" />
+                  <rect x="36" y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="45" y="5"  width="6" height="11" fill="currentColor" />
+                  <rect x="54" y="1"  width="6" height="15" fill="currentColor" />
+                  <rect x="63" y="4"  width="6" height="12" fill="currentColor" />
+                  <rect x="72" y="7"  width="6" height="9"  fill="currentColor" />
+                  <rect x="82" y="3"  width="6" height="13" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="data-label dl-3" data-format="pctInt">
+                <span class="dl-eyebrow">Implied Probability</span>
+                <span class="dl-num">58%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="6" width="6" height="10" fill="currentColor" />
+                  <rect x="9"  y="3" width="6" height="13" fill="currentColor" />
+                  <rect x="18" y="9" width="6" height="7"  fill="currentColor" />
+                  <rect x="27" y="2" width="6" height="14" fill="currentColor" />
+                  <rect x="36" y="6" width="6" height="10" fill="currentColor" />
+                  <rect x="45" y="4" width="6" height="12" fill="currentColor" />
+                  <rect x="54" y="8" width="6" height="8"  fill="currentColor" />
+                  <rect x="63" y="2" width="6" height="14" fill="currentColor" />
+                  <rect x="72" y="5" width="6" height="11" fill="currentColor" />
+                  <rect x="82" y="3" width="6" height="13" fill="currentColor" />
+                </svg>
+              </div>
             </div>
           </div>
 
           <!-- ============== FRAME 2: FOOTBALL (NFL) ============== -->
+          <!-- True Line +107 / Probability 48% (100/(107+100)) -->
           <div class="hero-frame">
             <div class="frame-image" style="background-image: url('/assets/hero-football.png')"></div>
-            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <!-- Anchor 1: helmet -->
-              <line x1="55" y1="36" x2="72" y2="14" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="55" cy="36" r="0.85" fill="currentColor" />
-              <!-- Anchor 2: shoulder pad / chest -->
-              <line x1="58" y1="62" x2="72" y2="56" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="58" cy="62" r="0.85" fill="currentColor" />
-              <!-- Anchor 3: extended hands -->
-              <line x1="62" y1="88" x2="72" y2="118" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="62" cy="88" r="0.85" fill="currentColor" />
+            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+              <!-- L1: helmet -->
+              <line x1="41" y1="36" x2="78" y2="14"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="41" cy="36" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L2: shoulder pad -->
+              <line x1="44" y1="62" x2="78" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="44" cy="62" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L3: extended hands -->
+              <line x1="47" y1="88" x2="78" y2="113" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="47" cy="88" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
-            <div class="data-label dl-1" data-base="0.4827" data-range="0.0090" data-format="decimal4">
-              <span class="dl-eyebrow">NFL · True Line</span>
-              <span class="dl-num">0.4827</span>
-              <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 9 Q 9 14, 18 9 T 36 9 T 54 9 T 72 9 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
-              </svg>
-            </div>
-            <div class="data-label dl-2" data-base="5.1" data-range="0.40" data-format="pctSigned">
-              <span class="dl-eyebrow">Edge · Live</span>
-              <span class="dl-num">+5.1%</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="4"  width="6" height="12" fill="currentColor" />
-                <rect x="9"  y="8"  width="6" height="8"  fill="currentColor" />
-                <rect x="18" y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="27" y="6"  width="6" height="10" fill="currentColor" />
-                <rect x="36" y="9"  width="6" height="7"  fill="currentColor" />
-                <rect x="45" y="3"  width="6" height="13" fill="currentColor" />
-                <rect x="54" y="7"  width="6" height="9"  fill="currentColor" />
-                <rect x="63" y="1"  width="6" height="15" fill="currentColor" />
-                <rect x="72" y="5"  width="6" height="11" fill="currentColor" />
-                <rect x="82" y="4"  width="6" height="12" fill="currentColor" />
-              </svg>
-            </div>
-            <div class="data-label dl-3" data-base="0.5217" data-range="0.0070" data-format="decimal4">
-              <span class="dl-eyebrow">Probability</span>
-              <span class="dl-num">0.5217</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="3" width="6" height="13" fill="currentColor" />
-                <rect x="9"  y="7" width="6" height="9"  fill="currentColor" />
-                <rect x="18" y="2" width="6" height="14" fill="currentColor" />
-                <rect x="27" y="5" width="6" height="11" fill="currentColor" />
-                <rect x="36" y="8" width="6" height="8"  fill="currentColor" />
-                <rect x="45" y="3" width="6" height="13" fill="currentColor" />
-                <rect x="54" y="6" width="6" height="10" fill="currentColor" />
-                <rect x="63" y="2" width="6" height="14" fill="currentColor" />
-                <rect x="72" y="9" width="6" height="7"  fill="currentColor" />
-                <rect x="82" y="4" width="6" height="12" fill="currentColor" />
-              </svg>
+            <div class="frame-labels-col">
+              <div class="data-label dl-1" data-base="107" data-range="4" data-format="americanOdds">
+                <span class="dl-eyebrow">True Line · NFL</span>
+                <span class="dl-num">+107</span>
+                <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M0 9 Q 9 14, 18 9 T 36 9 T 54 9 T 72 9 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              </div>
+              <div class="data-label dl-2" data-base="5.1" data-range="0.40" data-format="pctSigned">
+                <span class="dl-eyebrow">Edge · Live</span>
+                <span class="dl-num">+5.1%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="4"  width="6" height="12" fill="currentColor" />
+                  <rect x="9"  y="8"  width="6" height="8"  fill="currentColor" />
+                  <rect x="18" y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="27" y="6"  width="6" height="10" fill="currentColor" />
+                  <rect x="36" y="9"  width="6" height="7"  fill="currentColor" />
+                  <rect x="45" y="3"  width="6" height="13" fill="currentColor" />
+                  <rect x="54" y="7"  width="6" height="9"  fill="currentColor" />
+                  <rect x="63" y="1"  width="6" height="15" fill="currentColor" />
+                  <rect x="72" y="5"  width="6" height="11" fill="currentColor" />
+                  <rect x="82" y="4"  width="6" height="12" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="data-label dl-3" data-format="pctInt">
+                <span class="dl-eyebrow">Implied Probability</span>
+                <span class="dl-num">48%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="3" width="6" height="13" fill="currentColor" />
+                  <rect x="9"  y="7" width="6" height="9"  fill="currentColor" />
+                  <rect x="18" y="2" width="6" height="14" fill="currentColor" />
+                  <rect x="27" y="5" width="6" height="11" fill="currentColor" />
+                  <rect x="36" y="8" width="6" height="8"  fill="currentColor" />
+                  <rect x="45" y="3" width="6" height="13" fill="currentColor" />
+                  <rect x="54" y="6" width="6" height="10" fill="currentColor" />
+                  <rect x="63" y="2" width="6" height="14" fill="currentColor" />
+                  <rect x="72" y="9" width="6" height="7"  fill="currentColor" />
+                  <rect x="82" y="4" width="6" height="12" fill="currentColor" />
+                </svg>
+              </div>
             </div>
           </div>
 
           <!-- ============== FRAME 3: SOCCER (EPL) ============== -->
+          <!-- True Line +142 / Probability 41% (100/(142+100)) -->
           <div class="hero-frame">
             <div class="frame-image" style="background-image: url('/assets/hero-soccer.png')"></div>
-            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <!-- Anchor 1: head -->
-              <line x1="46" y1="36" x2="72" y2="14" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="46" cy="36" r="0.85" fill="currentColor" />
-              <!-- Anchor 2: extended foot/ball -->
-              <line x1="74" y1="78" x2="72" y2="56" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="74" cy="78" r="0.85" fill="currentColor" />
-              <!-- Anchor 3: trailing knee -->
-              <line x1="32" y1="92" x2="72" y2="118" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="32" cy="92" r="0.85" fill="currentColor" />
+            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+              <!-- L1: head -->
+              <line x1="35" y1="36" x2="78" y2="14"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="35" cy="36" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L2: extended kicking foot -->
+              <line x1="56" y1="78" x2="78" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="56" cy="78" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L3: trailing knee -->
+              <line x1="24" y1="92" x2="78" y2="113" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="24" cy="92" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
-            <div class="data-label dl-1" data-base="0.4129" data-range="0.0080" data-format="decimal4">
-              <span class="dl-eyebrow">EPL · True Line</span>
-              <span class="dl-num">0.4129</span>
-              <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 9 Q 9 4, 18 9 T 36 12 T 54 9 T 72 5 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
-              </svg>
-            </div>
-            <div class="data-label dl-2" data-base="3.8" data-range="0.30" data-format="pctSigned">
-              <span class="dl-eyebrow">Edge · Live</span>
-              <span class="dl-num">+3.8%</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="8"  width="6" height="8"  fill="currentColor" />
-                <rect x="9"  y="4"  width="6" height="12" fill="currentColor" />
-                <rect x="18" y="6"  width="6" height="10" fill="currentColor" />
-                <rect x="27" y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="36" y="7"  width="6" height="9"  fill="currentColor" />
-                <rect x="45" y="3"  width="6" height="13" fill="currentColor" />
-                <rect x="54" y="9"  width="6" height="7"  fill="currentColor" />
-                <rect x="63" y="5"  width="6" height="11" fill="currentColor" />
-                <rect x="72" y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="82" y="6"  width="6" height="10" fill="currentColor" />
-              </svg>
-            </div>
-            <div class="data-label dl-3" data-base="0.3875" data-range="0.0060" data-format="decimal4">
-              <span class="dl-eyebrow">Probability</span>
-              <span class="dl-num">0.3875</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="9" width="6" height="7"  fill="currentColor" />
-                <rect x="9"  y="6" width="6" height="10" fill="currentColor" />
-                <rect x="18" y="3" width="6" height="13" fill="currentColor" />
-                <rect x="27" y="8" width="6" height="8"  fill="currentColor" />
-                <rect x="36" y="4" width="6" height="12" fill="currentColor" />
-                <rect x="45" y="2" width="6" height="14" fill="currentColor" />
-                <rect x="54" y="5" width="6" height="11" fill="currentColor" />
-                <rect x="63" y="9" width="6" height="7"  fill="currentColor" />
-                <rect x="72" y="3" width="6" height="13" fill="currentColor" />
-                <rect x="82" y="6" width="6" height="10" fill="currentColor" />
-              </svg>
+            <div class="frame-labels-col">
+              <div class="data-label dl-1" data-base="142" data-range="4" data-format="americanOdds">
+                <span class="dl-eyebrow">True Line · EPL</span>
+                <span class="dl-num">+142</span>
+                <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M0 9 Q 9 4, 18 9 T 36 12 T 54 9 T 72 5 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              </div>
+              <div class="data-label dl-2" data-base="3.8" data-range="0.30" data-format="pctSigned">
+                <span class="dl-eyebrow">Edge · Live</span>
+                <span class="dl-num">+3.8%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="8"  width="6" height="8"  fill="currentColor" />
+                  <rect x="9"  y="4"  width="6" height="12" fill="currentColor" />
+                  <rect x="18" y="6"  width="6" height="10" fill="currentColor" />
+                  <rect x="27" y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="36" y="7"  width="6" height="9"  fill="currentColor" />
+                  <rect x="45" y="3"  width="6" height="13" fill="currentColor" />
+                  <rect x="54" y="9"  width="6" height="7"  fill="currentColor" />
+                  <rect x="63" y="5"  width="6" height="11" fill="currentColor" />
+                  <rect x="72" y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="82" y="6"  width="6" height="10" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="data-label dl-3" data-format="pctInt">
+                <span class="dl-eyebrow">Implied Probability</span>
+                <span class="dl-num">41%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="9" width="6" height="7"  fill="currentColor" />
+                  <rect x="9"  y="6" width="6" height="10" fill="currentColor" />
+                  <rect x="18" y="3" width="6" height="13" fill="currentColor" />
+                  <rect x="27" y="8" width="6" height="8"  fill="currentColor" />
+                  <rect x="36" y="4" width="6" height="12" fill="currentColor" />
+                  <rect x="45" y="2" width="6" height="14" fill="currentColor" />
+                  <rect x="54" y="5" width="6" height="11" fill="currentColor" />
+                  <rect x="63" y="9" width="6" height="7"  fill="currentColor" />
+                  <rect x="72" y="3" width="6" height="13" fill="currentColor" />
+                  <rect x="82" y="6" width="6" height="10" fill="currentColor" />
+                </svg>
+              </div>
             </div>
           </div>
 
           <!-- ============== FRAME 4: BOXING (UFC) ============== -->
+          <!-- True Line −250 / Probability 71% (250/(250+100)) -->
           <div class="hero-frame">
             <div class="frame-image" style="background-image: url('/assets/hero-boxing.png')"></div>
-            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <!-- Anchor 1: head/face -->
-              <line x1="38" y1="42" x2="72" y2="14" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="38" cy="42" r="0.85" fill="currentColor" />
-              <!-- Anchor 2: extended glove -->
-              <line x1="78" y1="62" x2="72" y2="56" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="78" cy="62" r="0.85" fill="currentColor" />
-              <!-- Anchor 3: midsection / lead glove -->
-              <line x1="42" y1="82" x2="72" y2="118" stroke="currentColor" stroke-width="0.35" vector-effect="non-scaling-stroke" />
-              <circle cx="42" cy="82" r="0.85" fill="currentColor" />
+            <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
+              <!-- L1: head/face -->
+              <line x1="29" y1="42" x2="78" y2="14"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="29" cy="42" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L2: extended glove -->
+              <line x1="59" y1="62" x2="78" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="59" cy="62" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
+              <!-- L3: midsection / lead glove -->
+              <line x1="32" y1="82" x2="78" y2="113" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <circle cx="32" cy="82" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
-            <div class="data-label dl-1" data-base="0.7143" data-range="0.0090" data-format="decimal4">
-              <span class="dl-eyebrow">UFC · True Line</span>
-              <span class="dl-num">0.7143</span>
-              <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <path d="M0 9 Q 9 13, 18 9 T 36 4 T 54 9 T 72 12 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
-              </svg>
-            </div>
-            <div class="data-label dl-2" data-base="6.2" data-range="0.40" data-format="pctSigned">
-              <span class="dl-eyebrow">Edge · Live</span>
-              <span class="dl-num">+6.2%</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="9"  y="5"  width="6" height="11" fill="currentColor" />
-                <rect x="18" y="1"  width="6" height="15" fill="currentColor" />
-                <rect x="27" y="7"  width="6" height="9"  fill="currentColor" />
-                <rect x="36" y="3"  width="6" height="13" fill="currentColor" />
-                <rect x="45" y="6"  width="6" height="10" fill="currentColor" />
-                <rect x="54" y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="63" y="8"  width="6" height="8"  fill="currentColor" />
-                <rect x="72" y="4"  width="6" height="12" fill="currentColor" />
-                <rect x="82" y="1"  width="6" height="15" fill="currentColor" />
-              </svg>
-            </div>
-            <div class="data-label dl-3" data-base="0.2857" data-range="0.0060" data-format="decimal4">
-              <span class="dl-eyebrow">Probability</span>
-              <span class="dl-num">0.2857</span>
-              <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
-                <rect x="0"  y="11" width="6" height="5"  fill="currentColor" />
-                <rect x="9"  y="8"  width="6" height="8"  fill="currentColor" />
-                <rect x="18" y="6"  width="6" height="10" fill="currentColor" />
-                <rect x="27" y="9"  width="6" height="7"  fill="currentColor" />
-                <rect x="36" y="3"  width="6" height="13" fill="currentColor" />
-                <rect x="45" y="7"  width="6" height="9"  fill="currentColor" />
-                <rect x="54" y="5"  width="6" height="11" fill="currentColor" />
-                <rect x="63" y="2"  width="6" height="14" fill="currentColor" />
-                <rect x="72" y="8"  width="6" height="8"  fill="currentColor" />
-                <rect x="82" y="4"  width="6" height="12" fill="currentColor" />
-              </svg>
+            <div class="frame-labels-col">
+              <div class="data-label dl-1" data-base="-250" data-range="6" data-format="americanOdds">
+                <span class="dl-eyebrow">True Line · UFC</span>
+                <span class="dl-num">−250</span>
+                <svg class="dl-spark" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <path d="M0 9 Q 9 13, 18 9 T 36 4 T 54 9 T 72 12 T 92 9" fill="none" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              </div>
+              <div class="data-label dl-2" data-base="6.2" data-range="0.40" data-format="pctSigned">
+                <span class="dl-eyebrow">Edge · Live</span>
+                <span class="dl-num">+6.2%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="9"  y="5"  width="6" height="11" fill="currentColor" />
+                  <rect x="18" y="1"  width="6" height="15" fill="currentColor" />
+                  <rect x="27" y="7"  width="6" height="9"  fill="currentColor" />
+                  <rect x="36" y="3"  width="6" height="13" fill="currentColor" />
+                  <rect x="45" y="6"  width="6" height="10" fill="currentColor" />
+                  <rect x="54" y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="63" y="8"  width="6" height="8"  fill="currentColor" />
+                  <rect x="72" y="4"  width="6" height="12" fill="currentColor" />
+                  <rect x="82" y="1"  width="6" height="15" fill="currentColor" />
+                </svg>
+              </div>
+              <div class="data-label dl-3" data-format="pctInt">
+                <span class="dl-eyebrow">Implied Probability</span>
+                <span class="dl-num">71%</span>
+                <svg class="dl-bars" viewBox="0 0 92 16" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="0"  y="11" width="6" height="5"  fill="currentColor" />
+                  <rect x="9"  y="8"  width="6" height="8"  fill="currentColor" />
+                  <rect x="18" y="6"  width="6" height="10" fill="currentColor" />
+                  <rect x="27" y="9"  width="6" height="7"  fill="currentColor" />
+                  <rect x="36" y="3"  width="6" height="13" fill="currentColor" />
+                  <rect x="45" y="7"  width="6" height="9"  fill="currentColor" />
+                  <rect x="54" y="5"  width="6" height="11" fill="currentColor" />
+                  <rect x="63" y="2"  width="6" height="14" fill="currentColor" />
+                  <rect x="72" y="8"  width="6" height="8"  fill="currentColor" />
+                  <rect x="82" y="4"  width="6" height="12" fill="currentColor" />
+                </svg>
+              </div>
             </div>
           </div>
 
@@ -2702,16 +2736,28 @@
   if (!frames.length) return;
 
   var current = 0;
-  var FRAME_DURATION = 5400;  // ms per frame (just longer than Ken Burns 7s gives breathing room w/ crossfade)
+  var FRAME_DURATION = 5400;  // ms per frame
   var TICK_INTERVAL = 900;    // ms between data flickers
 
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Convert American odds to implied probability (0..1)
+  function americanToProb(odds) {
+    if (odds < 0) return -odds / (-odds + 100);
+    return 100 / (odds + 100);
+  }
+
   function format(value, mode) {
-    if (mode === 'decimal4') return value.toFixed(4);
+    if (mode === 'americanOdds') {
+      var n = Math.round(value);
+      if (n === 0) return '0';
+      var sign = n > 0 ? '+' : '−';
+      return sign + Math.abs(n);
+    }
+    if (mode === 'pctInt') return Math.round(value * 100) + '%';
     if (mode === 'pctSigned') {
-      var sign = value >= 0 ? '+' : '−';
-      return sign + Math.abs(value).toFixed(1) + '%';
+      var s = value >= 0 ? '+' : '−';
+      return s + Math.abs(value).toFixed(1) + '%';
     }
     return value.toString();
   }
@@ -2727,13 +2773,21 @@
     setActive((current + 1) % frames.length);
   }
 
+  function flash(label) {
+    if (!label) return;
+    label.classList.add('flash');
+    setTimeout(function(){ label.classList.remove('flash'); }, 500);
+  }
+
   function tick() {
     var activeFrame = frames[current];
     if (!activeFrame) return;
-    var labels = activeFrame.querySelectorAll('.data-label');
-    if (!labels.length) return;
+    // We only ever pick from True Line (dl-1) or Edge (dl-2). Implied Probability
+    // (dl-3) is *derived* from True Line so they always remain mathematically tied.
+    var pickable = activeFrame.querySelectorAll('.data-label.dl-1, .data-label.dl-2');
+    if (!pickable.length) return;
 
-    var label = labels[Math.floor(Math.random() * labels.length)];
+    var label = pickable[Math.floor(Math.random() * pickable.length)];
     var num = label.querySelector('.dl-num');
     if (!num) return;
 
@@ -2745,9 +2799,19 @@
     var jitter = (Math.random() - 0.5) * range * 2;
     var newVal = base + jitter;
     num.textContent = format(newVal, mode);
+    flash(label);
 
-    label.classList.add('flash');
-    setTimeout(function(){ label.classList.remove('flash'); }, 500);
+    // If True Line ticked, also update the matched Implied Probability label.
+    if (label.classList.contains('dl-1') && mode === 'americanOdds') {
+      var probLabel = activeFrame.querySelector('.data-label.dl-3');
+      if (probLabel) {
+        var probNum = probLabel.querySelector('.dl-num');
+        if (probNum) {
+          probNum.textContent = format(americanToProb(newVal), 'pctInt');
+          flash(probLabel);
+        }
+      }
+    }
   }
 
   if (reduced) return;
