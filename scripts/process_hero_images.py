@@ -44,17 +44,19 @@ def crop_to_figure(img: Image.Image, top_frac: float, bottom_frac: float) -> Ima
 
 
 def feather_edges(img: Image.Image) -> Image.Image:
-    """Side-only alpha feather. Top and bottom stay opaque so the figure
-    spans the full height when rendered."""
+    """Side + bottom alpha feather. Top stays opaque so the athlete's
+    head/ball lands sharply at the top edge; sides and bottom soften
+    so the photo dissolves into the page bg."""
     img = img.convert("RGBA")
     w, h = img.size
 
-    # Rectangular mask: full height, sides inset for feather
+    # Rectangular mask: full top, side inset, bottom inset
     mask = Image.new("L", (w, h), 0)
     draw = ImageDraw.Draw(mask)
     inset_x = int(w * 0.08)
-    draw.rectangle([inset_x, 0, w - inset_x, h], fill=255)
-    blur_radius = int(w * 0.06)
+    inset_bottom = int(h * 0.07)
+    draw.rectangle([inset_x, 0, w - inset_x, h - inset_bottom], fill=255)
+    blur_radius = int(min(w, h) * 0.06)
     mask = mask.filter(ImageFilter.GaussianBlur(radius=blur_radius))
 
     # Multiply existing alpha with the new feather mask

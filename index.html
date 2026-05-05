@@ -1691,6 +1691,9 @@
     filter: blur(10px);
     transition: opacity 1.0s ease-in-out, filter 1.3s ease-in-out;
     z-index: 1;
+    /* Clip any Ken Burns / cover overflow so the image bottom never
+       extends past the CTA bottom. */
+    overflow: hidden;
   }
   .hero-frame.active {
     opacity: 1;
