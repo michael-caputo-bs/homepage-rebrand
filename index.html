@@ -6,7 +6,7 @@
 <title>Betstamp — The pricing and data layer for modern sports markets.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -545,8 +545,12 @@
     margin-bottom: 12px; display: inline-block;
   }
   h2 {
-    font-size: 44px; font-weight: 800; line-height: 1.1;
-    letter-spacing: -0.025em; color: var(--navy);
+    font-family: "Anton", "Space Grotesk", "Inter", sans-serif;
+    font-size: 56px; font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--navy);
     margin-bottom: 16px;
   }
   h2 .accent { color: var(--blue); }
@@ -1504,7 +1508,7 @@
       radial-gradient(ellipse 400px 300px at 90% 100%, rgba(62,146,204,0.2), transparent);
   }
   .cta-banner h2 {
-    color: var(--white); font-size: 42px;
+    color: var(--white); font-size: 52px;
     position: relative; z-index: 1;
   }
   .cta-banner h2 .accent { color: var(--blue); }
@@ -1552,8 +1556,8 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 960px) {
-    h1 { font-size: 40px; }
-    h2 { font-size: 32px; }
+    h1 { font-size: 56px; }
+    h2 { font-size: 42px; }
     .hero-grid, .diff-block { grid-template-columns: 1fr; gap: 40px; }
     .diff-block:nth-child(even) .diff-copy { order: 0; }
     .trust-bar { grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -1618,11 +1622,12 @@
     box-shadow: 0 0 10px #67BCEC;
   }
   .corp-hero-text h1 {
-    font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
-    font-size: clamp(40px, 4.6vw, 64px);
-    font-weight: 700;
-    line-height: 1.02;
-    letter-spacing: -0.035em;
+    font-family: "Anton", "Space Grotesk", "Inter", -apple-system, sans-serif;
+    font-size: clamp(56px, 6.4vw, 96px);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: 0;
+    text-transform: uppercase;
     margin: 26px 0 24px;
     color: var(--white);
   }
@@ -1986,12 +1991,19 @@
   
   /* ---------- Typography v3: sharper enterprise ---------- */
   h1, h2, h3,
-  .corp-hero-text h1,
+  /* Display headings use Anton (bold condensed) — strong sports/editorial
+     register matching the brand's headline aesthetic. */
+  .corp-hero-text h1 {
+    font-family: "Anton", "Space Grotesk", "Inter", -apple-system, sans-serif;
+    letter-spacing: 0;
+  }
   .methodology-title,
   .pro-experience-title,
   .capped-title {
-    font-family: "Space Grotesk", "Inter", -apple-system, sans-serif;
-    letter-spacing: -0.025em;
+    font-family: "Anton", "Space Grotesk", "Inter", -apple-system, sans-serif;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    line-height: 0.96;
   }
 
   </style>
