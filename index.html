@@ -1715,18 +1715,22 @@
     pointer-events: none;
     align-self: stretch;
   }
-  /* Labels live in their own column on the right, stacked vertically */
+  /* Labels live in their own column on the right. Absolute positioning so
+     the labels stay at fixed top% values regardless of how tall the visual
+     stretches (avoids dl-3 sliding off the bottom edge of the hero). */
   .frame-labels-col {
     grid-column: 2; grid-row: 1;
     position: relative; height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 6% 0;
   }
   .hero-frame .data-label {
     pointer-events: none;
+    position: absolute;
+    left: 0;
+    right: 0;
   }
+  .hero-frame .data-label.dl-1 { top: 5%; }
+  .hero-frame .data-label.dl-2 { top: 38%; }
+  .hero-frame .data-label.dl-3 { top: 70%; }
   /* Badge stage — CONSTRAINED TO RIGHT COLUMN ONLY (no overflow into text) */
   .tl-stage {
     position: absolute;
@@ -2089,13 +2093,13 @@
             <div class="frame-image" style="background-image: url('/assets/hero-basketball.png')"></div>
             <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
               <!-- L1: ball above head -->
-              <line x1="42" y1="22" x2="82" y2="12"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="42" y1="22" x2="82" y2="10" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="42" cy="22" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L2: chest/torso center -->
-              <line x1="40" y1="55" x2="82" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="40" y1="55" x2="82" y2="52" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="40" cy="55" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L3: front knee -->
-              <line x1="38" y1="95" x2="82" y2="112" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="38" y1="95" x2="82" y2="92" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="38" cy="95" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
             <div class="frame-labels-col">
@@ -2147,13 +2151,13 @@
             <div class="frame-image" style="background-image: url('/assets/hero-football.png')"></div>
             <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
               <!-- L1: helmet -->
-              <line x1="44" y1="36" x2="82" y2="12"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="44" y1="36" x2="82" y2="10" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="44" cy="36" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L2: shoulder pad -->
-              <line x1="46" y1="62" x2="82" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="46" y1="62" x2="82" y2="52" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="46" cy="62" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L3: extended hands -->
-              <line x1="50" y1="88" x2="82" y2="112" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="50" y1="88" x2="82" y2="92" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="50" cy="88" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
             <div class="frame-labels-col">
@@ -2205,13 +2209,13 @@
             <div class="frame-image" style="background-image: url('/assets/hero-soccer.png')"></div>
             <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
               <!-- L1: head -->
-              <line x1="37" y1="36" x2="82" y2="12"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="37" y1="36" x2="82" y2="10" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="37" cy="36" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L2: extended kicking foot -->
-              <line x1="59" y1="78" x2="82" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="59" y1="78" x2="82" y2="52" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="59" cy="78" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L3: trailing knee -->
-              <line x1="26" y1="92" x2="82" y2="112" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="26" y1="92" x2="82" y2="92" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="26" cy="92" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
             <div class="frame-labels-col">
@@ -2263,13 +2267,13 @@
             <div class="frame-image" style="background-image: url('/assets/hero-boxing.png')"></div>
             <svg class="data-lines" viewBox="0 0 100 125" preserveAspectRatio="none" aria-hidden="true">
               <!-- L1: head/face -->
-              <line x1="30" y1="42" x2="82" y2="12"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="30" y1="42" x2="82" y2="10" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="30" cy="42" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L2: extended glove -->
-              <line x1="62" y1="62" x2="82" y2="62"  stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="62" y1="62" x2="82" y2="52" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="62" cy="62" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
               <!-- L3: midsection / lead glove -->
-              <line x1="34" y1="82" x2="82" y2="112" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
+              <line x1="34" y1="82" x2="82" y2="92" stroke="currentColor" stroke-width="1.1" vector-effect="non-scaling-stroke" />
               <circle cx="34" cy="82" r="1" fill="currentColor" vector-effect="non-scaling-stroke" />
             </svg>
             <div class="frame-labels-col">
