@@ -1248,6 +1248,8 @@
     border-radius: 12px; padding: 32px;
     transition: all .25s;
     position: relative; overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
   .icp-tile::before {
     content: ""; position: absolute; top: 0; left: 0; right: 0;
@@ -1257,6 +1259,16 @@
     transform: translateY(-3px);
     box-shadow: var(--shadow-blue);
   }
+  .icp-link {
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    letter-spacing: -0.005em;
+    transition: color 0.2s;
+  }
+  .icp-tile:hover .icp-link { color: var(--blue-dark); }
   .icp-badge {
     display: inline-block; font-size: 10px; font-weight: 700;
     padding: 4px 10px; border-radius: 100px;
@@ -2532,7 +2544,7 @@
   </div>
 
   <div class="corp-audience-grid">
-    <a href="#" class="icp-tile" style="text-decoration: none;">
+    <a href="/customers/pros" class="icp-tile" style="text-decoration: none;">
       <h3 class="icp-title">Pros</h3>
       <p class="icp-desc">Professional bettors and syndicates running models against the sharpest data in the market.</p>
       <div class="icp-features">
@@ -2540,8 +2552,9 @@
         <span class="icp-feature">API</span>
         <span class="icp-feature">Historical data</span>
       </div>
+      <span class="icp-link">See the pro bettor use case →</span>
     </a>
-    <a href="#" class="icp-tile" style="text-decoration: none;">
+    <a href="/customers/sportsbooks" class="icp-tile" style="text-decoration: none;">
       <h3 class="icp-title">Sportsbooks &amp; Trading Teams</h3>
       <p class="icp-desc">Hang sharper prices. Detect line moves before competitors. Tighten margins at scale.</p>
       <div class="icp-features">
@@ -2549,8 +2562,9 @@
         <span class="icp-feature">Settlement API</span>
         <span class="icp-feature">SGP Engine</span>
       </div>
+      <span class="icp-link">See the sportsbook use case →</span>
     </a>
-    <a href="#" class="icp-tile" style="text-decoration: none;">
+    <a href="/customers/market-makers" class="icp-tile" style="text-decoration: none;">
       <h3 class="icp-title">Market Makers, Exchanges &amp; Prediction Markets</h3>
       <p class="icp-desc">Sub-second pricing across every market and contract. Liquidity-aware, settlement-ready.</p>
       <div class="icp-features">
@@ -2558,8 +2572,9 @@
         <span class="icp-feature">SGP Engine</span>
         <span class="icp-feature">Custom output</span>
       </div>
+      <span class="icp-link">See the market maker use case →</span>
     </a>
-    <a href="#" class="icp-tile" style="text-decoration: none;">
+    <a href="/customers/dfs" class="icp-tile" style="text-decoration: none;">
       <h3 class="icp-title">DFS &amp; Sweepstakes Operators</h3>
       <p class="icp-desc">Deep prop coverage and unified True Line pricing for fair contests and protected hold.</p>
       <div class="icp-features">
@@ -2567,8 +2582,9 @@
         <span class="icp-feature">Pick'em ready</span>
         <span class="icp-feature">Live refresh</span>
       </div>
+      <span class="icp-link">See the DFS &amp; sweepstakes use case →</span>
     </a>
-    <a href="#" class="icp-tile" style="text-decoration: none;">
+    <a href="/customers/media" class="icp-tile" style="text-decoration: none;">
       <h3 class="icp-title">Media &amp; Affiliates</h3>
       <p class="icp-desc">Widget-ready odds across every sport, market, and book. Built for engagement, not just accuracy.</p>
       <div class="icp-features">
@@ -2576,8 +2592,9 @@
         <span class="icp-feature">Comparison tables</span>
         <span class="icp-feature">Live tickers</span>
       </div>
+      <span class="icp-link">See the media &amp; affiliate use case →</span>
     </a>
-    <a href="#" class="icp-tile" style="text-decoration: none;">
+    <a href="/customers/teams" class="icp-tile" style="text-decoration: none;">
       <h3 class="icp-title">Professional Sports Teams</h3>
       <p class="icp-desc">Front office, performance, and integrity teams using sports market data the way the pros do.</p>
       <div class="icp-features">
@@ -2585,6 +2602,7 @@
         <span class="icp-feature">In-game props</span>
         <span class="icp-feature">Audit trail</span>
       </div>
+      <span class="icp-link">See the pro sports team use case →</span>
     </a>
   </div>
 </section>
