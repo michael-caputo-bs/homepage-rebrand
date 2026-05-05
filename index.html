@@ -1730,7 +1730,10 @@
     object-fit: cover;
     object-position: center top;
     display: block;
-    /* Alpha feather is baked into the PNG — no CSS mask needed */
+    /* Top fade dissolves the hard top edge into the dark hero bg.
+       Side + bottom fades are baked into the PNG alpha already. */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, black 7%, black 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, black 7%, black 100%);
     filter: contrast(1.02) saturate(0.92);
     transform: scale(1);
     transform-origin: 50% 55%;
