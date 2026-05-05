@@ -1,10 +1,12 @@
 """
 Process hero athlete images for the corporate homepage:
-  1. Remove the "HIGGSFIELD AI" watermark by cropping the bottom band
-     (the watermark sits in the bottom-right corner; the athletes do not
-     extend that far down in any of the four photos).
-  2. Bake a feathered alpha edge into the image so it blends seamlessly
-     with the dark hero background (#07111F).
+  1. Crop each image tightly so the athlete figure starts at y=0 of the
+     output (per-sport top crop, since figures are at different vertical
+     positions in each Higgsfield generation).
+  2. Crop bottom 10% to strip the Higgsfield watermark.
+  3. Apply a side-only alpha feather (rectangular mask, sides feather,
+     top/bottom stay opaque) so the figure spans the full vertical
+     bounds when rendered.
 Outputs RGBA PNGs over the originals (in-place replacement).
 """
 
@@ -19,38 +21,40 @@ IMAGES = [
     "hero-boxing.png",
 ]
 
-# How much of the bottom of each image to crop. 10% safely removes the
-# Higgsfield watermark without clipping any athlete bodies in this set.
+# Per-image top crop — how much empty stadium / sky to remove before the
+# figure starts. Tuned per pose so the athlete's head/ball lands right at
+# the top edge of the output.
+TOP_CROPS = {
+    "hero-basketball.png": 0.16,   # ball at ~17% of original
+    "hero-football.png":   0.24,   # helmet at ~25-30%
+    "hero-soccer.png":     0.13,   # head at ~14-17%
+    "hero-boxing.png":     0.24,   # head at ~25-30%
+}
+
+# Bottom crop strips the Higgsfield watermark band.
 CROP_BOTTOM_FRAC = 0.10
 
 
-def crop_watermark(img: Image.Image) -> Image.Image:
-    """Crop the bottom band that contains the Higgsfield watermark."""
+def crop_to_figure(img: Image.Image, top_frac: float, bottom_frac: float) -> Image.Image:
+    """Crop top empty space + bottom watermark band so the figure fills bounds."""
     w, h = img.size
-    new_h = h - int(h * CROP_BOTTOM_FRAC)
-    return img.crop((0, 0, w, new_h))
+    new_top = int(h * top_frac)
+    new_bottom = h - int(h * bottom_frac)
+    return img.crop((0, new_top, w, new_bottom))
 
 
 def feather_edges(img: Image.Image) -> Image.Image:
-    """Add a radial alpha falloff so the image dissolves into the page bg.
-
-    Stronger falloff = larger transition zone = more seamless blend.
-    """
+    """Side-only alpha feather. Top and bottom stay opaque so the figure
+    spans the full height when rendered."""
     img = img.convert("RGBA")
     w, h = img.size
 
-    # Build an elliptical mask: opaque in the middle, fading to transparent at edges.
+    # Rectangular mask: full height, sides inset for feather
     mask = Image.new("L", (w, h), 0)
     draw = ImageDraw.Draw(mask)
-
-    # Tighter alpha so the figure dominates the rendered area. The opaque
-    # core covers most of the image; the blur softens the very edge so the
-    # photo still dissolves into the dark page bg without big transparent
-    # margins eating up apparent size.
-    inset_x = int(w * 0.06)
-    inset_y = int(h * 0.03)
-    draw.ellipse([inset_x, inset_y, w - inset_x, h - inset_y], fill=255)
-    blur_radius = int(min(w, h) * 0.07)
+    inset_x = int(w * 0.08)
+    draw.rectangle([inset_x, 0, w - inset_x, h], fill=255)
+    blur_radius = int(w * 0.06)
     mask = mask.filter(ImageFilter.GaussianBlur(radius=blur_radius))
 
     # Multiply existing alpha with the new feather mask
@@ -64,7 +68,8 @@ def process(path: Path) -> None:
     print(f"  Processing {path.name}...", end=" ")
     img = Image.open(path).convert("RGBA")
     before = img.size
-    img = crop_watermark(img)
+    top_frac = TOP_CROPS.get(path.name, 0.0)
+    img = crop_to_figure(img, top_frac, CROP_BOTTOM_FRAC)
     img = feather_edges(img)
     img.save(path, "PNG", optimize=True)
     print(f"done {before} -> {img.size} ({path.stat().st_size // 1024} KB)")
