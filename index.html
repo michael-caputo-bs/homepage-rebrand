@@ -1939,6 +1939,16 @@
   }
 
   /* ========================= AUDIENCE GRID ========================= */
+  /* Full-width grey band wrapping audience tiles + product portfolio.
+     Runs continuously from the dark navy stats band above all the way
+     down to the dark methodology section below. */
+  .grey-band {
+    background: var(--surface);
+    padding: 88px 0 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 88px;
+  }
   .corp-audience-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -2542,6 +2552,11 @@
   </div>
 </section>
 
+<!-- ==================== GREY BAND (Audience + Product Portfolio) ==================== -->
+<!-- Full-width grey background runs continuously from the dark navy stats band
+     above through both the audience tiles and product portfolio sections. -->
+<div class="grey-band">
+
 <!-- ==================== AUDIENCE TILES ==================== -->
 <section class="container">
   <div class="section-header">
@@ -2627,8 +2642,8 @@
 </section>
 
 <!-- ==================== PRODUCT PORTFOLIO GRID ==================== -->
-<section class="container" style="background: var(--surface);">
-  <div style="padding: 80px 0;">
+<section class="container">
+  <div>
     <div class="section-header">
       <span class="section-eyebrow">One stack. Every product.</span>
       <h2>The full Betstamp <span class="accent">data and pricing portfolio.</span></h2>
@@ -2684,6 +2699,8 @@
     </div>
   </div>
 </section>
+
+</div><!-- /.grey-band -->
 
 <!-- (Performance stats merged into the Coverage & Scale band under the hero) -->
 
