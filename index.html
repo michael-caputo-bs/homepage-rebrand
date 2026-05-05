@@ -1952,67 +1952,53 @@
     transform: translateY(-2px);
   }
   .flagship-content {
-    padding: 48px;
+    padding: 32px 36px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 14px;
-  }
-  .flagship-content .product-icon {
-    width: 48px; height: 48px;
-    background: var(--blue); color: var(--white);
-    border-color: var(--blue);
-    font-size: 20px;
-    margin-bottom: 4px;
+    gap: 10px;
   }
   .flagship-product-name {
     font-family: "Inter", sans-serif;
-    font-size: 30px; font-weight: 800;
+    font-size: 26px; font-weight: 800;
     color: var(--navy);
     letter-spacing: -0.015em;
     line-height: 1.1;
-    margin: 0 0 4px;
+    margin: 0;
     text-transform: none;
   }
   .flagship-product-desc {
-    font-size: 16px; line-height: 1.6;
+    font-size: 15px; line-height: 1.55;
     color: var(--text-body);
-    margin: 0 0 8px;
+    margin: 0;
     max-width: 460px;
   }
   .flagship-features {
-    list-style: none; padding: 0; margin: 0 0 8px;
+    list-style: none; padding: 0; margin: 4px 0 0;
     display: flex; flex-direction: column;
-    gap: 10px;
+    gap: 6px;
   }
   .flagship-feature {
-    display: flex; align-items: flex-start; gap: 10px;
-    font-size: 14px; color: var(--text-body);
-    line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 13.5px; color: var(--text-body);
+    line-height: 1.45;
   }
   .flagship-feature::before {
     content: "";
     flex-shrink: 0;
-    width: 18px; height: 18px; border-radius: 4px;
-    background: var(--blue-palest);
-    border: 1px solid var(--blue-pale);
-    background-image:
-      linear-gradient(45deg, transparent 35%, var(--blue) 35%, var(--blue) 50%, transparent 50%),
-      linear-gradient(135deg, transparent 50%, var(--blue) 50%, var(--blue) 65%, transparent 65%);
-    background-size: 12px 12px;
-    background-position: 3px 4px;
-    background-repeat: no-repeat;
-    margin-top: 1px;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue);
+    margin-top: 8px;
   }
   .flagship-ctas {
-    display: flex; gap: 12px; margin-top: 10px;
+    display: flex; gap: 10px; margin-top: 8px;
     flex-wrap: wrap;
   }
   .flagship-image {
     background: var(--surface);
     border-left: 1px solid var(--divider);
     display: flex; align-items: center; justify-content: center;
-    min-height: 380px;
+    min-height: 240px;
     position: relative;
     overflow: hidden;
   }
@@ -2101,11 +2087,11 @@
     .flagship-product-card { grid-template-columns: 1fr; }
     .flagship-image {
       order: -1;
-      min-height: 300px;
+      min-height: 240px;
       border-left: none;
       border-bottom: 1px solid var(--divider);
     }
-    .flagship-content { padding: 36px; }
+    .flagship-content { padding: 28px 28px 32px; }
 
     /* 4-card row → 2 cols */
     .product-row-4 { grid-template-columns: repeat(2, 1fr); }
@@ -2113,7 +2099,7 @@
   @media (max-width: 640px) {
     /* 4-card row → 1 col */
     .product-row-4 { grid-template-columns: 1fr; }
-    .flagship-content { padding: 28px; }
+    .flagship-content { padding: 24px; }
     .coverage-stats-band { padding: 64px 0 72px; }
   }
 
@@ -2617,7 +2603,6 @@
       <!-- FLAGSHIP — full-width horizontal card with screenshot -->
       <article class="flagship-product-card">
         <div class="flagship-content">
-          <div class="product-icon">▲</div>
           <h3 class="flagship-product-name">PRO Odds Screen</h3>
           <p class="flagship-product-desc">The odds screen built for sharp bettors and syndicates. True Line on every market, sub-second refresh, the deepest prop screen in the industry.</p>
           <ul class="flagship-features">
@@ -2638,25 +2623,21 @@
       <!-- 4-CARD ROW — equal cards, no flagship treatment -->
       <div class="product-row-4">
         <a href="#" class="product-card">
-          <div class="product-icon">◈</div>
           <div class="product-name">Sportsbook Pricing Feed</div>
           <p class="product-desc">Power your book with proprietary True Line pricing across every market. Liquidity-aware, settlement-ready, built for live trading.</p>
           <span class="product-link">Learn more →</span>
         </a>
         <a href="#" class="product-card">
-          <div class="product-icon">▣</div>
           <div class="product-name">Sports Betting API</div>
           <p class="product-desc">Drop our True Line directly into your workflow. REST + streaming, JSON-clean, full bet coverage from main lines to player props.</p>
           <span class="product-link">Learn more →</span>
         </a>
         <a href="#" class="product-card">
-          <div class="product-icon">◉</div>
           <div class="product-name">Prediction Markets API</div>
           <p class="product-desc">Liquidity-aware fair value for exchanges and prediction markets. Sub-second pricing across every contract, calibrated to closing.</p>
           <span class="product-link">Learn more →</span>
         </a>
         <a href="/sgp" class="product-card">
-          <div class="product-icon">⚡</div>
           <div class="product-name">SGP Pricing Engine</div>
           <p class="product-desc">Same-game parlay fair value with multi-leg correlation modeling. Generates millions of correlated combinations with no manual adjustment required.</p>
           <span class="product-link">Learn more →</span>
