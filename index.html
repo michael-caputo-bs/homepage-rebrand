@@ -1995,12 +1995,19 @@
 
   
   /* ---------- Typography v3: sharper enterprise ---------- */
-  h1, h2, h3,
-  /* Display headings use Anton (bold condensed) — strong sports/editorial
-     register matching the brand's headline aesthetic. */
+  /* Display headlines use Anton (bold condensed all-caps) — strong sports/
+     editorial register. h3 deliberately stays in Inter because Anton's
+     condensed letterforms get squished and unreadable in the mixed-case
+     subheading sizes used by .methodology-card-title, .icp-title, etc. */
+  h1, h2,
   .corp-hero-text h1 {
     font-family: "Anton", "Space Grotesk", "Inter", -apple-system, sans-serif;
     letter-spacing: 0;
+  }
+  h3 {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.005em;
+    text-transform: none;
   }
   .methodology-title,
   .pro-experience-title,
