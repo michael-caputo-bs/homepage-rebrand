@@ -1592,7 +1592,11 @@
   .corp-hero .container { position: relative; z-index: 5; }
   .corp-hero-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Right column is wider than left so the hero photo can render bigger
+       without squeezing the labels. Headline naturally wraps to one extra
+       line in the narrower text column, which also helps both columns
+       align in height. */
+    grid-template-columns: 1fr 1.3fr;
     gap: 64px;
     align-items: stretch;
   }
@@ -1653,7 +1657,7 @@
   .corp-hero-visual {
     position: relative;
     width: 100%;
-    min-height: 600px;
+    min-height: 700px;
     align-self: stretch;
     z-index: 4;
   }

@@ -43,12 +43,14 @@ def feather_edges(img: Image.Image) -> Image.Image:
     mask = Image.new("L", (w, h), 0)
     draw = ImageDraw.Draw(mask)
 
-    # Smaller solid-opaque core (~60% of canvas) + heavier blur = longer falloff
-    # so the image dissolves further into the dark page bg.
-    inset_x = int(w * 0.16)
-    inset_y = int(h * 0.10)
+    # Tighter alpha so the figure dominates the rendered area. The opaque
+    # core covers most of the image; the blur softens the very edge so the
+    # photo still dissolves into the dark page bg without big transparent
+    # margins eating up apparent size.
+    inset_x = int(w * 0.06)
+    inset_y = int(h * 0.03)
     draw.ellipse([inset_x, inset_y, w - inset_x, h - inset_y], fill=255)
-    blur_radius = int(min(w, h) * 0.13)
+    blur_radius = int(min(w, h) * 0.07)
     mask = mask.filter(ImageFilter.GaussianBlur(radius=blur_radius))
 
     # Multiply existing alpha with the new feather mask
