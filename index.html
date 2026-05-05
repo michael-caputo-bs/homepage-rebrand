@@ -1838,29 +1838,88 @@
   }
 
   /* Coverage trust bar */
-  .coverage-bar {
-    background: var(--surface);
-    padding: 48px 0;
-    border-top: 1px solid var(--divider);
-    border-bottom: 1px solid var(--divider);
+  /* ================== COVERAGE & SCALE STATS BAND ================== */
+  /* Combined league coverage + infrastructure proof. Sits directly under
+     the hero on dark navy. Six tiles in one bordered card. */
+  .coverage-stats-band {
+    background: var(--navy);
+    padding: 88px 0 96px;
+    color: var(--white);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
   }
-  .coverage-label {
+  .coverage-stats-band::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 900px 500px at 80% 30%, rgba(62,146,204,0.10), transparent 65%),
+      radial-gradient(ellipse 600px 300px at 10% 90%, rgba(238,119,34,0.05), transparent 60%);
+    pointer-events: none; z-index: -1;
+  }
+  .coverage-stats-header {
     text-align: center;
-    font-size: 11px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.16em;
-    font-weight: 700; margin-bottom: 28px;
+    max-width: 760px;
+    margin: 0 auto 56px;
   }
-  .coverage-row {
-    display: flex; flex-wrap: wrap; align-items: center;
-    justify-content: center; gap: 56px;
+  .coverage-stats-eyebrow {
+    font-family: "Inter", sans-serif;
+    font-size: 12px; font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.20em;
+    color: var(--blue);
+    margin-bottom: 18px;
+    display: inline-block;
   }
-  .coverage-row span {
-    font-size: 22px; font-weight: 800;
-    color: var(--navy); letter-spacing: -0.02em;
-    opacity: 0.7;
+  .coverage-stats-headline {
+    font-family: "Anton", "Inter", sans-serif;
+    font-size: clamp(36px, 4.2vw, 60px);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.96;
+    letter-spacing: 0;
+    color: var(--white);
+    margin: 0 0 18px;
+  }
+  .coverage-stats-sub {
+    font-size: 17px; line-height: 1.6;
+    color: rgba(255,255,255,0.65);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .coverage-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 1180px; margin: 0 auto;
+    border: 1px solid rgba(62,146,204,0.30);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.025);
+  }
+  .coverage-stat {
+    padding: 36px 18px;
+    text-align: center;
+    border-right: 1px solid rgba(62,146,204,0.18);
+  }
+  .coverage-stat:last-child { border-right: none; }
+  .coverage-stat-num {
+    font-family: "Anton", "Inter", sans-serif;
+    font-size: clamp(34px, 3vw, 48px);
+    font-weight: 400;
+    color: var(--blue);
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .coverage-stat-lbl {
+    font-family: "Inter", sans-serif;
+    font-size: 11px; font-weight: 700;
+    color: rgba(255,255,255,0.62);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
   }
 
-  /* Corporate audience grid (6 tiles) */
+  /* ========================= AUDIENCE GRID ========================= */
   .corp-audience-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1868,63 +1927,126 @@
   }
   .corp-audience-grid .icp-tile { padding: 28px; }
 
-  /* Corporate product grid */
-  .corp-product-grid {
+  /* ====================== PRODUCT PORTFOLIO ======================== */
+  /* TOP: full-width flagship card with screenshot
+     BOTTOM: 4 equal product cards in a single row */
+  .product-portfolio {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Flagship horizontal card */
+  .flagship-product-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--bg);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .flagship-product-card:hover {
+    border-color: var(--blue-pale);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .flagship-content {
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+  }
+  .flagship-content .product-icon {
+    width: 48px; height: 48px;
+    background: var(--blue); color: var(--white);
+    border-color: var(--blue);
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .flagship-product-name {
+    font-family: "Inter", sans-serif;
+    font-size: 30px; font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0 0 4px;
+    text-transform: none;
+  }
+  .flagship-product-desc {
+    font-size: 16px; line-height: 1.6;
+    color: var(--text-body);
+    margin: 0 0 8px;
+    max-width: 460px;
+  }
+  .flagship-features {
+    list-style: none; padding: 0; margin: 0 0 8px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .flagship-feature {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px; color: var(--text-body);
+    line-height: 1.5;
+  }
+  .flagship-feature::before {
+    content: "";
+    flex-shrink: 0;
+    width: 18px; height: 18px; border-radius: 4px;
+    background: var(--blue-palest);
+    border: 1px solid var(--blue-pale);
+    background-image:
+      linear-gradient(45deg, transparent 35%, var(--blue) 35%, var(--blue) 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, var(--blue) 50%, var(--blue) 65%, transparent 65%);
+    background-size: 12px 12px;
+    background-position: 3px 4px;
+    background-repeat: no-repeat;
+    margin-top: 1px;
+  }
+  .flagship-ctas {
+    display: flex; gap: 12px; margin-top: 10px;
+    flex-wrap: wrap;
+  }
+  .flagship-image {
+    background: var(--surface);
+    border-left: 1px solid var(--divider);
+    display: flex; align-items: center; justify-content: center;
+    min-height: 380px;
+    position: relative;
+    overflow: hidden;
+  }
+  .flagship-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* 4-card row */
+  .product-row-4 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
   }
-  .corp-product-grid .product-card.featured {
-    grid-column: span 2; grid-row: span 2;
-    background: linear-gradient(135deg, var(--blue-palest), var(--bg));
-    border: 2px solid var(--blue);
-    padding: 32px;
-    position: relative;
+  .product-row-4 .product-card {
+    display: flex; flex-direction: column;
+    gap: 10px;
+    padding: 28px 24px;
+    text-decoration: none;
   }
-  .corp-product-grid .product-card.featured .product-name {
-    font-size: 22px; margin-bottom: 10px;
+  .product-row-4 .product-card .product-name {
+    font-size: 17px;
   }
-  .corp-product-grid .product-card.featured .product-desc {
-    font-size: 14px; line-height: 1.6;
+  .product-row-4 .product-card .product-desc {
+    font-size: 13px; line-height: 1.55;
+    flex: 1;
   }
-  .corp-product-grid .product-card.featured .product-icon {
-    width: 48px; height: 48px; font-size: 20px;
-    background: var(--blue); color: var(--white);
-    border-color: var(--blue);
-  }
-  .featured-flag {
-    position: absolute; top: -12px; left: 24px;
-    background: var(--blue); color: var(--white);
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    padding: 5px 12px; border-radius: 100px;
-    box-shadow: 0 4px 12px rgba(62,146,204,0.35);
-  }
-
-  /* Stats strip */
-  .corp-stats-strip {
-    background: var(--bg); padding: 80px 0;
-  }
-  .corp-stats-grid {
-    display: grid; grid-template-columns: repeat(5, 1fr);
-    gap: 0; max-width: 1100px; margin: 0 auto;
-    border: 1px solid var(--divider); border-radius: 14px;
-    overflow: hidden;
-  }
-  .corp-stat {
-    padding: 28px 16px; text-align: center;
-    border-right: 1px solid var(--divider);
-  }
-  .corp-stat:last-child { border-right: none; }
-  .corp-stat-num {
-    font-size: 38px; font-weight: 800;
-    color: var(--blue-deep); letter-spacing: -0.02em;
-    line-height: 1;
-  }
-  .corp-stat-lbl {
-    font-size: 10px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.14em;
-    font-weight: 700; margin-top: 12px;
+  .product-row-4 .product-link {
+    margin-top: 6px;
+    font-size: 13px; font-weight: 600;
+    color: var(--blue);
+    letter-spacing: -0.005em;
   }
 
   /* Customer quote cards */
@@ -1957,15 +2079,42 @@
     font-size: 12px; color: var(--muted); margin-top: 2px;
   }
 
-  /* Responsive */
+  /* Responsive — coverage stats + product portfolio */
+  @media (max-width: 1100px) {
+    .coverage-stats-grid { grid-template-columns: repeat(3, 1fr); }
+    .coverage-stat:nth-child(3n) { border-right: none; }
+    .coverage-stat:nth-child(-n+3) { border-bottom: 1px solid rgba(62,146,204,0.18); }
+  }
   @media (max-width: 960px) {
     .corp-hero-grid { grid-template-columns: 1fr; }
     .corp-audience-grid { grid-template-columns: repeat(2, 1fr); }
-    .corp-product-grid { grid-template-columns: repeat(2, 1fr); }
-    .corp-product-grid .product-card.featured { grid-column: span 2; grid-row: auto; }
-    .corp-stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .corp-stat:nth-child(2n) { border-right: none; }
     .corp-quotes-grid { grid-template-columns: 1fr; }
+
+    /* Stats: 3 cols → 2 cols */
+    .coverage-stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .coverage-stat { border-right: 1px solid rgba(62,146,204,0.18); }
+    .coverage-stat:nth-child(2n) { border-right: none; }
+    .coverage-stat:nth-child(-n+4) { border-bottom: 1px solid rgba(62,146,204,0.18); }
+    .coverage-stat:nth-child(n+5) { border-bottom: none; }
+
+    /* Flagship card stacks vertically — image on top, content below */
+    .flagship-product-card { grid-template-columns: 1fr; }
+    .flagship-image {
+      order: -1;
+      min-height: 300px;
+      border-left: none;
+      border-bottom: 1px solid var(--divider);
+    }
+    .flagship-content { padding: 36px; }
+
+    /* 4-card row → 2 cols */
+    .product-row-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    /* 4-card row → 1 col */
+    .product-row-4 { grid-template-columns: 1fr; }
+    .flagship-content { padding: 28px; }
+    .coverage-stats-band { padding: 64px 0 72px; }
   }
 
   
@@ -2350,22 +2499,43 @@
   </div>
 </section>
 
-<!-- ==================== COVERAGE TRUST BAR ==================== -->
-<div class="coverage-bar">
+<!-- ==================== COVERAGE & SCALE STATS BAND ==================== -->
+<!-- Combined league coverage + infrastructure proof — one band, six tiles -->
+<section class="coverage-stats-band">
   <div class="container">
-    <div class="coverage-label">True Line coverage across the sports the industry trades on</div>
-    <div class="coverage-row">
-      <span>NFL</span>
-      <span>NBA</span>
-      <span>MLB</span>
-      <span>NHL</span>
-      <span style="font-style: italic;">Premier League</span>
-      <span>NCAA</span>
-      <span>UFC</span>
-      <span>PGA</span>
+    <div class="coverage-stats-header">
+      <span class="coverage-stats-eyebrow">Coverage &amp; Scale</span>
+      <h2 class="coverage-stats-headline">Pricing the full market at operator-grade speed.</h2>
+      <p class="coverage-stats-sub">True Line pricing across every league the industry trades — backed by sub-second infrastructure proven against 200+ books.</p>
+    </div>
+    <div class="coverage-stats-grid">
+      <div class="coverage-stat">
+        <div class="coverage-stat-num">300+</div>
+        <div class="coverage-stat-lbl">Leagues Priced</div>
+      </div>
+      <div class="coverage-stat">
+        <div class="coverage-stat-num">2,500+</div>
+        <div class="coverage-stat-lbl">Markets</div>
+      </div>
+      <div class="coverage-stat">
+        <div class="coverage-stat-num">200+</div>
+        <div class="coverage-stat-lbl">Books Normalized</div>
+      </div>
+      <div class="coverage-stat">
+        <div class="coverage-stat-num">400ms</div>
+        <div class="coverage-stat-lbl">Median Refresh</div>
+      </div>
+      <div class="coverage-stat">
+        <div class="coverage-stat-num">99.99%</div>
+        <div class="coverage-stat-lbl">Uptime SLA</div>
+      </div>
+      <div class="coverage-stat">
+        <div class="coverage-stat-num">5+</div>
+        <div class="coverage-stat-lbl">Seasons Backtested</div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ==================== AUDIENCE TILES ==================== -->
 <section class="container">
@@ -2442,78 +2612,62 @@
       <p class="section-sub">PRO Odds Screen anchors the suite. Every other product extends what True Line pricing can do for your operation.</p>
     </div>
 
-    <div class="corp-product-grid">
-      <a href="/pro" class="product-card featured" style="text-decoration: none;">
-        <div class="featured-flag">Flagship</div>
-        <div class="product-icon">▲</div>
-        <div class="product-name">PRO Odds Screen</div>
-        <div class="product-desc">The flagship odds screen built for sharp bettors and syndicates. True Line on every market, sub-second refresh, the deepest prop screen in the industry.</div>
-      </a>
-      <a href="/sgp" class="product-card" style="text-decoration: none;">
-        <div class="product-icon">⚡</div>
-        <div class="product-name">SGP Pricing Engine</div>
-        <div class="product-desc">Same-game parlay fair value with multi-leg correlation modeling.</div>
-      </a>
-      <a href="#" class="product-card" style="text-decoration: none;">
-        <div class="product-icon">◈</div>
-        <div class="product-name">Sportsbook Pricing Feed</div>
-        <div class="product-desc">Power your book with proprietary True Line pricing across every market.</div>
-      </a>
-      <a href="#" class="product-card" style="text-decoration: none;">
-        <div class="product-icon">▣</div>
-        <div class="product-name">Sports Betting API</div>
-        <div class="product-desc">Drop our True Line into your workflow. REST + streaming.</div>
-      </a>
-      <a href="#" class="product-card" style="text-decoration: none;">
-        <div class="product-icon">◉</div>
-        <div class="product-name">Prediction Markets API</div>
-        <div class="product-desc">Liquidity-aware fair value for exchanges and prediction markets.</div>
-      </a>
-      <a href="#" class="product-card" style="text-decoration: none;">
-        <div class="product-icon">▦</div>
-        <div class="product-name">Sports Betting Widgets</div>
-        <div class="product-desc">Embed odds, props, and edge alerts directly in your product.</div>
-      </a>
-      <a href="#" class="product-card" style="text-decoration: none;">
-        <div class="product-icon">∞</div>
-        <div class="product-name">Bet Tracking</div>
-        <div class="product-desc">CLV-grade tracking for the pros who need to prove the edge.</div>
-      </a>
+    <div class="product-portfolio">
+
+      <!-- FLAGSHIP — full-width horizontal card with screenshot -->
+      <article class="flagship-product-card">
+        <div class="flagship-content">
+          <div class="product-icon">▲</div>
+          <h3 class="flagship-product-name">PRO Odds Screen</h3>
+          <p class="flagship-product-desc">The odds screen built for sharp bettors and syndicates. True Line on every market, sub-second refresh, the deepest prop screen in the industry.</p>
+          <ul class="flagship-features">
+            <li class="flagship-feature">True Line pricing on every market and prop type</li>
+            <li class="flagship-feature">Sub-second refresh across 300+ leagues</li>
+            <li class="flagship-feature">Side-by-side comparison against 200+ sportsbooks</li>
+          </ul>
+          <div class="flagship-ctas">
+            <a href="/pro" class="btn btn-primary">See PRO Odds Screen →</a>
+            <a href="#contact" class="btn btn-ghost">Talk to Sales</a>
+          </div>
+        </div>
+        <div class="flagship-image" aria-hidden="true">
+          <img src="/assets/betstamp-odds-screen.png" alt="PRO Odds Screen interface" loading="lazy" />
+        </div>
+      </article>
+
+      <!-- 4-CARD ROW — equal cards, no flagship treatment -->
+      <div class="product-row-4">
+        <a href="#" class="product-card">
+          <div class="product-icon">◈</div>
+          <div class="product-name">Sportsbook Pricing Feed</div>
+          <p class="product-desc">Power your book with proprietary True Line pricing across every market. Liquidity-aware, settlement-ready, built for live trading.</p>
+          <span class="product-link">Learn more →</span>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-icon">▣</div>
+          <div class="product-name">Sports Betting API</div>
+          <p class="product-desc">Drop our True Line directly into your workflow. REST + streaming, JSON-clean, full bet coverage from main lines to player props.</p>
+          <span class="product-link">Learn more →</span>
+        </a>
+        <a href="#" class="product-card">
+          <div class="product-icon">◉</div>
+          <div class="product-name">Prediction Markets API</div>
+          <p class="product-desc">Liquidity-aware fair value for exchanges and prediction markets. Sub-second pricing across every contract, calibrated to closing.</p>
+          <span class="product-link">Learn more →</span>
+        </a>
+        <a href="/sgp" class="product-card">
+          <div class="product-icon">⚡</div>
+          <div class="product-name">SGP Pricing Engine</div>
+          <p class="product-desc">Same-game parlay fair value with multi-leg correlation modeling. Generates millions of correlated combinations with no manual adjustment required.</p>
+          <span class="product-link">Learn more →</span>
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ==================== PERFORMANCE STATS STRIP ==================== -->
-<div class="corp-stats-strip">
-  <div class="container">
-    <div class="section-header" style="margin-bottom: 48px;">
-      <span class="section-eyebrow">Operator-grade infrastructure</span>
-      <h2>Built for the volume <span class="accent">your business runs at.</span></h2>
-    </div>
-    <div class="corp-stats-grid">
-      <div class="corp-stat">
-        <div class="corp-stat-num">200+</div>
-        <div class="corp-stat-lbl">Sportsbooks priced</div>
-      </div>
-      <div class="corp-stat">
-        <div class="corp-stat-num">400ms</div>
-        <div class="corp-stat-lbl">Median refresh</div>
-      </div>
-      <div class="corp-stat">
-        <div class="corp-stat-num">99.99%</div>
-        <div class="corp-stat-lbl">Uptime SLA</div>
-      </div>
-      <div class="corp-stat">
-        <div class="corp-stat-num">5+</div>
-        <div class="corp-stat-lbl">Seasons of data</div>
-      </div>
-      <div class="corp-stat">
-        <div class="corp-stat-num">[X]+</div>
-        <div class="corp-stat-lbl">Leagues priced</div>
-      </div>
-    </div>
-  </div>
-</div>
+<!-- (Performance stats merged into the Coverage & Scale band under the hero) -->
 
 <!-- ==================== TRUE LINE METHODOLOGY (DARK) ==================== -->
 <section class="methodology-section" aria-labelledby="corp-methodology-title">
