@@ -248,10 +248,29 @@
     color: var(--muted);
     letter-spacing: 0.02em;
   }
-  .pro-hero-shot-card img {
-    width: 100%;
+  /* Visible viewport for the screenshot — explicit height crops the
+     bottom rows, and the image is rendered ~135% wide so it crops
+     the right side too. Net effect: fewer rows + fewer feeds visible,
+     so the True Line column and primary feeds render at a much larger
+     readable size in the hero. */
+  .pro-hero-shot-viewport {
+    height: clamp(380px, 36vw, 560px);
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+  }
+  .pro-hero-shot-viewport img {
+    width: 135%;
+    max-width: none;
     height: auto;
     display: block;
+    /* Pulled slightly left so the True Line column is well inside the
+       crop, not right at the edge. */
+    margin-left: -2%;
+  }
+  @media (max-width: 760px) {
+    .pro-hero-shot-viewport { height: clamp(220px, 56vw, 360px); }
+    .pro-hero-shot-viewport img { width: 145%; }
   }
   /* The screenshot bleeds visually past the page through a soft
      bottom fade into the page background. Keeps the card crisp at
@@ -1675,15 +1694,17 @@
         <span class="window-dot"></span>
         <span class="window-dot"></span>
         <span class="window-dot"></span>
-        <div class="window-url">app.betstamp.com/odds</div>
+        <div class="window-url">pro.betstamp.com</div>
       </div>
-      <img
-        src="assets/betstamp-odds-screen.png"
-        alt="Betstamp Pro odds screen — NBA props with True Line highlighted"
-        width="1909"
-        height="943"
-        loading="eager"
-      />
+      <div class="pro-hero-shot-viewport">
+        <img
+          src="assets/betstamp-odds-screen.png"
+          alt="Betstamp Pro odds screen — NBA props with True Line highlighted"
+          width="1909"
+          height="943"
+          loading="eager"
+        />
+      </div>
     </div>
   </div>
 </section>
