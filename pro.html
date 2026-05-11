@@ -248,23 +248,15 @@
     color: var(--muted);
     letter-spacing: 0.02em;
   }
-  /* Visible viewport for the screenshot. The new image is 3:1 native
-     (1904×635) so it's already short — no height clamp needed. A mild
-     112% width zoom crops 1-2 feeds off the right and makes the True
-     Line column + primary books read larger. */
+  /* Visible viewport for the screenshot — full image, no cropping. */
   .pro-hero-shot-viewport {
-    overflow: hidden;
     position: relative;
     background: var(--bg);
   }
   .pro-hero-shot-viewport img {
-    width: 112%;
-    max-width: none;
+    width: 100%;
     height: auto;
     display: block;
-  }
-  @media (max-width: 760px) {
-    .pro-hero-shot-viewport img { width: 125%; }
   }
   /* The screenshot bleeds visually past the page through a soft
      bottom fade into the page background. Keeps the card crisp at
