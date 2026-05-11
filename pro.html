@@ -172,99 +172,93 @@
     position: relative;
   }
 
-  /* ---------- TILT HERO (3D perspective dashboard image) ---------- */
-  .tilt-hero {
+  /* ---------- HERO (static, high-quality screenshot, no tilt) ---------- */
+  .pro-hero {
     position: relative;
     overflow: hidden;
     background:
       radial-gradient(ellipse 900px 500px at 85% 0%, rgba(62,146,204,0.08), transparent 60%),
       radial-gradient(ellipse 600px 400px at 0% 100%, rgba(238,119,34,0.04), transparent 60%),
       var(--bg);
-    padding: 96px 0 0;
+    padding: 80px 0 0;
   }
-  .tilt-hero-text {
+  .pro-hero-text {
     text-align: center;
-    max-width: 760px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 32px 64px;
+    padding: 0 32px 56px;
     position: relative;
     z-index: 3;
   }
-  .tilt-hero-text h1 {
-    margin: 0 0 18px;
+  /* Restore the smaller, denser h1 from the original zoom-hero so the
+     layout matches what was there before (Anton is still inherited
+     from the global h2/h1 family, just sized down). */
+  .pro-hero-text h1 {
+    font-size: clamp(32px, 4.2vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 14px;
   }
-  .tilt-hero-text h1 .nowrap { white-space: nowrap; }
+  .pro-hero-text h1 .nowrap { white-space: nowrap; }
   @media (max-width: 760px) {
-    .tilt-hero-text h1 .nowrap { white-space: normal; }
+    .pro-hero-text h1 .nowrap { white-space: normal; }
   }
-  .tilt-hero-text .hero-sub {
-    font-size: 16px;
-    max-width: 580px;
-    margin: 0 auto 28px;
+  .pro-hero-text .hero-sub {
+    font-size: 15px;
+    max-width: 560px;
+    margin: 0 auto 20px;
   }
-  .tilt-hero-text .hero-ctas { justify-content: center; }
-
-  /* Mask layers + perspective container — fades image to bottom + right */
-  .tilt-mask-bottom {
+  .pro-hero-text .hero-ctas {
+    justify-content: center;
+    margin-bottom: 0;
+  }
+  /* Screenshot card — clean rounded card, soft shadow, no tilt or fade.
+     Capped at slightly under the image's native width (1909px) so it
+     never upscales and stays crisp. */
+  .pro-hero-shot {
+    max-width: 1180px;
     margin: 0 auto;
-    max-width: 1280px;
-    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    padding: 0 32px;
   }
-  .tilt-mask-right {
-    perspective: 1200px;
-    -webkit-mask-image: linear-gradient(to right, black 55%, transparent 100%);
-    mask-image: linear-gradient(to right, black 55%, transparent 100%);
-    margin-right: -64px;
-    padding-left: 64px;
-  }
-  @media (min-width: 1024px) {
-    .tilt-mask-right {
-      margin-right: -224px;
-      padding-left: 224px;
-    }
-  }
-  .tilt-perspective {
-    transform: rotateX(20deg);
-  }
-  .tilt-skew {
+  .pro-hero-shot-card {
     position: relative;
-    transform: skewX(.36rad);
-    height: clamp(360px, 50vw, 704px);
-  }
-  .tilt-skew img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top left;
-    border-radius: 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--bg);
     border: 1px solid var(--divider);
     box-shadow:
-      0 30px 60px rgba(10,23,41,0.18),
-      0 0 0 1px rgba(62,146,204,0.10);
-    position: relative;
-    z-index: 2;
+      0 40px 80px -20px rgba(10,23,41,0.28),
+      0 0 0 1px rgba(62,146,204,0.10),
+      0 0 60px rgba(62,146,204,0.10);
+  }
+  .pro-hero-shot-chrome {
+    background: var(--surface);
+    border-bottom: 1px solid var(--divider);
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+    height: 38px;
+  }
+  .pro-hero-shot-chrome .window-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    background: var(--divider-strong);
+  }
+  .pro-hero-shot-chrome .window-url {
+    margin-left: 12px;
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .pro-hero-shot-card img {
+    width: 100%;
+    height: auto;
     display: block;
   }
-
-  @media (max-width: 760px) {
-    /* On small screens drop the tilt — just show the image straight */
-    .tilt-mask-right {
-      perspective: none;
-      margin-right: 0; padding-left: 0;
-      -webkit-mask-image: none;
-      mask-image: none;
-    }
-    .tilt-mask-bottom { -webkit-mask-image: none; mask-image: none; }
-    .tilt-perspective { transform: none; }
-    .tilt-skew { transform: none; height: auto; }
-    .tilt-skew img { height: auto; aspect-ratio: 16 / 10; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .tilt-perspective, .tilt-skew { transform: none; }
-    .tilt-skew { height: auto; }
-    .tilt-skew img { height: auto; aspect-ratio: 16 / 10; }
+  /* The screenshot bleeds visually past the page through a soft
+     bottom fade into the page background. Keeps the card crisp at
+     full resolution. */
+  .pro-hero-shot::after {
+    content: ""; display: block;
+    height: 64px;
   }
 
   /* ---------- HERO (legacy — kept for CSS reuse) ---------- */
@@ -1661,9 +1655,9 @@
 
 <!-- ==================== BLUE HERO WRAP ==================== -->
 <div class="hero-wrap">
-<!-- ==================== TILT HERO ==================== -->
-<section class="tilt-hero">
-  <div class="tilt-hero-text">
+<!-- ==================== PRO HERO ==================== -->
+<section class="pro-hero">
+  <div class="pro-hero-text">
     <h1>You already win.<br><span class="nowrap">Here's the odds screen to <span class="accent">scale it.</span></span></h1>
     <p class="hero-sub">
       Proprietary True Line pricing. The deepest prop coverage in the industry. Real-time edge detection across 200+ books. Built by bettors who needed it themselves.
@@ -1674,17 +1668,22 @@
     </div>
   </div>
 
-  <!-- 3D-tilted dashboard image with mask gradients fading to bottom + right -->
-  <div class="tilt-mask-bottom">
-    <div class="tilt-mask-right">
-      <div class="tilt-perspective">
-        <div class="tilt-skew">
-          <img
-            src="assets/betstamp-odds-screen.png"
-            alt="Betstamp Pro odds screen — NBA props with True Line highlighted"
-          />
-        </div>
+  <!-- Clean screenshot card: native-resolution image, browser chrome, no tilt -->
+  <div class="pro-hero-shot">
+    <div class="pro-hero-shot-card">
+      <div class="pro-hero-shot-chrome">
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <span class="window-dot"></span>
+        <div class="window-url">app.betstamp.com/odds</div>
       </div>
+      <img
+        src="assets/betstamp-odds-screen.png"
+        alt="Betstamp Pro odds screen — NBA props with True Line highlighted"
+        width="1909"
+        height="943"
+        loading="eager"
+      />
     </div>
   </div>
 </section>
