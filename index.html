@@ -1723,11 +1723,10 @@
   .frame-image {
     grid-column: 1; grid-row: 1;
     width: 100%; height: 100%;
-    /* object-fit: cover guarantees the photo fills the cell from
-       edge to edge regardless of aspect mismatch. With center top,
-       the figure's head/ball stays visible at the top — any crop
-       is taken from the bottom (legs/feet) on extra-tall cells. */
-    object-fit: cover;
+    /* object-fit: contain shows the full original image at its native
+       aspect ratio — no cropping. Image is centered horizontally and
+       top-aligned vertically inside the cell. */
+    object-fit: contain;
     object-position: center top;
     display: block;
     /* Top fade dissolves the hard top edge into the dark hero bg.
