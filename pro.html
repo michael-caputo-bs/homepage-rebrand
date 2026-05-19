@@ -525,6 +525,14 @@
     letter-spacing: 0.01em;
     box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     font-size: 22px;
+    overflow: hidden;
+    background: var(--white);
+  }
+  .logo-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
   .logo-tile-sub {
     font-size: 9px; font-weight: 700;
@@ -1771,88 +1779,88 @@
   <div class="logo-marquee-track">
     <div class="logo-marquee-inner">
       <!-- Set 1: full priority list from betstamp.com BooksWeSupport -->
-      <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
-      <div class="logo-tile" style="background:#1A1A1A;color:#F39C12;">BMK<span class="logo-tile-sub" style="color:#F39C12;">Bookmaker</span></div>
-      <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
-      <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
-      <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
-      <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
-      <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
-      <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
-      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
-      <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
-      <div class="logo-tile" style="background:#00A826;">BW<span class="logo-tile-sub">Betway</span></div>
-      <div class="logo-tile" style="background:#1B2B4A;">3ET</div>
-      <div class="logo-tile" style="background:#E10000;">PB<span class="logo-tile-sub">PointsBet</span></div>
-      <div class="logo-tile" style="background:#DC1414;">TSB<span class="logo-tile-sub">theScore</span></div>
-      <div class="logo-tile" style="background:#1F3A60;">NS<span class="logo-tile-sub">NorthStar</span></div>
-      <div class="logo-tile" style="background:#C8102E;">PL+<span class="logo-tile-sub">Proline</span></div>
-      <div class="logo-tile" style="background:#1B3556;">SI<span class="logo-tile-sub">Interaction</span></div>
-      <div class="logo-tile" style="background:#CC0000;color:#FFD23F;">LEO<span class="logo-tile-sub" style="color:#FFD23F;">LeoVegas</span></div>
-      <div class="logo-tile" style="background:#FF6600;">BTO<span class="logo-tile-sub">Betano</span></div>
-      <div class="logo-tile" style="background:#F1C400;color:#222;">bwin</div>
-      <div class="logo-tile" style="background:#FF5C00;">PP<span class="logo-tile-sub">PrizePicks</span></div>
-      <div class="logo-tile" style="background:#7C3AED;">CSM<span class="logo-tile-sub">Casumo</span></div>
-      <div class="logo-tile" style="background:#142844;">99<span class="logo-tile-sub">Bet99</span></div>
-      <div class="logo-tile" style="background:#024A2E;color:#F3D03E;">888<span class="logo-tile-sub" style="color:#F3D03E;">Sport</span></div>
-      <div class="logo-tile" style="background:#003C71;">CB<span class="logo-tile-sub">Coolbet</span></div>
-      <div class="logo-tile" style="background:#BB0000;">BBS<span class="logo-tile-sub">Buckeye</span></div>
-      <div class="logo-tile" style="background:#2A2A2A;">EG<span class="logo-tile-sub">Eagle</span></div>
-      <div class="logo-tile" style="background:#6B6B6B;">MTL<span class="logo-tile-sub">Metallic</span></div>
-      <div class="logo-tile" style="background:#1A1A1A;">ACE</div>
-      <div class="logo-tile" style="background:#0F4C81;">PRB<span class="logo-tile-sub">PropBuilder</span></div>
-      <div class="logo-tile" style="background:#6A1B9A;">FL<span class="logo-tile-sub">Fliff</span></div>
-      <div class="logo-tile" style="background:#0F2A47;">JAZZ<span class="logo-tile-sub">Sportsbook</span></div>
-      <div class="logo-tile" style="background:#1565C0;">PRX<span class="logo-tile-sub">ProphetX</span></div>
-      <div class="logo-tile" style="background:#06B6D4;">NV<span class="logo-tile-sub">Novig</span></div>
-      <div class="logo-tile" style="background:#1A1A2E;">105<span class="logo-tile-sub">Bet105</span></div>
-      <div class="logo-tile" style="background:#722F37;">BAM<span class="logo-tile-sub">Amapola</span></div>
-      <div class="logo-tile" style="background:#1A1A1A;">BOL<span class="logo-tile-sub">BetOnline</span></div>
-      <div class="logo-tile" style="background:#C7212F;">CRS<span class="logo-tile-sub">betcris</span></div>
-      <div class="logo-tile" style="background:#1B5BB8;">1X<span class="logo-tile-sub">1XBet</span></div>
-      <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <div class="logo-tile" title="Pinnacle"><img src="assets/book_logos/Pinnacle.jpeg" alt="Pinnacle"></div>
+      <div class="logo-tile" title="Bookmaker"><img src="assets/book_logos/Bookmaker.jpeg" alt="Bookmaker"></div>
+      <div class="logo-tile" title="Circa Sports"><img src="assets/book_logos/CircaSports.jpeg" alt="Circa Sports"></div>
+      <div class="logo-tile" title="bet365"><img src="assets/book_logos/bet365.jpeg" alt="bet365"></div>
+      <div class="logo-tile" title="FanDuel"><img src="assets/book_logos/FanDuel.jpeg" alt="FanDuel"></div>
+      <div class="logo-tile" title="DraftKings"><img src="assets/book_logos/DraftKings.jpeg" alt="DraftKings"></div>
+      <div class="logo-tile" title="Caesars"><img src="assets/book_logos/Caesars.jpeg" alt="Caesars"></div>
+      <div class="logo-tile" title="ESPN BET"><img src="assets/book_logos/ESPNBET.jpeg" alt="ESPN BET"></div>
+      <div class="logo-tile" title="BetMGM"><img src="assets/book_logos/BetMGM.jpeg" alt="BetMGM"></div>
+      <div class="logo-tile" title="BetRivers"><img src="assets/book_logos/BetRivers.jpeg" alt="BetRivers"></div>
+      <div class="logo-tile" title="Betway"><img src="assets/book_logos/Betway.jpeg" alt="Betway"></div>
+      <div class="logo-tile" title="3ET"><img src="assets/book_logos/3ET.jpeg" alt="3ET"></div>
+      <div class="logo-tile" title="PointsBet"><img src="assets/book_logos/PointsBet.jpeg" alt="PointsBet"></div>
+      <div class="logo-tile" title="theScore Bet"><img src="assets/book_logos/theScoreBet.jpeg" alt="theScore Bet"></div>
+      <div class="logo-tile" title="NorthStar"><img src="assets/book_logos/NorthStar.jpeg" alt="NorthStar"></div>
+      <div class="logo-tile" title="Proline+"><img src="assets/book_logos/ProlinePlus.jpeg" alt="Proline+"></div>
+      <div class="logo-tile" title="Sports Interaction"><img src="assets/book_logos/SportsInteraction.jpeg" alt="Sports Interaction"></div>
+      <div class="logo-tile" title="LeoVegas"><img src="assets/book_logos/LeoVegas.jpeg" alt="LeoVegas"></div>
+      <div class="logo-tile" title="Betano"><img src="assets/book_logos/Betano.jpeg" alt="Betano"></div>
+      <div class="logo-tile" title="bwin"><img src="assets/book_logos/bwin.jpeg" alt="bwin"></div>
+      <div class="logo-tile" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
+      <div class="logo-tile" title="Casumo"><img src="assets/book_logos/Casumo.jpeg" alt="Casumo"></div>
+      <div class="logo-tile" title="Bet99"><img src="assets/book_logos/Bet99.jpeg" alt="Bet99"></div>
+      <div class="logo-tile" title="888Sport"><img src="assets/book_logos/888Sport.jpeg" alt="888Sport"></div>
+      <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
+      <div class="logo-tile" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
+      <div class="logo-tile" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
+      <div class="logo-tile" title="Metallic"><img src="assets/book_logos/Metallic.jpeg" alt="Metallic"></div>
+      <div class="logo-tile" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
+      <div class="logo-tile" title="PropBuilder"><img src="assets/book_logos/PropBuilder.jpeg" alt="PropBuilder"></div>
+      <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
+      <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
+      <div class="logo-tile" title="ProphetX"><img src="assets/book_logos/ProphetX.jpeg" alt="ProphetX"></div>
+      <div class="logo-tile" title="Novig"><img src="assets/book_logos/Novig.jpeg" alt="Novig"></div>
+      <div class="logo-tile" title="Bet105"><img src="assets/book_logos/Bet105.jpeg" alt="Bet105"></div>
+      <div class="logo-tile" title="BetAmapola"><img src="assets/book_logos/BetAmapola.jpeg" alt="BetAmapola"></div>
+      <div class="logo-tile" title="BetOnline"><img src="assets/book_logos/BetOnline.jpeg" alt="BetOnline"></div>
+      <div class="logo-tile" title="betcris"><img src="assets/book_logos/betcris.jpeg" alt="betcris"></div>
+      <div class="logo-tile" title="1XBet"><img src="assets/book_logos/1XBet.jpeg" alt="1XBet"></div>
+      <div class="logo-tile" title="Polymarket"><img src="assets/book_logos/Polymarket.jpeg" alt="Polymarket"></div>
       <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
       <!-- Set 2 (duplicate for seamless loop) -->
-      <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
-      <div class="logo-tile" style="background:#1A1A1A;color:#F39C12;">BMK<span class="logo-tile-sub" style="color:#F39C12;">Bookmaker</span></div>
-      <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
-      <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
-      <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
-      <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
-      <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
-      <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
-      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
-      <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
-      <div class="logo-tile" style="background:#00A826;">BW<span class="logo-tile-sub">Betway</span></div>
-      <div class="logo-tile" style="background:#1B2B4A;">3ET</div>
-      <div class="logo-tile" style="background:#E10000;">PB<span class="logo-tile-sub">PointsBet</span></div>
-      <div class="logo-tile" style="background:#DC1414;">TSB<span class="logo-tile-sub">theScore</span></div>
-      <div class="logo-tile" style="background:#1F3A60;">NS<span class="logo-tile-sub">NorthStar</span></div>
-      <div class="logo-tile" style="background:#C8102E;">PL+<span class="logo-tile-sub">Proline</span></div>
-      <div class="logo-tile" style="background:#1B3556;">SI<span class="logo-tile-sub">Interaction</span></div>
-      <div class="logo-tile" style="background:#CC0000;color:#FFD23F;">LEO<span class="logo-tile-sub" style="color:#FFD23F;">LeoVegas</span></div>
-      <div class="logo-tile" style="background:#FF6600;">BTO<span class="logo-tile-sub">Betano</span></div>
-      <div class="logo-tile" style="background:#F1C400;color:#222;">bwin</div>
-      <div class="logo-tile" style="background:#FF5C00;">PP<span class="logo-tile-sub">PrizePicks</span></div>
-      <div class="logo-tile" style="background:#7C3AED;">CSM<span class="logo-tile-sub">Casumo</span></div>
-      <div class="logo-tile" style="background:#142844;">99<span class="logo-tile-sub">Bet99</span></div>
-      <div class="logo-tile" style="background:#024A2E;color:#F3D03E;">888<span class="logo-tile-sub" style="color:#F3D03E;">Sport</span></div>
-      <div class="logo-tile" style="background:#003C71;">CB<span class="logo-tile-sub">Coolbet</span></div>
-      <div class="logo-tile" style="background:#BB0000;">BBS<span class="logo-tile-sub">Buckeye</span></div>
-      <div class="logo-tile" style="background:#2A2A2A;">EG<span class="logo-tile-sub">Eagle</span></div>
-      <div class="logo-tile" style="background:#6B6B6B;">MTL<span class="logo-tile-sub">Metallic</span></div>
-      <div class="logo-tile" style="background:#1A1A1A;">ACE</div>
-      <div class="logo-tile" style="background:#0F4C81;">PRB<span class="logo-tile-sub">PropBuilder</span></div>
-      <div class="logo-tile" style="background:#6A1B9A;">FL<span class="logo-tile-sub">Fliff</span></div>
-      <div class="logo-tile" style="background:#0F2A47;">JAZZ<span class="logo-tile-sub">Sportsbook</span></div>
-      <div class="logo-tile" style="background:#1565C0;">PRX<span class="logo-tile-sub">ProphetX</span></div>
-      <div class="logo-tile" style="background:#06B6D4;">NV<span class="logo-tile-sub">Novig</span></div>
-      <div class="logo-tile" style="background:#1A1A2E;">105<span class="logo-tile-sub">Bet105</span></div>
-      <div class="logo-tile" style="background:#722F37;">BAM<span class="logo-tile-sub">Amapola</span></div>
-      <div class="logo-tile" style="background:#1A1A1A;">BOL<span class="logo-tile-sub">BetOnline</span></div>
-      <div class="logo-tile" style="background:#C7212F;">CRS<span class="logo-tile-sub">betcris</span></div>
-      <div class="logo-tile" style="background:#1B5BB8;">1X<span class="logo-tile-sub">1XBet</span></div>
-      <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <div class="logo-tile" title="Pinnacle"><img src="assets/book_logos/Pinnacle.jpeg" alt="Pinnacle"></div>
+      <div class="logo-tile" title="Bookmaker"><img src="assets/book_logos/Bookmaker.jpeg" alt="Bookmaker"></div>
+      <div class="logo-tile" title="Circa Sports"><img src="assets/book_logos/CircaSports.jpeg" alt="Circa Sports"></div>
+      <div class="logo-tile" title="bet365"><img src="assets/book_logos/bet365.jpeg" alt="bet365"></div>
+      <div class="logo-tile" title="FanDuel"><img src="assets/book_logos/FanDuel.jpeg" alt="FanDuel"></div>
+      <div class="logo-tile" title="DraftKings"><img src="assets/book_logos/DraftKings.jpeg" alt="DraftKings"></div>
+      <div class="logo-tile" title="Caesars"><img src="assets/book_logos/Caesars.jpeg" alt="Caesars"></div>
+      <div class="logo-tile" title="ESPN BET"><img src="assets/book_logos/ESPNBET.jpeg" alt="ESPN BET"></div>
+      <div class="logo-tile" title="BetMGM"><img src="assets/book_logos/BetMGM.jpeg" alt="BetMGM"></div>
+      <div class="logo-tile" title="BetRivers"><img src="assets/book_logos/BetRivers.jpeg" alt="BetRivers"></div>
+      <div class="logo-tile" title="Betway"><img src="assets/book_logos/Betway.jpeg" alt="Betway"></div>
+      <div class="logo-tile" title="3ET"><img src="assets/book_logos/3ET.jpeg" alt="3ET"></div>
+      <div class="logo-tile" title="PointsBet"><img src="assets/book_logos/PointsBet.jpeg" alt="PointsBet"></div>
+      <div class="logo-tile" title="theScore Bet"><img src="assets/book_logos/theScoreBet.jpeg" alt="theScore Bet"></div>
+      <div class="logo-tile" title="NorthStar"><img src="assets/book_logos/NorthStar.jpeg" alt="NorthStar"></div>
+      <div class="logo-tile" title="Proline+"><img src="assets/book_logos/ProlinePlus.jpeg" alt="Proline+"></div>
+      <div class="logo-tile" title="Sports Interaction"><img src="assets/book_logos/SportsInteraction.jpeg" alt="Sports Interaction"></div>
+      <div class="logo-tile" title="LeoVegas"><img src="assets/book_logos/LeoVegas.jpeg" alt="LeoVegas"></div>
+      <div class="logo-tile" title="Betano"><img src="assets/book_logos/Betano.jpeg" alt="Betano"></div>
+      <div class="logo-tile" title="bwin"><img src="assets/book_logos/bwin.jpeg" alt="bwin"></div>
+      <div class="logo-tile" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
+      <div class="logo-tile" title="Casumo"><img src="assets/book_logos/Casumo.jpeg" alt="Casumo"></div>
+      <div class="logo-tile" title="Bet99"><img src="assets/book_logos/Bet99.jpeg" alt="Bet99"></div>
+      <div class="logo-tile" title="888Sport"><img src="assets/book_logos/888Sport.jpeg" alt="888Sport"></div>
+      <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
+      <div class="logo-tile" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
+      <div class="logo-tile" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
+      <div class="logo-tile" title="Metallic"><img src="assets/book_logos/Metallic.jpeg" alt="Metallic"></div>
+      <div class="logo-tile" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
+      <div class="logo-tile" title="PropBuilder"><img src="assets/book_logos/PropBuilder.jpeg" alt="PropBuilder"></div>
+      <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
+      <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
+      <div class="logo-tile" title="ProphetX"><img src="assets/book_logos/ProphetX.jpeg" alt="ProphetX"></div>
+      <div class="logo-tile" title="Novig"><img src="assets/book_logos/Novig.jpeg" alt="Novig"></div>
+      <div class="logo-tile" title="Bet105"><img src="assets/book_logos/Bet105.jpeg" alt="Bet105"></div>
+      <div class="logo-tile" title="BetAmapola"><img src="assets/book_logos/BetAmapola.jpeg" alt="BetAmapola"></div>
+      <div class="logo-tile" title="BetOnline"><img src="assets/book_logos/BetOnline.jpeg" alt="BetOnline"></div>
+      <div class="logo-tile" title="betcris"><img src="assets/book_logos/betcris.jpeg" alt="betcris"></div>
+      <div class="logo-tile" title="1XBet"><img src="assets/book_logos/1XBet.jpeg" alt="1XBet"></div>
+      <div class="logo-tile" title="Polymarket"><img src="assets/book_logos/Polymarket.jpeg" alt="Polymarket"></div>
       <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
     </div>
   </div>
