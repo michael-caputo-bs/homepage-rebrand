@@ -506,7 +506,7 @@
     display: flex;
     gap: 14px;
     width: max-content;
-    animation: marquee-scroll 42s linear infinite;
+    animation: marquee-scroll 170s linear infinite;
   }
   .logo-marquee:hover .logo-marquee-inner {
     animation-play-state: paused;
@@ -532,6 +532,20 @@
     opacity: 0.85;
     text-transform: uppercase;
     margin-top: 3px;
+  }
+  .logo-tile.see-all-tile {
+    background: transparent;
+    border: 1.5px solid var(--blue);
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .logo-tile.see-all-tile:hover {
+    background: var(--blue);
+    color: var(--white);
   }
 
   /* ---------- SECTIONS ---------- */
@@ -1154,10 +1168,17 @@
     border-top: 1px solid var(--divider);
     border-bottom: 1px solid var(--divider);
   }
-  .proof-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  .proof-carousel { position: relative; }
+  .proof-grid { overflow: hidden; }
+  .proof-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.4s ease;
+    will-change: transform;
   }
   .testimonial {
+    flex: 0 0 calc((100% - 48px) / 3);
+    box-sizing: border-box;
     background: var(--bg);
     border: 1px solid var(--divider);
     border-radius: 12px;
@@ -1169,6 +1190,34 @@
     transform: translateY(-4px);
     border-color: var(--blue);
     box-shadow: var(--shadow-blue);
+  }
+  .proof-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .proof-nav-btn {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--divider);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
+    font-family: inherit;
+    padding: 0;
+  }
+  .proof-nav-btn:hover:not(:disabled) {
+    border-color: var(--blue);
+    color: var(--blue);
+    box-shadow: var(--shadow-blue);
+  }
+  .proof-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
   .testimonial .quote-mark {
     font-size: 52px; color: var(--blue);
@@ -1301,14 +1350,6 @@
     border-color: var(--blue);
     box-shadow: var(--shadow-blue);
     transform: translateY(-2px);
-  }
-  .product-icon {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: var(--blue-palest);
-    border: 1px solid var(--blue-pale);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 12px;
-    font-size: 16px; color: var(--blue-deep);
   }
   .product-name {
     font-size: 15px; font-weight: 700; color: var(--navy);
@@ -1568,9 +1609,10 @@
     .coverage-stats-grid { grid-template-columns: repeat(3, 1fr); }
     .coverage-stat:nth-child(3n) { border-right: none; }
     .coverage-stat:nth-child(-n+3) { border-bottom: 1px solid rgba(62,146,204,0.18); }
-    .proof-grid, .icp-grid, .product-grid, .pricing-grid, .yt-cards, .footer-grid {
+    .icp-grid, .product-grid, .pricing-grid, .yt-cards, .footer-grid {
       grid-template-columns: 1fr;
     }
+    .testimonial { flex: 0 0 100%; }
     .tier.featured { transform: none; }
     .nav-links { display: none; }
   }
@@ -1728,28 +1770,90 @@
   <div class="logo-marquee-label">Odds Feeds We Support</div>
   <div class="logo-marquee-track">
     <div class="logo-marquee-inner">
-      <!-- Set 1 -->
+      <!-- Set 1: full priority list from betstamp.com BooksWeSupport -->
       <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
-      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
+      <div class="logo-tile" style="background:#1A1A1A;color:#F39C12;">BMK<span class="logo-tile-sub" style="color:#F39C12;">Bookmaker</span></div>
       <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
       <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
       <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
       <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
       <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
       <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
+      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
       <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
+      <div class="logo-tile" style="background:#00A826;">BW<span class="logo-tile-sub">Betway</span></div>
+      <div class="logo-tile" style="background:#1B2B4A;">3ET</div>
+      <div class="logo-tile" style="background:#E10000;">PB<span class="logo-tile-sub">PointsBet</span></div>
+      <div class="logo-tile" style="background:#DC1414;">TSB<span class="logo-tile-sub">theScore</span></div>
+      <div class="logo-tile" style="background:#1F3A60;">NS<span class="logo-tile-sub">NorthStar</span></div>
+      <div class="logo-tile" style="background:#C8102E;">PL+<span class="logo-tile-sub">Proline</span></div>
+      <div class="logo-tile" style="background:#1B3556;">SI<span class="logo-tile-sub">Interaction</span></div>
+      <div class="logo-tile" style="background:#CC0000;color:#FFD23F;">LEO<span class="logo-tile-sub" style="color:#FFD23F;">LeoVegas</span></div>
+      <div class="logo-tile" style="background:#FF6600;">BTO<span class="logo-tile-sub">Betano</span></div>
+      <div class="logo-tile" style="background:#F1C400;color:#222;">bwin</div>
+      <div class="logo-tile" style="background:#FF5C00;">PP<span class="logo-tile-sub">PrizePicks</span></div>
+      <div class="logo-tile" style="background:#7C3AED;">CSM<span class="logo-tile-sub">Casumo</span></div>
+      <div class="logo-tile" style="background:#142844;">99<span class="logo-tile-sub">Bet99</span></div>
+      <div class="logo-tile" style="background:#024A2E;color:#F3D03E;">888<span class="logo-tile-sub" style="color:#F3D03E;">Sport</span></div>
+      <div class="logo-tile" style="background:#003C71;">CB<span class="logo-tile-sub">Coolbet</span></div>
+      <div class="logo-tile" style="background:#BB0000;">BBS<span class="logo-tile-sub">Buckeye</span></div>
+      <div class="logo-tile" style="background:#2A2A2A;">EG<span class="logo-tile-sub">Eagle</span></div>
+      <div class="logo-tile" style="background:#6B6B6B;">MTL<span class="logo-tile-sub">Metallic</span></div>
+      <div class="logo-tile" style="background:#1A1A1A;">ACE</div>
+      <div class="logo-tile" style="background:#0F4C81;">PRB<span class="logo-tile-sub">PropBuilder</span></div>
+      <div class="logo-tile" style="background:#6A1B9A;">FL<span class="logo-tile-sub">Fliff</span></div>
+      <div class="logo-tile" style="background:#0F2A47;">JAZZ<span class="logo-tile-sub">Sportsbook</span></div>
+      <div class="logo-tile" style="background:#1565C0;">PRX<span class="logo-tile-sub">ProphetX</span></div>
+      <div class="logo-tile" style="background:#06B6D4;">NV<span class="logo-tile-sub">Novig</span></div>
+      <div class="logo-tile" style="background:#1A1A2E;">105<span class="logo-tile-sub">Bet105</span></div>
+      <div class="logo-tile" style="background:#722F37;">BAM<span class="logo-tile-sub">Amapola</span></div>
+      <div class="logo-tile" style="background:#1A1A1A;">BOL<span class="logo-tile-sub">BetOnline</span></div>
+      <div class="logo-tile" style="background:#C7212F;">CRS<span class="logo-tile-sub">betcris</span></div>
+      <div class="logo-tile" style="background:#1B5BB8;">1X<span class="logo-tile-sub">1XBet</span></div>
       <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
       <!-- Set 2 (duplicate for seamless loop) -->
       <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
-      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
+      <div class="logo-tile" style="background:#1A1A1A;color:#F39C12;">BMK<span class="logo-tile-sub" style="color:#F39C12;">Bookmaker</span></div>
       <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
       <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
       <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
       <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
       <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
       <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
+      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
       <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
+      <div class="logo-tile" style="background:#00A826;">BW<span class="logo-tile-sub">Betway</span></div>
+      <div class="logo-tile" style="background:#1B2B4A;">3ET</div>
+      <div class="logo-tile" style="background:#E10000;">PB<span class="logo-tile-sub">PointsBet</span></div>
+      <div class="logo-tile" style="background:#DC1414;">TSB<span class="logo-tile-sub">theScore</span></div>
+      <div class="logo-tile" style="background:#1F3A60;">NS<span class="logo-tile-sub">NorthStar</span></div>
+      <div class="logo-tile" style="background:#C8102E;">PL+<span class="logo-tile-sub">Proline</span></div>
+      <div class="logo-tile" style="background:#1B3556;">SI<span class="logo-tile-sub">Interaction</span></div>
+      <div class="logo-tile" style="background:#CC0000;color:#FFD23F;">LEO<span class="logo-tile-sub" style="color:#FFD23F;">LeoVegas</span></div>
+      <div class="logo-tile" style="background:#FF6600;">BTO<span class="logo-tile-sub">Betano</span></div>
+      <div class="logo-tile" style="background:#F1C400;color:#222;">bwin</div>
+      <div class="logo-tile" style="background:#FF5C00;">PP<span class="logo-tile-sub">PrizePicks</span></div>
+      <div class="logo-tile" style="background:#7C3AED;">CSM<span class="logo-tile-sub">Casumo</span></div>
+      <div class="logo-tile" style="background:#142844;">99<span class="logo-tile-sub">Bet99</span></div>
+      <div class="logo-tile" style="background:#024A2E;color:#F3D03E;">888<span class="logo-tile-sub" style="color:#F3D03E;">Sport</span></div>
+      <div class="logo-tile" style="background:#003C71;">CB<span class="logo-tile-sub">Coolbet</span></div>
+      <div class="logo-tile" style="background:#BB0000;">BBS<span class="logo-tile-sub">Buckeye</span></div>
+      <div class="logo-tile" style="background:#2A2A2A;">EG<span class="logo-tile-sub">Eagle</span></div>
+      <div class="logo-tile" style="background:#6B6B6B;">MTL<span class="logo-tile-sub">Metallic</span></div>
+      <div class="logo-tile" style="background:#1A1A1A;">ACE</div>
+      <div class="logo-tile" style="background:#0F4C81;">PRB<span class="logo-tile-sub">PropBuilder</span></div>
+      <div class="logo-tile" style="background:#6A1B9A;">FL<span class="logo-tile-sub">Fliff</span></div>
+      <div class="logo-tile" style="background:#0F2A47;">JAZZ<span class="logo-tile-sub">Sportsbook</span></div>
+      <div class="logo-tile" style="background:#1565C0;">PRX<span class="logo-tile-sub">ProphetX</span></div>
+      <div class="logo-tile" style="background:#06B6D4;">NV<span class="logo-tile-sub">Novig</span></div>
+      <div class="logo-tile" style="background:#1A1A2E;">105<span class="logo-tile-sub">Bet105</span></div>
+      <div class="logo-tile" style="background:#722F37;">BAM<span class="logo-tile-sub">Amapola</span></div>
+      <div class="logo-tile" style="background:#1A1A1A;">BOL<span class="logo-tile-sub">BetOnline</span></div>
+      <div class="logo-tile" style="background:#C7212F;">CRS<span class="logo-tile-sub">betcris</span></div>
+      <div class="logo-tile" style="background:#1B5BB8;">1X<span class="logo-tile-sub">1XBet</span></div>
       <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
     </div>
   </div>
 </div>
@@ -2103,41 +2207,134 @@
       <p class="section-sub">We're not for recreational bettors learning to win. We're the tool the people who already win reach for when they need to scale.</p>
     </div>
 
-    <div class="proof-grid">
-      <div class="testimonial">
-        <div class="quote-mark">"</div>
-        <p class="testimonial-quote">The True Line engine is the only one I've trusted enough to size up on. Everything else is a screen. This is a model.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">TH</div>
-          <div class="author-meta">
-            <div class="name">Tony H.</div>
-            <div class="role">Syndicate lead · NBA / NFL</div>
+    <div class="proof-carousel" data-testimonials-carousel>
+      <div class="proof-grid">
+        <div class="proof-track">
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">As an originator, Betstamp Pro is an invaluable tool for me. Being able to quickly see prices across the world on a wide variety of markets with an up to date line history is worth the price of admission. All of the extra value of grabbing +EV bets based on market moves makes using the tool a no brainer for any serious bettor whether that be top down or bottom up.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">TH</div>
+              <div class="author-meta">
+                <div class="name">Tony H.</div>
+                <div class="role">Newfoundland</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">I signed up for Betstamp Pro on day one and have been discovering so many new edges ever since. The tool has everything you'd ever need to access when it comes to betting props. Whether you're at the beginning of your journey or are looking to expand and sharpen your operation, I cannot stress enough how important it is to invest in yourself by signing up for Betstamp Pro.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">TD</div>
+              <div class="author-meta">
+                <div class="name">Tim D.</div>
+                <div class="role">Massachusetts</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Betstamp Pro is the best player prop odds screen I've used — it's like SpankOdds or DonBest, but for props. The elegant UI and drag-and-drop feature make customizing your screen effortless, and its algorithm is a game changer — it analyzes odds across books to calculate a true line for each prop, letting you sort by edge, EV, and hold %. Best of all, it includes a diverse mix of offshore, regulated, and PPH books, making it perfect for managing lots of outs and assessing profitable bets quickly. I couldn't bet seriously without it!</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">DK</div>
+              <div class="author-meta">
+                <div class="name">Dan K.</div>
+                <div class="role">New York</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">I've been a top down steam chaser for main markets the last few years. Never paid much attention to the props market. I was hesitant to start with Betstamp Pro based on some bad experiences with other props screens. Very glad I did. Betstamp Pro has a built in odds screen which allows you to track sharp books line moves for further confirmation before firing on a play. I had the monthly subscription paid for within the first 4 nights of using Betstamp Pro.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">ML</div>
+              <div class="author-meta">
+                <div class="name">Mike L.</div>
+                <div class="role">Ontario</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Betstamp Pro is amazing. They will give you an accurate view of the prop market and you can have confidence you are getting the accurate EV. I constantly found free middles and good bets. It's nice to have a screen that accurately captures all the best prices, they also have offshores not found on any other screens.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">BO</div>
+              <div class="author-meta">
+                <div class="name">Brandon O.</div>
+                <div class="role">Illinois</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Betstamp Pro is an absolute must for any serious props bettor. Whether finding the best price on origination or betting from a top down approach, this tool will increase your betting volume and ROI significantly. Since starting with the tool in 2023, my earn has nearly tripled.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">PD</div>
+              <div class="author-meta">
+                <div class="name">@propdude7</div>
+                <div class="role">Ontario</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">The Betstamp Pro screen has been a game changer for my betting. Edges are everywhere and easy to attack. Winning every day is no guarantee, but in my experience the Betstamp Pro screen is highly profitable over time.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">CK</div>
+              <div class="author-meta">
+                <div class="name">Casey K.</div>
+                <div class="role">Texas</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Going from never using an odds screen to using Betstamp Pro has been a night and day difference. I would definitely recommend to anybody looking to find more edges and get more serious about their betting.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">WH</div>
+              <div class="author-meta">
+                <div class="name">Will H.</div>
+                <div class="role">New York</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">I've tried out a lot of screens and y'all's layout is the best by far. I stare at the screen 24/7.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">GA</div>
+              <div class="author-meta">
+                <div class="name">Gannon A.</div>
+                <div class="role">Louisiana</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Gotta say, product is really good, can almost justify just full swapping. Think I still prefer unabated mainline screen since its a little more readable for me, but your props is miles better than them or anyone else.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">VR</div>
+              <div class="author-meta">
+                <div class="name">@vertuhcle</div>
+                <div class="role">Indiana</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="testimonial">
-        <div class="quote-mark">"</div>
-        <p class="testimonial-quote">Props depth you can't find anywhere else. Alts, milestones, PPHs — priced to the close. This is the difference between betting props and running prop-book.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">TD</div>
-          <div class="author-meta">
-            <div class="name">Tim D.</div>
-            <div class="role">Pro bettor · Props</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial">
-        <div class="quote-mark">"</div>
-        <p class="testimonial-quote">Refresh is so fast I stopped running the spreadsheet. The odds screen is the workflow now.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">DK</div>
-          <div class="author-meta">
-            <div class="name">Dan K.</div>
-            <div class="role">Sharp · Multi-sport</div>
-          </div>
-        </div>
+      <div class="proof-nav">
+        <button class="proof-nav-btn" type="button" data-dir="prev" aria-label="Previous testimonials">‹</button>
+        <button class="proof-nav-btn" type="button" data-dir="next" aria-label="Next testimonials">›</button>
       </div>
     </div>
 
@@ -2215,32 +2412,26 @@
 
   <div class="product-grid">
     <div class="product-card">
-      <div class="product-icon">▲</div>
       <div class="product-name">True Line Steam Alerts</div>
       <div class="product-desc">Receive on-screen notifications the moment any main-market True Line moves more than 2.5% — instant insight into where sharp money is hitting.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">☰</div>
       <div class="product-name">Full Line History + Limit Info</div>
       <div class="product-desc">Every market move from open to close, with current limits per book. See exactly where steam landed and how much the book will actually take.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">⚡</div>
       <div class="product-name">SGP Pricing &amp; Comparison</div>
       <div class="product-desc">Same-game parlay fair value, leg by leg, across every book. Find the SGP that's mispriced before it's gone.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">☑</div>
       <div class="product-name">One-Click Bet Tracking</div>
       <div class="product-desc">Add to bet slip, place the bet, and track it instantly in the Betstamp app. Plays grade themselves. No spreadsheets. No missing data.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">⊞</div>
       <div class="product-name">200+ Books. One Screen.</div>
       <div class="product-desc">Prediction markets. Exchanges. Offshores, PPHs, DFS, sweeps — priced alongside the regulated books. The full pro account stack in one screen.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">⇄</div>
       <div class="product-name">Arbitrage Detection</div>
       <div class="product-desc">Sort by negative hold to surface every arb on the slate. Both legs, both books, profit locked.</div>
     </div>
@@ -2493,6 +2684,51 @@
     const isAnnual = sw.classList.toggle('annual');
     labelM.classList.toggle('active', !isAnnual);
     labelA.classList.toggle('active', isAnnual);
+  });
+})();
+
+(function() {
+  const carousels = document.querySelectorAll('[data-testimonials-carousel]');
+  carousels.forEach(function(carousel) {
+    const track = carousel.querySelector('.proof-track');
+    const cards = track ? track.querySelectorAll('.testimonial') : [];
+    const prevBtn = carousel.querySelector('[data-dir="prev"]');
+    const nextBtn = carousel.querySelector('[data-dir="next"]');
+    if (!track || !cards.length || !prevBtn || !nextBtn) return;
+
+    let index = 0;
+
+    function visibleCount() {
+      return window.innerWidth <= 960 ? 1 : 3;
+    }
+    function maxIndex() {
+      return Math.max(0, cards.length - visibleCount());
+    }
+    function update() {
+      const gap = 24;
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      const offset = index * (cardWidth + gap);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+      prevBtn.disabled = index <= 0;
+      nextBtn.disabled = index >= maxIndex();
+    }
+    prevBtn.addEventListener('click', function() {
+      index = Math.max(0, index - 1);
+      update();
+    });
+    nextBtn.addEventListener('click', function() {
+      index = Math.min(maxIndex(), index + 1);
+      update();
+    });
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        index = Math.min(index, maxIndex());
+        update();
+      }, 100);
+    });
+    update();
   });
 })();
 </script>
