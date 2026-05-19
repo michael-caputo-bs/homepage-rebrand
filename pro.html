@@ -1271,6 +1271,13 @@
     transition: transform .25s;
   }
   .yt-card:hover { transform: scale(1.01); }
+  .yt-card.yt-card-embed { cursor: default; background: #000; }
+  .yt-card.yt-card-embed:hover { transform: none; }
+  .yt-card-embed iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
   .yt-play {
     width: 48px; height: 48px; border-radius: 50%;
     background: rgba(238,119,34,0.95);
@@ -2326,9 +2333,15 @@
         <span class="tag">From the community</span>
       </div>
       <div class="yt-cards">
-        <div class="yt-card">
-          <div class="yt-play">▶</div>
-          <div class="yt-caption">Johnny — "The tool we built because we needed it"</div>
+        <div class="yt-card yt-card-embed">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/IGp463icD5I"
+            title="Circles Off — Johnny &amp; Rob Pizzola on the Betstamp Pro props screen"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
         </div>
         <div class="yt-card">
           <div class="yt-play">▶</div>
