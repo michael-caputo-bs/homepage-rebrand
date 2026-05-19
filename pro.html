@@ -659,6 +659,7 @@
   .diff-visual-img {
     padding: 0;
     min-height: 0;
+    aspect-ratio: 2 / 1;
     background: var(--bg);
     overflow: hidden;
     position: relative;
@@ -667,10 +668,11 @@
   .diff-visual-img img {
     position: static;
     width: 100%;
-    height: auto;
+    height: 100%;
     max-width: none;
     max-height: none;
     display: block;
+    object-fit: contain;
     border-radius: 0;
     mask-image: none;
     -webkit-mask-image: none;
