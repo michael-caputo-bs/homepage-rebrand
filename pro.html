@@ -526,13 +526,14 @@
     box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     font-size: 22px;
     overflow: hidden;
-    background: var(--white);
+    background: transparent;
   }
   .logo-tile img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: inherit;
   }
   .logo-tile-sub {
     font-size: 9px; font-weight: 700;
@@ -871,34 +872,10 @@
     margin: 0 auto 18px;
   }
   .capped-lead:last-child { margin-bottom: 0; }
-  .capped-meters {
-    display: flex; justify-content: center; gap: 56px;
-    margin: 40px auto 0;
-    max-width: 720px;
-  }
-  .capped-meter {
-    text-align: center;
-  }
-  .capped-meter-num {
-    font-size: 48px; font-weight: 800;
-    color: var(--navy); letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .capped-meter-num .of {
-    font-size: 22px; color: var(--muted-2);
-    font-weight: 600; margin-left: 4px;
-  }
-  .capped-meter-label {
-    font-size: 11px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.14em;
-    font-weight: 700; margin-top: 10px;
-  }
   @media (max-width: 639px) {
     .capped-section { padding: 64px 0; }
     .capped-title { font-size: 30px; }
     .capped-lead { font-size: 16px; }
-    .capped-meters { gap: 32px; flex-direction: column; }
-    .capped-meter-num { font-size: 40px; }
   }
 
   /* ---------- METHODOLOGY (editorial dark moment) ---------- */
@@ -1726,7 +1703,6 @@
     </p>
     <div class="hero-ctas">
       <a href="#pricing" class="btn btn-primary btn-lg">Request a Demo →</a>
-      <a href="#differentiators" class="btn btn-ghost btn-lg">See the Screen</a>
     </div>
   </div>
 
@@ -1785,11 +1761,11 @@
 
 <!-- ==================== ODDS FEEDS MARQUEE ==================== -->
 <div class="logo-marquee">
-  <div class="logo-marquee-label">Odds Feeds We Support</div>
+  <div class="logo-marquee-label">200+ Books and Operators We Price</div>
   <div class="logo-marquee-track">
     <div class="logo-marquee-inner">
       <!-- Set 1: full priority list from betstamp.com BooksWeSupport -->
-      <div class="logo-tile" title="Pinnacle"><img src="assets/book_logos/Pinnacle.jpeg" alt="Pinnacle"></div>
+      <div class="logo-tile" title="PS3838"><img src="assets/book_logos/PS3838.jpeg" alt="PS3838"></div>
       <div class="logo-tile" title="Bookmaker"><img src="assets/book_logos/Bookmaker.jpeg" alt="Bookmaker"></div>
       <div class="logo-tile" title="Circa Sports"><img src="assets/book_logos/CircaSports.jpeg" alt="Circa Sports"></div>
       <div class="logo-tile" title="bet365"><img src="assets/book_logos/bet365.jpeg" alt="bet365"></div>
@@ -1831,7 +1807,7 @@
       <div class="logo-tile" title="Polymarket"><img src="assets/book_logos/Polymarket.jpeg" alt="Polymarket"></div>
       <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
       <!-- Set 2 (duplicate for seamless loop) -->
-      <div class="logo-tile" title="Pinnacle"><img src="assets/book_logos/Pinnacle.jpeg" alt="Pinnacle"></div>
+      <div class="logo-tile" title="PS3838"><img src="assets/book_logos/PS3838.jpeg" alt="PS3838"></div>
       <div class="logo-tile" title="Bookmaker"><img src="assets/book_logos/Bookmaker.jpeg" alt="Bookmaker"></div>
       <div class="logo-tile" title="Circa Sports"><img src="assets/book_logos/CircaSports.jpeg" alt="Circa Sports"></div>
       <div class="logo-tile" title="bet365"><img src="assets/book_logos/bet365.jpeg" alt="bet365"></div>
@@ -2089,10 +2065,6 @@
     </div>
 
     <p class="methodology-close">The result: a True Line you can backtest, trust, and scale off — priced across every book, every market, every second.</p>
-
-    <div class="methodology-cta">
-      <a href="/top-down-betting" class="btn btn-primary">Learn more about top-down betting →</a>
-    </div>
   </div>
 </section>
 
@@ -2124,8 +2096,8 @@
     <div class="screens-panel" data-panel="main" hidden>
       <div class="screens-copy">
         <div class="screens-badge">Main Markets</div>
-        <h3 class="screens-title">Spreads, totals, and moneylines — priced to the True Line.</h3>
-        <p>Pre-game core markets across 200+ books with proprietary True Line pricing on every line. Sort by Edge, EV, or Hold %. Filter by sport, market, or book. The screen pros open at 9 a.m. and don't close until tip-off.</p>
+        <h3 class="screens-title">Spreads, totals, and moneylines, priced to the True Line.</h3>
+        <p>Pre-game main markets across 200+ books with proprietary True Line pricing on every line. Sort by Edge, EV, or Hold %. Filter by sport, market, or book. Alternate lines and steam alerts for enhanced volume.</p>
         <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
       </div>
       <div class="screens-image">
@@ -2140,9 +2112,9 @@
     <!-- Props (default) -->
     <div class="screens-panel" data-panel="props">
       <div class="screens-copy">
-        <div class="screens-badge">Props · #1 Odds Screen</div>
-        <h3 class="screens-title">The deepest prop screen in the industry.</h3>
-        <p>Player, game, derivatives, alts, milestones, PPHs. If a market's offered at 10+ books, we price it. Hover any cell for instant Edge and EV across every book — the reason syndicates run Betstamp.</p>
+        <div class="screens-badge">Props</div>
+        <h3 class="screens-title">The player props screen designed for scale.</h3>
+        <p>Player, game, derivatives, alts, milestones. Instant edge identification across every market the books cover. Scale your volume with the most reliable source of truth in the industry.</p>
         <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
       </div>
       <div class="screens-image">
@@ -2159,7 +2131,7 @@
       <div class="screens-copy">
         <div class="screens-badge">Live</div>
         <h3 class="screens-title">Real-time edge, the moment books move.</h3>
-        <p>Live betting for main lines, spreads, and totals with sub-second refresh. Edges flagged the instant they open — not 30 seconds later when everyone else's screen reloads. Built for the pace pros actually trade at.</p>
+        <p>Live betting for main lines and props with sub-second refresh. Edges are flagged the instant they appear. Built for the pace and scale professionals trade at.</p>
         <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
       </div>
       <div class="screens-image">
@@ -2460,20 +2432,9 @@
 <section class="capped-section" aria-labelledby="capped-title">
   <div class="container">
     <span class="capped-eyebrow">Deliberately capped</span>
-    <h2 id="capped-title" class="capped-title">100 seats on Props. <span class="accent">20 on Live.</span></h2>
-    <p class="capped-lead">Edges decay with scale. The more pros hit the same line, the faster it moves out from under them — sometimes before anyone gets a click in. So the Props Screen is capped at 100 seats. The Live Screen at 20. That's the cap, by design.</p>
+    <h2 id="capped-title" class="capped-title">Capped Userbase, <span class="accent">By Design.</span></h2>
+    <p class="capped-lead">Edges decay with scale. The more pros hit the same line, the faster it moves out from under them — sometimes before anyone gets a click in. So the Props Screen and Live Screen are capped.</p>
     <p class="capped-lead">When a seat opens, we're selective about who fills it. It's how we keep the edges real for the pros already running the screen — and how we make sure the pros joining can actually use them.</p>
-
-    <div class="capped-meters">
-      <div class="capped-meter">
-        <div class="capped-meter-num">100<span class="of">seats</span></div>
-        <div class="capped-meter-label">Props Screen · capped</div>
-      </div>
-      <div class="capped-meter">
-        <div class="capped-meter-num">20<span class="of">seats</span></div>
-        <div class="capped-meter-label">Live Screen · capped</div>
-      </div>
-    </div>
   </div>
 </section>
 
