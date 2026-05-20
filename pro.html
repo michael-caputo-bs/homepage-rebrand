@@ -1537,30 +1537,6 @@
   }
   .pricing-cta .btn { min-width: 220px; }
 
-  /* ---------- FAQ ---------- */
-  .faq { max-width: 860px; margin: 0 auto; }
-  .faq-item {
-    border-bottom: 1px solid var(--divider);
-    padding: 20px 0;
-  }
-  .faq-item summary {
-    cursor: pointer;
-    font-size: 17px; font-weight: 600; color: var(--navy);
-    list-style: none;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0;
-  }
-  .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::after {
-    content: "+"; font-size: 22px; color: var(--blue); font-weight: 400;
-    transition: transform .2s;
-  }
-  .faq-item[open] summary::after { content: "−"; }
-  .faq-item p {
-    color: var(--text-body); padding-top: 14px; font-size: 15px; line-height: 1.6;
-  }
-  .faq-item p a { color: var(--blue-deep); }
-
   /* ---------- CTA BANNER (editorial dark moment) ---------- */
   .cta-banner {
     margin: 120px auto 80px;
@@ -2464,41 +2440,6 @@
 
   <div class="pricing-cta">
     <a href="#" class="btn btn-primary btn-lg">Request a Demo →</a>
-  </div>
-</section>
-
-<!-- ==================== FAQ ==================== -->
-<section class="container">
-  <div class="section-header">
-    <span class="section-eyebrow">FAQ</span>
-    <h2>The questions <span class="accent">pros actually ask.</span></h2>
-  </div>
-
-  <div class="faq">
-    <details class="faq-item" open>
-      <summary>What does "True Line pricing" actually mean?</summary>
-      <p>It's our proprietary model — a market-weighted True Line priced across 200+ books and calibrated to 5+ seasons of closing lines. Not a sharp-book pull. Not a de-vigged consensus. Our own number, back-tested to the close.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Is there a free trial?</summary>
-      <p>No. The tool is designed for pros who already win and need to scale. We do demos — book one and we'll walk you through the exact features you'd use on your slate.</p>
-    </details>
-    <details class="faq-item">
-      <summary>How deep does the prop coverage go?</summary>
-      <p>Full alt-line trees, milestones, and PPHs across NBA, NFL, MLB, NHL. If a market is offered at 10+ sportsbooks, we price a True Line on it. Coverage keeps expanding — that's the Pro + Props roadmap.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Do you offer an API?</summary>
-      <p>Yes — odds API, props API, SGP pricing engine, widgets, and a prediction markets API. See <a href="#">All Products</a> for specs and docs.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Can I share a seat with my team?</summary>
-      <p>Syndicate seats are a first-class tier. Shared workspace, API access, team dashboards. Contact sales for pricing.</p>
-    </details>
-    <details class="faq-item">
-      <summary>What's the refresh latency?</summary>
-      <p>&lt;1s full-board refresh. Median is 400ms. Live markets and edge detection refresh the moment books move.</p>
-    </details>
   </div>
 </section>
 
