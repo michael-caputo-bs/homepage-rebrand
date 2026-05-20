@@ -49,6 +49,16 @@
     line-height: 1.55;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+    /* Guard: prevent any oversized child (long nowrap headings, wide
+       carousels, etc.) from expanding the document past the viewport
+       on mobile. */
+    overflow-x: hidden;
+  }
+  /* Mobile guard: any heading/paragraph that ended up with an
+     inline white-space: nowrap should wrap normally below 960px so
+     the document can't exceed the viewport width. */
+  @media (max-width: 960px) {
+    h1, h2, h3, p { white-space: normal !important; }
   }
 
   .container { max-width: 1280px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
@@ -1888,8 +1898,8 @@
 <section id="differentiators" class="container">
   <div class="section-header" style="max-width: none;">
     <span class="section-eyebrow">Why Pro</span>
-    <h2 style="white-space: nowrap;">What Makes Betstamp <span class="accent">PRO Different.</span></h2>
-    <p class="section-sub" style="white-space: nowrap;">We're a pricing engine built for an edge — not just another odds screen. Here's why we're unmatched.</p>
+    <h2>What Makes Betstamp <span class="accent">PRO Different.</span></h2>
+    <p class="section-sub">We're a pricing engine built for an edge — not just another odds screen. Here's why we're unmatched.</p>
   </div>
 
   <!-- Differentiator 1: True-Line Pricing -->
@@ -2145,7 +2155,7 @@
   <div class="container">
     <div class="section-header" style="max-width: none;">
       <span class="section-eyebrow">Built for — and by — pros</span>
-      <h2 style="white-space: nowrap;">From the bettors <span class="accent">moving the lines.</span></h2>
+      <h2>From the bettors <span class="accent">moving the lines.</span></h2>
       <p class="section-sub">We're not for recreational bettors learning to win. We're the tool the people who already win reach for when they need to scale.</p>
     </div>
 
@@ -2303,7 +2313,7 @@
 <section class="container">
   <div class="section-header" style="max-width: none;">
     <span class="section-eyebrow">Who it's for</span>
-    <h2 style="white-space: nowrap;">Built for the people <span class="accent">moving real size.</span></h2>
+    <h2>Built for the people <span class="accent">moving real size.</span></h2>
     <p class="section-sub">Three audiences. One tool. If you're already winning and need to scale — this is the stack.</p>
   </div>
 
