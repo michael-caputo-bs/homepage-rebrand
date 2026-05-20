@@ -1160,7 +1160,13 @@
     position: relative;
     padding: 0 60px;
   }
-  .proof-grid { overflow: hidden; }
+  .proof-grid {
+    overflow: hidden;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: -12px;
+    margin-bottom: -12px;
+  }
   .proof-track {
     display: flex;
     gap: 24px;
@@ -1872,7 +1878,7 @@
       <ul class="diff-list">
         <li><strong>Fair-value devigging across every book</strong> <span class="li-desc">— No single-book bias. No stale lines.</span></li>
         <li><strong>Closing line value baked in</strong> <span class="li-desc">— Measured against real CLV, not theory.</span></li>
-        <li><strong>Every market. Every league.</strong> <span class="li-desc">— Core, props, alts, futures, live.</span></li>
+        <li><strong>Every market. Every league</strong> <span class="li-desc">— mains, props, alts, live.</span></li>
       </ul>
       <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
     </div>
@@ -1894,7 +1900,7 @@
       <ul class="diff-list">
         <li><strong>Player props</strong> <span class="li-desc">— Every prop, every milestone — True Line included.</span></li>
         <li><strong>Alt props</strong> <span class="li-desc">— Full ladder, not just the key number.</span></li>
-        <li><strong>SGPs</strong> <span class="li-desc">— Pricing engine-backed (powered by Betstamp's own model).</span></li>
+        <li><strong>SGPs</strong> <span class="li-desc">— Pricing engine-backed.</span></li>
       </ul>
       <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
     </div>
@@ -1912,7 +1918,7 @@
   <div class="diff-block">
     <div class="diff-copy">
       <div class="diff-tag">Real-Time Infrastructure</div>
-      <h3 class="diff-title">Sub-second refresh. Real-time edge detection.</h3>
+      <h3 class="diff-title">Sub-second refresh.<br>Real-time edge detection.</h3>
       <p>The book moves. The True Line moves. You see it before everyone else on the refresh. Edges flagged the moment they open, not when the screen reloads in 30 seconds.</p>
       <p>Speed isn't a feature — it's the whole reason an odds screen exists.</p>
       <ul class="diff-list">
@@ -1961,7 +1967,7 @@
   <div class="container">
     <span class="methodology-eyebrow">The methodology</span>
     <h2 id="methodology-title" class="methodology-title">How the True Line actually works.</h2>
-    <p class="methodology-lead">Most odds screens treat one sportsbook as gospel and call that the True Line. We don't. Each market is unique, every book has different biases by sport and prop type, and lines move for reasons. Our True Line is weighted per market, backtested continuously, and built off the most reliable reference books in the industry — not whichever book happened to load first.</p>
+    <p class="methodology-lead">Most odds screens treat one sportsbook as gospel and call that the True Line. We don't. Each market is unique, every book has different biases by sport and prop type, and lines move for reasons. Our True Line is weighted per market, backtested continuously, and built off the most reliable reference books in the industry.</p>
 
     <div class="methodology-grid">
       <article class="methodology-card">
@@ -2324,7 +2330,7 @@
     </div>
     <div class="product-card">
       <div class="product-name">SGP Pricing &amp; Comparison</div>
-      <div class="product-desc">Same-game parlay fair value, leg by leg, across every book. Find the SGP that's mispriced before it's gone.</div>
+      <div class="product-desc">Same-game parlay fair value, leg by leg. Find the SGP that's mispriced before it's gone.</div>
     </div>
     <div class="product-card">
       <div class="product-name">One-Click Bet Tracking</div>
