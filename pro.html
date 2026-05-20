@@ -1287,6 +1287,28 @@
     width: 100%; height: 100%;
     border: 0;
   }
+  .yt-card.yt-card-poster {
+    cursor: pointer;
+    background: #000;
+  }
+  .yt-card-poster img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .yt-card-poster .yt-play {
+    position: relative;
+    z-index: 2;
+  }
+  .yt-card-poster.yt-card-playing { cursor: default; }
+  .yt-card-poster.yt-card-playing img,
+  .yt-card-poster.yt-card-playing .yt-play { display: none; }
+  .yt-card-poster.yt-card-playing iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
   .yt-play {
     width: 48px; height: 48px; border-radius: 50%;
     background: rgba(238,119,34,0.95);
@@ -2262,25 +2284,13 @@
         <span class="tag">From the community</span>
       </div>
       <div class="yt-cards">
-        <div class="yt-card yt-card-embed">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/Nd8ZxWW0gU8"
-            title="Betstamp Pro community video"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+        <div class="yt-card yt-card-poster" data-yt-id="Nd8ZxWW0gU8" role="button" tabindex="0" aria-label="Play Betstamp Pro community video">
+          <img src="https://i.ytimg.com/vi/Nd8ZxWW0gU8/hqdefault.jpg" alt="" loading="lazy">
+          <div class="yt-play" aria-hidden="true">▶</div>
         </div>
-        <div class="yt-card yt-card-embed">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/IGp463icD5I"
-            title="Circles Off — Johnny &amp; Rob Pizzola on the Betstamp Pro props screen"
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+        <div class="yt-card yt-card-poster" data-yt-id="IGp463icD5I" role="button" tabindex="0" aria-label="Play Circles Off — Johnny &amp; Rob Pizzola on the Betstamp Pro props screen">
+          <img src="https://i.ytimg.com/vi/IGp463icD5I/hqdefault.jpg" alt="" loading="lazy">
+          <div class="yt-play" aria-hidden="true">▶</div>
         </div>
       </div>
     </div>
@@ -2644,6 +2654,32 @@
       }, 100);
     });
     update();
+  });
+})();
+
+(function() {
+  const posters = document.querySelectorAll('.yt-card-poster');
+  posters.forEach(function(card) {
+    function play() {
+      if (card.classList.contains('yt-card-playing')) return;
+      const id = card.getAttribute('data-yt-id');
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      iframe.title = card.getAttribute('aria-label') || '';
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+      card.appendChild(iframe);
+      card.classList.add('yt-card-playing');
+    }
+    card.addEventListener('click', play);
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        play();
+      }
+    });
   });
 })();
 </script>
