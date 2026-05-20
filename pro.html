@@ -535,6 +535,20 @@
     display: block;
     border-radius: inherit;
   }
+  /* Logos whose art fills/exceeds the source canvas — switch to contain
+     so the entire mark fits inside the tile without cropping. */
+  .logo-tile.logo-tile--contain img {
+    object-fit: contain;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  /* Logos with significant blank padding baked into the source — scale
+     up so the actual mark fills more of the tile. Tile overflow:hidden
+     crops any excess. */
+  .logo-tile.logo-tile--zoom img {
+    transform: scale(1.35);
+    transform-origin: center;
+  }
   .logo-tile-sub {
     font-size: 9px; font-weight: 700;
     letter-spacing: 0.1em;
@@ -1791,15 +1805,15 @@
       <div class="logo-tile" title="LeoVegas"><img src="assets/book_logos/LeoVegas.jpeg" alt="LeoVegas"></div>
       <div class="logo-tile" title="Betano"><img src="assets/book_logos/Betano.jpeg" alt="Betano"></div>
       <div class="logo-tile" title="bwin"><img src="assets/book_logos/bwin.jpeg" alt="bwin"></div>
-      <div class="logo-tile" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
+      <div class="logo-tile logo-tile--zoom" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
       <div class="logo-tile" title="Casumo"><img src="assets/book_logos/Casumo.jpeg" alt="Casumo"></div>
       <div class="logo-tile" title="Bet99"><img src="assets/book_logos/Bet99.jpeg" alt="Bet99"></div>
       <div class="logo-tile" title="888Sport"><img src="assets/book_logos/888Sport.jpeg" alt="888Sport"></div>
       <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
-      <div class="logo-tile" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
-      <div class="logo-tile" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
+      <div class="logo-tile logo-tile--contain" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
+      <div class="logo-tile logo-tile--contain" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
       <div class="logo-tile" title="Metallic"><img src="assets/book_logos/Metallic.jpeg" alt="Metallic"></div>
-      <div class="logo-tile" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
+      <div class="logo-tile logo-tile--contain" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
       <div class="logo-tile" title="PropBuilder"><img src="assets/book_logos/PropBuilder.jpeg" alt="PropBuilder"></div>
       <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
       <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
@@ -1833,15 +1847,15 @@
       <div class="logo-tile" title="LeoVegas"><img src="assets/book_logos/LeoVegas.jpeg" alt="LeoVegas"></div>
       <div class="logo-tile" title="Betano"><img src="assets/book_logos/Betano.jpeg" alt="Betano"></div>
       <div class="logo-tile" title="bwin"><img src="assets/book_logos/bwin.jpeg" alt="bwin"></div>
-      <div class="logo-tile" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
+      <div class="logo-tile logo-tile--zoom" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
       <div class="logo-tile" title="Casumo"><img src="assets/book_logos/Casumo.jpeg" alt="Casumo"></div>
       <div class="logo-tile" title="Bet99"><img src="assets/book_logos/Bet99.jpeg" alt="Bet99"></div>
       <div class="logo-tile" title="888Sport"><img src="assets/book_logos/888Sport.jpeg" alt="888Sport"></div>
       <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
-      <div class="logo-tile" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
-      <div class="logo-tile" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
+      <div class="logo-tile logo-tile--contain" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
+      <div class="logo-tile logo-tile--contain" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
       <div class="logo-tile" title="Metallic"><img src="assets/book_logos/Metallic.jpeg" alt="Metallic"></div>
-      <div class="logo-tile" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
+      <div class="logo-tile logo-tile--contain" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
       <div class="logo-tile" title="PropBuilder"><img src="assets/book_logos/PropBuilder.jpeg" alt="PropBuilder"></div>
       <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
       <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
