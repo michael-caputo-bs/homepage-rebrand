@@ -535,11 +535,13 @@
     display: block;
     border-radius: inherit;
   }
-  /* Logos whose art fills/exceeds the source canvas — switch to contain
-     so the entire mark fits inside the tile without cropping. No padding:
-     the logo art fills the tile edge to edge, just no longer cropped. */
+  /* Logos whose art fills the source canvas edge-to-edge — contain
+     fits the whole image, and a small inset gives the mark a hair of
+     breathing room so the text/icon doesn't crash into the tile edge. */
   .logo-tile.logo-tile--contain img {
     object-fit: contain;
+    padding: 4px;
+    box-sizing: border-box;
   }
   /* Logos with significant blank padding baked into the source — scale
      up so the actual mark fills more of the tile. Tile overflow:hidden
