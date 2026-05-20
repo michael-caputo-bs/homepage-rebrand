@@ -549,6 +549,30 @@
     transform: scale(1.35);
     transform-origin: center;
   }
+  /* Text-only tiles for books that don't have a real logo file. The
+     parent .logo-tile already centers content via flex column. */
+  .logo-tile.logo-tile--text {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.05;
+    text-align: center;
+    padding: 6px 8px;
+    box-sizing: border-box;
+    word-break: keep-all;
+  }
+  .logo-tile.logo-tile--metallic {
+    background: linear-gradient(135deg, #D9DBDF 0%, #8C8F94 45%, #3F4145 100%);
+    color: #1A1A1A;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.35);
+  }
+  .logo-tile.logo-tile--propbuilder {
+    background: linear-gradient(135deg, #0F2A47 0%, #1B4F8C 100%);
+    color: var(--white);
+  }
   .logo-tile-sub {
     font-size: 9px; font-weight: 700;
     letter-spacing: 0.1em;
@@ -1812,9 +1836,9 @@
       <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
       <div class="logo-tile logo-tile--contain" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
       <div class="logo-tile logo-tile--contain" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
-      <div class="logo-tile" title="Metallic"><img src="assets/book_logos/Metallic.jpeg" alt="Metallic"></div>
+      <div class="logo-tile logo-tile--text logo-tile--metallic" title="Metallic">Metallic</div>
       <div class="logo-tile logo-tile--contain" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
-      <div class="logo-tile" title="PropBuilder"><img src="assets/book_logos/PropBuilder.jpeg" alt="PropBuilder"></div>
+      <div class="logo-tile logo-tile--text logo-tile--propbuilder" title="PropBuilder">Prop<br>Builder</div>
       <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
       <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
       <div class="logo-tile" title="ProphetX"><img src="assets/book_logos/ProphetX.jpeg" alt="ProphetX"></div>
@@ -1854,9 +1878,9 @@
       <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
       <div class="logo-tile logo-tile--contain" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
       <div class="logo-tile logo-tile--contain" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
-      <div class="logo-tile" title="Metallic"><img src="assets/book_logos/Metallic.jpeg" alt="Metallic"></div>
+      <div class="logo-tile logo-tile--text logo-tile--metallic" title="Metallic">Metallic</div>
       <div class="logo-tile logo-tile--contain" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
-      <div class="logo-tile" title="PropBuilder"><img src="assets/book_logos/PropBuilder.jpeg" alt="PropBuilder"></div>
+      <div class="logo-tile logo-tile--text logo-tile--propbuilder" title="PropBuilder">Prop<br>Builder</div>
       <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
       <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
       <div class="logo-tile" title="ProphetX"><img src="assets/book_logos/ProphetX.jpeg" alt="ProphetX"></div>
