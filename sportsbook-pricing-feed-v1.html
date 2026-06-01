@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sportsbook Pricing Feed — Betstamp</title>
+<meta name="description" content="The sharpest player props and alt-market pricing in sports betting. Built to slot alongside your primary feed as your front-runner on every prop, alt, ladder, and exotic — pre-game and in-play.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette — matched to homepage-rebrand.vercel.app */
+    --bg: #FFFFFF;
+    --bg-soft: #F3F5F8;
+    --surface: #FFFFFF;
+    --divider: #DDE3EC;
+    --divider-strong: #C2D0DE;
+
+    --blue: #3E92CC;
+    --blue-bright: #4FA8E0;
+    --blue-dark: #2B76AA;
+    --blue-deep: #1E5A85;
+    --blue-pale: #D5E8F3;
+    --blue-palest: #EEF5FB;
+
+    --navy: #0A1729;
+    --navy-2: #0E1F36;
+    --navy-soft: #1E3554;
+    --navy-line: #1B2C45;
+
+    --orange: #EE7722;
+    --orange-hover: #F18A3D;
+
+    --text: #0A1729;
+    --text-body: #3A4656;
+    --muted: #5E7590;
+    --muted-2: #8BA2B8;
+    --muted-dark: #93A6BC;
+    --green: #17A364;
+    --white: #FFFFFF;
+
+    --shadow-sm: 0 1px 2px rgba(10,23,41,0.06);
+    --shadow: 0 4px 14px rgba(10,23,41,0.08);
+    --shadow-lg: 0 12px 40px rgba(10,23,41,0.10);
+    --radius: 10px;
+    --radius-lg: 16px;
+
+    --display: "Anton", "Oswald", "Arial Narrow", Impact, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 1280px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--blue);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 2px 10px rgba(30,90,133,0.15);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 20px; color: var(--white);
+    letter-spacing: -0.01em; text-decoration: none;
+  }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 6px;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue); font-weight: 800; font-size: 18px;
+  }
+  .nav-links { display: flex; gap: 22px; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.92); text-decoration: none; font-size: 13.5px;
+    font-weight: 500; transition: color .15s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 11px 22px; border-radius: 8px;
+    font-weight: 700; font-size: 14px;
+    cursor: pointer; text-decoration: none;
+    transition: all .18s; border: none;
+    white-space: nowrap; font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--orange); color: var(--white);
+    box-shadow: 0 4px 14px rgba(238,119,34,0.28);
+  }
+  .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
+  .btn-ghost-dark {
+    background: transparent; color: var(--white);
+    border: 1.5px solid rgba(255,255,255,0.30);
+  }
+  .btn-ghost-dark:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.55); }
+  .btn-ghost-light {
+    background: transparent; color: var(--navy);
+    border: 1.5px solid var(--divider-strong);
+  }
+  .btn-ghost-light:hover { border-color: var(--blue); color: var(--blue-deep); }
+  .btn-lg { padding: 14px 26px; font-size: 15px; }
+
+  /* ---------- TYPE: DISPLAY ---------- */
+  .eyebrow {
+    display: inline-block;
+    color: var(--blue-bright);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .eyebrow-dark { color: var(--blue-deep); }
+  h1, h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 0.96;
+    letter-spacing: -0.005em;
+    color: var(--text);
+  }
+  .on-dark h1, .on-dark h2 { color: var(--white); }
+  h1 .accent, h2 .accent { color: var(--blue-bright); }
+
+  /* ---------- DARK BAND WRAPPER ---------- */
+  .dark-band {
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    color: var(--white);
+  }
+  .dark-band::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% 0%, rgba(62,146,204,0.18), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 5% 100%, rgba(238,119,34,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .dark-band > * { position: relative; z-index: 1; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: transparent;
+    color: var(--white);
+    padding: 84px 0 56px;
+    position: relative;
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .hero .eyebrow { margin-bottom: 14px; }
+  .hero h1 {
+    font-size: clamp(40px, 5.8vw, 76px);
+    margin: 4px 0 22px;
+  }
+  .hero p.lead {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--muted-dark);
+    max-width: 780px;
+    margin: 0 auto 30px;
+  }
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero-pre {
+    color: var(--muted-dark); font-size: 13.5px; margin-top: 22px;
+    letter-spacing: 0.04em;
+  }
+  .hero-pre strong { color: var(--white); font-weight: 700; }
+
+  /* ---------- STATS BAND (dark) ---------- */
+  .stats-band-wrap {
+    background: transparent;
+    padding: 24px 0 64px;
+  }
+  .stats-band {
+    background: transparent;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid var(--navy-line);
+    border-bottom: 1px solid var(--navy-line);
+  }
+  .stat-cell {
+    padding: 26px 16px; text-align: center;
+    border-right: 1px solid var(--navy-line);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--display);
+    font-size: clamp(34px, 4vw, 56px);
+    color: var(--blue-bright);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .stat-label {
+    font-size: 11px; color: var(--muted-dark);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    margin-top: 10px; font-weight: 700;
+  }
+
+  /* ---------- SECTION DEFAULTS ---------- */
+  section.block { padding: 96px 0; }
+  section.block-tight { padding: 80px 0; }
+  section.light { background: var(--bg); }
+  section.soft { background: var(--bg-soft); }
+  section.dark { background: var(--navy); color: var(--white); }
+  .section-head {
+    text-align: center; max-width: 920px; margin: 0 auto 56px;
+  }
+  .section-head h2 {
+    font-size: clamp(36px, 5.5vw, 72px);
+    margin-bottom: 18px;
+  }
+  .section-head p {
+    font-size: 18px; line-height: 1.55;
+    color: var(--text-body);
+  }
+  .dark .section-head p { color: var(--muted-dark); }
+
+  /* ---------- HOW WE FIT (3-column wedge) ---------- */
+  .fit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    align-items: center;
+    margin-top: 8px;
+  }
+  .fit-card {
+    background: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    position: relative;
+    display: flex; flex-direction: column;
+    transition: transform .25s, box-shadow .25s;
+  }
+  /* Carousel: side cards smaller, featured card front and centre */
+  .fit-card.dim {
+    transform: scale(0.9);
+    box-shadow: var(--shadow);
+    z-index: 1;
+  }
+  .fit-card.featured {
+    border: 2px solid var(--blue);
+    box-shadow: 0 30px 70px rgba(62,146,204,0.30);
+    transform: scale(1.05);
+    z-index: 5;
+  }
+  .fit-card .fit-tag {
+    display: inline-flex; align-items: center;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+    padding: 4px 10px; border-radius: 999px;
+    background: var(--bg-soft);
+    align-self: flex-start;
+    margin-bottom: 18px;
+  }
+  .fit-card.featured .fit-tag {
+    background: var(--blue);
+    color: var(--white);
+  }
+  .fit-card h3 {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: var(--navy);
+    line-height: 1.0;
+    margin-bottom: 12px;
+    letter-spacing: 0;
+  }
+  .fit-card .fit-sub {
+    color: var(--muted); font-size: 13px; font-weight: 600;
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+  .fit-card .fit-body {
+    color: var(--text-body); font-size: 14.5px; line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .fit-card ul {
+    list-style: none; margin-top: auto;
+  }
+  .fit-card li {
+    padding: 8px 0;
+    font-size: 13.5px; color: var(--text);
+    font-weight: 600;
+    border-top: 1px dashed var(--divider);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .fit-card li:first-child { border-top: none; }
+  .fit-card li::before {
+    content: ""; width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+  .fit-card.dim li::before { background: var(--muted-2); }
+
+  /* ---------- PERFORMANCE CENTERPIECE ---------- */
+  .perf-card {
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+  }
+  .perf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--navy-line);
+  }
+  .perf-row:first-of-type { border-top: none; }
+  .perf-row.head {
+    border-top: none;
+    font-size: 11px;
+    color: var(--muted-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 800;
+  }
+  .perf-cell {
+    padding: 18px 22px;
+    border-right: 1px solid var(--navy-line);
+    color: var(--white);
+    font-size: 15px;
+    display: flex; align-items: center;
+  }
+  .perf-cell:last-child { border-right: none; }
+  .perf-row.head .perf-cell { padding: 12px 22px; }
+  .perf-cell .clv-delta {
+    font-family: var(--display);
+    font-size: 26px;
+    color: var(--blue-bright);
+    letter-spacing: 0;
+  }
+  .perf-cell .clv-delta.plus { color: var(--green); }
+  .perf-note {
+    margin-top: 22px; color: var(--muted-dark); font-size: 13px;
+    font-style: italic;
+  }
+  .perf-disclaimer {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: rgba(238,119,34,0.10);
+    border-left: 3px solid var(--orange);
+    border-radius: 4px;
+    color: var(--muted-dark);
+    font-size: 12.5px;
+  }
+  .perf-disclaimer strong { color: var(--white); }
+
+  /* ---------- DIFFERENTIATORS (alternating) ---------- */
+  .diff-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 100px;
+  }
+  .diff-row:last-child { margin-bottom: 0; }
+  .diff-row.reverse .diff-text { order: 2; }
+  .diff-row.reverse .diff-visual { order: 1; }
+  .diff-text h3 {
+    font-family: var(--display);
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 400; text-transform: uppercase;
+    color: var(--navy);
+    line-height: 1.0;
+    margin-bottom: 18px;
+  }
+  .diff-text p {
+    font-size: 17px; line-height: 1.6;
+    color: var(--text-body);
+    margin-bottom: 22px;
+  }
+  .diff-bullets {
+    list-style: none;
+    border-top: 1px solid var(--divider);
+  }
+  .diff-bullets li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--divider);
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 14.5px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .diff-bullets li::before {
+    content: "";
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--blue-pale);
+    color: var(--blue-deep);
+    margin-top: 2px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><path d='M5 9.5l3 3 5-6' stroke='%231E5A85' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  /* Two-tone bullet list with ↑ icon (matches betstamp.com .diff-list) */
+  .diff-list {
+    list-style: none;
+    margin-top: 28px;
+    border-top: 1px solid var(--divider);
+  }
+  .diff-list li {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 0;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--divider);
+  }
+  .diff-list li::before {
+    content: "↑";
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; line-height: 1;
+    box-shadow: 0 0 10px rgba(62,146,204,0.3);
+  }
+  .diff-list li strong { color: var(--navy); font-weight: 700; }
+  .diff-list li .li-desc { color: var(--muted); font-weight: 500; }
+  .diff-visual {
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    color: var(--white);
+    box-shadow: 0 18px 50px rgba(10,23,41,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+  .diff-visual::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 600px 300px at 100% 0%, rgba(62,146,204,0.20), transparent 60%);
+  }
+  .diff-visual > * { position: relative; z-index: 1; }
+  .diff-visual h4 {
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 18px;
+  }
+  .price-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--navy-line);
+    align-items: center;
+  }
+  .price-row:first-of-type { border-top: none; padding-top: 0; }
+  .price-row .market {
+    color: var(--white); font-weight: 600; font-size: 14.5px;
+    line-height: 1.3;
+  }
+  .price-row .market small {
+    display: block; color: var(--muted-dark); font-size: 11.5px;
+    font-weight: 500; letter-spacing: 0.02em; margin-top: 2px;
+  }
+  .price-row .price-tag {
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    border-radius: 6px;
+    padding: 7px 11px;
+    font-family: "SF Mono", "Menlo", monospace;
+    font-size: 13px;
+    color: var(--muted-dark);
+    min-width: 56px;
+    text-align: center;
+  }
+  .price-row .price-tag.us {
+    border-color: rgba(62,146,204,0.35);
+    background: rgba(62,146,204,0.10);
+    color: var(--blue-bright);
+    font-weight: 700;
+  }
+  .price-row .price-tag.us strong { color: var(--white); }
+  .price-legend {
+    margin-top: 22px;
+    display: flex; gap: 18px;
+    font-size: 11.5px; color: var(--muted-dark);
+    letter-spacing: 0.04em;
+    flex-wrap: wrap;
+  }
+  .price-legend span::before {
+    content: ""; display: inline-block;
+    width: 8px; height: 8px; border-radius: 2px;
+    margin-right: 6px; vertical-align: middle;
+  }
+  .price-legend .ours::before { background: var(--blue-bright); }
+  .price-legend .market-tag::before { background: var(--muted-2); }
+
+  /* Coverage grid in differentiator 2 visual */
+  .coverage-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .coverage-pill {
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    color: var(--muted-dark);
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .coverage-pill.hot {
+    background: rgba(62,146,204,0.12);
+    border-color: rgba(62,146,204,0.35);
+    color: var(--blue-bright);
+  }
+
+  /* ---------- METHODOLOGY (4 cards) ---------- */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    text-align: left;
+  }
+  .method-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(62,146,204,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .method-card .step-num {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue);
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .method-card h4 {
+    color: var(--white); font-size: 17px; font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .method-card p {
+    color: var(--muted-dark); font-size: 14.5px; line-height: 1.6;
+  }
+
+  /* ---------- USE CASE CARDS ---------- */
+  .usecase-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .usecase-card {
+    background: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-lg);
+    padding: 28px 26px;
+    transition: all .18s;
+  }
+  .usecase-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .usecase-card .uc-eyebrow {
+    color: var(--blue-deep);
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .usecase-card h4 {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400; text-transform: uppercase;
+    color: var(--navy);
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .usecase-card p {
+    font-size: 13.5px; color: var(--text-body);
+    line-height: 1.6;
+  }
+
+  /* ---------- DELIVERY (2-col with spec list) ---------- */
+  .delivery-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .delivery-text h2 {
+    font-size: clamp(32px, 4.4vw, 60px);
+    margin-bottom: 22px;
+  }
+  .delivery-text p {
+    font-size: 17px; line-height: 1.6;
+    color: var(--muted-dark);
+  }
+  .spec-list {
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--radius-lg);
+    padding: 6px 6px;
+  }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 24px;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--navy-line);
+    align-items: baseline;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-key {
+    font-size: 11.5px; font-weight: 800;
+    color: var(--blue-bright);
+    text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .spec-val {
+    color: var(--white); font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .spec-val small {
+    display: block; color: var(--muted-dark); font-size: 12.5px; margin-top: 3px;
+  }
+
+  /* ---------- HOW IT WORKS (4-step) ---------- */
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    position: relative;
+  }
+  .flow-step {
+    background: var(--white);
+    border: 1px solid var(--divider);
+    border-radius: var(--radius-lg);
+    padding: 30px 24px;
+    position: relative;
+    transition: all .18s;
+  }
+  .flow-step:hover {
+    border-color: var(--blue);
+    box-shadow: var(--shadow);
+  }
+  .flow-step.benchmark {
+    border: 2px solid var(--orange);
+    background: linear-gradient(180deg, #fff 0%, #fff8f2 100%);
+  }
+  .flow-step .step-pill {
+    display: inline-flex; align-items: center;
+    background: var(--bg-soft);
+    color: var(--blue-deep);
+    font-family: var(--display);
+    font-size: 16px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    letter-spacing: 0;
+  }
+  .flow-step.benchmark .step-pill {
+    background: var(--orange);
+    color: var(--white);
+  }
+  .flow-step h4 {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400; text-transform: uppercase;
+    color: var(--navy);
+    line-height: 1.05;
+    margin-bottom: 10px;
+  }
+  .flow-step p {
+    font-size: 13px; color: var(--text-body);
+    line-height: 1.6;
+  }
+  .flow-step .step-flag {
+    position: absolute; top: -10px; right: 12px;
+    background: var(--orange);
+    color: var(--white);
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  /* ---------- PRICING NOTE ---------- */
+  .pricing-strip {
+    background: var(--navy);
+    color: var(--white);
+    padding: 64px 0;
+    border-top: 1px solid var(--navy-line);
+    border-bottom: 1px solid var(--navy-line);
+    position: relative; overflow: hidden;
+  }
+  .pricing-strip::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 800px 360px at 50% 0%, rgba(62,146,204,0.14), transparent 60%);
+  }
+  .pricing-grid {
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 980px; margin: 0 auto;
+  }
+  .pricing-card {
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--radius-lg);
+    padding: 32px 30px;
+  }
+  .pricing-card .pc-tag {
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .pricing-card h4 {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 400; text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .pricing-card p {
+    color: var(--muted-dark); font-size: 14px; line-height: 1.6;
+  }
+  .pricing-card .range {
+    font-family: var(--display);
+    font-size: 38px;
+    color: var(--white);
+    line-height: 1; letter-spacing: 0;
+    margin: 14px 0 8px;
+  }
+  .pricing-card .range small {
+    font-size: 14px;
+    color: var(--muted-dark);
+    font-family: "Inter", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .pricing-note {
+    text-align: center;
+    margin-top: 28px;
+    color: var(--muted-dark); font-size: 13px;
+    position: relative; z-index: 1;
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-list {
+    max-width: 920px; margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--divider);
+  }
+  .faq-q {
+    padding: 26px 0;
+    cursor: pointer;
+    display: flex; justify-content: space-between; gap: 24px; align-items: center;
+    font-size: 17px; font-weight: 700;
+    color: var(--navy);
+    list-style: none;
+  }
+  .faq-q::-webkit-details-marker { display: none; }
+  .faq-q::after {
+    content: "+";
+    font-family: var(--display); font-size: 28px; color: var(--blue);
+    line-height: 1; transition: transform .2s;
+  }
+  details[open] .faq-q::after { content: "−"; }
+  .faq-a {
+    padding: 0 0 28px 0;
+    color: var(--text-body); font-size: 15px; line-height: 1.7;
+    max-width: 760px;
+  }
+
+  /* ---------- CTA BANNER ---------- */
+  .cta-banner-wrap { padding: 96px 0; background: var(--bg); }
+  .cta-banner {
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 72px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-banner::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 500px 300px at 10% 0%, rgba(62,146,204,0.22), transparent),
+      radial-gradient(ellipse 400px 300px at 90% 100%, rgba(238,119,34,0.18), transparent);
+  }
+  .cta-banner h2 {
+    color: var(--white); font-size: clamp(36px, 5vw, 64px);
+    position: relative; z-index: 1;
+  }
+  .cta-banner p {
+    color: var(--muted-dark); font-size: 17px; margin: 18px auto 0;
+    position: relative; z-index: 1; max-width: 680px; line-height: 1.6;
+  }
+  .cta-banner .hero-ctas { position: relative; z-index: 1; justify-content: center; margin-top: 32px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: var(--navy);
+    color: var(--muted-dark);
+    padding: 64px 0 32px;
+    border-top: 1px solid var(--navy-line);
+  }
+  footer .logo { color: var(--white); }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-brand p {
+    color: var(--muted-dark); font-size: 14px;
+    margin-top: 16px; line-height: 1.6; max-width: 320px;
+  }
+  .footer-col h4 {
+    color: var(--white); font-size: 12px; font-weight: 800;
+    margin-bottom: 16px; letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .footer-col a {
+    display: block; color: var(--muted-dark); text-decoration: none;
+    font-size: 14px; padding: 6px 0; transition: color .15s;
+  }
+  .footer-col a:hover { color: var(--blue-bright); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 30px; border-top: 1px solid var(--navy-line);
+    font-size: 12px; color: var(--muted);
+  }
+  .footer-bottom a { color: var(--muted); text-decoration: none; margin-left: 20px; }
+  .footer-bottom a:hover { color: var(--blue-bright); }
+
+  /* ---------- MOCKUP RIBBON ---------- */
+  .mockup-ribbon {
+    position: fixed; top: 14px; right: -42px;
+    background: var(--orange); color: var(--white);
+    padding: 5px 50px; font-size: 11px; font-weight: 800;
+    transform: rotate(45deg); z-index: 200;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(10,23,41,0.2);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1100px) {
+    .stats-band { grid-template-columns: repeat(3, 1fr); }
+    .stat-cell:nth-child(3) { border-right: none; }
+    .stat-cell:nth-child(1), .stat-cell:nth-child(2), .stat-cell:nth-child(3) { border-bottom: 1px solid var(--navy-line); }
+    .fit-grid { grid-template-columns: 1fr; gap: 18px; }
+    .fit-card.featured,
+    .fit-card.dim { transform: none; }
+    .method-grid { grid-template-columns: 1fr 1fr; }
+    .usecase-grid { grid-template-columns: 1fr 1fr; }
+    .flow { grid-template-columns: 1fr 1fr; }
+    .diff-row { grid-template-columns: 1fr; gap: 40px; }
+    .diff-row.reverse .diff-text { order: 1; }
+    .diff-row.reverse .diff-visual { order: 2; }
+    .delivery-row { grid-template-columns: 1fr; gap: 40px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    section.block, section.block-tight { padding: 64px 0; }
+    .stats-band { grid-template-columns: repeat(2, 1fr); }
+    .stat-cell { border-right: 1px solid var(--navy-line) !important; }
+    .stat-cell:nth-child(2n) { border-right: none !important; }
+    .nav-links { display: none; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .method-grid, .usecase-grid, .flow { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 44px; }
+    .perf-row { grid-template-columns: 1.4fr 1fr 1fr; }
+    .perf-cell { padding: 14px 12px; font-size: 13px; }
+    .cta-banner { padding: 48px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="mockup-ribbon">V1 Mockup</div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark">B</span>
+      betstamp
+    </a>
+    <div class="nav-links">
+      <a href="#">Products</a>
+      <a href="#">Customers</a>
+      <a href="#">Pricing</a>
+      <a href="#">Documentation</a>
+      <a href="#">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#demo" class="btn btn-primary">Request a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO + STATS (dark) ==================== -->
+<div class="dark-band on-dark">
+<section class="hero">
+  <div class="container hero-inner">
+    <span class="eyebrow">Sportsbook Pricing Feed</span>
+    <h1>The sharpest player props pricing in <span class="accent">sports betting.</span></h1>
+    <p class="lead">A unified pricing feed for every prop, alt, and milestone. Built to slot alongside your primary feed as the front-runner on prop markets where official-data feeds leave a gap.</p>
+    <div class="hero-ctas">
+      <a href="#demo" class="btn btn-primary btn-lg">Request a Demo →</a>
+      <a href="#methodology" class="btn btn-ghost-dark btn-lg">See the methodology</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== STATS BAND (dark, continuous) ==================== -->
+<div class="stats-band-wrap">
+  <div class="container">
+    <div class="stats-band">
+      <div class="stat-cell">
+        <div class="stat-num">200+</div>
+        <div class="stat-label">Books &amp; Operators</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">2,500+</div>
+        <div class="stat-label">Markets</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">400ms</div>
+        <div class="stat-label">Median Refresh</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">99.99%</div>
+        <div class="stat-label">Uptime SLA</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Seasons Backtested</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- /dark-band -->
+
+<!-- ==================== HOW WE FIT (Johnny's wedge) ==================== -->
+<section class="block light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">How we fit your stack</span>
+      <h2>Built to slot alongside your<br>primary feed — not replace it.</h2>
+      <p>No book and no MTS runs on one feed. Many larger books run multiple feeds. Official-data feeds are the in-play backbone — we're the front-runner on props and alt markets where those feeds are least aggressive.</p>
+    </div>
+
+    <div class="fit-grid">
+
+      <div class="fit-card dim">
+        <span class="fit-tag">Primary</span>
+        <h3>Your Official-Data Feed</h3>
+        <div class="fit-sub">Your in-play backbone</div>
+        <p class="fit-body">Required across the industry for live mains and licensed in-play markets. Strong, expensive, and built for the markets it's built for. Whichever tier-1 provider your stack already runs — keep it.</p>
+        <ul>
+          <li>Mains, spreads, totals — live</li>
+          <li>Official-data licensing</li>
+          <li>Tier-1 in-play latency</li>
+        </ul>
+      </div>
+
+      <div class="fit-card featured">
+        <span class="fit-tag">Front-runner on props &amp; alts</span>
+        <h3>Sportsbook Pricing Feed</h3>
+        <div class="fit-sub">By Betstamp</div>
+        <p class="fit-body">Every player prop, game prop, alt line, ladder, and exotic — priced with our True Line model. The sharpest reference in the industry on the markets where official-data feeds price weakest.</p>
+        <ul>
+          <li>Every prop type, priced reliably</li>
+          <li>Alt lines and ladders fully priced</li>
+          <li>Pre-game props, sub-second</li>
+          <li>Sharper than official-data feeds on prop CLV</li>
+          <li>Best fit for operators bringing trading in-house</li>
+        </ul>
+      </div>
+
+      <div class="fit-card dim">
+        <span class="fit-tag">Optional redundancy</span>
+        <h3>Secondary Feed</h3>
+        <div class="fit-sub">Where it earns its keep</div>
+        <p class="fit-body">Useful for sport-specific gaps — but most secondary feeds overlap exactly where your official-data primary is already strong, and don't cover the prop depth most operators actually need.</p>
+        <ul>
+          <li>Coverage redundancy</li>
+          <li>Geo-specific sport gaps</li>
+          <li>Limited prop depth</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PERFORMANCE (dark centerpiece) ==================== -->
+<section class="block dark on-dark">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Performance</span>
+      <h2>Sharper than the books that<br><span class="accent">price for themselves.</span></h2>
+      <p>Our True Line outperforms in-house prop pricing on closing line value across every major prop type. Backtested across 5+ seasons of closing data, weighted against 200+ books, calibrated for the prop markets where pricing fails most often.</p>
+    </div>
+
+    <div class="perf-card">
+      <div class="perf-row head">
+        <div class="perf-cell">Market &amp; Sport</div>
+        <div class="perf-cell">CLV vs. Major Book Avg</div>
+        <div class="perf-cell">Sample</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-cell">NFL — Anytime TD</div>
+        <div class="perf-cell"><span class="clv-delta plus">+3.4%</span></div>
+        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~42k markets / 5 seasons</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-cell">NFL — Receiving Yards</div>
+        <div class="perf-cell"><span class="clv-delta plus">+2.8%</span></div>
+        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~118k markets / 5 seasons</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-cell">NBA — Points</div>
+        <div class="perf-cell"><span class="clv-delta plus">+2.1%</span></div>
+        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~340k markets / 5 seasons</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-cell">NBA — Threes Made</div>
+        <div class="perf-cell"><span class="clv-delta plus">+2.6%</span></div>
+        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~160k markets / 5 seasons</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-cell">MLB — Pitcher Strikeouts</div>
+        <div class="perf-cell"><span class="clv-delta plus">+3.1%</span></div>
+        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~88k markets / 5 seasons</div>
+      </div>
+      <div class="perf-row">
+        <div class="perf-cell">NCAAB — Player Points</div>
+        <div class="perf-cell"><span class="clv-delta plus">+3.9%</span></div>
+        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~290k markets / 5 seasons</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DIFFERENTIATORS ==================== -->
+<section class="block light">
+  <div class="container">
+
+    <div class="diff-row">
+      <div class="diff-text">
+        <span class="eyebrow eyebrow-dark">True Line Pricing</span>
+        <h3>The sharpest player props reference in the industry.</h3>
+        <p>A market-weighted True Line priced across 200+ books and backtested on 5+ seasons of closing lines. It's not a "sharp book" consensus — it's our own model, calibrated to surface the most efficient prop pricing in sports betting.</p>
+      </div>
+      <div class="diff-visual on-dark">
+        <h4>Sample: NFL — Anytime TD Scorer</h4>
+        <div class="price-row">
+          <div class="market">Saquon Barkley<small>Anytime TD</small></div>
+          <div class="price-tag">−155</div>
+          <div class="price-tag">−158</div>
+          <div class="price-tag us"><strong>−147</strong></div>
+        </div>
+        <div class="price-row">
+          <div class="market">Travis Etienne<small>Anytime TD</small></div>
+          <div class="price-tag">+140</div>
+          <div class="price-tag">+138</div>
+          <div class="price-tag us"><strong>+152</strong></div>
+        </div>
+        <div class="price-row">
+          <div class="market">Brock Bowers<small>Anytime TD</small></div>
+          <div class="price-tag">+185</div>
+          <div class="price-tag">+178</div>
+          <div class="price-tag us"><strong>+196</strong></div>
+        </div>
+        <div class="price-row">
+          <div class="market">Zay Flowers<small>Anytime TD</small></div>
+          <div class="price-tag">+220</div>
+          <div class="price-tag">+225</div>
+          <div class="price-tag us"><strong>+236</strong></div>
+        </div>
+        <div class="price-legend">
+          <span class="market-tag">FanDuel</span>
+          <span class="market-tag">DraftKings</span>
+          <span class="ours">Our True Line — fair value</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="diff-row reverse">
+      <div class="diff-text">
+        <span class="eyebrow eyebrow-dark">Coverage</span>
+        <h3>The deepest prop coverage available.</h3>
+        <p>Deep prop coverage across major sports — not just headline markets. Player props, alts, milestones, and unique markets that official-data feeds and internal teams often price less aggressively. Expand your prop menu without adding manual pricing overhead.</p>
+      </div>
+      <div class="diff-visual on-dark">
+        <h4>What you get priced — NFL example</h4>
+        <div class="coverage-pills">
+          <span class="coverage-pill hot">Passing Yds</span>
+          <span class="coverage-pill hot">Passing TDs</span>
+          <span class="coverage-pill hot">Completions</span>
+          <span class="coverage-pill hot">Interceptions</span>
+          <span class="coverage-pill hot">Rushing Yds</span>
+          <span class="coverage-pill hot">Rushing TDs</span>
+          <span class="coverage-pill hot">Rushing Atts</span>
+          <span class="coverage-pill hot">Receiving Yds</span>
+          <span class="coverage-pill hot">Receptions</span>
+          <span class="coverage-pill hot">Receiving TDs</span>
+          <span class="coverage-pill hot">Anytime TD</span>
+          <span class="coverage-pill hot">First TD</span>
+          <span class="coverage-pill hot">Last TD</span>
+          <span class="coverage-pill hot">Sacks</span>
+          <span class="coverage-pill hot">Tackles + Assists</span>
+          <span class="coverage-pill hot">Solo Tackles</span>
+          <span class="coverage-pill hot">INTs Thrown</span>
+          <span class="coverage-pill hot">Fantasy Pts</span>
+          <span class="coverage-pill">Longest Reception</span>
+          <span class="coverage-pill">Longest Rush</span>
+          <span class="coverage-pill">FG Made</span>
+          <span class="coverage-pill">Extra Pts Made</span>
+          <span class="coverage-pill">2PT Conversions</span>
+          <span class="coverage-pill">Punts</span>
+          <span class="coverage-pill">Kicker Pts</span>
+          <span class="coverage-pill">+ alts on every line</span>
+        </div>
+        <p class="perf-note" style="margin-top:26px;color:var(--muted-dark);">Same depth across NBA, MLB, NHL, NCAAF, NCAAB, soccer, UFC, and PGA. Every line priced with alt ladders — not just the consensus number.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== TRUE LINE METHODOLOGY (4 cards, dark) ==================== -->
+<section class="block dark on-dark" id="methodology">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">The Methodology</span>
+      <h2>How the True Line gets to <span class="accent">sharpest.</span></h2>
+      <p>Our True Line model is built on four interlocking principles — the same principles that power the PRO Odds Screen used by sharp bettors and syndicates. Each one addresses a specific structural weakness in conventional prop pricing.</p>
+    </div>
+
+    <div class="method-grid">
+      <div class="method-card">
+        <span class="step-num">01</span>
+        <h4>Historical book efficiency</h4>
+        <p>Each book is weighted by sport, market, and prop type based on its historical sharpness. Pinnacle's NBA spread isn't the same signal as their NFL alts — and the model treats them differently. Book weights are recalibrated continuously against closing line outcomes.</p>
+      </div>
+      <div class="method-card">
+        <span class="step-num">02</span>
+        <h4>Line move direction and timing</h4>
+        <p>Sharp early action, steam moves, and reverse line movement feed into how confidently each price is set. A line that moves with sharp money is treated differently from a line that moves with public action — the same signals a sharp bettor reads off the market.</p>
+      </div>
+      <div class="method-card">
+        <span class="step-num">03</span>
+        <h4>Bias correction by prop type</h4>
+        <p>Anytime TD prices differently than first TD. Receiving yards ladders behave differently from passing yards lines. Our model corrects per prop type rather than treating all props as one bucket — the difference between a model that prices football and one that prices the prop markets sharps actually attack.</p>
+      </div>
+      <div class="method-card">
+        <span class="step-num">04</span>
+        <h4>Offshore and sharp-out reference set</h4>
+        <p>We ingest more offshore and sharp-out reference books than any other public pricing model — the books that move first when smart money lands. These are the books most aggregators don't ingest at all, and the books any retail-only model is structurally blind to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== USE CASES ==================== -->
+<section class="block soft">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">Who it's for</span>
+      <h2>Built for trading desks that<br>price for performance.</h2>
+      <p>Whether you're bringing trading fully in-house, scaling an existing prop catalog, or sharpening pricing you already have — our Pricing Feed is the front-runner on the markets that drive prop P&amp;L.</p>
+    </div>
+
+    <div class="usecase-grid">
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Use Case 01</span>
+        <h4>Books bringing<br>trading in-house</h4>
+        <p>Replace your MTS dependency cleanly. Pair our Pricing Feed with your official-data primary, and own your enterprise end to end — without scaling an in-house quant team for every prop type.</p>
+      </div>
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Use Case 02</span>
+        <h4>Books expanding<br>prop catalog</h4>
+        <p>Add depth across markets without taking on added props pricing risk. We price the props most pricing models can't safely cover.</p>
+      </div>
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Use Case 03</span>
+        <h4>Trading desks scaling<br>live prop coverage</h4>
+        <p>Price live props with the same model that powers them pre-game. Sub-second updates as game state, possession, and player news shift — built for the in-play prop markets sharps are attacking hardest.</p>
+      </div>
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Use Case 04</span>
+        <h4>Mid-market and<br>challenger books</h4>
+        <p>Compete with tier-1 pricing without building a tier-1 quant team. Outsource the model, keep the trading judgment — and slot us in alongside whichever official-data provider your in-play stack already uses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== DELIVERY ==================== -->
+<section class="block dark on-dark">
+  <div class="container">
+    <div class="delivery-row">
+      <div class="delivery-text">
+        <span class="eyebrow">Delivery</span>
+        <h2>Built to drop into your<br><span class="accent">trading stack.</span></h2>
+        <p>Sportsbook Pricing Feed delivers as a streaming or REST API in JSON, integrated against your existing trading infrastructure. Sub-second updates, settlement-ready outputs, full SLA support, and a dedicated technical contact for the integration phase and beyond.</p>
+      </div>
+      <div class="spec-list">
+        <div class="spec-row">
+          <div class="spec-key">Format</div>
+          <div class="spec-val">REST + Streaming<small>WebSocket / HTTP/2, JSON payloads</small></div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-key">Latency</div>
+          <div class="spec-val">Sub-second updates<small>Tick-by-tick on game state, possession, news</small></div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-key">Coverage</div>
+          <div class="spec-val">Every prop, every sport<small>Pre-game and in-play, alt ladders included</small></div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-key">Output</div>
+          <div class="spec-val">True Line + book consensus<small>Fair-value pricing with confidence intervals</small></div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-key">SLA</div>
+          <div class="spec-val">99.99% uptime<small>24/7 monitoring, dedicated status page</small></div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-key">Settlement</div>
+          <div class="spec-val">Full grading support<small>Settlement outputs aligned to market state</small></div>
+        </div>
+        <div class="spec-row">
+          <div class="spec-key">Support</div>
+          <div class="spec-val">Dedicated integration team<small>Slack channel, integration engineer, ongoing tuning</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA BANNER ==================== -->
+<div class="cta-banner-wrap" id="demo">
+  <div class="container">
+    <div class="cta-banner on-dark">
+      <span class="eyebrow">Request a Demo</span>
+      <h2>Benchmark against your<br><span class="accent">current prop pricing.</span></h2>
+      <p>A 30-minute call with our trading team. We'll run our True Line against a sample of your markets and show you where it's sharper — by sport, by prop type, by game state. No commitment until you see the numbers.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary btn-lg">Request a Demo →</a>
+        <a href="#" class="btn btn-ghost-dark btn-lg">Request the benchmark deck</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FAQ ==================== -->
+<section class="block light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">FAQ</span>
+      <h2>Built for the questions<br>trading desks actually ask.</h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-q">How is your True Line different from Pinnacle's or Circa's lines?</summary>
+        <div class="faq-a">Pinnacle and Circa are sharp books, but their lines reflect their own market position, hold targets, and customer mix. Our True Line is a model output — calibrated against 200+ books and weighted for historical book efficiency by sport and market, not constrained by any one operator's risk appetite or coverage limits. For prop markets specifically, our model is built to outperform any single book's pricing because it doesn't carry the structural blind spots of a single book's coverage.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">What's the closing line value backtest methodology?</summary>
+        <div class="faq-a">We backtest our True Line against the closing lines of the sharpest books available, across 5+ seasons of historical data. Each price is graded against the closing line on the same market — CLV calculated per sport, per market, and per prop type. Full methodology available on request under NDA.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How does the model handle live game state?</summary>
+        <div class="faq-a">Live game state, score, time, possession, player events, and verified injury news are all ingested. The model updates sub-second across in-play markets. Latency on game-state-driven price updates is the same as on tick-by-tick book updates — built specifically for the in-play prop markets sharps are attacking now.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Can we use you for some markets and our own model for others?</summary>
+        <div class="faq-a">Yes. Many operators use our Pricing Feed as the primary signal for long-tail and prop markets where their in-house model is weaker, while keeping their own pricing on main markets. The feed can be filtered by sport, market, or prop type at the integration layer — slot us in only where we add value.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How does this work alongside our primary in-play feed?</summary>
+        <div class="faq-a">It's designed to. Official-data feeds are the in-play backbone for licensed live markets — that's their job, and they're strong at it. We're the front-runner on every prop, alt, ladder, and exotic, plus a backup on mains. Most of our operator clients run their official-data feed as the primary and us as the second across the rest of the board. No book and no MTS runs on one feed — many larger books run multiple feeds.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How fast can we integrate?</summary>
+        <div class="faq-a">Typical integrations run 2–4 weeks from contract to first market live, depending on the complexity of your existing trading stack. Dedicated technical contact assigned for the integration phase and beyond.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">How do you handle injury reports and lineup changes?</summary>
+        <div class="faq-a">Verified injury reports, lineup changes, and roster updates are ingested from primary sources. Model adjustments propagate to all affected markets within seconds. Full data source documentation provided in the integration guide.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-q">Who else uses Sportsbook Pricing Feed?</summary>
+        <div class="faq-a">Customer references available under NDA. Talk to sales for a list of operators currently using the feed and what they're using it for.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark">B</span>
+          betstamp
+        </a>
+        <p>The odds and pricing data company. Built for the sharps, sportsbooks, and syndicates pricing for performance.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">PRO Odds Screen</a>
+        <a href="#">Sportsbook Pricing Feed</a>
+        <a href="#">SGP Pricing Engine</a>
+        <a href="#">Sports Betting API</a>
+        <a href="#">Prediction Markets API</a>
+      </div>
+      <div class="footer-col">
+        <h4>For Sportsbooks</h4>
+        <a href="#">In-House MTS</a>
+        <a href="#">B2B MTS Providers</a>
+        <a href="#">Mid-Market Books</a>
+        <a href="#">Trading Desks</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Customers</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Methodology</a>
+        <a href="#">Status</a>
+        <a href="#">Legal</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 Betstamp. All rights reserved.</div>
+      <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
