@@ -240,8 +240,9 @@
   /* ---------- HOW WE FIT (3-column wedge) ---------- */
   .fit-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 0;
+    align-items: center;
     margin-top: 8px;
   }
   .fit-card {
@@ -251,12 +252,27 @@
     padding: 32px 28px;
     position: relative;
     display: flex; flex-direction: column;
-    transition: all .18s;
+    transition: transform .25s, box-shadow .25s;
+  }
+  /* Carousel: side cards smaller and tucked behind the featured card */
+  .fit-card.dim {
+    transform: scale(0.88);
+    box-shadow: var(--shadow);
+    z-index: 1;
+  }
+  .fit-grid > .fit-card.dim:first-child {
+    margin-right: -40px;
+    transform-origin: right center;
+  }
+  .fit-grid > .fit-card.dim:last-child {
+    margin-left: -40px;
+    transform-origin: left center;
   }
   .fit-card.featured {
     border: 2px solid var(--blue);
-    box-shadow: 0 18px 50px rgba(62,146,204,0.18);
-    transform: translateY(-6px);
+    box-shadow: 0 30px 70px rgba(62,146,204,0.30);
+    transform: scale(1.06);
+    z-index: 5;
   }
   .fit-card .fit-tag {
     display: inline-flex; align-items: center;
@@ -846,8 +862,11 @@
     .stats-band { grid-template-columns: repeat(3, 1fr); }
     .stat-cell:nth-child(3) { border-right: none; }
     .stat-cell:nth-child(1), .stat-cell:nth-child(2), .stat-cell:nth-child(3) { border-bottom: 1px solid var(--navy-line); }
-    .fit-grid { grid-template-columns: 1fr; }
-    .fit-card.featured { transform: none; }
+    .fit-grid { grid-template-columns: 1fr; gap: 18px; }
+    .fit-card.featured,
+    .fit-card.dim { transform: none; }
+    .fit-grid > .fit-card.dim:first-child { margin-right: 0; }
+    .fit-grid > .fit-card.dim:last-child { margin-left: 0; }
     .method-grid { grid-template-columns: 1fr 1fr; }
     .usecase-grid { grid-template-columns: 1fr 1fr; }
     .flow { grid-template-columns: 1fr 1fr; }
