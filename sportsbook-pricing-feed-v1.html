@@ -240,8 +240,8 @@
   /* ---------- HOW WE FIT (3-column wedge) ---------- */
   .fit-grid {
     display: grid;
-    grid-template-columns: 1fr 1.2fr 1fr;
-    gap: 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
     align-items: center;
     margin-top: 8px;
   }
@@ -254,24 +254,16 @@
     display: flex; flex-direction: column;
     transition: transform .25s, box-shadow .25s;
   }
-  /* Carousel: side cards smaller and tucked behind the featured card */
+  /* Carousel: side cards smaller, featured card front and centre */
   .fit-card.dim {
-    transform: scale(0.88);
+    transform: scale(0.9);
     box-shadow: var(--shadow);
     z-index: 1;
-  }
-  .fit-grid > .fit-card.dim:first-child {
-    margin-right: -40px;
-    transform-origin: right center;
-  }
-  .fit-grid > .fit-card.dim:last-child {
-    margin-left: -40px;
-    transform-origin: left center;
   }
   .fit-card.featured {
     border: 2px solid var(--blue);
     box-shadow: 0 30px 70px rgba(62,146,204,0.30);
-    transform: scale(1.06);
+    transform: scale(1.05);
     z-index: 5;
   }
   .fit-card .fit-tag {
@@ -865,8 +857,6 @@
     .fit-grid { grid-template-columns: 1fr; gap: 18px; }
     .fit-card.featured,
     .fit-card.dim { transform: none; }
-    .fit-grid > .fit-card.dim:first-child { margin-right: 0; }
-    .fit-grid > .fit-card.dim:last-child { margin-left: 0; }
     .method-grid { grid-template-columns: 1fr 1fr; }
     .usecase-grid { grid-template-columns: 1fr 1fr; }
     .flow { grid-template-columns: 1fr 1fr; }
