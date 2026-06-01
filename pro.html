@@ -49,6 +49,16 @@
     line-height: 1.55;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
+    /* Guard: prevent any oversized child (long nowrap headings, wide
+       carousels, etc.) from expanding the document past the viewport
+       on mobile. */
+    overflow-x: hidden;
+  }
+  /* Mobile guard: any heading/paragraph that ended up with an
+     inline white-space: nowrap should wrap normally below 960px so
+     the document can't exceed the viewport width. */
+  @media (max-width: 960px) {
+    h1, h2, h3, p { white-space: normal !important; }
   }
 
   .container { max-width: 1280px; margin: 0 auto; padding-left: 32px; padding-right: 32px; }
@@ -194,9 +204,9 @@
      layout matches what was there before (Anton is still inherited
      from the global h2/h1 family, just sized down). */
   .pro-hero-text h1 {
-    font-size: clamp(32px, 4.2vw, 52px);
-    line-height: 1.05;
-    margin: 0 0 14px;
+    font-size: clamp(40px, 5.6vw, 76px);
+    line-height: 1.02;
+    margin: 0 0 18px;
   }
   .pro-hero-text h1 .nowrap { white-space: nowrap; }
   @media (max-width: 760px) {
@@ -204,7 +214,7 @@
   }
   .pro-hero-text .hero-sub {
     font-size: 15px;
-    max-width: 560px;
+    max-width: 760px;
     margin: 0 auto 20px;
   }
   .pro-hero-text .hero-ctas {
@@ -431,7 +441,7 @@
     100% { box-shadow: 0 0 0 0 rgba(23,163,100,0); }
   }
 
-  /* ---------- COVERAGE & SCALE STATS BAND (dark navy, 6 tiles) ---------- */
+  /* ---------- COVERAGE & SCALE STATS BAND (dark navy, 5 tiles) ---------- */
   .coverage-stats-band {
     background: var(--navy);
     padding: 64px 0 80px;
@@ -450,12 +460,9 @@
   }
   .coverage-stats-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     max-width: 1180px; margin: 0 auto;
-    border: 1px solid rgba(62,146,204,0.30);
-    border-radius: 14px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.025);
+    background: transparent;
   }
   .coverage-stat {
     padding: 32px 16px;
@@ -509,7 +516,7 @@
     display: flex;
     gap: 14px;
     width: max-content;
-    animation: marquee-scroll 42s linear infinite;
+    animation: marquee-scroll 170s linear infinite;
   }
   .logo-marquee:hover .logo-marquee-inner {
     animation-play-state: paused;
@@ -528,6 +535,41 @@
     letter-spacing: 0.01em;
     box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     font-size: 22px;
+    overflow: hidden;
+    background: transparent;
+  }
+  .logo-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: inherit;
+  }
+  /* Logos with significant blank padding baked into the source — scale
+     up so the actual mark fills more of the tile. Tile overflow:hidden
+     crops any excess. */
+  .logo-tile.logo-tile--zoom img {
+    transform: scale(1.55);
+    transform-origin: center;
+  }
+  /* Text-only tiles for books that don't have a real logo file. The
+     parent .logo-tile already centers content via flex column. */
+  .logo-tile.logo-tile--text {
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    line-height: 1.05;
+    text-align: center;
+    padding: 6px 8px;
+    box-sizing: border-box;
+    word-break: keep-all;
+  }
+  .logo-tile.logo-tile--propbuilder {
+    background: linear-gradient(135deg, #0F2A47 0%, #1B4F8C 100%);
+    color: var(--white);
   }
   .logo-tile-sub {
     font-size: 9px; font-weight: 700;
@@ -536,10 +578,24 @@
     text-transform: uppercase;
     margin-top: 3px;
   }
+  .logo-tile.see-all-tile {
+    background: transparent;
+    border: 1.5px solid var(--blue);
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .logo-tile.see-all-tile:hover {
+    background: var(--blue);
+    color: var(--white);
+  }
 
   /* ---------- SECTIONS ---------- */
-  section { padding: 120px 0; }
-  .section-header { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+  section { padding: 80px 0; }
+  .section-header { text-align: center; max-width: 720px; margin: 0 auto 44px; }
   .section-eyebrow {
     color: var(--blue); font-size: 13px; font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.12em;
@@ -561,7 +617,7 @@
 
   /* ---------- DIFFERENTIATORS ---------- */
   .diff-block {
-    display: grid; grid-template-columns: 1.15fr 1fr;
+    display: grid; grid-template-columns: 1fr 1.26fr;
     gap: 64px; align-items: center; margin-bottom: 100px;
   }
   .diff-block:nth-child(even) .diff-copy { order: 2; }
@@ -639,18 +695,21 @@
   .diff-visual-img {
     padding: 0;
     min-height: 0;
+    aspect-ratio: 2 / 1;
     background: var(--bg);
     overflow: hidden;
     position: relative;
   }
+  .diff-visual-img--portrait { aspect-ratio: 4 / 3; }
   .diff-visual-img::before { display: none; }
   .diff-visual-img img {
     position: static;
     width: 100%;
-    height: auto;
+    height: 100%;
     max-width: none;
     max-height: none;
     display: block;
+    object-fit: cover;
     border-radius: 0;
     mask-image: none;
     -webkit-mask-image: none;
@@ -817,7 +876,7 @@
   /* ---------- CAPPED ACCESS (premium scarcity moment) ---------- */
   .capped-section {
     background-color: var(--bg);
-    padding: 96px 0;
+    padding: 64px 0;
     text-align: center;
     position: relative;
   }
@@ -852,40 +911,16 @@
     margin: 0 auto 18px;
   }
   .capped-lead:last-child { margin-bottom: 0; }
-  .capped-meters {
-    display: flex; justify-content: center; gap: 56px;
-    margin: 40px auto 0;
-    max-width: 720px;
-  }
-  .capped-meter {
-    text-align: center;
-  }
-  .capped-meter-num {
-    font-size: 48px; font-weight: 800;
-    color: var(--navy); letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .capped-meter-num .of {
-    font-size: 22px; color: var(--muted-2);
-    font-weight: 600; margin-left: 4px;
-  }
-  .capped-meter-label {
-    font-size: 11px; color: var(--muted);
-    text-transform: uppercase; letter-spacing: 0.14em;
-    font-weight: 700; margin-top: 10px;
-  }
   @media (max-width: 639px) {
     .capped-section { padding: 64px 0; }
     .capped-title { font-size: 30px; }
     .capped-lead { font-size: 16px; }
-    .capped-meters { gap: 32px; flex-direction: column; }
-    .capped-meter-num { font-size: 40px; }
   }
 
   /* ---------- METHODOLOGY (editorial dark moment) ---------- */
   .methodology-section {
     background-color: var(--navy);
-    padding: 96px 0;
+    padding: 64px 0;
     text-align: center;
   }
   .methodology-eyebrow {
@@ -971,7 +1006,7 @@
   /* ---------- PRO EXPERIENCE (light service moment) ---------- */
   .pro-experience-section {
     background-color: var(--bg);
-    padding: 96px 0;
+    padding: 64px 0;
     text-align: center;
   }
   .pro-experience-eyebrow {
@@ -1089,7 +1124,7 @@
   }
   .screens-panel {
     display: grid;
-    grid-template-columns: 1fr 1.25fr;
+    grid-template-columns: 1fr 1.8fr;
     gap: 56px;
     align-items: center;
   }
@@ -1157,21 +1192,69 @@
     border-top: 1px solid var(--divider);
     border-bottom: 1px solid var(--divider);
   }
+  .proof-carousel {
+    position: relative;
+    padding: 0 60px;
+  }
   .proof-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    overflow: hidden;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: -12px;
+    margin-bottom: -12px;
+  }
+  .proof-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.4s ease;
+    will-change: transform;
+    align-items: stretch;
   }
   .testimonial {
+    flex: 0 0 calc((100% - 48px) / 3);
+    box-sizing: border-box;
     background: var(--bg);
     border: 1px solid var(--divider);
     border-radius: 12px;
     padding: 28px;
     position: relative;
+    display: flex;
+    flex-direction: column;
     transition: transform .25s, border-color .25s, box-shadow .25s;
   }
   .testimonial:hover {
     transform: translateY(-4px);
     border-color: var(--blue);
     box-shadow: var(--shadow-blue);
+  }
+  .proof-nav { display: contents; }
+  .proof-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--divider);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.2s;
+    font-family: inherit;
+    padding: 0;
+    z-index: 2;
+  }
+  .proof-nav-btn[data-dir="prev"] { left: 0; }
+  .proof-nav-btn[data-dir="next"] { right: 0; }
+  .proof-nav-btn:hover:not(:disabled) {
+    border-color: var(--blue);
+    color: var(--blue);
+    box-shadow: var(--shadow-blue);
+  }
+  .proof-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
   }
   .testimonial .quote-mark {
     font-size: 52px; color: var(--blue);
@@ -1182,10 +1265,12 @@
   .testimonial-quote {
     font-size: 15px; line-height: 1.6; color: var(--text);
     margin-bottom: 20px; position: relative; z-index: 1;
+    flex: 1 1 auto;
   }
   .testimonial-author {
     display: flex; align-items: center; gap: 12px;
     padding-top: 18px; border-top: 1px solid var(--divider);
+    margin-top: auto;
   }
   .author-avatar {
     width: 40px; height: 40px; border-radius: 50%;
@@ -1220,7 +1305,7 @@
     font-size: 11px; color: var(--orange); font-weight: 700;
     text-transform: uppercase; letter-spacing: 0.08em;
   }
-  .yt-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .yt-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .yt-card {
     aspect-ratio: 16/9;
     background: linear-gradient(135deg, var(--navy), var(--navy-soft));
@@ -1231,6 +1316,35 @@
     transition: transform .25s;
   }
   .yt-card:hover { transform: scale(1.01); }
+  .yt-card.yt-card-embed { cursor: default; background: #000; }
+  .yt-card.yt-card-embed:hover { transform: none; }
+  .yt-card-embed iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+  .yt-card.yt-card-poster {
+    cursor: pointer;
+    background: #000;
+  }
+  .yt-card-poster img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .yt-card-poster .yt-play {
+    position: relative;
+    z-index: 2;
+  }
+  .yt-card-poster.yt-card-playing { cursor: default; }
+  .yt-card-poster.yt-card-playing img,
+  .yt-card-poster.yt-card-playing .yt-play { display: none; }
+  .yt-card-poster.yt-card-playing iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
   .yt-play {
     width: 48px; height: 48px; border-radius: 50%;
     background: rgba(238,119,34,0.95);
@@ -1280,14 +1394,6 @@
     font-size: 14px; color: var(--text-body); line-height: 1.6;
     margin-bottom: 18px;
   }
-  .icp-features { display: flex; flex-wrap: wrap; gap: 8px; }
-  .icp-feature {
-    font-size: 11px; padding: 4px 10px;
-    background: var(--surface); border: 1px solid var(--divider);
-    border-radius: 100px;
-    color: var(--text); font-weight: 500;
-  }
-
   /* ---------- PRODUCT ECOSYSTEM ---------- */
   .product-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
@@ -1304,14 +1410,6 @@
     border-color: var(--blue);
     box-shadow: var(--shadow-blue);
     transform: translateY(-2px);
-  }
-  .product-icon {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: var(--blue-palest);
-    border: 1px solid var(--blue-pale);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 12px;
-    font-size: 16px; color: var(--blue-deep);
   }
   .product-name {
     font-size: 15px; font-weight: 700; color: var(--navy);
@@ -1396,11 +1494,21 @@
   .tier-price {
     font-size: 34px; font-weight: 800; color: var(--navy);
     line-height: 1; letter-spacing: -0.02em;
-    display: flex; align-items: baseline; gap: 2px;
     margin-bottom: 18px;
+    min-height: 44px;
+  }
+  .tier-price > span:not([hidden]) {
+    display: inline-flex; align-items: baseline; gap: 2px;
+    flex-wrap: wrap;
   }
   .tier-price .suffix {
     font-size: 14px; color: var(--muted); font-weight: 500;
+  }
+  .tier-price-note {
+    display: block; width: 100%;
+    font-size: 12px; color: var(--muted); font-weight: 500;
+    letter-spacing: 0;
+    margin-top: 4px;
   }
   .tier-price.contact { font-size: 30px; }
   .tier-desc {
@@ -1426,26 +1534,17 @@
     content: "🔒"; color: var(--muted);
     font-size: 12px; font-weight: normal;
   }
-  .now-live-badge {
-    display: inline-flex; align-items: center; gap: 5px;
-    background: rgba(23,163,100,0.12);
-    color: var(--green);
-    font-size: 10px; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 3px 9px;
-    border-radius: 100px;
-    margin-left: 8px;
-    vertical-align: middle;
-    line-height: 1;
+  .tier-banner {
+    position: absolute; top: 0; left: 0; right: 0;
+    background: #E8753A; color: var(--white);
+    font-size: 13px; font-weight: 700;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 14px 14px 0 0;
+    letter-spacing: 0.02em;
+    z-index: 1;
   }
-  .now-live-badge::before {
-    content: "";
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 6px rgba(23,163,100,0.7);
-    flex-shrink: 0;
-  }
+  .tier[data-tier="main"] { position: relative; }
   .tier-limit {
     color: var(--orange); font-size: 13px; font-weight: 700;
     margin-bottom: 18px;
@@ -1473,30 +1572,6 @@
     text-align: center; margin-top: 48px;
   }
   .pricing-cta .btn { min-width: 220px; }
-
-  /* ---------- FAQ ---------- */
-  .faq { max-width: 860px; margin: 0 auto; }
-  .faq-item {
-    border-bottom: 1px solid var(--divider);
-    padding: 20px 0;
-  }
-  .faq-item summary {
-    cursor: pointer;
-    font-size: 17px; font-weight: 600; color: var(--navy);
-    list-style: none;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 6px 0;
-  }
-  .faq-item summary::-webkit-details-marker { display: none; }
-  .faq-item summary::after {
-    content: "+"; font-size: 22px; color: var(--blue); font-weight: 400;
-    transition: transform .2s;
-  }
-  .faq-item[open] summary::after { content: "−"; }
-  .faq-item p {
-    color: var(--text-body); padding-top: 14px; font-size: 15px; line-height: 1.6;
-  }
-  .faq-item p a { color: var(--blue-deep); }
 
   /* ---------- CTA BANNER (editorial dark moment) ---------- */
   .cta-banner {
@@ -1571,9 +1646,10 @@
     .coverage-stats-grid { grid-template-columns: repeat(3, 1fr); }
     .coverage-stat:nth-child(3n) { border-right: none; }
     .coverage-stat:nth-child(-n+3) { border-bottom: 1px solid rgba(62,146,204,0.18); }
-    .proof-grid, .icp-grid, .product-grid, .pricing-grid, .yt-cards, .footer-grid {
+    .icp-grid, .product-grid, .pricing-grid, .yt-cards, .footer-grid {
       grid-template-columns: 1fr;
     }
+    .testimonial { flex: 0 0 100%; }
     .tier.featured { transform: none; }
     .nav-links { display: none; }
   }
@@ -1669,7 +1745,6 @@
     </p>
     <div class="hero-ctas">
       <a href="#pricing" class="btn btn-primary btn-lg">Request a Demo →</a>
-      <a href="#differentiators" class="btn btn-ghost btn-lg">See the Screen</a>
     </div>
   </div>
 
@@ -1700,16 +1775,12 @@
   <div class="container">
     <div class="coverage-stats-grid">
       <div class="coverage-stat">
-        <div class="coverage-stat-num">300+</div>
-        <div class="coverage-stat-lbl">Leagues Priced</div>
+        <div class="coverage-stat-num">200+</div>
+        <div class="coverage-stat-lbl">Books &amp; Operators</div>
       </div>
       <div class="coverage-stat">
         <div class="coverage-stat-num">2,500+</div>
         <div class="coverage-stat-lbl">Markets</div>
-      </div>
-      <div class="coverage-stat">
-        <div class="coverage-stat-num">200+</div>
-        <div class="coverage-stat-lbl">Books Normalized</div>
       </div>
       <div class="coverage-stat">
         <div class="coverage-stat-num">400ms</div>
@@ -1732,31 +1803,93 @@
 
 <!-- ==================== ODDS FEEDS MARQUEE ==================== -->
 <div class="logo-marquee">
-  <div class="logo-marquee-label">Odds Feeds We Support</div>
+  <div class="logo-marquee-label">200+ Books and Operators We Price</div>
   <div class="logo-marquee-track">
     <div class="logo-marquee-inner">
-      <!-- Set 1 -->
-      <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
-      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
-      <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
-      <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
-      <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
-      <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
-      <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
-      <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
-      <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
-      <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <!-- Set 1: full priority list from betstamp.com BooksWeSupport -->
+      <div class="logo-tile" title="PS3838"><img src="assets/book_logos/PS3838.jpeg" alt="PS3838"></div>
+      <div class="logo-tile" title="Bookmaker"><img src="assets/book_logos/Bookmaker.jpeg" alt="Bookmaker"></div>
+      <div class="logo-tile" title="Circa Sports"><img src="assets/book_logos/CircaSports.jpeg" alt="Circa Sports"></div>
+      <div class="logo-tile" title="bet365"><img src="assets/book_logos/bet365.jpeg" alt="bet365"></div>
+      <div class="logo-tile" title="FanDuel"><img src="assets/book_logos/FanDuel.jpeg" alt="FanDuel"></div>
+      <div class="logo-tile" title="DraftKings"><img src="assets/book_logos/DraftKings.jpeg" alt="DraftKings"></div>
+      <div class="logo-tile" title="Caesars"><img src="assets/book_logos/Caesars.jpeg" alt="Caesars"></div>
+      <div class="logo-tile" title="ESPN BET"><img src="assets/book_logos/ESPNBET.jpeg" alt="ESPN BET"></div>
+      <div class="logo-tile" title="BetMGM"><img src="assets/book_logos/BetMGM.jpeg" alt="BetMGM"></div>
+      <div class="logo-tile" title="BetRivers"><img src="assets/book_logos/BetRivers.jpeg" alt="BetRivers"></div>
+      <div class="logo-tile" title="Betway"><img src="assets/book_logos/Betway.jpeg" alt="Betway"></div>
+      <div class="logo-tile" title="3ET"><img src="assets/book_logos/3ET.jpeg" alt="3ET"></div>
+      <div class="logo-tile" title="PointsBet"><img src="assets/book_logos/PointsBet.jpeg" alt="PointsBet"></div>
+      <div class="logo-tile" title="theScore Bet"><img src="assets/book_logos/theScoreBet.jpeg" alt="theScore Bet"></div>
+      <div class="logo-tile" title="NorthStar"><img src="assets/book_logos/NorthStar.jpeg" alt="NorthStar"></div>
+      <div class="logo-tile" title="Proline+"><img src="assets/book_logos/ProlinePlus.jpeg" alt="Proline+"></div>
+      <div class="logo-tile" title="Sports Interaction"><img src="assets/book_logos/SportsInteraction.jpeg" alt="Sports Interaction"></div>
+      <div class="logo-tile" title="LeoVegas"><img src="assets/book_logos/LeoVegas.jpeg" alt="LeoVegas"></div>
+      <div class="logo-tile" title="Betano"><img src="assets/book_logos/Betano.jpeg" alt="Betano"></div>
+      <div class="logo-tile" title="bwin"><img src="assets/book_logos/bwin.jpeg" alt="bwin"></div>
+      <div class="logo-tile logo-tile--zoom" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
+      <div class="logo-tile" title="Casumo"><img src="assets/book_logos/Casumo.jpeg" alt="Casumo"></div>
+      <div class="logo-tile" title="Bet99"><img src="assets/book_logos/Bet99.jpeg" alt="Bet99"></div>
+      <div class="logo-tile" title="888Sport"><img src="assets/book_logos/888Sport.jpeg" alt="888Sport"></div>
+      <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
+      <div class="logo-tile" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
+      <div class="logo-tile" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
+      <div class="logo-tile" title="Kalshi"><img src="assets/book_logos/Kalshi.jpeg" alt="Kalshi"></div>
+      <div class="logo-tile" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
+      <div class="logo-tile logo-tile--text logo-tile--propbuilder" title="PropBuilder">Prop<br>Builder</div>
+      <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
+      <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
+      <div class="logo-tile" title="ProphetX"><img src="assets/book_logos/ProphetX.jpeg" alt="ProphetX"></div>
+      <div class="logo-tile" title="Novig"><img src="assets/book_logos/Novig.jpeg" alt="Novig"></div>
+      <div class="logo-tile" title="Bet105"><img src="assets/book_logos/Bet105.jpeg" alt="Bet105"></div>
+      <div class="logo-tile" title="BetAmapola"><img src="assets/book_logos/BetAmapola.jpeg" alt="BetAmapola"></div>
+      <div class="logo-tile" title="BetOnline"><img src="assets/book_logos/BetOnline.jpeg" alt="BetOnline"></div>
+      <div class="logo-tile" title="betcris"><img src="assets/book_logos/betcris.jpeg" alt="betcris"></div>
+      <div class="logo-tile" title="1XBet"><img src="assets/book_logos/1XBet.jpeg" alt="1XBet"></div>
+      <div class="logo-tile" title="Polymarket"><img src="assets/book_logos/Polymarket.jpeg" alt="Polymarket"></div>
+      <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
       <!-- Set 2 (duplicate for seamless loop) -->
-      <div class="logo-tile" style="background:#B3241D;">PN<span class="logo-tile-sub">Pinnacle</span></div>
-      <div class="logo-tile" style="background:linear-gradient(135deg,#1a1a1a 0%,#c4a25e 100%);">MGM</div>
-      <div class="logo-tile" style="background:#0F1F3A;">CIRCA<span class="logo-tile-sub">Sports</span></div>
-      <div class="logo-tile" style="background:#0a5c2d;color:#F3D03E;">365</div>
-      <div class="logo-tile" style="background:#1493FF;">FD<span class="logo-tile-sub">FanDuel</span></div>
-      <div class="logo-tile" style="background:#53D337;color:#121212;">DK<span class="logo-tile-sub" style="color:#121212;">Kings</span></div>
-      <div class="logo-tile" style="background:#1A2F2F;color:#C7A969;">CZ<span class="logo-tile-sub" style="color:#C7A969;">Caesars</span></div>
-      <div class="logo-tile" style="background:#1E6C5C;">ESPN<span class="logo-tile-sub">Bet</span></div>
-      <div class="logo-tile" style="background:#0F1723;color:#D3B676;">BR<span class="logo-tile-sub" style="color:#D3B676;">Rivers</span></div>
-      <div class="logo-tile" style="background:#0066CC;">POLY<span class="logo-tile-sub">Market</span></div>
+      <div class="logo-tile" title="PS3838"><img src="assets/book_logos/PS3838.jpeg" alt="PS3838"></div>
+      <div class="logo-tile" title="Bookmaker"><img src="assets/book_logos/Bookmaker.jpeg" alt="Bookmaker"></div>
+      <div class="logo-tile" title="Circa Sports"><img src="assets/book_logos/CircaSports.jpeg" alt="Circa Sports"></div>
+      <div class="logo-tile" title="bet365"><img src="assets/book_logos/bet365.jpeg" alt="bet365"></div>
+      <div class="logo-tile" title="FanDuel"><img src="assets/book_logos/FanDuel.jpeg" alt="FanDuel"></div>
+      <div class="logo-tile" title="DraftKings"><img src="assets/book_logos/DraftKings.jpeg" alt="DraftKings"></div>
+      <div class="logo-tile" title="Caesars"><img src="assets/book_logos/Caesars.jpeg" alt="Caesars"></div>
+      <div class="logo-tile" title="ESPN BET"><img src="assets/book_logos/ESPNBET.jpeg" alt="ESPN BET"></div>
+      <div class="logo-tile" title="BetMGM"><img src="assets/book_logos/BetMGM.jpeg" alt="BetMGM"></div>
+      <div class="logo-tile" title="BetRivers"><img src="assets/book_logos/BetRivers.jpeg" alt="BetRivers"></div>
+      <div class="logo-tile" title="Betway"><img src="assets/book_logos/Betway.jpeg" alt="Betway"></div>
+      <div class="logo-tile" title="3ET"><img src="assets/book_logos/3ET.jpeg" alt="3ET"></div>
+      <div class="logo-tile" title="PointsBet"><img src="assets/book_logos/PointsBet.jpeg" alt="PointsBet"></div>
+      <div class="logo-tile" title="theScore Bet"><img src="assets/book_logos/theScoreBet.jpeg" alt="theScore Bet"></div>
+      <div class="logo-tile" title="NorthStar"><img src="assets/book_logos/NorthStar.jpeg" alt="NorthStar"></div>
+      <div class="logo-tile" title="Proline+"><img src="assets/book_logos/ProlinePlus.jpeg" alt="Proline+"></div>
+      <div class="logo-tile" title="Sports Interaction"><img src="assets/book_logos/SportsInteraction.jpeg" alt="Sports Interaction"></div>
+      <div class="logo-tile" title="LeoVegas"><img src="assets/book_logos/LeoVegas.jpeg" alt="LeoVegas"></div>
+      <div class="logo-tile" title="Betano"><img src="assets/book_logos/Betano.jpeg" alt="Betano"></div>
+      <div class="logo-tile" title="bwin"><img src="assets/book_logos/bwin.jpeg" alt="bwin"></div>
+      <div class="logo-tile logo-tile--zoom" title="PrizePicks"><img src="assets/book_logos/PrizePicks.jpeg" alt="PrizePicks"></div>
+      <div class="logo-tile" title="Casumo"><img src="assets/book_logos/Casumo.jpeg" alt="Casumo"></div>
+      <div class="logo-tile" title="Bet99"><img src="assets/book_logos/Bet99.jpeg" alt="Bet99"></div>
+      <div class="logo-tile" title="888Sport"><img src="assets/book_logos/888Sport.jpeg" alt="888Sport"></div>
+      <div class="logo-tile" title="Coolbet"><img src="assets/book_logos/Coolbet.jpeg" alt="Coolbet"></div>
+      <div class="logo-tile" title="BetBuckeye Sports"><img src="assets/book_logos/BetBuckeye.jpeg" alt="BetBuckeye Sports"></div>
+      <div class="logo-tile" title="Eagle"><img src="assets/book_logos/Eagle.jpeg" alt="Eagle"></div>
+      <div class="logo-tile" title="Kalshi"><img src="assets/book_logos/Kalshi.jpeg" alt="Kalshi"></div>
+      <div class="logo-tile" title="Ace"><img src="assets/book_logos/Ace.jpeg" alt="Ace"></div>
+      <div class="logo-tile logo-tile--text logo-tile--propbuilder" title="PropBuilder">Prop<br>Builder</div>
+      <div class="logo-tile" title="Fliff"><img src="assets/book_logos/Fliff.jpeg" alt="Fliff"></div>
+      <div class="logo-tile" title="Jazz Sportsbook"><img src="assets/book_logos/JazzSportsbook.jpeg" alt="Jazz Sportsbook"></div>
+      <div class="logo-tile" title="ProphetX"><img src="assets/book_logos/ProphetX.jpeg" alt="ProphetX"></div>
+      <div class="logo-tile" title="Novig"><img src="assets/book_logos/Novig.jpeg" alt="Novig"></div>
+      <div class="logo-tile" title="Bet105"><img src="assets/book_logos/Bet105.jpeg" alt="Bet105"></div>
+      <div class="logo-tile" title="BetAmapola"><img src="assets/book_logos/BetAmapola.jpeg" alt="BetAmapola"></div>
+      <div class="logo-tile" title="BetOnline"><img src="assets/book_logos/BetOnline.jpeg" alt="BetOnline"></div>
+      <div class="logo-tile" title="betcris"><img src="assets/book_logos/betcris.jpeg" alt="betcris"></div>
+      <div class="logo-tile" title="1XBet"><img src="assets/book_logos/1XBet.jpeg" alt="1XBet"></div>
+      <div class="logo-tile" title="Polymarket"><img src="assets/book_logos/Polymarket.jpeg" alt="Polymarket"></div>
+      <a class="logo-tile see-all-tile" href="/odds-feeds">SEE ALL<span class="logo-tile-sub">200+ Feeds →</span></a>
     </div>
   </div>
 </div>
@@ -1765,8 +1898,8 @@
 <section id="differentiators" class="container">
   <div class="section-header" style="max-width: none;">
     <span class="section-eyebrow">Why Pro</span>
-    <h2 style="white-space: nowrap;">What Makes Betstamp <span class="accent">PRO Different.</span></h2>
-    <p class="section-sub" style="white-space: nowrap;">We're a pricing engine built for an edge — not just another odds screen. Here's why we're unmatched.</p>
+    <h2>What Makes Betstamp <span class="accent">PRO Different.</span></h2>
+    <p class="section-sub">We're a pricing engine built for an edge — not just another odds screen. Here's why we're unmatched.</p>
   </div>
 
   <!-- Differentiator 1: True-Line Pricing -->
@@ -1779,7 +1912,7 @@
       <ul class="diff-list">
         <li><strong>Fair-value devigging across every book</strong> <span class="li-desc">— No single-book bias. No stale lines.</span></li>
         <li><strong>Closing line value baked in</strong> <span class="li-desc">— Measured against real CLV, not theory.</span></li>
-        <li><strong>Every market. Every league.</strong> <span class="li-desc">— Core, props, alts, futures, live.</span></li>
+        <li><strong>Every market. Every league</strong> <span class="li-desc">— mains, props, alts, live.</span></li>
       </ul>
       <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
     </div>
@@ -1801,54 +1934,17 @@
       <ul class="diff-list">
         <li><strong>Player props</strong> <span class="li-desc">— Every prop, every milestone — True Line included.</span></li>
         <li><strong>Alt props</strong> <span class="li-desc">— Full ladder, not just the key number.</span></li>
-        <li><strong>SGPs</strong> <span class="li-desc">— Pricing engine-backed (powered by Betstamp's own model).</span></li>
+        <li><strong>SGPs</strong> <span class="li-desc">— Pricing engine-backed.</span></li>
       </ul>
       <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
     </div>
-    <div class="diff-visual">
-      <div class="tl-compare" style="width:100%">
-        <div class="prop-cols" style="margin-bottom:4px">
-          <div class="prop-col">
-            <div class="prop-num">500+</div>
-            <div class="prop-lbl">Alts / game</div>
-          </div>
-          <div class="prop-col">
-            <div class="prop-num">12</div>
-            <div class="prop-lbl">Prop categories</div>
-          </div>
-          <div class="prop-col">
-            <div class="prop-num">∞</div>
-            <div class="prop-lbl">PPH depth</div>
-          </div>
-        </div>
-        <div class="prop-bar-container">
-          <div class="prop-bar-row">
-            <div class="prop-bar-name">Points</div>
-            <div class="prop-bar"><div class="prop-bar-fill" style="width:96%"></div></div>
-            <div class="prop-bar-val">96</div>
-          </div>
-          <div class="prop-bar-row">
-            <div class="prop-bar-name">Rebounds</div>
-            <div class="prop-bar"><div class="prop-bar-fill" style="width:88%"></div></div>
-            <div class="prop-bar-val">88</div>
-          </div>
-          <div class="prop-bar-row">
-            <div class="prop-bar-name">Assists</div>
-            <div class="prop-bar"><div class="prop-bar-fill" style="width:82%"></div></div>
-            <div class="prop-bar-val">82</div>
-          </div>
-          <div class="prop-bar-row">
-            <div class="prop-bar-name">Threes</div>
-            <div class="prop-bar"><div class="prop-bar-fill" style="width:74%"></div></div>
-            <div class="prop-bar-val">74</div>
-          </div>
-          <div class="prop-bar-row">
-            <div class="prop-bar-name">Milestones</div>
-            <div class="prop-bar"><div class="prop-bar-fill" style="width:68%"></div></div>
-            <div class="prop-bar-val">68</div>
-          </div>
-        </div>
-      </div>
+    <div class="diff-visual diff-visual-img">
+      <img
+        src="assets/betstamp-props-screen.png"
+        alt="Betstamp Pro props screen — OG Anunoby props priced across Pinnacle, FanDuel, bet365, Polymarket, BetMGM, Hard Rock, Novig, ProphetX with True Line + Hold"
+        style="object-position: left center;"
+        onerror="this.parentElement.innerHTML='<div style=&quot;text-align:center;color:var(--muted);font-size:13px;padding:20px;&quot;>Save the props screen screenshot to<br><code>assets/betstamp-props-screen.png</code></div>'"
+      />
     </div>
   </div>
 
@@ -1856,7 +1952,7 @@
   <div class="diff-block">
     <div class="diff-copy">
       <div class="diff-tag">Real-Time Infrastructure</div>
-      <h3 class="diff-title">Sub-second refresh. Real-time edge detection.</h3>
+      <h3 class="diff-title">Sub-second refresh.<br>Real-time edge detection.</h3>
       <p>The book moves. The True Line moves. You see it before everyone else on the refresh. Edges flagged the moment they open, not when the screen reloads in 30 seconds.</p>
       <p>Speed isn't a feature — it's the whole reason an odds screen exists.</p>
       <ul class="diff-list">
@@ -1866,27 +1962,13 @@
       </ul>
       <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
     </div>
-    <div class="diff-visual">
-      <div class="speed-clock">
-        <div>
-          <span class="speed-num">400</span><span class="speed-unit">ms</span>
-        </div>
-        <div class="speed-lbl">Median Refresh</div>
-        <div class="speed-ticks">
-          <div class="speed-tick active"></div>
-          <div class="speed-tick active"></div>
-          <div class="speed-tick active"></div>
-          <div class="speed-tick active"></div>
-          <div class="speed-tick active"></div>
-          <div class="speed-tick active"></div>
-          <div class="speed-tick active"></div>
-          <div class="speed-tick"></div>
-          <div class="speed-tick"></div>
-          <div class="speed-tick"></div>
-          <div class="speed-tick"></div>
-          <div class="speed-tick"></div>
-        </div>
-      </div>
+    <div class="diff-visual diff-visual-img diff-visual-img--portrait">
+      <img
+        src="assets/betstamp-line-history-panel.png"
+        alt="Betstamp Pro line history side panel — Victor Wembanyama Pts+Rebs True Line moves logged every few minutes from 9:52 AM to 10:14 AM"
+        style="object-position: center top;"
+        onerror="this.parentElement.innerHTML='<div style=&quot;text-align:center;color:var(--muted);font-size:13px;padding:20px;&quot;>Save the line history panel screenshot to<br><code>assets/betstamp-line-history-panel.png</code></div>'"
+      />
     </div>
   </div>
 
@@ -1904,41 +1986,12 @@
       </ul>
       <a href="#pricing" class="btn btn-primary diff-cta">Request a Demo →</a>
     </div>
-    <div class="diff-visual">
-      <div class="filter-panel">
-        <div class="filter-row">
-          <div class="filter-label">Sort by</div>
-          <div class="filter-select">Edge % <span class="chev">▼</span></div>
-        </div>
-        <div class="filter-chips">
-          <div class="filter-chip active">NBA</div>
-          <div class="filter-chip active">Spreads</div>
-          <div class="filter-chip active">Pinnacle</div>
-          <div class="filter-chip">+ 4 more</div>
-        </div>
-        <div class="filter-section-label">Saved views</div>
-        <div class="filter-view active">
-          <span class="view-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          </span>
-          <span class="view-name">Sharp NBA Slate</span>
-          <span class="view-hotkey">⌘1</span>
-        </div>
-        <div class="filter-view">
-          <span class="view-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg>
-          </span>
-          <span class="view-name">NFL Props Only</span>
-          <span class="view-hotkey">⌘2</span>
-        </div>
-        <div class="filter-view">
-          <span class="view-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v6c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 11v6c0 1.66 4.03 3 9 3s9-1.34 9-3v-6"/></svg>
-          </span>
-          <span class="view-name">Alts &gt; 2% EV</span>
-          <span class="view-hotkey">⌘3</span>
-        </div>
-      </div>
+    <div class="diff-visual diff-visual-img">
+      <img
+        src="assets/betstamp-interface-settings.png"
+        alt="Betstamp Pro Interface Settings panel — American/Decimal odds toggle plus Edge Highlighting rules ladder (Edge > 3% → Blue 4, > 2% → Blue 3, > 1% → Blue 2, > 0% → Blue 1) with a preview grid"
+        onerror="this.parentElement.innerHTML='<div style=&quot;text-align:center;color:var(--muted);font-size:13px;padding:20px;&quot;>Save the interface settings screenshot to<br><code>assets/betstamp-interface-settings.png</code></div>'"
+      />
     </div>
   </div>
 </section>
@@ -1948,7 +2001,7 @@
   <div class="container">
     <span class="methodology-eyebrow">The methodology</span>
     <h2 id="methodology-title" class="methodology-title">How the True Line actually works.</h2>
-    <p class="methodology-lead">Most odds screens treat one sportsbook as gospel and call that the True Line. We don't. Each market is unique, every book has different biases by sport and prop type, and lines move for reasons. Our True Line is weighted per market, backtested continuously, and built off the most reliable reference books in the industry — not whichever book happened to load first.</p>
+    <p class="methodology-lead">Most odds screens treat one sportsbook as gospel and call that the True Line. We don't. Each market is unique, every book has different biases by sport and prop type, and lines move for reasons. Our True Line is weighted per market, backtested continuously, and built off the most reliable reference books in the industry.</p>
 
     <div class="methodology-grid">
       <article class="methodology-card">
@@ -1974,10 +2027,6 @@
     </div>
 
     <p class="methodology-close">The result: a True Line you can backtest, trust, and scale off — priced across every book, every market, every second.</p>
-
-    <div class="methodology-cta">
-      <a href="/top-down-betting" class="btn btn-primary">Learn more about top-down betting →</a>
-    </div>
   </div>
 </section>
 
@@ -2009,14 +2058,14 @@
     <div class="screens-panel" data-panel="main" hidden>
       <div class="screens-copy">
         <div class="screens-badge">Main Markets</div>
-        <h3 class="screens-title">Spreads, totals, and moneylines — priced to the True Line.</h3>
-        <p>Pre-game core markets across 200+ books with proprietary True Line pricing on every line. Sort by Edge, EV, or Hold %. Filter by sport, market, or book. The screen pros open at 9 a.m. and don't close until tip-off.</p>
+        <h3 class="screens-title">Spreads, totals, and moneylines, priced to the True Line.</h3>
+        <p>Pre-game main markets across 200+ books with proprietary True Line pricing on every line. Sort by Edge, EV, or Hold %. Filter by sport, market, or book. Alternate lines and steam alerts for enhanced volume.</p>
         <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
       </div>
       <div class="screens-image">
         <img
           src="assets/betstamp-main-screen.png"
-          alt="Betstamp Main Markets odds screen"
+          alt="Betstamp Pro main markets screen — Best / True Line / Pinnacle / FanDuel / DraftKings / bet365 columns priced across CLE@DET, NYM@WSH, TOR@NYY, MIL@CHC on 05/20"
           onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Main Markets screenshot to<br><code>assets/betstamp-main-screen.png</code></div>'"
         />
       </div>
@@ -2025,16 +2074,16 @@
     <!-- Props (default) -->
     <div class="screens-panel" data-panel="props">
       <div class="screens-copy">
-        <div class="screens-badge">Props · #1 Odds Screen</div>
-        <h3 class="screens-title">The deepest prop screen in the industry.</h3>
-        <p>Player, game, derivatives, alts, milestones, PPHs. If a market's offered at 10+ books, we price it. Hover any cell for instant Edge and EV across every book — the reason syndicates run Betstamp.</p>
+        <div class="screens-badge">Props</div>
+        <h3 class="screens-title">The player props screen designed for scale.</h3>
+        <p>Player, game, derivatives, alts, milestones. Instant edge identification across every market the books cover. Scale your volume with the most reliable source of truth in the industry.</p>
         <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
       </div>
       <div class="screens-image">
         <img
-          src="assets/betstamp-edge-tooltip.png"
-          alt="Betstamp Props odds screen with Edge tooltip"
-          onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Props screenshot to<br><code>assets/betstamp-edge-tooltip.png</code></div>'"
+          src="assets/betstamp-props-grid.png"
+          alt="Betstamp Pro player props screen — Edge / True Line / bet365 columns across Jarrett Allen, Josh Hart, OG Anunoby, Karl-Anthony Towns, Jalen Williams, James Harden, Shai Gilgeous-Alexander, Isaiah Hartenstein, Donovan Mitchell"
+          onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Props grid screenshot to<br><code>assets/betstamp-props-grid.png</code></div>'"
         />
       </div>
     </div>
@@ -2044,13 +2093,13 @@
       <div class="screens-copy">
         <div class="screens-badge">Live</div>
         <h3 class="screens-title">Real-time edge, the moment books move.</h3>
-        <p>Live betting for main lines, spreads, and totals with sub-second refresh. Edges flagged the instant they open — not 30 seconds later when everyone else's screen reloads. Built for the pace pros actually trade at.</p>
+        <p>Live betting for main lines and props with sub-second refresh. Edges are flagged the instant they appear. Built for the pace and scale professionals trade at.</p>
         <a href="#pricing" class="btn btn-primary">Request a Demo →</a>
       </div>
       <div class="screens-image">
         <img
           src="assets/betstamp-live-screen.png"
-          alt="Betstamp Live odds screen"
+          alt="Betstamp Pro live screen — in-play MLB player props (Hold / True Line / FanDuel / Caesars) with Live Score, period, Custom Off / Alt Lines / Break-in-Play controls across HOU@MIN, CIN@PHI, BAL@TB on 05/20"
           onerror="this.parentElement.innerHTML='<div class=&quot;screens-image-fallback&quot;>Save the Live screenshot to<br><code>assets/betstamp-live-screen.png</code></div>'"
         />
       </div>
@@ -2106,45 +2155,138 @@
   <div class="container">
     <div class="section-header" style="max-width: none;">
       <span class="section-eyebrow">Built for — and by — pros</span>
-      <h2 style="white-space: nowrap;">From the bettors <span class="accent">moving the lines.</span></h2>
+      <h2>From the bettors <span class="accent">moving the lines.</span></h2>
       <p class="section-sub">We're not for recreational bettors learning to win. We're the tool the people who already win reach for when they need to scale.</p>
     </div>
 
-    <div class="proof-grid">
-      <div class="testimonial">
-        <div class="quote-mark">"</div>
-        <p class="testimonial-quote">The True Line engine is the only one I've trusted enough to size up on. Everything else is a screen. This is a model.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">TH</div>
-          <div class="author-meta">
-            <div class="name">Tony H.</div>
-            <div class="role">Syndicate lead · NBA / NFL</div>
+    <div class="proof-carousel" data-testimonials-carousel>
+      <div class="proof-grid">
+        <div class="proof-track">
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">As an originator, Betstamp Pro is an invaluable tool for me. Being able to quickly see prices across the world on a wide variety of markets with an up to date line history is worth the price of admission. All of the extra value of grabbing +EV bets based on market moves makes using the tool a no brainer for any serious bettor whether that be top down or bottom up.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">TH</div>
+              <div class="author-meta">
+                <div class="name">Tony H.</div>
+                <div class="role">Newfoundland</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">I signed up for Betstamp Pro on day one and have been discovering so many new edges ever since. The tool has everything you'd ever need to access when it comes to betting props. Whether you're at the beginning of your journey or are looking to expand and sharpen your operation, I cannot stress enough how important it is to invest in yourself by signing up for Betstamp Pro.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">TD</div>
+              <div class="author-meta">
+                <div class="name">Tim D.</div>
+                <div class="role">Massachusetts</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Betstamp Pro is the best player prop odds screen I've used — it's like SpankOdds or DonBest, but for props. The elegant UI and drag-and-drop feature make customizing your screen effortless, and its algorithm is a game changer — it analyzes odds across books to calculate a true line for each prop, letting you sort by edge, EV, and hold %. Best of all, it includes a diverse mix of offshore, regulated, and PPH books, making it perfect for managing lots of outs and assessing profitable bets quickly. I couldn't bet seriously without it!</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">DK</div>
+              <div class="author-meta">
+                <div class="name">Dan K.</div>
+                <div class="role">New York</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">I've been a top down steam chaser for main markets the last few years. Never paid much attention to the props market. I was hesitant to start with Betstamp Pro based on some bad experiences with other props screens. Very glad I did. Betstamp Pro has a built in odds screen which allows you to track sharp books line moves for further confirmation before firing on a play. I had the monthly subscription paid for within the first 4 nights of using Betstamp Pro.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">ML</div>
+              <div class="author-meta">
+                <div class="name">Mike L.</div>
+                <div class="role">Ontario</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Betstamp Pro is amazing. They will give you an accurate view of the prop market and you can have confidence you are getting the accurate EV. I constantly found free middles and good bets. It's nice to have a screen that accurately captures all the best prices, they also have offshores not found on any other screens.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">BO</div>
+              <div class="author-meta">
+                <div class="name">Brandon O.</div>
+                <div class="role">Illinois</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Betstamp Pro is an absolute must for any serious props bettor. Whether finding the best price on origination or betting from a top down approach, this tool will increase your betting volume and ROI significantly. Since starting with the tool in 2023, my earn has nearly tripled.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">PD</div>
+              <div class="author-meta">
+                <div class="name">@propdude7</div>
+                <div class="role">Ontario</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">The Betstamp Pro screen has been a game changer for my betting. Edges are everywhere and easy to attack. Winning every day is no guarantee, but in my experience the Betstamp Pro screen is highly profitable over time.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">CK</div>
+              <div class="author-meta">
+                <div class="name">Casey K.</div>
+                <div class="role">Texas</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Going from never using an odds screen to using Betstamp Pro has been a night and day difference. I would definitely recommend to anybody looking to find more edges and get more serious about their betting.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">WH</div>
+              <div class="author-meta">
+                <div class="name">Will H.</div>
+                <div class="role">New York</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">I've tried out a lot of screens and y'all's layout is the best by far. I stare at the screen 24/7.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">GA</div>
+              <div class="author-meta">
+                <div class="name">Gannon A.</div>
+                <div class="role">Louisiana</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial">
+            <div class="quote-mark">"</div>
+            <p class="testimonial-quote">Gotta say, product is really good, can almost justify just full swapping. Think I still prefer unabated mainline screen since its a little more readable for me, but your props is miles better than them or anyone else.</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">VR</div>
+              <div class="author-meta">
+                <div class="name">@vertuhcle</div>
+                <div class="role">Indiana</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="testimonial">
-        <div class="quote-mark">"</div>
-        <p class="testimonial-quote">Props depth you can't find anywhere else. Alts, milestones, PPHs — priced to the close. This is the difference between betting props and running prop-book.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">TD</div>
-          <div class="author-meta">
-            <div class="name">Tim D.</div>
-            <div class="role">Pro bettor · Props</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonial">
-        <div class="quote-mark">"</div>
-        <p class="testimonial-quote">Refresh is so fast I stopped running the spreadsheet. The odds screen is the workflow now.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">DK</div>
-          <div class="author-meta">
-            <div class="name">Dan K.</div>
-            <div class="role">Sharp · Multi-sport</div>
-          </div>
-        </div>
+      <div class="proof-nav">
+        <button class="proof-nav-btn" type="button" data-dir="prev" aria-label="Previous testimonials">‹</button>
+        <button class="proof-nav-btn" type="button" data-dir="next" aria-label="Next testimonials">›</button>
       </div>
     </div>
 
@@ -2154,17 +2296,13 @@
         <span class="tag">From the community</span>
       </div>
       <div class="yt-cards">
-        <div class="yt-card">
-          <div class="yt-play">▶</div>
-          <div class="yt-caption">Johnny — "The tool we built because we needed it"</div>
+        <div class="yt-card yt-card-poster" data-yt-id="Nd8ZxWW0gU8" role="button" tabindex="0" aria-label="Play Betstamp Pro community video">
+          <img src="https://i.ytimg.com/vi/Nd8ZxWW0gU8/maxresdefault.jpg" onerror="if(!this.src.includes('hqdefault')){this.src='https://i.ytimg.com/vi/Nd8ZxWW0gU8/hqdefault.jpg';}" alt="" loading="lazy">
+          <div class="yt-play" aria-hidden="true">▶</div>
         </div>
-        <div class="yt-card">
-          <div class="yt-play">▶</div>
-          <div class="yt-caption">Rob Pizzola — "The True Line engine changes how I bet"</div>
-        </div>
-        <div class="yt-card">
-          <div class="yt-play">▶</div>
-          <div class="yt-caption">Michael Fiddle — "Why prop depth matters more than book count"</div>
+        <div class="yt-card yt-card-poster" data-yt-id="IGp463icD5I" role="button" tabindex="0" aria-label="Play Circles Off — Johnny &amp; Rob Pizzola on the Betstamp Pro props screen">
+          <img src="https://i.ytimg.com/vi/IGp463icD5I/maxresdefault.jpg" onerror="if(!this.src.includes('hqdefault')){this.src='https://i.ytimg.com/vi/IGp463icD5I/hqdefault.jpg';}" alt="" loading="lazy">
+          <div class="yt-play" aria-hidden="true">▶</div>
         </div>
       </div>
     </div>
@@ -2175,7 +2313,7 @@
 <section class="container">
   <div class="section-header" style="max-width: none;">
     <span class="section-eyebrow">Who it's for</span>
-    <h2 style="white-space: nowrap;">Built for the people <span class="accent">moving real size.</span></h2>
+    <h2>Built for the people <span class="accent">moving real size.</span></h2>
     <p class="section-sub">Three audiences. One tool. If you're already winning and need to scale — this is the stack.</p>
   </div>
 
@@ -2183,31 +2321,16 @@
     <div class="icp-tile">
       <h3 class="icp-title">Pro Bettors</h3>
       <p class="icp-desc">Full-time winners who need a True Line, deep coverage, and a workflow that keeps up with the board.</p>
-      <div class="icp-features">
-        <span class="icp-feature">True-line pricing</span>
-        <span class="icp-feature">Edge alerts</span>
-        <span class="icp-feature">Multi-sport</span>
-      </div>
     </div>
 
     <div class="icp-tile">
       <h3 class="icp-title">Syndicates</h3>
       <p class="icp-desc">Teams moving size who need shared access and custody over the model that prices their positions.</p>
-      <div class="icp-features">
-        <span class="icp-feature">Team seats</span>
-        <span class="icp-feature">Priority support</span>
-        <span class="icp-feature">Dedicated success</span>
-      </div>
     </div>
 
     <div class="icp-tile">
       <h3 class="icp-title">Market Makers</h3>
-      <p class="icp-desc">Books and exchanges that need a third-party True Line, prop pricing coverage, and a reliable market reference.</p>
-      <div class="icp-features">
-        <span class="icp-feature">Prediction Markets</span>
-        <span class="icp-feature">SGP engine</span>
-        <span class="icp-feature">Custom builds</span>
-      </div>
+      <p class="icp-desc">Traders providing liquidity on prediction markets and exchanges who need a sharp third-party True Line to quote against — pricing across every market the books cover, refreshed in sub-second.</p>
     </div>
   </div>
 </section>
@@ -2222,32 +2345,26 @@
 
   <div class="product-grid">
     <div class="product-card">
-      <div class="product-icon">▲</div>
       <div class="product-name">True Line Steam Alerts</div>
       <div class="product-desc">Receive on-screen notifications the moment any main-market True Line moves more than 2.5% — instant insight into where sharp money is hitting.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">☰</div>
       <div class="product-name">Full Line History + Limit Info</div>
       <div class="product-desc">Every market move from open to close, with current limits per book. See exactly where steam landed and how much the book will actually take.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">⚡</div>
       <div class="product-name">SGP Pricing &amp; Comparison</div>
-      <div class="product-desc">Same-game parlay fair value, leg by leg, across every book. Find the SGP that's mispriced before it's gone.</div>
+      <div class="product-desc">Same-game parlay fair value, leg by leg. Find the SGP that's mispriced before it's gone.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">☑</div>
       <div class="product-name">One-Click Bet Tracking</div>
       <div class="product-desc">Add to bet slip, place the bet, and track it instantly in the Betstamp app. Plays grade themselves. No spreadsheets. No missing data.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">⊞</div>
       <div class="product-name">200+ Books. One Screen.</div>
       <div class="product-desc">Prediction markets. Exchanges. Offshores, PPHs, DFS, sweeps — priced alongside the regulated books. The full pro account stack in one screen.</div>
     </div>
     <div class="product-card">
-      <div class="product-icon">⇄</div>
       <div class="product-name">Arbitrage Detection</div>
       <div class="product-desc">Sort by negative hold to surface every arb on the slate. Both legs, both books, profit locked.</div>
     </div>
@@ -2258,20 +2375,9 @@
 <section class="capped-section" aria-labelledby="capped-title">
   <div class="container">
     <span class="capped-eyebrow">Deliberately capped</span>
-    <h2 id="capped-title" class="capped-title">100 seats on Props. <span class="accent">20 on Live.</span></h2>
-    <p class="capped-lead">Edges decay with scale. The more pros hit the same line, the faster it moves out from under them — sometimes before anyone gets a click in. So the Props Screen is capped at 100 seats. The Live Screen at 20. That's the cap, by design.</p>
+    <h2 id="capped-title" class="capped-title">Capped Userbase, <span class="accent">By Design.</span></h2>
+    <p class="capped-lead">Edges decay with scale. The more pros hit the same line, the faster it moves out from under them — sometimes before anyone gets a click in. So the Props Screen and Live Screen are capped.</p>
     <p class="capped-lead">When a seat opens, we're selective about who fills it. It's how we keep the edges real for the pros already running the screen — and how we make sure the pros joining can actually use them.</p>
-
-    <div class="capped-meters">
-      <div class="capped-meter">
-        <div class="capped-meter-num">100<span class="of">seats</span></div>
-        <div class="capped-meter-label">Props Screen · capped</div>
-      </div>
-      <div class="capped-meter">
-        <div class="capped-meter-num">20<span class="of">seats</span></div>
-        <div class="capped-meter-label">Live Screen · capped</div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -2293,14 +2399,18 @@
 
   <div class="pricing-grid">
     <!-- Main -->
-    <div class="tier">
+    <div class="tier" data-tier="main">
+      <div class="tier-banner" data-show-annual hidden>Limited Time - 70% off!</div>
       <div class="tier-header">
         <span class="tier-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
         </span>
         <h3 class="tier-name">Main</h3>
       </div>
-      <div class="tier-price">$347<span class="suffix">/month</span></div>
+      <div class="tier-price">
+        <span data-show-monthly>$347<span class="suffix">/month</span></span>
+        <span data-show-annual hidden>$99<span class="suffix">/month</span><span class="tier-price-note">Billed annually</span></span>
+      </div>
       <p class="tier-desc">Pre-Game Moneyline, Spreads, and totals (including derivative markets).</p>
       <ul class="tier-list">
         <li>Hyper-efficient, market-based True Line</li>
@@ -2310,8 +2420,8 @@
       </ul>
       <div class="tier-divider"></div>
       <div class="tier-addons">
-        <div class="tier-addon">Additional $99 / month: &nbsp;PPHs</div>
-        <div class="tier-addon">Additional $99 / month: &nbsp;Alts</div>
+        <div class="tier-addon">Additional <span data-show-monthly>$99</span><span data-show-annual hidden>$49</span> / month: &nbsp;PPHs</div>
+        <div class="tier-addon">Additional <span data-show-monthly>$99</span><span data-show-annual hidden>$49</span> / month: &nbsp;Alts</div>
       </div>
     </div>
 
@@ -2353,7 +2463,7 @@
         <li>Everything in Props</li>
         <li>All Leagues Included</li>
         <li>Built for professional bettors</li>
-        <li>Live player props <span class="now-live-badge">Now Live</span></li>
+        <li>Live player props</li>
       </ul>
       <div class="tier-limit">Limited seats available, requires approval</div>
       <div class="tier-divider"></div>
@@ -2366,41 +2476,6 @@
 
   <div class="pricing-cta">
     <a href="#" class="btn btn-primary btn-lg">Request a Demo →</a>
-  </div>
-</section>
-
-<!-- ==================== FAQ ==================== -->
-<section class="container">
-  <div class="section-header">
-    <span class="section-eyebrow">FAQ</span>
-    <h2>The questions <span class="accent">pros actually ask.</span></h2>
-  </div>
-
-  <div class="faq">
-    <details class="faq-item" open>
-      <summary>What does "True Line pricing" actually mean?</summary>
-      <p>It's our proprietary model — a market-weighted True Line priced across 200+ books and calibrated to 5+ seasons of closing lines. Not a sharp-book pull. Not a de-vigged consensus. Our own number, back-tested to the close.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Is there a free trial?</summary>
-      <p>No. The tool is designed for pros who already win and need to scale. We do demos — book one and we'll walk you through the exact features you'd use on your slate.</p>
-    </details>
-    <details class="faq-item">
-      <summary>How deep does the prop coverage go?</summary>
-      <p>Full alt-line trees, milestones, and PPHs across NBA, NFL, MLB, NHL. If a market is offered at 10+ sportsbooks, we price a True Line on it. Coverage keeps expanding — that's the Pro + Props roadmap.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Do you offer an API?</summary>
-      <p>Yes — odds API, props API, SGP pricing engine, widgets, and a prediction markets API. See <a href="#">All Products</a> for specs and docs.</p>
-    </details>
-    <details class="faq-item">
-      <summary>Can I share a seat with my team?</summary>
-      <p>Syndicate seats are a first-class tier. Shared workspace, API access, team dashboards. Contact sales for pricing.</p>
-    </details>
-    <details class="faq-item">
-      <summary>What's the refresh latency?</summary>
-      <p>&lt;1s full-board refresh. Median is 400ms. Live markets and edge detection refresh the moment books move.</p>
-    </details>
   </div>
 </section>
 
@@ -2496,10 +2571,92 @@
   const labelM = document.getElementById('labelMonthly');
   const labelA = document.getElementById('labelAnnual');
   if (!sw || !labelM || !labelA) return;
-  sw.addEventListener('click', function() {
-    const isAnnual = sw.classList.toggle('annual');
+  const monthlyEls = document.querySelectorAll('[data-show-monthly]');
+  const annualEls = document.querySelectorAll('[data-show-annual]');
+  function applyBilling(isAnnual) {
     labelM.classList.toggle('active', !isAnnual);
     labelA.classList.toggle('active', isAnnual);
+    monthlyEls.forEach(function(el) {
+      if (isAnnual) el.setAttribute('hidden', ''); else el.removeAttribute('hidden');
+    });
+    annualEls.forEach(function(el) {
+      if (isAnnual) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
+    });
+  }
+  sw.addEventListener('click', function() {
+    const isAnnual = sw.classList.toggle('annual');
+    applyBilling(isAnnual);
+  });
+})();
+
+(function() {
+  const carousels = document.querySelectorAll('[data-testimonials-carousel]');
+  carousels.forEach(function(carousel) {
+    const track = carousel.querySelector('.proof-track');
+    const cards = track ? track.querySelectorAll('.testimonial') : [];
+    const prevBtn = carousel.querySelector('[data-dir="prev"]');
+    const nextBtn = carousel.querySelector('[data-dir="next"]');
+    if (!track || !cards.length || !prevBtn || !nextBtn) return;
+
+    let index = 0;
+
+    function visibleCount() {
+      return window.innerWidth <= 960 ? 1 : 3;
+    }
+    function maxIndex() {
+      return Math.max(0, cards.length - visibleCount());
+    }
+    function update() {
+      const gap = 24;
+      const cardWidth = cards[0].getBoundingClientRect().width;
+      const offset = index * (cardWidth + gap);
+      track.style.transform = 'translateX(-' + offset + 'px)';
+      prevBtn.disabled = index <= 0;
+      nextBtn.disabled = index >= maxIndex();
+    }
+    prevBtn.addEventListener('click', function() {
+      index = Math.max(0, index - 1);
+      update();
+    });
+    nextBtn.addEventListener('click', function() {
+      index = Math.min(maxIndex(), index + 1);
+      update();
+    });
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        index = Math.min(index, maxIndex());
+        update();
+      }, 100);
+    });
+    update();
+  });
+})();
+
+(function() {
+  const posters = document.querySelectorAll('.yt-card-poster');
+  posters.forEach(function(card) {
+    function play() {
+      if (card.classList.contains('yt-card-playing')) return;
+      const id = card.getAttribute('data-yt-id');
+      if (!id) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      iframe.title = card.getAttribute('aria-label') || '';
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+      card.appendChild(iframe);
+      card.classList.add('yt-card-playing');
+    }
+    card.addEventListener('click', play);
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        play();
+      }
+    });
   });
 })();
 </script>

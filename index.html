@@ -1860,11 +1860,11 @@
 
   /* Coverage trust bar */
   /* ================== COVERAGE & SCALE STATS BAND ================== */
-  /* Combined league coverage + infrastructure proof. Sits directly under
-     the hero on dark navy. Six tiles in one bordered card. */
+  /* Coverage + infrastructure proof. Sits directly under the hero on
+     dark navy. Five tiles divided by thin vertical rules, no outer card. */
   .coverage-stats-band {
     background: var(--navy);
-    padding: 88px 0 96px;
+    padding: 48px 0 56px;
     color: var(--white);
     position: relative;
     isolation: isolate;
@@ -1877,44 +1877,11 @@
       radial-gradient(ellipse 600px 300px at 10% 90%, rgba(238,119,34,0.05), transparent 60%);
     pointer-events: none; z-index: -1;
   }
-  .coverage-stats-header {
-    text-align: center;
-    max-width: 760px;
-    margin: 0 auto 56px;
-  }
-  .coverage-stats-eyebrow {
-    font-family: "Inter", sans-serif;
-    font-size: 12px; font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.20em;
-    color: var(--blue);
-    margin-bottom: 18px;
-    display: inline-block;
-  }
-  .coverage-stats-headline {
-    font-family: "Anton", "Inter", sans-serif;
-    font-size: clamp(36px, 4.2vw, 60px);
-    font-weight: 400;
-    text-transform: uppercase;
-    line-height: 0.96;
-    letter-spacing: 0;
-    color: var(--white);
-    margin: 0 0 18px;
-  }
-  .coverage-stats-sub {
-    font-size: 17px; line-height: 1.6;
-    color: rgba(255,255,255,0.65);
-    max-width: 620px;
-    margin: 0 auto;
-  }
   .coverage-stats-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     max-width: 1180px; margin: 0 auto;
-    border: 1px solid rgba(62,146,204,0.30);
-    border-radius: 14px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.025);
+    background: transparent;
   }
   .coverage-stat {
     padding: 36px 18px;
@@ -2441,26 +2408,17 @@
 </section>
 
 <!-- ==================== COVERAGE & SCALE STATS BAND ==================== -->
-<!-- Combined league coverage + infrastructure proof — one band, six tiles -->
+<!-- Coverage + infrastructure proof — one band, five tiles, no header -->
 <section class="coverage-stats-band">
   <div class="container">
-    <div class="coverage-stats-header">
-      <span class="coverage-stats-eyebrow">Coverage &amp; Scale</span>
-      <h2 class="coverage-stats-headline">Pricing the full market at operator-grade speed.</h2>
-      <p class="coverage-stats-sub">True Line pricing across every league the industry trades — backed by sub-second infrastructure proven against 200+ books.</p>
-    </div>
     <div class="coverage-stats-grid">
       <div class="coverage-stat">
-        <div class="coverage-stat-num">300+</div>
-        <div class="coverage-stat-lbl">Leagues Priced</div>
+        <div class="coverage-stat-num">200+</div>
+        <div class="coverage-stat-lbl">Books &amp; Operators</div>
       </div>
       <div class="coverage-stat">
         <div class="coverage-stat-num">2,500+</div>
         <div class="coverage-stat-lbl">Markets</div>
-      </div>
-      <div class="coverage-stat">
-        <div class="coverage-stat-num">200+</div>
-        <div class="coverage-stat-lbl">Books Normalized</div>
       </div>
       <div class="coverage-stat">
         <div class="coverage-stat-num">400ms</div>
