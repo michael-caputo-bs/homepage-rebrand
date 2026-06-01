@@ -318,22 +318,55 @@
   }
   .fit-card.dim li::before { background: var(--muted-2); }
 
-  /* ---------- PERFORMANCE CENTERPIECE ---------- */
+  /* ---------- PERFORMANCE ---------- */
+  /* green used for positive figures on dark surfaces */
+  .perf-pos { color: #3FE08A; }
+  .perf-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .perf-stat {
+    padding: 34px 24px;
+    text-align: center;
+    border-right: 1px solid var(--navy-line);
+  }
+  .perf-stat:last-child { border-right: none; }
+  .perf-stat-num {
+    font-family: var(--display);
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1; letter-spacing: 0;
+    color: var(--blue-bright);
+  }
+  .perf-stat-label {
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted-dark);
+    margin-top: 14px;
+  }
+  .perf-stat-sub {
+    font-size: 12.5px; color: var(--muted-dark);
+    margin-top: 8px;
+  }
+  /* per-book table */
   .perf-card {
     background: var(--navy-2);
     border: 1px solid var(--navy-line);
     border-radius: var(--radius-lg);
-    padding: 40px;
+    overflow: hidden;
   }
   .perf-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0;
+    grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
     border-top: 1px solid var(--navy-line);
+    align-items: center;
   }
-  .perf-row:first-of-type { border-top: none; }
+  .perf-row:first-child { border-top: none; }
   .perf-row.head {
-    border-top: none;
     font-size: 11px;
     color: var(--muted-dark);
     text-transform: uppercase;
@@ -341,21 +374,83 @@
     font-weight: 800;
   }
   .perf-cell {
-    padding: 18px 22px;
+    padding: 20px 24px;
     border-right: 1px solid var(--navy-line);
     color: var(--white);
     font-size: 15px;
-    display: flex; align-items: center;
   }
   .perf-cell:last-child { border-right: none; }
-  .perf-row.head .perf-cell { padding: 12px 22px; }
-  .perf-cell .clv-delta {
+  .perf-row.head .perf-cell { padding: 16px 24px; }
+  .perf-book {
     font-family: var(--display);
-    font-size: 26px;
-    color: var(--blue-bright);
-    letter-spacing: 0;
+    font-size: 22px; letter-spacing: 0;
+    color: var(--white);
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   }
-  .perf-cell .clv-delta.plus { color: var(--green); }
+  .perf-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 10px; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--white);
+    background: var(--orange);
+    padding: 4px 10px; border-radius: 999px;
+  }
+  .perf-delta {
+    font-family: var(--display);
+    font-size: 30px; letter-spacing: 0;
+    color: #3FE08A;
+  }
+  .perf-markets { font-size: 14px; font-weight: 700; color: var(--white); }
+  .perf-markets small { font-weight: 400; color: var(--muted-dark); }
+  .perf-sports {
+    display: block; margin-top: 6px;
+    font-size: 11.5px; color: var(--blue-bright);
+    font-weight: 500; letter-spacing: 0.02em;
+  }
+  /* CLV by sport band */
+  .perf-sport-band {
+    display: flex; align-items: center; flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 18px 16px;
+    background: var(--navy-2);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--radius-lg);
+    padding: 26px 28px;
+    margin-top: 24px;
+  }
+  .perf-sport-eyebrow {
+    display: block; margin-bottom: 6px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted-dark);
+  }
+  .perf-sport-band h4 {
+    font-family: var(--display);
+    font-size: 24px; font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0;
+    color: var(--white);
+  }
+  .perf-sport-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .perf-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid var(--navy-line);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted-dark);
+  }
+  .perf-pill strong {
+    font-family: var(--display);
+    font-size: 16px; font-weight: 400; letter-spacing: 0;
+    color: #3FE08A;
+  }
+  .perf-howto {
+    margin-top: 20px;
+    font-size: 12.5px; color: var(--muted-dark);
+    line-height: 1.6;
+  }
+  .perf-howto strong { color: var(--white); }
   .perf-note {
     margin-top: 22px; color: var(--muted-dark); font-size: 13px;
     font-style: italic;
@@ -905,8 +1000,14 @@
     .footer-grid { grid-template-columns: 1fr; }
     .method-grid, .usecase-grid, .flow { grid-template-columns: 1fr; }
     .hero h1 { font-size: 44px; }
-    .perf-row { grid-template-columns: 1.4fr 1fr 1fr; }
-    .perf-cell { padding: 14px 12px; font-size: 13px; }
+    .perf-stats { grid-template-columns: 1fr; }
+    .perf-stat { border-right: none; border-bottom: 1px solid var(--navy-line); }
+    .perf-stat:last-child { border-bottom: none; }
+    .perf-row { grid-template-columns: 1.4fr 1fr 1fr 1.4fr; }
+    .perf-cell { padding: 12px 10px; font-size: 12px; }
+    .perf-book { font-size: 16px; }
+    .perf-delta { font-size: 20px; }
+    .perf-sport-band { flex-direction: column; align-items: flex-start; }
     .cta-banner { padding: 48px 24px; }
   }
 </style>
@@ -1037,47 +1138,91 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Performance</span>
-      <h2>Sharper than the books that<br><span class="accent">price for themselves.</span></h2>
-      <p>Our True Line outperforms in-house prop pricing on closing line value across every major prop type. Backtested across 5+ seasons of closing data, weighted against 200+ books, calibrated for the prop markets where pricing fails most often.</p>
+      <h2>How we price against<br><span class="accent">the books pricing props today.</span></h2>
+      <p>Our True Line vs. the closing prices of every major North American sportsbook offering player props. Books anonymized for the public page — talk to sales to see exactly where your book ranks.</p>
+    </div>
+
+    <div class="perf-stats">
+      <div class="perf-stat">
+        <div class="perf-stat-num perf-pos">+3.9%</div>
+        <div class="perf-stat-label">Avg CLV Edge</div>
+        <div class="perf-stat-sub">across 6 major books, player props</div>
+      </div>
+      <div class="perf-stat">
+        <div class="perf-stat-num">487k</div>
+        <div class="perf-stat-label">Markets Priced</div>
+        <div class="perf-stat-sub">last 90 days, Min EV 5%+</div>
+      </div>
+      <div class="perf-stat">
+        <div class="perf-stat-num perf-pos">+5.4%</div>
+        <div class="perf-stat-label">Kelly ROI vs. Book Avg</div>
+        <div class="perf-stat-sub">realized, full Kelly, $100k flat bankroll</div>
+      </div>
     </div>
 
     <div class="perf-card">
       <div class="perf-row head">
-        <div class="perf-cell">Market &amp; Sport</div>
-        <div class="perf-cell">CLV vs. Major Book Avg</div>
-        <div class="perf-cell">Sample</div>
+        <div class="perf-cell">Book</div>
+        <div class="perf-cell">True Line CLV Edge</div>
+        <div class="perf-cell">Kelly ROI vs. Book</div>
+        <div class="perf-cell">Markets Priced</div>
       </div>
       <div class="perf-row">
-        <div class="perf-cell">NFL — Anytime TD</div>
-        <div class="perf-cell"><span class="clv-delta plus">+3.4%</span></div>
-        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~42k markets / 5 seasons</div>
+        <div class="perf-cell"><span class="perf-book">Book A <span class="perf-badge">Worst leak</span></span></div>
+        <div class="perf-cell"><span class="perf-delta">+5.4%</span></div>
+        <div class="perf-cell"><span class="perf-delta">+7.2%</span></div>
+        <div class="perf-cell perf-markets">~52,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL</span></div>
       </div>
       <div class="perf-row">
-        <div class="perf-cell">NFL — Receiving Yards</div>
-        <div class="perf-cell"><span class="clv-delta plus">+2.8%</span></div>
-        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~118k markets / 5 seasons</div>
+        <div class="perf-cell"><span class="perf-book">Book B</span></div>
+        <div class="perf-cell"><span class="perf-delta">+4.9%</span></div>
+        <div class="perf-cell"><span class="perf-delta">+6.8%</span></div>
+        <div class="perf-cell perf-markets">~78,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL</span></div>
       </div>
       <div class="perf-row">
-        <div class="perf-cell">NBA — Points</div>
-        <div class="perf-cell"><span class="clv-delta plus">+2.1%</span></div>
-        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~340k markets / 5 seasons</div>
+        <div class="perf-cell"><span class="perf-book">Book C</span></div>
+        <div class="perf-cell"><span class="perf-delta">+4.1%</span></div>
+        <div class="perf-cell"><span class="perf-delta">+5.5%</span></div>
+        <div class="perf-cell perf-markets">~95,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL · PGA</span></div>
       </div>
       <div class="perf-row">
-        <div class="perf-cell">NBA — Threes Made</div>
-        <div class="perf-cell"><span class="clv-delta plus">+2.6%</span></div>
-        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~160k markets / 5 seasons</div>
+        <div class="perf-cell"><span class="perf-book">Book D</span></div>
+        <div class="perf-cell"><span class="perf-delta">+3.6%</span></div>
+        <div class="perf-cell"><span class="perf-delta">+4.9%</span></div>
+        <div class="perf-cell perf-markets">~88,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL</span></div>
       </div>
       <div class="perf-row">
-        <div class="perf-cell">MLB — Pitcher Strikeouts</div>
-        <div class="perf-cell"><span class="clv-delta plus">+3.1%</span></div>
-        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~88k markets / 5 seasons</div>
+        <div class="perf-cell"><span class="perf-book">Book E</span></div>
+        <div class="perf-cell"><span class="perf-delta">+2.9%</span></div>
+        <div class="perf-cell"><span class="perf-delta">+3.7%</span></div>
+        <div class="perf-cell perf-markets">~64,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB</span></div>
       </div>
       <div class="perf-row">
-        <div class="perf-cell">NCAAB — Player Points</div>
-        <div class="perf-cell"><span class="clv-delta plus">+3.9%</span></div>
-        <div class="perf-cell" style="color:var(--muted-dark);font-size:13.5px;">~290k markets / 5 seasons</div>
+        <div class="perf-cell"><span class="perf-book">Book F</span></div>
+        <div class="perf-cell"><span class="perf-delta">+2.3%</span></div>
+        <div class="perf-cell"><span class="perf-delta">+3.1%</span></div>
+        <div class="perf-cell perf-markets">~110,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL · soccer</span></div>
       </div>
     </div>
+
+    <div class="perf-sport-band">
+      <div class="perf-sport-head">
+        <span class="perf-sport-eyebrow">Pooled across all 6 books</span>
+        <h4>CLV by Sport</h4>
+      </div>
+      <div class="perf-sport-pills">
+        <span class="perf-pill">NFL <strong>+3.4%</strong></span>
+        <span class="perf-pill">NBA <strong>+4.1%</strong></span>
+        <span class="perf-pill">MLB <strong>+3.1%</strong></span>
+        <span class="perf-pill">NCAAB <strong>+3.9%</strong></span>
+        <span class="perf-pill">NHL <strong>+2.8%</strong></span>
+        <span class="perf-pill">PGA <strong>+2.2%</strong></span>
+      </div>
+    </div>
+
+    <p class="perf-disclaimer"><strong>Placeholder data — pending dashboard export.</strong> Numbers in this section will be replaced with real values from the True Line Historical Performance dashboard (per-book filter sweep, Min EV 5%, last 90 days, all sports). The shape and structure here is the final layout; only the digits change.</p>
+
+    <p class="perf-howto"><strong>How to read this:</strong> "CLV Edge" = how much sharper our True Line closing price is than the book's closing price. "Kelly ROI" = realized return when a Kelly-staked sharp bet against the book using our line as signal.</p>
   </div>
 </section>
 
