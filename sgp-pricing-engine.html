@@ -796,17 +796,19 @@
   /* each book prices the correlated SGP slightly differently; factor is applied
      to the fair decimal price (1.00 = sharpest / best available) */
   var BOOKS = [
-    { name: '888sport',   f: 1.00 },
-    { name: 'BetMGM',     f: 0.975 },
-    { name: 'DraftKings', f: 0.94 },
-    { name: 'FanDuel',    f: 0.93 },
-    { name: 'BetRivers',  f: 0.915 },
-    { name: 'Tooniebet',  f: 0.905 },
-    { name: 'bc.game',    f: 0.89 },
-    { name: 'Betway',     f: 0.87 },
-    { name: 'Stake',      f: 0.85 }
+    { name: '888sport',   base: 0.985 },
+    { name: 'BetMGM',     base: 0.985 },
+    { name: 'FanDuel',    base: 0.98 },
+    { name: 'DraftKings', base: 0.98 },
+    { name: 'BetRivers',  base: 0.975 },
+    { name: 'Betway',     base: 0.97 },
+    { name: 'bc.game',    base: 0.965 },
+    { name: 'Tooniebet',  base: 0.96 },
+    { name: 'Stake',      base: 0.955 }
   ];
   var SHOWN = 4; // rows rendered in the compact slip (all 9 are compared)
+  // live odds movement: each book drifts around its base so the best book rotates
+  BOOKS.forEach(function (b) { b.f = b.base + (Math.random() - 0.5) * 0.05; });
 
   function decFromAmerican(a) { return a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a); }
   function americanFromDec(d) { return d >= 2 ? Math.round((d - 1) * 100) : -Math.round(100 / (d - 1)); }
@@ -851,6 +853,16 @@
     });
   });
   recompute();
+
+  // nudge each book's price every few seconds -> live movement, rotating best book
+  setInterval(function () {
+    BOOKS.forEach(function (b) {
+      b.f += (Math.random() - 0.5) * 0.022;
+      if (b.f > b.base + 0.05) b.f = b.base + 0.05;
+      if (b.f < b.base - 0.05) b.f = b.base - 0.05;
+    });
+    recompute();
+  }, 3000);
 })();
 </script>
 
