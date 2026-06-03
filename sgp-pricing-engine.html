@@ -364,6 +364,19 @@
   .sec-light .prog { background: #E5EAF1; }
   .sec-light .prog-meta em { color: #8BA2B8; }
 
+  /* ===== SGP odds comparison (hero slip) ===== */
+  .cmp { margin-top: 10px; border-top: 1px solid var(--border-2); padding-top: 12px; }
+  .cmp-best { display: flex; justify-content: space-between; align-items: center; background: rgba(62,146,204,0.12); border: 1px solid rgba(62,146,204,0.35); border-radius: 10px; padding: 11px 13px; margin-bottom: 4px; }
+  .cmp-best .l { color: var(--white); font-weight: 700; font-size: 12.5px; }
+  .cmp-best .v { font-family: var(--mono); color: var(--pos); font-weight: 700; font-size: 15px; }
+  .cmp-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 4px; border-bottom: 1px solid var(--border); }
+  .cmp-row:last-child { border-bottom: none; }
+  .cmp-row .l { color: var(--muted); font-size: 12px; font-weight: 500; }
+  .cmp-row .v { font-family: var(--mono); color: var(--blue-bright); font-size: 12px; }
+  .cmp-row .v.best { color: var(--pos); }
+  /* audience cards use blue icons (not warning orange) */
+  .aud .pcard .ico { background: rgba(62,146,204,0.12); color: var(--blue-bright); }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 980px) {
     .hero-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -419,10 +432,10 @@
       <div class="hero-copy">
         <span class="pill">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 5.8L20 9.2l-4.4 3.6L17 19l-5-3.2L7 19l1.4-6.2L4 9.2l5.6-1.4z"/></svg>
-          Bet Builder
+          SGP Odds Comparison
         </span>
-        <h1>Real-Time SGP<br>Pricing Built for<br><span class="accent">Modern Trading</span></h1>
-        <p class="lead">Instant, correlation-aware pricing infrastructure for sportsbooks, affiliates, market makers, and betting platforms. Infinite scale. Zero internal modeling. Single API.</p>
+        <h1>Real-Time SGP<br>Pricing &amp; <span class="accent">Comparison</span></h1>
+        <p class="lead">Build any Same Game Parlay and instantly compare correlation-aware prices across every major sportsbook — so you always know the fair number and where it's best. For sportsbooks, market makers, affiliates, and betting platforms. Via the Odds Screen or a single API.</p>
         <a href="#demo" class="btn btn-primary">Book a Demo</a>
       </div>
 
@@ -430,9 +443,9 @@
         <div class="phone">
           <div class="phone-screen" id="betslip">
             <div class="phone-status"><span>9:41</span><span>᎒᎒᎒</span></div>
-            <div class="slip-label">BET BUILDER</div>
+            <div class="slip-label">SAME GAME PARLAY</div>
             <div class="slip-teams">COWBOYS <span>VS</span> EAGLES</div>
-            <div class="slip-meta">⌖ AT&amp;T STADIUM · 8:25 PM</div>
+            <div class="slip-meta">Build your legs · compare every book</div>
 
             <div class="leg selected" data-odds="-125" data-group="DAL">
               <span class="leg-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></span>
@@ -460,15 +473,16 @@
               <span class="leg-odds">−115</span>
             </div>
 
-            <div class="slip-total"><span class="lbl">TOTAL ODDS</span><span class="val" id="slip-odds">+1600</span></div>
-            <div class="slip-sub" id="slip-count">5 Legs Parlay</div>
+            <div class="cmp">
+              <div class="cmp-best"><span class="l">Best Available SGP</span><span class="v" id="cmp-best">+1600</span></div>
+              <div id="cmp-list"></div>
+            </div>
 
             <div class="slip-stake">
-              <div class="col"><div class="lbl">Stake</div><div class="amt">$500</div></div>
-              <div class="col right"><div class="lbl">Potential Payout</div><div class="amt" id="slip-payout">$8,500.00</div></div>
+              <div class="col"><div class="lbl">Risk</div><div class="amt">$500</div></div>
+              <div class="col right"><div class="lbl">Payout @ Best</div><div class="amt" id="slip-payout">$8,500.00</div></div>
             </div>
-            <button class="slip-place">PLACE YOUR BET</button>
-            <div class="slip-priced">• Priced in &lt;50ms</div>
+            <div class="slip-priced">• <span id="cmp-count">6</span> sportsbooks compared · priced in &lt;50ms</div>
           </div>
         </div>
       </div>
@@ -481,25 +495,25 @@
 <section class="block sec-light" id="correlation">
   <div class="container">
     <div class="sec-head">
-      <h2>Real-Time Correlation Modeling for Scalable <span class="accent">Same Game Parlay Pricing</span></h2>
-      <p>Joint probability modeling that dynamically reprices Same Game combinations as markets and game states evolve.</p>
+      <h2>Correlation-Aware SGP Pricing, <span class="accent">Benchmarked Across Every Book</span></h2>
+      <p>We price each Same Game combination with full leg-to-leg correlation, then show how it stacks up at every major sportsbook — so you always know the fair number.</p>
     </div>
 
     <div class="split">
       <div>
         <h3>Complex Math,<br><span class="accent">Instant Results</span></h3>
-        <p>Our correlation engine dynamically prices billions of SGP combinations in real time, enabling continuous market coverage across props, totals, and derivatives.</p>
-        <p>Deterministic outputs delivered in sub-50ms, allowing correlated selections to be repriced without suspending live SGP markets.</p>
+        <p>Naive parlay math multiplies leg odds and gets SGPs wrong. We price the joint probability across props, totals, and derivatives — capturing how legs actually move together.</p>
+        <p>Then we compare that correlated price against the live SGP number at every major book in under 50ms, surfacing the fair price and the best available.</p>
         <div class="mini-stats">
-          <div class="mini-stat"><div class="n">0.05s</div><div class="l">Average Response Time</div></div>
-          <div class="mini-stat"><div class="n">99.99%</div><div class="l">Uptime Guarantee</div></div>
+          <div class="mini-stat"><div class="n">9</div><div class="l">Sportsbooks compared</div></div>
+          <div class="mini-stat"><div class="n">&lt;50ms</div><div class="l">Price &amp; comparison</div></div>
         </div>
       </div>
 
       <div class="engine">
         <div class="engine-head">
           <span class="req"><span class="dot"></span>SGP REQUEST</span>
-          <span class="out"><span class="dot"></span>PRICED OUTPUT</span>
+          <span class="out"><span class="dot"></span>ODDS COMPARISON</span>
         </div>
         <div class="engine-row">
           <div class="legs">
@@ -515,11 +529,11 @@
             </div>
           </div>
           <div class="engine-out">
-            <div class="lbl">SGP ODDS (AMERICAN)</div>
-            <div class="odds">+755</div>
+            <div class="lbl">BEST AVAILABLE SGP</div>
+            <div class="odds">+310</div>
             <div class="pair">
-              <div><span class="lbl">LATENCY</span><span class="lat">42ms</span></div>
-              <div><span class="lbl">STATUS</span><span class="st">SETTLED</span></div>
+              <div><span class="lbl">BOOKS</span><span class="lat">9 compared</span></div>
+              <div><span class="lbl">LATENCY</span><span class="st">42ms</span></div>
             </div>
           </div>
         </div>
@@ -528,38 +542,34 @@
   </div>
 </section>
 
-<!-- ==================== PROBLEM ==================== -->
-<section class="block">
+<!-- ==================== WHO IT'S FOR ==================== -->
+<section class="block aud">
   <div class="container">
     <div class="sec-head">
-      <h2>Same Game Parlay Pricing<br><span class="accent">Breaks Down at Scale</span></h2>
-      <p>As volume, correlation depth, and live state complexity increase, traditional SGP pricing systems fail across coverage, latency, and risk control.</p>
+      <h2>One SGP Price Layer,<br><span class="accent">Four Ways to Use It</span></h2>
+      <p>The same correlation-aware SGP comparison powers pricing, benchmarking, monetization, and discovery — for everyone who touches Same Game markets.</p>
     </div>
 
     <div class="grid-2">
       <div class="pcard">
-        <span class="badge">SCALE LIMIT</span>
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <h4>Manual Pricing Workflows Limit Market Coverage</h4>
-        <p>Expanding Same Game combinations across props and derivatives often requires manual intervention, limiting coverage across events and markets. Betstamp automates correlated pricing so sportsbooks can scale SGP market coverage without increasing trader workload.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"/><path d="M9 9v0M9 13v0M9 17v0"/></svg></div>
+        <h4>Sportsbooks</h4>
+        <p>Generate correlation-aware SGP prices and benchmark them against the market in real time. See exactly where your book is sharp, soft, or leaking before you publish a line.</p>
       </div>
       <div class="pcard">
-        <span class="badge">HANDLE LOSS</span>
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-        <h4>Live Markets Suspend During Game State Changes</h4>
-        <p>Pricing systems often fail to reprice correlated selections in real time, leading to suspended SGP markets during high-action windows. Betstamp's real-time correlation engine keeps SGP markets open and responsive during live game state changes.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 10l-4 4 4 4M3 14h13M17 4l4 4-4 4M21 8H8"/></svg></div>
+        <h4>Market Makers</h4>
+        <p>Quote correlated RFQ requests coming in on exchanges and prediction markets with a fair, defensible number benchmarked across every major book.</p>
       </div>
       <div class="pcard">
-        <span class="badge">MARGIN RISK</span>
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h4>Correlated Exposure Is Difficult to Manage</h4>
-        <p>Pricing props, totals, and derivatives independently can expose sportsbooks to risk when selections are combined without automated correlation controls. Betstamp automatically prices correlated risk into every SGP combination before bets are accepted.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></div>
+        <h4>Affiliates</h4>
+        <p>Show live SGP price comparison on your site, deeplink players straight to the book with the best available price, and monetize every conversion.</p>
       </div>
       <div class="pcard">
-        <span class="badge">DEV DEBT</span>
-        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg></div>
-        <h4>Launching New Derivatives Slows Market Expansion</h4>
-        <p>Maintaining engineering and modeling infrastructure slows the rollout of new derivative markets. Betstamp enables sportsbooks to launch new prop and derivative markets instantly without additional modeling or engineering overhead.</p>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h4>Betting Tools &amp; Platforms</h4>
+        <p>Embed real-time SGP odds and best-price comparison into your product so users always see the sharpest Same Game number — and where to get it.</p>
       </div>
     </div>
   </div>
@@ -570,36 +580,36 @@
   <div class="container">
     <div class="sec-head">
       <h2>Enterprise-Grade <span class="accent">Infrastructure</span></h2>
-      <p>Power any sportsbook, prediction market, or model with infrastructure that scales, reacts, and prices in real time.</p>
+      <p>Power any sportsbook, exchange, or product with SGP pricing and comparison that scales, ranks, and reacts in real time.</p>
     </div>
 
     <div class="grid-2">
       <div class="icard">
         <div class="ico blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
-        <h4>Scale SGP market coverage without increasing trader workload</h4>
-        <p>Process millions of correlated pricing requests per hour with auto-scaling compute infrastructure.</p>
+        <h4>Every supported sportsbook, compared</h4>
+        <p>Live SGP prices pulled and ranked from DraftKings, FanDuel, BetRivers, BetMGM, Betway, Tooniebet, bc.game, Stake, and 888sport — best to worst.</p>
         <div class="visual">
           <div class="bars"><span style="height:34%"></span><span style="height:48%"></span><span style="height:40%"></span><span style="height:62%"></span><span style="height:55%"></span><span style="height:78%"></span><span style="height:68%"></span><span style="height:92%"></span></div>
-          <div class="reqs">14.2k req/s</div>
+          <div class="reqs">9 books / request</div>
         </div>
       </div>
 
       <div class="icard">
-        <div class="ico orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg></div>
-        <h4>Launch New Prop and Derivative Markets Instantly</h4>
-        <p>Price complex outcome combinations across props, sides, totals, and derivatives using real-time statistical modeling.</p>
+        <div class="ico orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></div>
+        <h4>Best available price + deeplinks</h4>
+        <p>Surface the single best SGP number and send users or bets straight to that book with a ready-made deeplink.</p>
         <div class="visual sel-grid">
-          <div class="sel">Player Points <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
-          <div class="sel">Points O/U <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
-          <div class="sel">Player Assists <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
-          <div class="sel">Assists O/U <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="sel">888sport <span style="font-family:var(--mono);color:var(--pos)">+310</span></div>
+          <div class="sel">DraftKings <span style="font-family:var(--mono)">+258</span></div>
+          <div class="sel">FanDuel <span style="font-family:var(--mono)">+256</span></div>
+          <div class="sel">Betway <span style="font-family:var(--mono)">+220</span></div>
         </div>
       </div>
 
       <div class="icard">
         <div class="ico green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
-        <h4>React to in-game state changes without suspending markets</h4>
-        <p>Joint probabilities and SGP prices computed and returned in under 50ms, even during live game state changes.</p>
+        <h4>Real-time, sub-50ms</h4>
+        <p>The full correlated price and book-by-book comparison returned in under 50ms, even as legs and game state change.</p>
         <div class="visual">
           <div class="prog"><span></span></div>
           <div class="prog-meta"><b>32ms</b> <em>LATENCY</em></div>
@@ -608,8 +618,8 @@
 
       <div class="icard">
         <div class="ico deep"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h4>Offer competitive SGP odds while managing correlated liability</h4>
-        <p>Automated correlation controls price risk into every SGP combination without manual margin adjustments.</p>
+        <h4>Correlation-aware fair pricing</h4>
+        <p>Joint-probability pricing across props, totals, and derivatives so the fair number reflects how legs actually move together.</p>
         <div class="visual">
           <svg width="100%" height="70" viewBox="0 0 400 70" preserveAspectRatio="none" fill="none">
             <path d="M0 50 C60 20 110 58 170 44 C230 30 270 8 330 30 C360 40 380 36 400 30" stroke="url(#lg)" stroke-width="2.5"/>
@@ -626,38 +636,37 @@
 <section class="block">
   <div class="container">
     <div class="sec-head">
-      <h2>Deploy Correlation-Aware SGP Pricing Through a <span class="accent">Single API</span></h2>
-      <p>Integrate real-time SGP pricing into your existing trading or bet builder stack with a single request.</p>
+      <h2>Get SGP Odds Comparison Through a <span class="accent">Single API</span></h2>
+      <p>Send your legs and get back the correlated price at every major sportsbook — best available, per-book odds, and deeplinks — in one request.</p>
     </div>
 
     <div class="api-grid">
       <div class="api-col">
         <div class="api-head">
           <span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
-          <h3>Single-Request SGP Pricing Integration</h3>
+          <h3>One Request, Every Book Priced</h3>
         </div>
-        <p>Send a JSON payload with your desired selections. Our engine dynamically handles correlation and joint probability pricing in real time.</p>
+        <p>Send at least two legs sharing one <code style="font-family:var(--mono);font-size:0.92em">fixture_id</code>, plus an optional list of sportsbooks. We return the correlated SGP price at each book.</p>
 
         <div class="code-panel">
           <div class="code-bar">
-            <div style="display:flex;align-items:center;gap:14px;"><span class="code-dots"><i></i><i></i><i></i></span><span class="ep">POST /api/v1/sgp/price</span></div>
+            <div style="display:flex;align-items:center;gap:14px;"><span class="code-dots"><i></i><i></i><i></i></span><span class="ep">POST /api/v1/sgp/odds</span></div>
             <span class="copy"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</span>
           </div>
 <pre class="code">{
-  <span class="k">"event_id"</span>: <span class="s">"evt_12345"</span>,
-  <span class="k">"selections"</span>: [
+  <span class="k">"sportsbooks"</span>: [<span class="s">"draftkings"</span>, <span class="s">"fanduel"</span>, <span class="s">"betway"</span>, <span class="s">"888sport"</span>],
+  <span class="k">"legs"</span>: [
     {
-      <span class="k">"market"</span>: <span class="s">"player_goals"</span>,
-      <span class="k">"player"</span>: <span class="s">"Messi"</span>,
-      <span class="k">"selection"</span>: <span class="s">"1+"</span>
+      <span class="k">"fixture_id"</span>: <span class="s">"nba_nyk_sas_2026"</span>,
+      <span class="k">"market"</span>: <span class="s">"player_points"</span>,
+      <span class="k">"player"</span>: <span class="s">"Mikal Bridges"</span>,
+      <span class="k">"selection"</span>: <span class="s">"over_14.5"</span>
     },
     {
-      <span class="k">"market"</span>: <span class="s">"match_result"</span>,
-      <span class="k">"selection"</span>: <span class="s">"home_win"</span>
-    },
-    {
-      <span class="k">"market"</span>: <span class="s">"total_goals"</span>,
-      <span class="k">"selection"</span>: <span class="s">"over_2.5"</span>
+      <span class="k">"fixture_id"</span>: <span class="s">"nba_nyk_sas_2026"</span>,
+      <span class="k">"market"</span>: <span class="s">"player_points"</span>,
+      <span class="k">"player"</span>: <span class="s">"Devin Vassell"</span>,
+      <span class="k">"selection"</span>: <span class="s">"over_13.5"</span>
     }
   ]
 }</pre>
@@ -666,11 +675,17 @@
         <div class="code-panel">
           <div class="code-bar"><span class="resp-label">RESPONSE</span><span class="ms">⚡ 47ms</span></div>
 <pre class="code">{
-  <span class="k">"sgp_id"</span>: <span class="s">"sgp_xyz789"</span>,
-  <span class="k">"combined_odds"</span>: <span class="n">4.75</span>,
-  <span class="k">"probability"</span>: <span class="n">0.2105</span>,
-  <span class="k">"processing_time_ms"</span>: <span class="n">47</span>,
-  <span class="k">"status"</span>: <span class="s">"success"</span>
+  <span class="k">"best_available"</span>: {
+    <span class="k">"sportsbook"</span>: <span class="s">"888sport"</span>,
+    <span class="k">"american"</span>: <span class="s">"+310"</span>, <span class="k">"decimal"</span>: <span class="n">4.10</span>,
+    <span class="k">"deeplink"</span>: <span class="s">"https://888.com/sgp/..."</span>
+  },
+  <span class="k">"books"</span>: {
+    <span class="k">"888sport"</span>:   { <span class="k">"american"</span>: <span class="s">"+310"</span>, <span class="k">"decimal"</span>: <span class="n">4.10</span>, <span class="k">"deeplink"</span>: <span class="s">"..."</span> },
+    <span class="k">"draftkings"</span>: { <span class="k">"american"</span>: <span class="s">"+258"</span>, <span class="k">"decimal"</span>: <span class="n">3.58</span>, <span class="k">"deeplink"</span>: <span class="s">"..."</span> },
+    <span class="k">"fanduel"</span>:    { <span class="k">"american"</span>: <span class="s">"+256"</span>, <span class="k">"decimal"</span>: <span class="n">3.56</span>, <span class="k">"deeplink"</span>: <span class="s">"..."</span> },
+    <span class="k">"betway"</span>:     { <span class="k">"american"</span>: <span class="s">"+220"</span>, <span class="k">"decimal"</span>: <span class="n">3.20</span>, <span class="k">"deeplink"</span>: <span class="s">"..."</span> }
+  }
 }</pre>
         </div>
       </div>
@@ -678,9 +693,9 @@
       <div class="api-col">
         <div class="api-head">
           <span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18h.01"/></svg></span>
-          <h3>Accurate, Render-Ready SGP Outputs</h3>
+          <h3>Or Build It Visually in the Odds Screen</h3>
         </div>
-        <p>Receive fully priced SGP combinations with render-ready odds for immediate display within your existing bet builder or pricing interface.</p>
+        <p>Prefer a UI? Track SGPs, combine legs, and see the live book-by-book comparison in the PRO Odds Screen — no integration required.</p>
 
         <div class="phone" style="margin:0;">
           <div class="phone-screen">
@@ -722,8 +737,8 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
         Talk to a Data Expert
       </span>
-      <h2>Launch <span class="accent">High-Performance</span> SGP Pricing</h2>
-      <p>Expand Same Game market coverage, maintain uptime during live repricing, and manage correlated exposure without increasing trader or engineering workload.</p>
+      <h2>Price, Compare &amp; Monetize <span class="accent">Same Game Parlays</span></h2>
+      <p>Get the fair correlated SGP price and the best available number across every major sportsbook — through the Odds Screen or a single API.</p>
       <a href="#" class="btn btn-primary">Book a Demo</a>
     </div>
   </div>
@@ -765,48 +780,70 @@
 </footer>
 
 <script>
-/* Interactive correlation-aware SGP calculator (hero bet slip).
-   Combined price = product of implied probabilities x correlation boost,
-   where each correlation group (same team/player set) adds +12.5% joint
-   probability per extra leg. Result is rounded to American odds and the
-   payout is computed from that rounded price. */
+/* Interactive correlation-aware SGP odds comparison (hero slip).
+   We price the parlay with full leg-to-leg correlation (product of implied
+   probabilities x a +12.5% joint-probability boost per extra correlated leg),
+   then show that correlated price as it lands at each sportsbook. Best
+   Available = the sharpest book. Everything recomputes as legs toggle. */
 (function () {
   var slip = document.getElementById('betslip');
   if (!slip) return;
   var legs = Array.prototype.slice.call(slip.querySelectorAll('.leg'));
-  var oddsEl = document.getElementById('slip-odds');
+  var bestEl = document.getElementById('cmp-best');
+  var listEl = document.getElementById('cmp-list');
   var payEl = document.getElementById('slip-payout');
-  var cntEl = document.getElementById('slip-count');
+  var cntEl = document.getElementById('cmp-count');
   var STAKE = 500;
-  var CORR_PER_LEG = 0.125; // joint-probability boost per extra correlated leg
-  function money(v){ return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  var CORR_PER_LEG = 0.125;
+  /* each book prices the correlated SGP slightly differently; factor is applied
+     to the fair decimal price (1.00 = sharpest / best available) */
+  var BOOKS = [
+    { name: '888sport',   f: 1.00 },
+    { name: 'BetMGM',     f: 0.975 },
+    { name: 'Tooniebet',  f: 0.96 },
+    { name: 'DraftKings', f: 0.94 },
+    { name: 'FanDuel',    f: 0.93 },
+    { name: 'BetRivers',  f: 0.905 },
+    { name: 'bc.game',    f: 0.89 },
+    { name: 'Betway',     f: 0.87 },
+    { name: 'Stake',      f: 0.85 }
+  ];
+  var SHOWN = 6; // rows rendered in the compact slip (all 9 are compared)
 
   function decFromAmerican(a) { return a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a); }
+  function americanFromDec(d) { return d >= 2 ? Math.round((d - 1) * 100) : -Math.round(100 / (d - 1)); }
   function fmtAmerican(a) { return (a > 0 ? '+' : '−') + Math.abs(a); }
+  function money(v) { return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+  cntEl.textContent = BOOKS.length;
 
   function recompute() {
     var sel = legs.filter(function (l) { return l.classList.contains('selected'); });
-    var n = sel.length;
-    cntEl.textContent = n === 0 ? '0 Legs' : (n === 1 ? '1 Leg' : n + ' Legs Parlay');
-    if (n === 0) { oddsEl.textContent = '—'; payEl.textContent = money(0); return; }
+    if (sel.length === 0) { bestEl.textContent = '—'; listEl.innerHTML = ''; payEl.textContent = money(0); return; }
 
     var prodP = 1, groups = {};
     sel.forEach(function (l) {
-      var a = parseFloat(l.getAttribute('data-odds'));
-      prodP *= 1 / decFromAmerican(a);
+      prodP *= 1 / decFromAmerican(parseFloat(l.getAttribute('data-odds')));
       var g = l.getAttribute('data-group') || ('_' + Math.random());
       groups[g] = (groups[g] || 0) + 1;
     });
     var boost = 1;
     Object.keys(groups).forEach(function (g) { boost += CORR_PER_LEG * Math.max(0, groups[g] - 1); });
+    var fairDec = 1 / Math.min(0.98, prodP * boost);
 
-    var P = Math.min(0.98, prodP * boost);
-    var rawDec = 1 / P;
-    var american = rawDec >= 2 ? Math.round((rawDec - 1) * 100) : -Math.round(100 / (rawDec - 1));
-    var cleanDec = decFromAmerican(american);
+    // price the correlated SGP at each book, rank best -> worst
+    var rows = BOOKS.map(function (b) {
+      var dec = fairDec * b.f;
+      return { name: b.name, dec: dec, am: americanFromDec(dec) };
+    }).sort(function (a, b) { return b.dec - a.dec; });
 
-    oddsEl.textContent = fmtAmerican(american);
-    payEl.textContent = money(STAKE * cleanDec);
+    var best = rows[0];
+    bestEl.textContent = fmtAmerican(best.am);
+    payEl.textContent = money(STAKE * decFromAmerican(best.am));
+    listEl.innerHTML = rows.slice(0, SHOWN).map(function (r, i) {
+      return '<div class="cmp-row"><span class="l">' + r.name + '</span>' +
+             '<span class="v' + (i === 0 ? ' best' : '') + '">' + fmtAmerican(r.am) + '</span></div>';
+    }).join('');
   }
 
   legs.forEach(function (l) {
