@@ -807,8 +807,9 @@
     { name: 'Stake',      base: 0.955 }
   ];
   var SHOWN = 4; // rows rendered in the compact slip (all 9 are compared)
-  // live odds movement: each book drifts around its base so the best book rotates
-  BOOKS.forEach(function (b) { b.f = b.base + (Math.random() - 0.5) * 0.05; });
+  // deterministic per-combination offset so the sharpest book changes with the legs picked
+  function hashStr(s) { var h = 0; for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; } return h; }
+  function bookOffset(name, key) { return ((Math.abs(hashStr(name + '|' + key)) % 1000) / 1000 - 0.5) * 0.08; }
 
   function decFromAmerican(a) { return a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a); }
   function americanFromDec(d) { return d >= 2 ? Math.round((d - 1) * 100) : -Math.round(100 / (d - 1)); }
@@ -819,6 +820,7 @@
     var sel = legs.filter(function (l) { return l.classList.contains('selected'); });
     if (sel.length === 0) { bestEl.textContent = '—'; listEl.innerHTML = ''; payEl.textContent = money(0); return; }
 
+    var selKey = sel.map(function (l) { return legs.indexOf(l); }).join('-');
     var prodP = 1, groups = {};
     sel.forEach(function (l) {
       prodP *= 1 / decFromAmerican(parseFloat(l.getAttribute('data-odds')));
@@ -831,7 +833,7 @@
 
     // price the correlated SGP at each book, rank best -> worst
     var rows = BOOKS.map(function (b) {
-      var dec = fairDec * b.f;
+      var dec = fairDec * (b.base + bookOffset(b.name, selKey));
       return { name: b.name, dec: dec, am: americanFromDec(dec) };
     }).sort(function (a, b) { return b.dec - a.dec; });
 
@@ -853,16 +855,6 @@
     });
   });
   recompute();
-
-  // nudge each book's price every few seconds -> live movement, rotating best book
-  setInterval(function () {
-    BOOKS.forEach(function (b) {
-      b.f += (Math.random() - 0.5) * 0.022;
-      if (b.f > b.base + 0.05) b.f = b.base + 0.05;
-      if (b.f < b.base - 0.05) b.f = b.base - 0.05;
-    });
-    recompute();
-  }, 3000);
 })();
 </script>
 
