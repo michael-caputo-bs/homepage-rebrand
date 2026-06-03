@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGP Pricing Engine — Betstamp</title>
+<meta name="description" content="Real-time, correlation-aware Same Game Parlay pricing infrastructure for sportsbooks, affiliates, and betting platforms. Infinite scale, zero internal modeling, single API.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Betstamp palette (dark surfaces) */
+    --bg: #0A1729;          /* navy */
+    --bg-2: #0E1F36;        /* navy-2 */
+    --panel: #0E1F36;
+    --panel-2: #14263F;
+    --border: #1B2C45;      /* navy-line */
+    --border-2: rgba(255,255,255,0.13);
+
+    --text: #C5D2E0;
+    --muted: #93A6BC;       /* muted-dark */
+    --muted-2: #5E7590;     /* muted */
+    --white: #FFFFFF;
+
+    --blue: #3E92CC;
+    --blue-bright: #4FA8E0;
+    --blue-deep: #1E5A85;
+    --orange: #EE7722;
+    --orange-hover: #F18A3D;
+    --green: #17A364;
+    --pos: #3FE08A;         /* bright positive number */
+
+    --radius: 12px;
+    --radius-lg: 18px;
+    --display: "Anton", "Oswald", "Arial Narrow", Impact, sans-serif;
+    --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+  /* display headings */
+  h1, h2, .sec-head h2, .split h3, .cta h2 {
+    font-family: var(--display); font-weight: 400;
+    text-transform: uppercase; letter-spacing: 0; line-height: 0.98;
+    color: var(--white);
+  }
+  .accent { color: var(--blue-bright); }
+
+  /* ---------- BUTTONS ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 700; font-size: 15px;
+    padding: 13px 28px; border-radius: 8px;
+    cursor: pointer; border: none; font-family: inherit;
+    transition: all .18s; white-space: nowrap;
+  }
+  .btn-primary { background: var(--orange); color: var(--white); box-shadow: 0 6px 22px rgba(238,119,34,0.30); }
+  .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
+  .btn-ghost { background: rgba(255,255,255,0.04); color: var(--white); border: 1px solid var(--border-2); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.08); }
+
+  /* ---------- PILLS / EYEBROWS ---------- */
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue-bright);
+    padding: 7px 16px; border-radius: 999px;
+    border: 1px solid rgba(62,146,204,0.35);
+    background: rgba(62,146,204,0.08);
+  }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,23,41,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 19px; color: var(--white); letter-spacing: -0.01em; }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 6px;
+    background: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--blue); font-weight: 800; font-size: 18px;
+  }
+  .nav-links { display: flex; gap: 6px; align-items: center; }
+  .nav-links > a, .nav-dropdown > .nav-trigger {
+    color: var(--muted); font-size: 14px; font-weight: 500;
+    padding: 8px 14px; border-radius: 8px;
+    transition: color .15s, background .15s;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: none; font-family: inherit;
+  }
+  .nav-links > a:hover, .nav-dropdown:hover .nav-trigger { color: var(--white); }
+  .nav-trigger svg { transition: transform .2s; }
+  .nav-dropdown:hover .nav-trigger svg { transform: rotate(180deg); }
+  .nav-dropdown { position: relative; }
+  .nav-menu {
+    position: absolute; top: calc(100% + 8px); left: 0;
+    min-width: 290px;
+    background: var(--panel-2); border: 1px solid var(--border-2);
+    border-radius: 14px; padding: 8px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    opacity: 0; visibility: hidden; transform: translateY(-6px);
+    transition: all .18s;
+  }
+  .nav-dropdown:hover .nav-menu, .nav-dropdown:focus-within .nav-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .nav-menu a { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 10px; transition: background .15s; }
+  .nav-menu a:hover { background: rgba(255,255,255,0.05); }
+  .nav-menu a strong { color: var(--white); font-size: 14.5px; font-weight: 600; }
+  .nav-menu a span { color: var(--muted-2); font-size: 12.5px; }
+  .nav-cta { display: flex; align-items: center; gap: 12px; }
+  .nav-cta .btn { padding: 10px 20px; font-size: 14px; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section { position: relative; }
+  .block { padding: 110px 0; position: relative; }
+  .glow { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .grid-bg::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 52px 52px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 35%, transparent 80%);
+  }
+  .block > .container { position: relative; z-index: 1; }
+
+  .sec-head { text-align: center; max-width: 900px; margin: 0 auto 64px; position: relative; z-index: 1; }
+  .sec-head h2 { font-size: clamp(34px, 5vw, 60px); margin-bottom: 18px; }
+  .sec-head p { font-size: 18px; color: var(--muted); max-width: 680px; margin: 0 auto; }
+
+  /* ---------- HERO ---------- */
+  .hero { padding: 80px 0 70px; position: relative; overflow: hidden; }
+  .hero .glow::before {
+    content: ""; position: absolute; top: -200px; left: 40%; width: 900px; height: 700px;
+    background: radial-gradient(ellipse at center, rgba(62,146,204,0.22), transparent 60%);
+  }
+  .hero .glow::after {
+    content: ""; position: absolute; top: 150px; right: -120px; width: 600px; height: 600px;
+    background: radial-gradient(ellipse at center, rgba(238,119,34,0.10), transparent 60%);
+  }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 60px; align-items: center; }
+  .hero h1 { font-size: clamp(44px, 6vw, 74px); margin: 22px 0 24px; }
+  .hero .lead { font-size: 19px; color: var(--muted); max-width: 540px; margin-bottom: 34px; line-height: 1.6; }
+  .hero-learn { text-align: center; margin-top: 70px; position: relative; z-index: 1; }
+  .hero-learn a { color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+  .hero-learn svg { animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform: translateY(0);} 50% { transform: translateY(5px);} }
+
+  /* ---------- PHONE MOCKUP ---------- */
+  .phone {
+    width: 300px; max-width: 100%; margin: 0 auto;
+    background: linear-gradient(180deg, #0C1B30, #0A1424);
+    border: 1px solid var(--border-2);
+    border-radius: 36px; padding: 14px;
+    box-shadow: 0 40px 90px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .phone::before { content: ""; position: absolute; top: 20px; left: 50%; transform: translateX(-50%); width: 90px; height: 5px; border-radius: 999px; background: rgba(255,255,255,0.12); }
+  .phone-screen { padding: 18px 16px 16px; }
+  .phone-status { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--muted); font-weight: 600; margin-bottom: 14px; }
+  .slip-label { text-align: center; font-size: 11px; letter-spacing: 0.18em; color: var(--blue-bright); font-weight: 700; margin-bottom: 6px; }
+  .slip-teams { text-align: center; color: var(--white); font-weight: 700; font-size: 17px; letter-spacing: 0.02em; }
+  .slip-teams span { color: var(--muted-2); font-weight: 600; font-size: 13px; margin: 0 6px; }
+  .slip-meta { text-align: center; color: var(--muted-2); font-size: 11px; margin: 4px 0 16px; }
+  .leg { display: flex; align-items: center; gap: 11px; padding: 11px 0; border-top: 1px solid var(--border); }
+  .leg-check { flex-shrink: 0; width: 20px; height: 20px; border-radius: 6px; background: var(--green); display: flex; align-items: center; justify-content: center; }
+  .leg-body { flex: 1; min-width: 0; }
+  .leg-title { color: var(--white); font-size: 12.5px; font-weight: 600; line-height: 1.25; }
+  .leg-sub { color: var(--muted-2); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+  .leg-odds { font-family: var(--mono); font-size: 12px; color: var(--blue-bright); font-weight: 500; }
+  .slip-total { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0 4px; border-top: 1px solid var(--border-2); margin-top: 6px; }
+  .slip-total .lbl { font-size: 11px; letter-spacing: 0.14em; color: var(--muted); font-weight: 700; }
+  .slip-total .val { font-family: var(--mono); font-size: 16px; color: var(--pos); font-weight: 600; }
+  .slip-sub { font-size: 11px; color: var(--muted-2); margin-bottom: 14px; }
+  .slip-stake { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+  .slip-stake .col .lbl { font-size: 9.5px; letter-spacing: 0.14em; color: var(--muted-2); font-weight: 700; text-transform: uppercase; }
+  .slip-stake .col .amt { color: var(--white); font-weight: 700; font-size: 17px; }
+  .slip-stake .col.right { text-align: right; }
+  .slip-stake .col.right .amt { color: var(--pos); }
+  .slip-place { width: 100%; background: var(--orange); color: var(--white); font-weight: 700; border: none; border-radius: 10px; padding: 13px; font-size: 13px; letter-spacing: 0.1em; cursor: pointer; }
+  .slip-priced { text-align: center; font-family: var(--mono); font-size: 10px; color: var(--blue-bright); margin-top: 12px; }
+
+  /* ---------- TWO-COL FEATURE ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; }
+  .split h3 { font-size: clamp(30px, 3.8vw, 46px); margin-bottom: 22px; }
+  .split p { color: var(--muted); font-size: 16.5px; margin-bottom: 18px; max-width: 480px; }
+  .mini-stats { display: flex; gap: 16px; margin-top: 30px; }
+  .mini-stat { flex: 1; background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+  .mini-stat .n { font-family: var(--display); font-size: 36px; color: var(--pos); line-height: 1; }
+  .mini-stat .l { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  /* engine diagram */
+  .engine { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 26px; position: relative; overflow: hidden; }
+  .engine-grid::before {
+    content:""; position:absolute; inset:0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 26px 26px; pointer-events:none;
+  }
+  .engine-head { display: flex; justify-content: space-between; font-size: 10.5px; letter-spacing: 0.14em; font-weight: 700; margin-bottom: 22px; position: relative; }
+  .engine-head .req { color: var(--blue-bright); }
+  .engine-head .out { color: var(--pos); }
+  .engine-head .dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:7px; vertical-align: middle; }
+  .engine-head .req .dot { background: var(--blue-bright); }
+  .engine-head .out .dot { background: var(--pos); }
+  .engine-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-items: center; position: relative; }
+  .legs { display: flex; flex-direction: column; gap: 10px; }
+  .leg-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-left: 2px solid var(--blue); border-radius: 8px; padding: 11px 13px; }
+  .leg-card .k { font-family: var(--mono); font-size: 9.5px; color: var(--muted-2); letter-spacing: 0.08em; margin-bottom: 4px; }
+  .leg-card .v { color: var(--white); font-size: 13px; font-weight: 600; line-height: 1.2; }
+  .engine-core { text-align: center; }
+  .engine-core .box { border: 1px dashed var(--border-2); border-radius: 14px; padding: 22px 14px; background: rgba(62,146,204,0.06); }
+  .engine-core .ttl { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 14px; }
+  .engine-core .chip { width: 46px; height: 46px; margin: 0 auto 14px; border-radius: 12px; border: 1px solid rgba(62,146,204,0.5); display:flex; align-items:center; justify-content:center; color: var(--blue-bright); background: rgba(62,146,204,0.10); }
+  .engine-core .kernel { font-family: var(--mono); font-size: 9.5px; color: var(--muted-2); letter-spacing: 0.1em; }
+  .engine-out .lbl { font-family: var(--mono); font-size: 9.5px; color: var(--muted-2); letter-spacing: 0.1em; }
+  .engine-out .odds { font-family: var(--display); font-size: 40px; color: var(--pos); line-height: 1; margin: 4px 0 18px; }
+  .engine-out .pair { display: flex; gap: 22px; }
+  .engine-out .pair .lbl { display:block; margin-bottom: 3px; }
+  .engine-out .lat { color: var(--pos); font-family: var(--mono); font-size: 14px; font-weight: 500; }
+  .engine-out .st { color: var(--white); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; }
+
+  /* ---------- PROBLEM CARDS ---------- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .pcard { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; position: relative; }
+  .pcard .ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(238,119,34,0.12); color: var(--orange); margin-bottom: 22px; }
+  .pcard .badge { position: absolute; top: 30px; right: 30px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--orange); border: 1px solid rgba(238,119,34,0.4); background: rgba(238,119,34,0.10); border-radius: 999px; padding: 4px 12px; }
+  .pcard h4 { color: var(--white); font-size: 19px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.01em; }
+  .pcard p { color: var(--muted); font-size: 14.5px; line-height: 1.65; }
+
+  /* ---------- INFRA CARDS ---------- */
+  .icard { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 34px; display: flex; flex-direction: column; }
+  .icard .ico { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 22px; }
+  .ico.blue { background: rgba(62,146,204,0.14); color: var(--blue-bright); }
+  .ico.orange { background: rgba(238,119,34,0.14); color: var(--orange); }
+  .ico.green { background: rgba(23,163,100,0.16); color: var(--pos); }
+  .ico.deep { background: rgba(30,90,133,0.30); color: var(--blue-bright); }
+  .icard h4 { color: var(--white); font-size: 19px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.01em; line-height: 1.25; }
+  .icard p { color: var(--muted); font-size: 14.5px; line-height: 1.65; margin-bottom: 22px; }
+  .icard .visual { margin-top: auto; }
+
+  .bars { display: flex; align-items: flex-end; gap: 8px; height: 80px; }
+  .bars span { flex: 1; background: linear-gradient(180deg, rgba(62,146,204,0.55), rgba(62,146,204,0.08)); border-radius: 4px 4px 0 0; }
+  .reqs { text-align: right; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+  .sel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .sel { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 13px 15px; font-size: 13.5px; color: var(--text); }
+  .sel svg { color: var(--muted-2); }
+
+  .prog { height: 8px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; }
+  .prog span { display: block; height: 100%; width: 72%; background: linear-gradient(90deg, var(--blue), var(--blue-bright)); border-radius: 999px; }
+  .prog-meta { text-align: right; margin-top: 12px; font-family: var(--mono); font-size: 12px; }
+  .prog-meta b { color: var(--pos); font-weight: 600; }
+  .prog-meta em { color: var(--muted-2); font-style: normal; letter-spacing: 0.1em; }
+
+  /* ---------- API SECTION ---------- */
+  .api-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .api-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .api-head .ico { width: 38px; height: 38px; border-radius: 10px; display:flex; align-items:center; justify-content:center; }
+  .api-head h3 { font-family: "Inter", sans-serif; font-size: 21px; font-weight: 700; color: var(--white); letter-spacing: -0.01em; text-transform: none; }
+  .api-col > p { color: var(--muted); font-size: 15px; margin-bottom: 24px; max-width: 460px; }
+  .code-panel { background: #081222; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 18px; }
+  .code-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .code-dots { display: flex; gap: 7px; }
+  .code-dots i { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+  .code-dots i:nth-child(1) { background: #FF5F57; }
+  .code-dots i:nth-child(2) { background: #FEBC2E; }
+  .code-dots i:nth-child(3) { background: #28C840; }
+  .code-bar .ep { font-family: var(--mono); font-size: 11.5px; color: var(--muted); }
+  .code-bar .copy { font-size: 11px; color: var(--muted-2); display: inline-flex; align-items: center; gap: 5px; }
+  .code-bar .ms { font-family: var(--mono); font-size: 11px; color: var(--pos); }
+  pre.code { margin: 0; padding: 18px 20px; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: #9FB3C8; overflow-x: auto; }
+  pre.code .k { color: var(--blue-bright); }
+  pre.code .s { color: var(--pos); }
+  pre.code .n { color: var(--orange-hover); }
+  .resp-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
+
+  /* api phone (builder) */
+  .builder-tabs { display: flex; gap: 16px; font-size: 11px; font-weight: 600; color: var(--muted-2); border-bottom: 1px solid var(--border); padding-bottom: 10px; margin: 14px 0 0; }
+  .builder-tabs .on { color: var(--white); position: relative; }
+  .builder-tabs .on::after { content:""; position:absolute; left:0; right:0; bottom:-11px; height:2px; background: var(--blue-bright); }
+  .b-row { display: flex; align-items: center; justify-content: space-between; padding: 13px 0; border-bottom: 1px solid var(--border); color: var(--white); font-size: 13px; font-weight: 500; }
+  .b-row svg { color: var(--muted-2); }
+  .b-section { font-size: 9.5px; letter-spacing: 0.14em; color: var(--muted-2); font-weight: 700; padding: 14px 0 4px; display:flex; justify-content: space-between; }
+  .b-chip { display:inline-flex; align-items:center; gap:6px; background: var(--blue); color:var(--white); font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 999px; }
+  .b-header { display:flex; align-items:center; gap:10px; color: var(--white); font-weight:600; font-size: 15px; margin-bottom: 14px; }
+  .b-matchup { display:flex; align-items:center; justify-content: space-between; background: rgba(255,255,255,0.03); border:1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px; }
+  .b-team { text-align:center; }
+  .b-team .ab { width:34px; height:34px; border-radius:50%; background: rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--white); margin: 0 auto 4px; }
+  .b-team .nm { font-size: 9px; color: var(--muted-2); letter-spacing: 0.08em; }
+  .b-mid { text-align:center; }
+  .b-mid .in { font-size: 9px; color: var(--muted-2); letter-spacing:0.1em; }
+  .b-mid .tm { font-size: 13px; color:var(--white); font-weight:600; margin: 2px 0; }
+  .b-mid .lg { font-size: 9px; color: var(--muted-2); }
+  .b-toggles { display:flex; align-items:center; gap:10px; margin-bottom: 6px; }
+  .b-toggles .dim { color: var(--muted-2); font-size: 12px; }
+
+  /* ---------- CTA ---------- */
+  .cta-wrap { padding: 40px 0 120px; }
+  .cta { position: relative; overflow: hidden; background: var(--panel); border: 1px solid var(--border-2); border-radius: 24px; padding: 80px 40px; text-align: center; }
+  .cta .glow::before { content:""; position:absolute; top:-150px; left:50%; transform:translateX(-50%); width:700px; height:500px; background: radial-gradient(ellipse at center, rgba(62,146,204,0.20), transparent 60%); }
+  .cta .glow::after { content:""; position:absolute; bottom:-150px; left:25%; width:500px; height:400px; background: radial-gradient(ellipse at center, rgba(238,119,34,0.12), transparent 60%); }
+  .cta > * { position: relative; z-index: 1; }
+  .cta h2 { font-size: clamp(34px, 4.8vw, 56px); margin: 22px 0 16px; }
+  .cta p { color: var(--muted); font-size: 17px; max-width: 600px; margin: 0 auto 32px; }
+
+  /* ---------- FOOTER ---------- */
+  footer { border-top: 1px solid var(--border); padding: 56px 0 32px; }
+  .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .foot-brand p { color: var(--muted-2); font-size: 14px; margin-top: 16px; max-width: 300px; line-height: 1.6; }
+  .foot-col h4 { color: var(--white); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+  .foot-col a { display: block; color: var(--muted); font-size: 14px; padding: 6px 0; transition: color .15s; }
+  .foot-col a:hover { color: var(--blue-bright); }
+  .foot-bottom { display: flex; justify-content: space-between; padding-top: 28px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted-2); }
+  .foot-bottom a { margin-left: 18px; color: var(--muted-2); }
+
+  /* ---------- MOCKUP RIBBON ---------- */
+  .ribbon { position: fixed; top: 16px; right: -44px; background: var(--orange); color: #fff; padding: 5px 50px; font-size: 11px; font-weight: 800; transform: rotate(45deg); z-index: 200; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-grid .phone-wrap { order: -1; }
+    .split { grid-template-columns: 1fr; gap: 40px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .api-grid { grid-template-columns: 1fr; gap: 40px; }
+    .nav-links { display: none; }
+  }
+  @media (max-width: 560px) {
+    .block { padding: 76px 0; }
+    .engine-row { grid-template-columns: 1fr; gap: 18px; }
+    .sel-grid { grid-template-columns: 1fr; }
+    .mini-stats { flex-direction: column; }
+    .foot-grid { grid-template-columns: 1fr 1fr; }
+    .cta { padding: 56px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ribbon">Mockup</div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo"><span class="logo-mark">B</span> betstamp</a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <button class="nav-trigger">Products
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-menu">
+          <a href="/sportsbook-pricing-feed-v1"><strong>Sportsbook Pricing Feed</strong><span>Sharpest player-prop &amp; alt pricing feed</span></a>
+          <a href="/sgp-pricing-engine"><strong>SGP Pricing Engine</strong><span>Real-time correlation-aware SGP pricing</span></a>
+        </div>
+      </div>
+      <a href="#">Customers</a>
+      <a href="#">Documentation</a>
+      <a href="#">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#demo" class="btn btn-primary">Book a Demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero grid-bg">
+  <div class="glow"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 5.8L20 9.2l-4.4 3.6L17 19l-5-3.2L7 19l1.4-6.2L4 9.2l5.6-1.4z"/></svg>
+          Bet Builder
+        </span>
+        <h1>Real-Time SGP Pricing Built for <span class="accent">Modern Trading</span></h1>
+        <p class="lead">Instant, correlation-aware pricing infrastructure for sportsbooks, affiliates, and betting platforms. Infinite scale. Zero internal modeling. Single API.</p>
+        <a href="#demo" class="btn btn-primary">Book a Demo</a>
+      </div>
+
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-status"><span>9:41</span><span>᎒᎒᎒</span></div>
+            <div class="slip-label">BET BUILDER</div>
+            <div class="slip-teams">COWBOYS <span>VS</span> EAGLES</div>
+            <div class="slip-meta">⌖ AT&amp;T STADIUM · 8:25 PM</div>
+
+            <div class="leg">
+              <span class="leg-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></span>
+              <div class="leg-body"><div class="leg-title">Cowboys Moneyline</div><div class="leg-sub">Match Result</div></div>
+              <span class="leg-odds">−125</span>
+            </div>
+            <div class="leg">
+              <span class="leg-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></span>
+              <div class="leg-body"><div class="leg-title">Over 271.5 Passing Yds</div><div class="leg-sub">Dak Prescott (DAL)</div></div>
+              <span class="leg-odds">−130</span>
+            </div>
+            <div class="leg">
+              <span class="leg-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></span>
+              <div class="leg-body"><div class="leg-title">Over 82.5 Receiving Yds</div><div class="leg-sub">CeeDee Lamb (DAL)</div></div>
+              <span class="leg-odds">−115</span>
+            </div>
+            <div class="leg">
+              <span class="leg-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></span>
+              <div class="leg-body"><div class="leg-title">Over 42.5 Rushing Yds</div><div class="leg-sub">Jalen Hurts (PHI)</div></div>
+              <span class="leg-odds">+110</span>
+            </div>
+            <div class="leg">
+              <span class="leg-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5"><path d="M5 12l5 5L20 6"/></svg></span>
+              <div class="leg-body"><div class="leg-title">Anytime Touchdown Scorer</div><div class="leg-sub">CeeDee Lamb (DAL)</div></div>
+              <span class="leg-odds">−115</span>
+            </div>
+
+            <div class="slip-total"><span class="lbl">TOTAL ODDS</span><span class="val">+1600</span></div>
+            <div class="slip-sub">5 Legs Parlay</div>
+
+            <div class="slip-stake">
+              <div class="col"><div class="lbl">Stake</div><div class="amt">$10</div></div>
+              <div class="col right"><div class="lbl">Potential Payout</div><div class="amt">$170.00</div></div>
+            </div>
+            <button class="slip-place">PLACE YOUR BET</button>
+            <div class="slip-priced">• Priced in &lt;50ms</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-learn">
+      <a href="#correlation">Learn More
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CORRELATION MODELING ==================== -->
+<section class="block grid-bg" id="correlation">
+  <div class="container">
+    <div class="sec-head">
+      <h2>Real-Time Correlation Modeling for Scalable <span class="accent">Same Game Parlay Pricing</span></h2>
+      <p>Joint probability modeling that dynamically reprices Same Game combinations as markets and game states evolve.</p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Complex Math,<br><span class="accent">Instant Results</span></h3>
+        <p>Our correlation engine dynamically prices billions of SGP combinations in real time, enabling continuous market coverage across props, totals, and derivatives.</p>
+        <p>Deterministic outputs delivered in sub-50ms, allowing correlated selections to be repriced without suspending live SGP markets.</p>
+        <div class="mini-stats">
+          <div class="mini-stat"><div class="n">0.05s</div><div class="l">Average Response Time</div></div>
+          <div class="mini-stat"><div class="n">99.99%</div><div class="l">Uptime Guarantee</div></div>
+        </div>
+      </div>
+
+      <div class="engine engine-grid">
+        <div class="engine-head">
+          <span class="req"><span class="dot"></span>SGP REQUEST</span>
+          <span class="out"><span class="dot"></span>PRICED OUTPUT</span>
+        </div>
+        <div class="engine-row">
+          <div class="legs">
+            <div class="leg-card"><div class="k">LEG_1</div><div class="v">Player Points Under 27.5</div></div>
+            <div class="leg-card"><div class="k">LEG_2</div><div class="v">Team ML</div></div>
+            <div class="leg-card"><div class="k">LEG_3</div><div class="v">Game Total Over 222.5</div></div>
+          </div>
+          <div class="engine-core">
+            <div class="box">
+              <div class="ttl">CORRELATION ENGINE</div>
+              <div class="chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg></div>
+              <div class="kernel">KERNEL V4.2.0</div>
+            </div>
+          </div>
+          <div class="engine-out">
+            <div class="lbl">SGP ODDS (AMERICAN)</div>
+            <div class="odds">+755</div>
+            <div class="pair">
+              <div><span class="lbl">LATENCY</span><span class="lat">42ms</span></div>
+              <div><span class="lbl">STATUS</span><span class="st">SETTLED</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROBLEM ==================== -->
+<section class="block grid-bg">
+  <div class="container">
+    <div class="sec-head">
+      <h2>Same Game Parlay Pricing <span class="accent">Breaks Down at Scale</span></h2>
+      <p>As volume, correlation depth, and live state complexity increase, traditional SGP pricing systems fail across coverage, latency, and risk control.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="pcard">
+        <span class="badge">SCALE LIMIT</span>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h4>Manual Pricing Workflows Limit Market Coverage</h4>
+        <p>Expanding Same Game combinations across props and derivatives often requires manual intervention, limiting coverage across events and markets. Betstamp automates correlated pricing so sportsbooks can scale SGP market coverage without increasing trader workload.</p>
+      </div>
+      <div class="pcard">
+        <span class="badge">HANDLE LOSS</span>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h4>Live Markets Suspend During Game State Changes</h4>
+        <p>Pricing systems often fail to reprice correlated selections in real time, leading to suspended SGP markets during high-action windows. Betstamp's real-time correlation engine keeps SGP markets open and responsive during live game state changes.</p>
+      </div>
+      <div class="pcard">
+        <span class="badge">MARGIN RISK</span>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h4>Correlated Exposure Is Difficult to Manage</h4>
+        <p>Pricing props, totals, and derivatives independently can expose sportsbooks to risk when selections are combined without automated correlation controls. Betstamp automatically prices correlated risk into every SGP combination before bets are accepted.</p>
+      </div>
+      <div class="pcard">
+        <span class="badge">DEV DEBT</span>
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg></div>
+        <h4>Launching New Derivatives Slows Market Expansion</h4>
+        <p>Maintaining engineering and modeling infrastructure slows the rollout of new derivative markets. Betstamp enables sportsbooks to launch new prop and derivative markets instantly without additional modeling or engineering overhead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== INFRASTRUCTURE ==================== -->
+<section class="block grid-bg">
+  <div class="container">
+    <div class="sec-head">
+      <h2>Enterprise-Grade <span class="accent">Infrastructure</span></h2>
+      <p>Power any sportsbook, prediction market, or model with infrastructure that scales, reacts, and prices in real time.</p>
+    </div>
+
+    <div class="grid-2">
+      <div class="icard">
+        <div class="ico blue"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+        <h4>Scale SGP market coverage without increasing trader workload</h4>
+        <p>Process millions of correlated pricing requests per hour with auto-scaling compute infrastructure.</p>
+        <div class="visual">
+          <div class="bars"><span style="height:34%"></span><span style="height:48%"></span><span style="height:40%"></span><span style="height:62%"></span><span style="height:55%"></span><span style="height:78%"></span><span style="height:68%"></span><span style="height:92%"></span></div>
+          <div class="reqs">14.2k req/s</div>
+        </div>
+      </div>
+
+      <div class="icard">
+        <div class="ico orange"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/></svg></div>
+        <h4>Launch New Prop and Derivative Markets Instantly</h4>
+        <p>Price complex outcome combinations across props, sides, totals, and derivatives using real-time statistical modeling.</p>
+        <div class="visual sel-grid">
+          <div class="sel">Player Points <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="sel">Points O/U <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="sel">Player Assists <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          <div class="sel">Assists O/U <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+      </div>
+
+      <div class="icard">
+        <div class="ico green"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+        <h4>React to in-game state changes without suspending markets</h4>
+        <p>Joint probabilities and SGP prices computed and returned in under 50ms, even during live game state changes.</p>
+        <div class="visual">
+          <div class="prog"><span></span></div>
+          <div class="prog-meta"><b>32ms</b> <em>LATENCY</em></div>
+        </div>
+      </div>
+
+      <div class="icard">
+        <div class="ico deep"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h4>Offer competitive SGP odds while managing correlated liability</h4>
+        <p>Automated correlation controls price risk into every SGP combination without manual margin adjustments.</p>
+        <div class="visual">
+          <svg width="100%" height="70" viewBox="0 0 400 70" preserveAspectRatio="none" fill="none">
+            <path d="M0 50 C60 20 110 58 170 44 C230 30 270 8 330 30 C360 40 380 36 400 30" stroke="url(#lg)" stroke-width="2.5"/>
+            <defs><linearGradient id="lg" x1="0" y1="0" x2="400" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#1E5A85"/><stop offset="1" stop-color="#4FA8E0"/></linearGradient></defs>
+            <circle cx="170" cy="44" r="4" fill="#4FA8E0"/><circle cx="270" cy="20" r="4" fill="#4FA8E0"/><circle cx="330" cy="30" r="4" fill="#4FA8E0"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== API ==================== -->
+<section class="block grid-bg">
+  <div class="container">
+    <div class="sec-head">
+      <h2>Deploy Correlation-Aware SGP Pricing Through a <span class="accent">Single API</span></h2>
+      <p>Integrate real-time SGP pricing into your existing trading or bet builder stack with a single request.</p>
+    </div>
+
+    <div class="api-grid">
+      <div class="api-col">
+        <div class="api-head">
+          <span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
+          <h3>Single-Request SGP Pricing Integration</h3>
+        </div>
+        <p>Send a JSON payload with your desired selections. Our engine dynamically handles correlation and joint probability pricing in real time.</p>
+
+        <div class="code-panel">
+          <div class="code-bar">
+            <div style="display:flex;align-items:center;gap:14px;"><span class="code-dots"><i></i><i></i><i></i></span><span class="ep">POST /api/v1/sgp/price</span></div>
+            <span class="copy"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</span>
+          </div>
+<pre class="code">{
+  <span class="k">"event_id"</span>: <span class="s">"evt_12345"</span>,
+  <span class="k">"selections"</span>: [
+    {
+      <span class="k">"market"</span>: <span class="s">"player_goals"</span>,
+      <span class="k">"player"</span>: <span class="s">"Messi"</span>,
+      <span class="k">"selection"</span>: <span class="s">"1+"</span>
+    },
+    {
+      <span class="k">"market"</span>: <span class="s">"match_result"</span>,
+      <span class="k">"selection"</span>: <span class="s">"home_win"</span>
+    },
+    {
+      <span class="k">"market"</span>: <span class="s">"total_goals"</span>,
+      <span class="k">"selection"</span>: <span class="s">"over_2.5"</span>
+    }
+  ]
+}</pre>
+        </div>
+
+        <div class="code-panel">
+          <div class="code-bar"><span class="resp-label">RESPONSE</span><span class="ms">⚡ 47ms</span></div>
+<pre class="code">{
+  <span class="k">"sgp_id"</span>: <span class="s">"sgp_xyz789"</span>,
+  <span class="k">"combined_odds"</span>: <span class="n">4.75</span>,
+  <span class="k">"probability"</span>: <span class="n">0.2105</span>,
+  <span class="k">"processing_time_ms"</span>: <span class="n">47</span>,
+  <span class="k">"status"</span>: <span class="s">"success"</span>
+}</pre>
+        </div>
+      </div>
+
+      <div class="api-col">
+        <div class="api-head">
+          <span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18h.01"/></svg></span>
+          <h3>Accurate, Render-Ready SGP Outputs</h3>
+        </div>
+        <p>Receive fully priced SGP combinations with render-ready odds for immediate display within your existing bet builder or pricing interface.</p>
+
+        <div class="phone" style="margin:0;">
+          <div class="phone-screen">
+            <div class="phone-status"><span>9:41</span><span>᎒᎒᎒</span></div>
+            <div class="b-header">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              SGP Builder
+              <svg style="margin-left:auto" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4-4"/></svg>
+            </div>
+            <div class="b-matchup">
+              <div class="b-team"><div class="ab">SAS</div><div class="nm">SPURS</div></div>
+              <div class="b-mid"><div class="in">STARTS IN 08:28:12</div><div class="tm">Today 19:40</div><div class="lg">⎙ LEAGUE PASS</div></div>
+              <div class="b-team"><div class="ab">TOR</div><div class="nm">RAPTORS</div></div>
+            </div>
+            <div class="b-toggles">
+              <span class="b-chip">SGP Builder ✕</span>
+              <span class="dim">Dynamic Odds</span>
+            </div>
+            <div class="builder-tabs"><span class="on">POPULAR</span><span>GAME LINES</span><span>PLAYER POINTS</span></div>
+            <div class="b-section"><span>MAIN MARKETS</span><span>›</span></div>
+            <div class="b-row">Player Points <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="b-row">Player Assists <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="b-row">Assists <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="b-row">Player Rebounds <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+            <div class="b-row" style="border-bottom:none">Player Passes <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="cta-wrap" id="demo">
+  <div class="container">
+    <div class="cta">
+      <div class="glow"></div>
+      <span class="pill">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        Talk to a Data Expert
+      </span>
+      <h2>Launch <span class="accent">High-Performance</span> SGP Pricing</h2>
+      <p>Expand Same Game market coverage, maintain uptime during live repricing, and manage correlated exposure without increasing trader or engineering workload.</p>
+      <a href="#" class="btn btn-primary">Book a Demo</a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo"><span class="logo-mark">B</span> betstamp</a>
+        <p>The odds and pricing data company. Built for the sharps, sportsbooks, and syndicates pricing for performance.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Products</h4>
+        <a href="/sportsbook-pricing-feed-v1">Sportsbook Pricing Feed</a>
+        <a href="/sgp-pricing-engine">SGP Pricing Engine</a>
+        <a href="#">Sports Betting API</a>
+        <a href="#">Prediction Markets API</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Customers</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <a href="#">Documentation</a>
+        <a href="#">Status</a>
+        <a href="#">Legal</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>&copy; 2026 Betstamp. All rights reserved.</div>
+      <div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
