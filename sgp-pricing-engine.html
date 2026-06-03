@@ -392,6 +392,9 @@
   .aud .pcard .ico { background: rgba(62,146,204,0.12); color: var(--blue-bright); margin-bottom: 0; }
   .aud .pcard h4 { margin: 0; }
   .aud .pcard p { grid-column: 1 / -1; margin: 16px 0 0; }
+  /* full-width 5th card: icon · title · copy on one row */
+  .aud .pcard.wide { grid-column: 1 / -1; grid-template-columns: auto auto 1fr; column-gap: 18px; }
+  .aud .pcard.wide p { grid-column: auto; margin: 0; }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 980px) {
@@ -399,6 +402,8 @@
     .hero-grid .phone-wrap { order: -1; }
     .split { grid-template-columns: 1fr; gap: 40px; }
     .grid-2 { grid-template-columns: 1fr; }
+    .aud .pcard.wide { grid-template-columns: auto 1fr; }
+    .aud .pcard.wide p { grid-column: 1 / -1; margin-top: 16px; }
     .api-grid { grid-template-columns: 1fr; gap: 40px; }
     .nav-links { display: none; }
   }
@@ -561,7 +566,7 @@
 <section class="block aud">
   <div class="container">
     <div class="sec-head">
-      <h2>One SGP Price Layer,<br><span class="accent">Four Ways to Use It</span></h2>
+      <h2>One SGP Price Layer,<br><span class="accent">Five Ways to Use It</span></h2>
       <p>The same correlation-aware SGP comparison powers pricing, benchmarking, monetization, and discovery — for everyone who touches Same Game markets.</p>
     </div>
 
@@ -585,6 +590,11 @@
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
         <h4>Betting Tools &amp; Platforms</h4>
         <p>Embed real-time SGP odds and best-price comparison into your product so users always see the sharpest Same Game number — and where to get it.</p>
+      </div>
+      <div class="pcard wide">
+        <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+        <h4>Professional Bettors &amp; Traders</h4>
+        <p>Find the sharpest SGP price and the book offering it, spot when a Same Game number is off the fair line, and shop the best available — in the Odds Screen or via the API.</p>
       </div>
     </div>
   </div>
