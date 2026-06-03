@@ -1033,9 +1033,10 @@
   }
   @media (max-width: 760px) {
     section.block, section.block-tight { padding: 64px 0; }
-    .stats-band { grid-template-columns: repeat(2, 1fr); }
-    .stat-cell { border-right: 1px solid var(--navy-line) !important; }
-    .stat-cell:nth-child(2n) { border-right: none !important; }
+    .stats-band { display: flex; flex-wrap: wrap; justify-content: center; border: none; }
+    .stat-cell { flex: 0 0 33.333%; border: none !important; padding: 18px 6px; }
+    .stat-num { font-size: clamp(26px, 7vw, 40px); }
+    .stat-label { font-size: 10px; }
     .nav-links { display: none; }
     .footer-grid { grid-template-columns: 1fr; }
     .method-grid, .usecase-grid, .flow { grid-template-columns: 1fr; }
