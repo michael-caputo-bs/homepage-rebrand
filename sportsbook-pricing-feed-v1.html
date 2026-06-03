@@ -1043,6 +1043,12 @@
     .footer-grid { grid-template-columns: 1fr; }
     .method-grid, .usecase-grid, .flow { grid-template-columns: 1fr; }
     .spec-step-body { grid-template-columns: 1fr; gap: 4px; }
+    /* "How we fit" mobile carousel: featured card leads, others circle behind */
+    .fit-grid { position: relative; display: block; height: 600px; margin-top: 8px; }
+    .fit-card { position: absolute; top: 0; left: 50%; width: 87%; max-width: 360px; margin: 0; transition: transform .55s cubic-bezier(.34,.08,.2,1), opacity .55s; }
+    .fit-card.pos-front  { transform: translateX(-50%) scale(0.86); opacity: 1; z-index: 3; }
+    .fit-card.pos-back-r { transform: translateX(-50%) translateX(44%) translateY(20px) scale(0.7) rotate(8deg); opacity: 0.4; z-index: 2; }
+    .fit-card.pos-back-l { transform: translateX(-50%) translateX(-44%) translateY(20px) scale(0.7) rotate(-8deg); opacity: 0.4; z-index: 1; }
     .hero h1 { font-size: 44px; }
     .hero { padding: 56px 0 20px; }
     .stats-band-wrap { padding: 4px 0 48px; }
@@ -1601,6 +1607,58 @@
     </div>
   </div>
 </footer>
+
+<script>
+/* Mobile-only rotary carousel for the "How we fit" cards:
+   the featured card leads, the other two circle behind, swinging on a timer
+   (and on tap). Inactive / cleaned up on desktop. */
+(function () {
+  var grid = document.querySelector('.fit-grid');
+  if (!grid) return;
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.fit-card'));
+  if (cards.length !== 3) return;
+
+  var feat = cards.filter(function (c) { return c.classList.contains('featured'); });
+  var rest = cards.filter(function (c) { return !c.classList.contains('featured'); });
+  var order = feat.concat(rest);            // featured leads
+  var slots = ['pos-front', 'pos-back-r', 'pos-back-l'];
+  var FRONT_SCALE = 0.86;
+  var idx = 0, timer = null;
+  var mq = window.matchMedia('(max-width: 760px)');
+
+  function apply() {
+    order.forEach(function (card, i) {
+      card.classList.remove('pos-front', 'pos-back-r', 'pos-back-l');
+      card.classList.add(slots[(i + idx) % 3]);
+    });
+  }
+  function clearPos() {
+    cards.forEach(function (c) { c.classList.remove('pos-front', 'pos-back-r', 'pos-back-l'); });
+  }
+  function setHeight() {
+    var max = 0;
+    cards.forEach(function (c) { if (c.offsetHeight > max) max = c.offsetHeight; });
+    grid.style.height = Math.round(max * FRONT_SCALE + 44) + 'px';
+  }
+  function advance() { idx = (idx + 1) % 3; apply(); }
+
+  function activate() {
+    if (mq.matches) {
+      apply();
+      setHeight();
+      if (!timer) timer = setInterval(advance, 3500);
+    } else {
+      if (timer) { clearInterval(timer); timer = null; }
+      clearPos();
+      grid.style.height = '';
+    }
+  }
+
+  activate();
+  window.addEventListener('resize', function () { activate(); if (mq.matches) setHeight(); });
+  grid.addEventListener('click', function () { if (mq.matches) advance(); });
+})();
+</script>
 
 </body>
 </html>
