@@ -462,8 +462,8 @@
             <div class="slip-sub" id="slip-count">5 Legs Parlay</div>
 
             <div class="slip-stake">
-              <div class="col"><div class="lbl">Stake</div><div class="amt">$10</div></div>
-              <div class="col right"><div class="lbl">Potential Payout</div><div class="amt" id="slip-payout">$170.00</div></div>
+              <div class="col"><div class="lbl">Stake</div><div class="amt">$500</div></div>
+              <div class="col right"><div class="lbl">Potential Payout</div><div class="amt" id="slip-payout">$8,500.00</div></div>
             </div>
             <button class="slip-place">PLACE YOUR BET</button>
             <div class="slip-priced">• Priced in &lt;50ms</div>
@@ -780,8 +780,9 @@
   var oddsEl = document.getElementById('slip-odds');
   var payEl = document.getElementById('slip-payout');
   var cntEl = document.getElementById('slip-count');
-  var STAKE = 10;
+  var STAKE = 500;
   var CORR_PER_LEG = 0.125; // joint-probability boost per extra correlated leg
+  function money(v){ return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
   function decFromAmerican(a) { return a > 0 ? 1 + a / 100 : 1 + 100 / Math.abs(a); }
   function fmtAmerican(a) { return (a > 0 ? '+' : '−') + Math.abs(a); }
@@ -790,7 +791,7 @@
     var sel = legs.filter(function (l) { return l.classList.contains('selected'); });
     var n = sel.length;
     cntEl.textContent = n === 0 ? '0 Legs' : (n === 1 ? '1 Leg' : n + ' Legs Parlay');
-    if (n === 0) { oddsEl.textContent = '—'; payEl.textContent = '$0.00'; return; }
+    if (n === 0) { oddsEl.textContent = '—'; payEl.textContent = money(0); return; }
 
     var prodP = 1, groups = {};
     sel.forEach(function (l) {
@@ -808,7 +809,7 @@
     var cleanDec = decFromAmerican(american);
 
     oddsEl.textContent = fmtAmerican(american);
-    payEl.textContent = '$' + (STAKE * cleanDec).toFixed(2);
+    payEl.textContent = money(STAKE * cleanDec);
   }
 
   legs.forEach(function (l) {
