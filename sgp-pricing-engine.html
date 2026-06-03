@@ -228,7 +228,7 @@
   .engine-head .dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:7px; vertical-align: middle; }
   .engine-head .req .dot { background: var(--blue-bright); }
   .engine-head .out .dot { background: var(--pos); }
-  .engine-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; align-items: center; position: relative; }
+  .engine-row { display: grid; grid-template-columns: 1fr 0.62fr 1.25fr; gap: 14px; align-items: center; position: relative; }
   .legs { display: flex; flex-direction: column; gap: 10px; }
   .leg-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-left: 2px solid var(--blue); border-radius: 8px; padding: 11px 13px; }
   .leg-card .k { font-family: var(--mono); font-size: 9.5px; color: var(--muted-2); letter-spacing: 0.08em; margin-bottom: 4px; }
@@ -244,6 +244,19 @@
   .engine-out .pair .lbl { display:block; margin-bottom: 3px; }
   .engine-out .lat { color: var(--pos); font-family: var(--mono); font-size: 14px; font-weight: 500; }
   .engine-out .st { color: var(--white); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; }
+  /* correlation step (middle) + book-spread output (right) */
+  .eng-step { text-align: center; }
+  .eng-node { width: 42px; height: 42px; margin: 0 auto 10px; border-radius: 12px; border: 1px solid rgba(62,146,204,0.45); background: rgba(62,146,204,0.10); color: var(--blue-bright); display: flex; align-items: center; justify-content: center; }
+  .eng-step-l { font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--muted); line-height: 1.5; }
+  .eng-best { display: flex; justify-content: space-between; align-items: center; background: rgba(62,146,204,0.12); border: 1px solid rgba(62,146,204,0.35); border-radius: 9px; padding: 9px 12px; margin-bottom: 6px; }
+  .eng-best .k { font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); font-weight: 700; }
+  .eng-best .v { font-family: var(--mono); color: var(--pos); font-weight: 700; font-size: 19px; }
+  .eng-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 2px; border-bottom: 1px solid var(--border); }
+  .eng-row:last-child { border-bottom: none; }
+  .eng-row .l { color: var(--muted); font-size: 12px; font-weight: 500; }
+  .eng-row .v { font-family: var(--mono); font-size: 12px; color: var(--blue-bright); }
+  .eng-row .v.top { color: var(--pos); }
+  .eng-foot { margin-top: 9px; font-family: var(--mono); font-size: 10px; color: var(--muted-2); letter-spacing: 0.06em; }
 
   /* ---------- PROBLEM CARDS ---------- */
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
@@ -521,19 +534,19 @@
             <div class="leg-card"><div class="k">LEG_3</div><div class="v">Game Total Over 222.5</div></div>
           </div>
           <div class="engine-core">
-            <div class="box">
-              <div class="ttl">CORRELATION ENGINE</div>
-              <div class="chip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg></div>
-              <div class="kernel">KERNEL V4.2.0</div>
+            <div class="eng-step">
+              <div class="eng-node"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 3v6a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"/><path d="M12 15v6"/><path d="M9 21h6"/></svg></div>
+              <div class="eng-step-l">Correlation-aware<br>joint pricing</div>
             </div>
           </div>
           <div class="engine-out">
-            <div class="lbl">BEST AVAILABLE SGP</div>
-            <div class="odds">+310</div>
-            <div class="pair">
-              <div><span class="lbl">BOOKS</span><span class="lat">9 compared</span></div>
-              <div><span class="lbl">LATENCY</span><span class="st">42ms</span></div>
-            </div>
+            <div class="eng-best"><span class="k">Best Available</span><span class="v">+310</span></div>
+            <div class="eng-row"><span class="l">888sport</span><span class="v top">+310</span></div>
+            <div class="eng-row"><span class="l">BetMGM</span><span class="v">+302</span></div>
+            <div class="eng-row"><span class="l">DraftKings</span><span class="v">+288</span></div>
+            <div class="eng-row"><span class="l">FanDuel</span><span class="v">+286</span></div>
+            <div class="eng-row"><span class="l">BetRivers</span><span class="v">+270</span></div>
+            <div class="eng-foot">9 books compared · 42ms</div>
           </div>
         </div>
       </div>
