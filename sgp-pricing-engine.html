@@ -387,8 +387,11 @@
   .cmp-row .l { color: var(--muted); font-size: 12px; font-weight: 500; }
   .cmp-row .v { font-family: var(--mono); color: var(--blue-bright); font-size: 12px; }
   .cmp-row .v.best { color: var(--pos); }
-  /* audience cards use blue icons (not warning orange) */
-  .aud .pcard .ico { background: rgba(62,146,204,0.12); color: var(--blue-bright); }
+  /* audience cards: blue icon beside the title, copy spanning below */
+  .aud .pcard { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; align-items: center; }
+  .aud .pcard .ico { background: rgba(62,146,204,0.12); color: var(--blue-bright); margin-bottom: 0; }
+  .aud .pcard h4 { margin: 0; }
+  .aud .pcard p { grid-column: 1 / -1; margin: 16px 0 0; }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 980px) {
