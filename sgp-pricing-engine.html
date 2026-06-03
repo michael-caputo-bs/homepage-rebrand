@@ -321,13 +321,13 @@
   .b-toggles .dim { color: var(--muted-2); font-size: 12px; }
 
   /* ---------- CTA ---------- */
-  .cta-wrap { padding: 40px 0 120px; }
-  .cta { position: relative; overflow: hidden; background: var(--panel); border: 1px solid var(--border-2); border-radius: 24px; padding: 80px 40px; text-align: center; }
-  .cta .glow::before { content:""; position:absolute; top:-150px; left:50%; transform:translateX(-50%); width:700px; height:500px; background: radial-gradient(ellipse at center, rgba(62,146,204,0.20), transparent 60%); }
-  .cta .glow::after { content:""; position:absolute; bottom:-150px; left:25%; width:500px; height:400px; background: radial-gradient(ellipse at center, rgba(238,119,34,0.12), transparent 60%); }
+  .cta-wrap { padding: 80px 0 110px; background: #FFFFFF; }
+  .cta { position: relative; overflow: hidden; background: var(--blue); border: none; border-radius: 24px; padding: 76px 40px; text-align: center; box-shadow: 0 24px 60px rgba(30,90,133,0.25); }
   .cta > * { position: relative; z-index: 1; }
-  .cta h2 { font-size: clamp(34px, 4.8vw, 56px); margin: 22px 0 16px; }
-  .cta p { color: var(--muted); font-size: 17px; max-width: 600px; margin: 0 auto 32px; }
+  .cta h2 { font-size: clamp(34px, 4.8vw, 56px); margin: 22px 0 16px; color: #FFFFFF; }
+  .cta .accent { color: #0A1729; }
+  .cta p { color: rgba(255,255,255,0.92); font-size: 17px; max-width: 600px; margin: 0 auto 32px; }
+  .cta .pill { background: rgba(255,255,255,0.16); color: #FFFFFF; border-color: rgba(255,255,255,0.45); }
 
   /* ---------- FOOTER ---------- */
   footer { border-top: 1px solid var(--border); padding: 56px 0 32px; }
@@ -341,6 +341,26 @@
 
   /* ---------- MOCKUP RIBBON ---------- */
   .ribbon { position: fixed; top: 16px; right: -44px; background: var(--orange); color: #fff; padding: 5px 50px; font-size: 11px; font-weight: 800; transform: rotate(45deg); z-index: 200; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ===== Betstamp light section bands (white) ===== */
+  .sec-light { background: #FFFFFF; }
+  .sec-light .sec-head h2, .sec-light .split h3 { color: #0A1729; }
+  .sec-light .accent { color: #2B76AA; }
+  .sec-light .sec-head p, .sec-light .split p { color: #3A4656; }
+  .sec-light .icard, .sec-light .mini-stat {
+    background: #FFFFFF; border-color: #DDE3EC; box-shadow: 0 4px 14px rgba(10,23,41,0.07);
+  }
+  .sec-light .icard h4 { color: #0A1729; }
+  .sec-light .icard p { color: #3A4656; }
+  .sec-light .mini-stat .n { color: #17A364; }
+  .sec-light .mini-stat .l { color: #5E7590; }
+  /* infra chart visuals tuned for white cards */
+  .sec-light .bars span { background: linear-gradient(180deg, var(--blue), rgba(62,146,204,0.22)); }
+  .sec-light .reqs { color: #5E7590; }
+  .sec-light .sel { background: #F3F5F8; border-color: #DDE3EC; color: #3A4656; }
+  .sec-light .sel svg { color: #8BA2B8; }
+  .sec-light .prog { background: #E5EAF1; }
+  .sec-light .prog-meta em { color: #8BA2B8; }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 980px) {
@@ -461,7 +481,7 @@
 </section>
 
 <!-- ==================== CORRELATION MODELING ==================== -->
-<section class="block grid-bg" id="correlation">
+<section class="block sec-light" id="correlation">
   <div class="container">
     <div class="sec-head">
       <h2>Real-Time Correlation Modeling for Scalable <span class="accent">Same Game Parlay Pricing</span></h2>
@@ -549,7 +569,7 @@
 </section>
 
 <!-- ==================== INFRASTRUCTURE ==================== -->
-<section class="block grid-bg">
+<section class="block sec-light">
   <div class="container">
     <div class="sec-head">
       <h2>Enterprise-Grade <span class="accent">Infrastructure</span></h2>
