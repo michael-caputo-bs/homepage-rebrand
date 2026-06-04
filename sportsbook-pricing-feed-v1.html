@@ -1017,6 +1017,15 @@
   }
 
   .fit-hint { display: none; }
+  .coverage-toggle {
+    display: none;
+    margin-top: 14px;
+    background: rgba(62,146,204,0.12);
+    border: 1px solid rgba(62,146,204,0.35);
+    color: var(--blue-bright);
+    font-family: inherit; font-weight: 700; font-size: 12px;
+    letter-spacing: 0.04em; padding: 9px 16px; border-radius: 999px; cursor: pointer;
+  }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1100px) {
@@ -1087,6 +1096,10 @@
     .price-legend { flex-wrap: nowrap; gap: 8px; font-size: 9px; letter-spacing: 0; margin-top: 18px; }
     .price-legend span { white-space: nowrap; }
     .price-legend span::before { width: 7px; height: 7px; margin-right: 4px; }
+    .coverage-pills { gap: 6px; }
+    .coverage-pill { font-size: 10px; padding: 5px 9px; }
+    .coverage-pills.collapsed { max-height: 132px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent); mask-image: linear-gradient(to bottom, #000 62%, transparent); }
+    .coverage-toggle { display: inline-flex; }
     .cta-banner { padding: 48px 24px; }
   }
 </style>
@@ -1397,7 +1410,8 @@
           <span class="coverage-pill">Kicker Pts</span>
           <span class="coverage-pill">+ alts on every line</span>
         </div>
-        <p class="perf-note" style="margin-top:26px;color:var(--muted-dark);">Same depth across NBA, MLB, NHL, NCAAF, NCAAB, soccer, UFC, and PGA. Every line priced with alt ladders — not just the consensus number.</p>
+        <button class="coverage-toggle" type="button" aria-expanded="false">See more markets</button>
+        <p class="perf-note" style="margin-top:26px;color:var(--muted-dark);">Same depth across NBA, MLB, NHL, NCAAF, NCAAB, soccer, and UFC. Every line priced with alt ladders — not just the consensus number.</p>
       </div>
     </div>
 
@@ -1697,6 +1711,25 @@
     if (swiped) { swiped = false; return; }
     if (mq.matches) go(1);
   });
+})();
+
+/* Coverage pills: collapse with a "See more" toggle on mobile */
+(function () {
+  var pills = document.querySelector('.coverage-pills');
+  var toggle = document.querySelector('.coverage-toggle');
+  if (!pills || !toggle) return;
+  var mq = window.matchMedia('(max-width: 760px)');
+  function sync() {
+    if (mq.matches) { if (!pills.classList.contains('collapsed') && toggle.getAttribute('aria-expanded') !== 'true') pills.classList.add('collapsed'); }
+    else { pills.classList.remove('collapsed'); }
+  }
+  toggle.addEventListener('click', function () {
+    var collapsed = pills.classList.toggle('collapsed');
+    toggle.textContent = collapsed ? 'See more markets' : 'See less';
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+  });
+  sync();
+  window.addEventListener('resize', sync);
 })();
 </script>
 
