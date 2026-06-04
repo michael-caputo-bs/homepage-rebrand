@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sports Betting API — Betstamp</title>
-<meta name="description" content="One API for every sportsbook, market, and sport. Stream normalized real-time odds from 200+ books, exchanges, and prediction markets — props, alternates, futures, schedules, injuries, and results.">
+<meta name="description" content="One API for real-time betting data. Stream normalized odds from 200+ sportsbooks, exchanges, and prediction markets — player props, alternates, game props, futures, and schedules.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -152,11 +152,11 @@
   .chart-meta .p { font-family: var(--display); font-size: 26px; color: var(--pos); }
 
   /* BENEFITS */
-  .ben-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .ben { background: #FFFFFF; border: 1px solid #DDE3EC; border-radius: 14px; padding: 22px; box-shadow: 0 4px 14px rgba(10,23,41,0.05); }
-  .ben .ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
-  .ben h4 { color: #0A1729; font-size: 15px; font-weight: 700; margin-bottom: 7px; }
-  .ben p { color: #3A4656; font-size: 13px; line-height: 1.55; }
+  .ben-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .ben { background: #FFFFFF; border: 1px solid #DDE3EC; border-radius: 14px; padding: 22px; box-shadow: 0 4px 14px rgba(10,23,41,0.05); display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: center; }
+  .ben .ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #FFFFFF; }
+  .ben h4 { color: #0A1729; font-size: 15px; font-weight: 700; margin: 0; }
+  .ben p { color: #3A4656; font-size: 13px; line-height: 1.55; grid-column: 1 / -1; margin-top: 12px; }
 
   /* COVERAGE tags */
   .cov-group { margin-bottom: 28px; }
@@ -272,7 +272,7 @@
         Sports Betting API
       </span>
       <h1>Real-Time Odds<br>From 200+ Books,<br><span class="accent">One Clean API</span></h1>
-      <p class="lead">Stop stitching providers together. Stream normalized real-time odds from 200+ sportsbooks, exchanges, and prediction markets — props, alternates, futures, schedules, injuries, and results, all in one feed.</p>
+      <p class="lead">Stop stitching providers together. Stream normalized real-time odds from 200+ sportsbooks, exchanges, and prediction markets — player props, alternates, game props, futures, and schedules, all in one feed.</p>
       <div class="hero-ctas">
         <a href="#demo" class="btn btn-primary btn-lg">Book a Demo</a>
         <a href="/docs/api" class="btn btn-ghost btn-lg">View the Docs ↗</a>
@@ -381,7 +381,7 @@
           <ul class="checks">
             <li>Player props with full alternate ladders</li>
             <li>Game props, periods, futures, and same-game data</li>
-            <li>Live odds movement with point-in-time history</li>
+            <li>Live odds movement, timestamped to the millisecond</li>
           </ul>
         </div>
         <div class="panel">
@@ -419,9 +419,7 @@
       <div class="ben"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/></svg></span><h4>Pre-Match &amp; In-Play</h4><p>Real-time main lines, alternates, and props across pre-game and live.</p></div>
       <div class="ben"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span><h4>Player Props &amp; Alts</h4><p>Full prop boards with alternate ladders on every line.</p></div>
       <div class="ben"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-6M21 7v6"/></svg></span><h4>Futures</h4><p>Season-long, tournament, and award markets, normalized across books.</p></div>
-      <div class="ben"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></span><h4>Historical Odds &amp; Results</h4><p>Point-in-time datasets for backtesting and analysis.</p></div>
       <div class="ben"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><h4>Schedules &amp; Lineups</h4><p>Complete schedules and confirmed lineups across leagues.</p></div>
-      <div class="ben"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></span><h4>Injury Reports</h4><p>Structured injury data mapped across leagues in real time.</p></div>
       <div class="ben"><span class="ico green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></span><h4>Automated Bet Grading</h4><p>Programmatic settlement for SGPs, props, and standard markets.</p></div>
       <div class="ben"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span><h4>Deeplinks</h4><p>Route users to the exact market, book, and line — built for conversion.</p></div>
     </div>
@@ -504,7 +502,7 @@
     <div class="faq">
       <details open>
         <summary>What is the Betstamp Sports Betting API?<span></span></summary>
-        <div class="a">A single API that delivers normalized, real-time betting data — odds, player props, alternate lines, futures, schedules, injuries, and results — from 200+ sportsbooks, exchanges, and prediction markets. One integration, one schema, every source.</div>
+        <div class="a">A single API that delivers normalized, real-time betting data — odds, player props, alternate lines, game props, futures, and schedules — from 200+ sportsbooks, exchanges, and prediction markets. One integration, one schema, every source.</div>
       </details>
       <details>
         <summary>Which sportsbooks and markets do you cover?<span></span></summary>
@@ -517,10 +515,6 @@
       <details>
         <summary>How fast can we integrate?</summary>
         <div class="a">Most teams are pulling live data the same day. Grab an API key, hit a single endpoint, and you get a clean, consistent JSON response with stable IDs across every book — plus SDKs and full docs to move fast.</div>
-      </details>
-      <details>
-        <summary>Do you offer historical data?</summary>
-        <div class="a">Yes — deep, point-in-time historical odds and results across 5+ seasons, ideal for backtesting models and analyzing line movement and market context.</div>
       </details>
     </div>
   </div>
