@@ -194,6 +194,25 @@
 
   .ribbon { position: fixed; top: 16px; right: -44px; background: var(--orange); color: #fff; padding: 5px 50px; font-size: 11px; font-weight: 800; transform: rotate(45deg); z-index: 200; letter-spacing: 0.08em; text-transform: uppercase; }
 
+  /* live ticker */
+  .ticker-band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .ticker-inner { display: flex; align-items: center; gap: 16px; height: 52px; }
+  .ticker-live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: var(--pos); flex-shrink: 0; }
+  .ticker-live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pos); box-shadow: 0 0 8px var(--pos); animation: blink 1.4s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .ticker { display: flex; gap: 24px; overflow: hidden; flex: 1; }
+  .tk { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .tk b { color: var(--white); font-weight: 600; }
+  .tk i { font-family: var(--mono); font-style: normal; color: var(--blue-bright); transition: color .25s; }
+  .tk i.up { color: var(--pos); } .tk i.down { color: #F1576B; }
+  .ticker-rate { flex-shrink: 0; font-family: var(--mono); font-size: 12px; color: var(--muted-2); }
+  .ticker-rate b { color: var(--pos); }
+  /* source category tiles */
+  .src-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+  .src-cat { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 6px; text-align: center; }
+  .src-cat b { display: block; font-family: var(--display); font-size: 26px; color: var(--blue-bright); line-height: 1; }
+  .src-cat span { font-size: 10px; color: var(--muted-2); letter-spacing: 0.03em; }
+
   @media (max-width: 980px) {
     .split { grid-template-columns: 1fr; gap: 40px; }
     .bento { grid-template-columns: 1fr; }
@@ -205,6 +224,8 @@
   @media (max-width: 560px) {
     .block { padding: 70px 0; }
     .book-grid { grid-template-columns: 1fr 1fr; }
+    .src-cats { grid-template-columns: 1fr 1fr; }
+    .ticker-rate { display: none; }
     .feat-grid { grid-template-columns: 1fr; }
     .lat-stages { gap: 4px; }
     .cta-fine { flex-direction: column; gap: 8px; align-items: center; }
@@ -261,6 +282,24 @@
   </div>
 </section>
 
+<!-- LIVE TICKER -->
+<div class="ticker-band">
+  <div class="container ticker-inner">
+    <span class="ticker-live"><span class="dot"></span>LIVE</span>
+    <div class="ticker" id="ticker">
+      <span class="tk"><b>Lakers ML</b><i data-odds="-257">−257</i></span>
+      <span class="tk"><b>Chiefs −3.5</b><i data-odds="-112">−112</i></span>
+      <span class="tk"><b>Dodgers ML</b><i data-odds="-145">−145</i></span>
+      <span class="tk"><b>Mahomes o274.5 Pass</b><i data-odds="-118">−118</i></span>
+      <span class="tk"><b>Celtics ML</b><i data-odds="-180">−180</i></span>
+      <span class="tk"><b>Over 224.5</b><i data-odds="-108">−108</i></span>
+      <span class="tk"><b>Jokić o11.5 Ast</b><i data-odds="102">+102</i></span>
+      <span class="tk"><b>Warriors +6.5</b><i data-odds="-105">−105</i></span>
+    </div>
+    <span class="ticker-rate"><b id="ticker-rate">12,480</b> updates/sec</span>
+  </div>
+</div>
+
 <!-- LATENCY -->
 <section class="block sec-light" id="latency">
   <div class="container">
@@ -273,14 +312,14 @@
         <h3 style="margin-top:18px;">Engineered for<br><span class="accent">Sub-Second Latency</span></h3>
         <p>Our infrastructure is built on global edge networks for real-time applications. With intelligent caching and optimized data pipelines, we deliver betting odds faster than anyone else — on the books where live edges actually exist.</p>
         <div class="stat-rows">
-          <div class="stat-row"><span class="k">Median Refresh</span><span class="v">400ms</span></div>
-          <div class="stat-row"><span class="k">Uptime SLA</span><span class="v">99.99%</span></div>
-          <div class="stat-row"><span class="k">Sportsbooks &amp; Operators</span><span class="v">200+</span></div>
+          <div class="stat-row"><span class="k">Median Refresh</span><span class="v cu" data-to="400" data-suffix="ms">400ms</span></div>
+          <div class="stat-row"><span class="k">Uptime SLA</span><span class="v cu" data-to="99.99" data-suffix="%">99.99%</span></div>
+          <div class="stat-row"><span class="k">Sportsbooks &amp; Operators</span><span class="v cu" data-to="200" data-suffix="+">200+</span></div>
         </div>
       </div>
       <div class="lat-panel">
         <div class="lbl">MEDIAN REFRESH</div>
-        <div class="big">400ms</div>
+        <div class="big"><span class="cu" data-to="400" data-suffix="ms">400ms</span></div>
         <div class="pipe">
           <span class="node"></span><span class="node"></span><span class="pulse"></span><span class="node"></span><span class="node"></span>
         </div>
@@ -309,15 +348,20 @@
     <div class="bento">
       <!-- Unmatched coverage -->
       <div class="cov-card">
-        <div class="cov-head"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span><h4>Unmatched Coverage</h4></div>
-        <p>Real-time odds from 200+ sources — major retail sportsbooks, offshore books, exchanges, and prediction markets.</p>
+        <div class="cov-head"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span><h4>Every Source, One Schema</h4></div>
+        <p>200+ sources normalized into a single feed — sportsbooks, DFS &amp; pick'em, exchanges, and prediction markets.</p>
+        <div class="src-cats">
+          <div class="src-cat"><b class="cu" data-to="191">191</b><span>Sportsbooks</span></div>
+          <div class="src-cat"><b class="cu" data-to="31">31</b><span>DFS / Pick'em</span></div>
+          <div class="src-cat"><b class="cu" data-to="9">9</b><span>Exchanges</span></div>
+          <div class="src-cat"><b class="cu" data-to="11">11</b><span>Prediction Mkts</span></div>
+        </div>
         <div class="book-grid">
           <span class="book">DraftKings</span><span class="book">FanDuel</span><span class="book">BetMGM</span>
-          <span class="book">Caesars</span><span class="book">Fanatics</span><span class="book">BetRivers</span>
-          <span class="book">bet365</span><span class="book">ESPN BET</span><span class="book">Pinnacle</span>
-          <span class="book">Bovada</span><span class="book">theScore Bet</span><span class="book">PrizePicks</span>
-          <span class="book">Polymarket</span><span class="book">Kalshi</span><span class="book">Novig</span>
-          <span class="book">BetOnline</span><span class="book">Fliff</span><span class="book more">+ 180 more</span>
+          <span class="book">Caesars</span><span class="book">bet365</span><span class="book">Pinnacle</span>
+          <span class="book">PrizePicks</span><span class="book">Sleeper</span><span class="book">Underdog</span>
+          <span class="book">Betfair</span><span class="book">Matchbook</span><span class="book">Polymarket</span>
+          <span class="book">Kalshi</span><span class="book">PredictIt</span><span class="book more">+ 186 more</span>
         </div>
       </div>
 
@@ -354,7 +398,7 @@
       <div class="cov-card">
         <div class="cov-head"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-6M21 7v6"/></svg></span><h4>Live Odds Movements</h4></div>
         <div class="chart-wrap">
-          <div class="chart-meta"><div><div style="color:var(--white);font-weight:600;font-size:13px;">Lakers vs. Warriors</div><div style="color:var(--muted-2);font-size:11px;font-family:var(--mono);">Lakers ML −257 · Warriors ML +211</div></div><div style="text-align:right;"><div class="p">72%</div><div class="up">▲ +20% / 2h</div></div></div>
+          <div class="chart-meta"><div><div style="color:var(--white);font-weight:600;font-size:13px;">Lakers vs. Warriors</div><div style="color:var(--muted-2);font-size:11px;font-family:var(--mono);">Lakers ML <i id="lo-home" data-odds="-257" style="font-style:normal;color:var(--blue-bright);transition:color .25s;">−257</i> · Warriors ML <i id="lo-away" data-odds="211" style="font-style:normal;color:var(--blue-bright);transition:color .25s;">+211</i></div></div><div style="text-align:right;"><div class="p" id="lo-prob">72%</div><div class="up">Lakers win prob</div></div></div>
           <svg width="100%" height="80" viewBox="0 0 400 80" preserveAspectRatio="none" fill="none">
             <path d="M0 70 C60 60 90 40 140 34 C190 28 230 18 280 14 C330 11 360 10 400 8" stroke="var(--pos)" stroke-width="2.5"/>
             <path d="M0 70 C60 60 90 40 140 34 C190 28 230 18 280 14 C330 11 360 10 400 8 L400 80 L0 80 Z" fill="rgba(63,224,138,0.10)"/>
@@ -507,6 +551,89 @@
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  function fmt(a) { return (a > 0 ? '+' : '−') + Math.abs(a); }
+  function nudge(v) {
+    var d = (Math.floor(Math.random() * 8) + 1) * (Math.random() < 0.5 ? -1 : 1);
+    var nv = v + d;
+    if (nv > -101 && nv < 101) nv += (nv >= 0 ? 100 : -100); // skip the dead zone around even
+    return nv;
+  }
+  function flash(el, up) {
+    el.classList.remove('up', 'down'); void el.offsetWidth;
+    el.classList.add(up ? 'up' : 'down');
+  }
+
+  /* live odds ticker */
+  var ticker = document.getElementById('ticker');
+  if (ticker) {
+    var items = Array.prototype.slice.call(ticker.querySelectorAll('.tk i'));
+    setInterval(function () {
+      var el = items[Math.floor(Math.random() * items.length)];
+      var v = parseInt(el.getAttribute('data-odds'), 10);
+      var nv = nudge(v);
+      el.setAttribute('data-odds', nv);
+      el.textContent = fmt(nv) + (nv > v ? ' ▲' : ' ▼');
+      flash(el, nv > v);
+    }, 1400);
+  }
+
+  /* updates/sec jitter */
+  var rate = document.getElementById('ticker-rate');
+  if (rate) {
+    setInterval(function () {
+      var n = 11800 + Math.floor(Math.random() * 1600);
+      rate.textContent = n.toLocaleString();
+    }, 1000);
+  }
+
+  /* live odds movement card */
+  var loHome = document.getElementById('lo-home');
+  var loAway = document.getElementById('lo-away');
+  var loProb = document.getElementById('lo-prob');
+  if (loHome && loAway && loProb) {
+    var prob = 72;
+    setInterval(function () {
+      [loHome, loAway].forEach(function (el) {
+        var v = parseInt(el.getAttribute('data-odds'), 10);
+        var nv = nudge(v);
+        el.setAttribute('data-odds', nv);
+        el.textContent = fmt(nv);
+        flash(el, nv > v);
+      });
+      prob = Math.max(64, Math.min(80, prob + (Math.random() < 0.5 ? -1 : 1)));
+      loProb.textContent = prob + '%';
+    }, 2600);
+  }
+
+  /* count-up stats on scroll into view */
+  function countUp(el) {
+    var target = parseFloat(el.getAttribute('data-to'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var dec = (target % 1 !== 0) ? 2 : 0;
+    var dur = 1100, t0 = null;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      var val = target * (1 - Math.pow(1 - p, 3));
+      el.textContent = (dec ? val.toFixed(dec) : Math.round(val).toLocaleString()) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var cu = Array.prototype.slice.call(document.querySelectorAll('.cu'));
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } });
+    }, { threshold: 0.5 });
+    cu.forEach(function (el) { io.observe(el); });
+  } else {
+    cu.forEach(countUp);
+  }
+})();
+</script>
 
 </body>
 </html>
