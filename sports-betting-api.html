@@ -126,6 +126,9 @@
   .book { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; font-size: 12px; color: var(--text); }
   .book::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pos); flex-shrink: 0; }
   .book.more { color: var(--muted-2); justify-content: center; } .book.more::before { display: none; }
+  a.book { transition: border-color .15s, color .15s, background .15s; }
+  a.book:hover { border-color: var(--blue); color: var(--white); background: rgba(62,146,204,0.08); }
+  a.book.more:hover { color: var(--blue-bright); }
   /* latency */
   .lat-panel { text-align: center; }
   .lat-panel .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
@@ -337,10 +340,18 @@
             <div class="src-cat"><b class="cu" data-to="11">11</b><span>Prediction Markets</span></div>
           </div>
           <div class="book-grid">
-            <span class="book">DraftKings</span><span class="book">FanDuel</span><span class="book">BetMGM</span>
-            <span class="book">bet365</span><span class="book">Pinnacle</span><span class="book">PrizePicks</span>
-            <span class="book">Sleeper</span><span class="book">Betfair</span><span class="book">Polymarket</span>
-            <span class="book">Kalshi</span><span class="book">PredictIt</span><span class="book more">+186</span>
+            <a class="book" href="https://betstamp.com/odds/DraftKings" target="_blank" rel="noopener">DraftKings</a>
+            <a class="book" href="https://betstamp.com/odds/FanDuel" target="_blank" rel="noopener">FanDuel</a>
+            <a class="book" href="https://betstamp.com/odds/BetMGM" target="_blank" rel="noopener">BetMGM</a>
+            <a class="book" href="https://betstamp.com/odds/bet365" target="_blank" rel="noopener">bet365</a>
+            <a class="book" href="https://betstamp.com/odds/Pinnacle" target="_blank" rel="noopener">Pinnacle</a>
+            <a class="book" href="https://betstamp.com/odds/PrizePicks" target="_blank" rel="noopener">PrizePicks</a>
+            <a class="book" href="https://betstamp.com/odds/Sleeper" target="_blank" rel="noopener">Sleeper</a>
+            <a class="book" href="https://betstamp.com/odds/Betfair" target="_blank" rel="noopener">Betfair</a>
+            <a class="book" href="https://betstamp.com/odds/Polymarket" target="_blank" rel="noopener">Polymarket</a>
+            <a class="book" href="https://betstamp.com/odds/Kalshi" target="_blank" rel="noopener">Kalshi</a>
+            <a class="book" href="https://betstamp.com/odds/PredictIt" target="_blank" rel="noopener">PredictIt</a>
+            <a class="book more" href="https://betstamp.com/odds-feeds" target="_blank" rel="noopener">See all feeds →</a>
           </div>
         </div>
       </div>
