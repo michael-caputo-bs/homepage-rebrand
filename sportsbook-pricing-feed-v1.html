@@ -1016,7 +1016,7 @@
     box-shadow: 0 4px 12px rgba(10,23,41,0.2);
   }
 
-  .fit-hint { display: none; }
+  .fit-hint, .uc-hint { display: none; }
   .coverage-toggle {
     display: none;
     margin-top: 14px;
@@ -1053,7 +1053,21 @@
     .stat-label { font-size: 10px; }
     .nav-links { display: none; }
     .footer-grid { grid-template-columns: 1fr; }
-    .method-grid, .usecase-grid, .flow { grid-template-columns: 1fr; }
+    .method-grid, .flow { grid-template-columns: 1fr; }
+    /* Use cases -> horizontal swipe carousel on mobile */
+    .usecase-grid {
+      display: flex; gap: 14px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      margin: 0 -32px; padding: 4px 32px 6px; scroll-padding-left: 32px;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .usecase-grid::-webkit-scrollbar { display: none; }
+    .usecase-card { flex: 0 0 80%; scroll-snap-align: start; }
+    .uc-hint { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 18px; }
+    .uc-dots { display: inline-flex; gap: 8px; }
+    .uc-dots b { width: 8px; height: 8px; border-radius: 50%; background: var(--divider-strong); transition: all .25s; }
+    .uc-dots b.on { background: var(--blue); width: 22px; border-radius: 999px; }
+    .uc-swipe { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 600; }
     .spec-step-body { grid-template-columns: 1fr; gap: 4px; }
     /* "How we fit" mobile carousel: featured card leads, others circle behind */
     .fit-grid { position: relative; display: block; height: 600px; margin-top: 8px; }
@@ -1483,6 +1497,10 @@
         <p>Compete with tier-1 pricing without building a tier-1 quant team. Outsource the model, keep the trading judgment — and slot us in alongside whichever official-data provider your in-play stack already uses.</p>
       </div>
     </div>
+    <div class="uc-hint" aria-hidden="true">
+      <span class="uc-dots"><b></b><b></b><b></b><b></b></span>
+      <span class="uc-swipe">‹ Swipe ›</span>
+    </div>
   </div>
 </section>
 
@@ -1730,6 +1748,28 @@
   });
   sync();
   window.addEventListener('resize', sync);
+})();
+
+/* Use-case carousel: sync dots with scroll position (mobile) */
+(function () {
+  var grid = document.querySelector('.usecase-grid');
+  var dotsWrap = document.querySelector('.uc-dots');
+  if (!grid || !dotsWrap) return;
+  var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('b'));
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.usecase-card'));
+  function update() {
+    var step = cards.length > 1 ? (cards[1].offsetLeft - cards[0].offsetLeft) : 1;
+    var i = step ? Math.round(grid.scrollLeft / step) : 0;
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+  }
+  grid.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+  dots.forEach(function (d, k) {
+    d.addEventListener('click', function () {
+      if (cards[k]) grid.scrollTo({ left: cards[k].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+    });
+  });
+  update();
 })();
 </script>
 
