@@ -1063,9 +1063,11 @@
     .hero h1 { font-size: 44px; }
     .hero { padding: 56px 0 20px; }
     .stats-band-wrap { padding: 4px 0 48px; }
-    .perf-stats { grid-template-columns: 1fr; }
-    .perf-stat { border-right: none; border-bottom: 1px solid var(--navy-line); }
-    .perf-stat:last-child { border-bottom: none; }
+    .perf-stats { grid-template-columns: repeat(3, 1fr); }
+    .perf-stat { padding: 18px 6px; }
+    .perf-stat-num { font-size: clamp(22px, 7.5vw, 34px); }
+    .perf-stat-label { font-size: 9px; letter-spacing: 0.08em; margin-top: 8px; }
+    .perf-stat-sub { font-size: 9.5px; }
     .perf-row { grid-template-columns: 1.4fr 1fr 1fr 1.4fr; }
     .perf-cell { padding: 12px 10px; font-size: 12px; }
     .perf-book { font-size: 16px; }
