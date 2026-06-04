@@ -92,9 +92,10 @@
   .lat-panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 30px; text-align: center; }
   .lat-panel .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
   .lat-panel .big { font-family: var(--display); font-size: clamp(56px, 9vw, 92px); color: var(--pos); line-height: 1; margin: 8px 0 30px; text-shadow: 0 0 30px rgba(63,224,138,0.35); }
-  .pipe { display: flex; align-items: center; justify-content: center; gap: 0; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: 14px 10px; position: relative; }
-  .pipe .node { width: 7px; height: 7px; border-radius: 50%; background: var(--blue-bright); margin: 0 18px; box-shadow: 0 0 8px var(--blue-bright); }
-  .pipe .pulse { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle, var(--blue-bright), rgba(79,168,224,0.15)); margin: 0 14px; box-shadow: 0 0 20px rgba(79,168,224,0.5); }
+  .pipe { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: 16px 28px; position: relative; overflow: hidden; }
+  .pipe .node { width: 7px; height: 7px; border-radius: 50%; background: rgba(79,168,224,0.5); box-shadow: 0 0 8px rgba(79,168,224,0.4); }
+  .pipe .traveler { position: absolute; top: 50%; left: 8%; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, var(--blue-bright) 0%, rgba(79,168,224,0.12) 70%); box-shadow: 0 0 24px rgba(79,168,224,0.65); transform: translate(-50%, -50%); animation: flow 2.4s ease-in-out infinite; }
+  @keyframes flow { 0% { left: 8%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 92%; opacity: 0; } }
   .lat-stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 24px; }
   .lat-stage { text-align: center; }
   .lat-stage .act { font-size: 11px; color: var(--pos); display: inline-flex; align-items: center; gap: 5px; }
@@ -318,10 +319,11 @@
         </div>
       </div>
       <div class="lat-panel">
-        <div class="lbl">MEDIAN REFRESH</div>
-        <div class="big"><span class="cu" data-to="400" data-suffix="ms">400ms</span></div>
+        <div class="lbl">LATENCY</div>
+        <div class="big"><span id="lat-num">46ms</span></div>
         <div class="pipe">
-          <span class="node"></span><span class="node"></span><span class="pulse"></span><span class="node"></span><span class="node"></span>
+          <span class="node"></span><span class="node"></span><span class="node"></span><span class="node"></span><span class="node"></span>
+          <span class="traveler"></span>
         </div>
         <div class="lat-stages">
           <div class="lat-stage"><span class="act">Active</span><div class="nm">Ingestion</div></div>
@@ -606,6 +608,12 @@
       prob = Math.max(64, Math.min(80, prob + (Math.random() < 0.5 ? -1 : 1)));
       loProb.textContent = prob + '%';
     }, 2600);
+  }
+
+  /* live latency readout */
+  var latNum = document.getElementById('lat-num');
+  if (latNum) {
+    setInterval(function () { latNum.textContent = (38 + Math.floor(Math.random() * 22)) + 'ms'; }, 1300);
   }
 
   /* count-up stats on scroll into view */
