@@ -51,6 +51,7 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  html, body { overflow-x: hidden; }
   body {
     background: var(--bg);
     color: var(--text-body);
@@ -1015,6 +1016,8 @@
     box-shadow: 0 4px 12px rgba(10,23,41,0.2);
   }
 
+  .fit-hint { display: none; }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1100px) {
     .stats-band { grid-template-columns: repeat(3, 1fr); }
@@ -1049,6 +1052,14 @@
     .fit-card.pos-front  { transform: translateX(-50%) scale(0.86); opacity: 1; z-index: 3; }
     .fit-card.pos-back-r { transform: translateX(-50%) translateX(44%) translateY(20px) scale(0.7) rotate(8deg); opacity: 0.4; z-index: 2; }
     .fit-card.pos-back-l { transform: translateX(-50%) translateX(-44%) translateY(20px) scale(0.7) rotate(-8deg); opacity: 0.4; z-index: 1; }
+    .section-head { margin-bottom: 34px; }
+    .section-head h2 { font-size: 24px; line-height: 1.06; }
+    .section-head p { font-size: 12.5px; line-height: 1.45; }
+    .fit-hint { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 22px; }
+    .fit-dots { display: inline-flex; gap: 8px; }
+    .fit-dots b { width: 8px; height: 8px; border-radius: 50%; background: var(--divider-strong); transition: all .25s; }
+    .fit-dots b.on { background: var(--blue); width: 22px; border-radius: 999px; }
+    .fit-swipe { font-size: 12px; color: var(--muted); letter-spacing: 0.08em; font-weight: 600; }
     .hero h1 { font-size: 44px; }
     .hero { padding: 56px 0 20px; }
     .stats-band-wrap { padding: 4px 0 48px; }
@@ -1189,6 +1200,10 @@
         </ul>
       </div>
 
+    </div>
+    <div class="fit-hint" aria-hidden="true">
+      <span class="fit-dots"><b></b><b></b><b></b></span>
+      <span class="fit-swipe">‹ Swipe to compare ›</span>
     </div>
   </div>
 </section>
@@ -1625,12 +1640,14 @@
   var FRONT_SCALE = 0.86;
   var idx = 0;
   var mq = window.matchMedia('(max-width: 760px)');
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.fit-dots b'));
 
   function apply() {
     order.forEach(function (card, i) {
       card.classList.remove('pos-front', 'pos-back-r', 'pos-back-l');
       card.classList.add(slots[(i + idx) % 3]);
     });
+    dots.forEach(function (d, i) { d.classList.toggle('on', i === idx); });
   }
   function clearPos() {
     cards.forEach(function (c) { c.classList.remove('pos-front', 'pos-back-r', 'pos-back-l'); });
