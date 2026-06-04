@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sports Betting API — Betstamp</title>
-<meta name="description" content="The high-performance Sports Betting API. Stream real-time odds from 200+ sportsbooks and prediction markets — player props, alternate lines, schedules, injuries, futures, and historical data at scale.">
+<meta name="description" content="One API for every sportsbook, market, and sport. Stream normalized real-time odds from 200+ books, exchanges, and prediction markets — props, alternates, futures, schedules, injuries, and results.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     --text: #C5D2E0; --muted: #93A6BC; --muted-2: #5E7590; --white: #FFFFFF;
     --blue: #3E92CC; --blue-bright: #4FA8E0; --blue-deep: #1E5A85;
     --orange: #EE7722; --orange-hover: #F18A3D;
-    --green: #17A364; --pos: #3FE08A;
+    --green: #17A364; --pos: #3FE08A; --red: #F1576B;
     --radius: 12px; --radius-lg: 18px;
     --display: "Anton", "Oswald", "Arial Narrow", Impact, sans-serif;
     --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
@@ -26,8 +26,7 @@
   body { background: var(--bg); color: var(--text); font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
   a { color: inherit; text-decoration: none; }
   .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
-
-  h1, h2, .sec-head h2, .split h3, .cta h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: 0; line-height: 0.98; color: var(--white); }
+  h1, h2, .sec-head h2, .frow h3, .cta h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; letter-spacing: 0; line-height: 0.98; color: var(--white); }
   .accent { color: var(--blue-bright); }
 
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 15px; padding: 13px 28px; border-radius: 8px; cursor: pointer; border: none; font-family: inherit; transition: all .18s; white-space: nowrap; }
@@ -35,6 +34,7 @@
   .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
   .btn-ghost { background: rgba(255,255,255,0.04); color: var(--white); border: 1px solid var(--border-2); }
   .btn-ghost:hover { background: rgba(255,255,255,0.08); }
+  .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
   .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-bright); padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(62,146,204,0.35); background: rgba(62,146,204,0.08); }
 
@@ -46,80 +46,97 @@
   .nav-links { display: flex; gap: 6px; align-items: center; }
   .nav-links > a, .nav-trigger { color: var(--muted); font-size: 14px; font-weight: 500; padding: 8px 14px; border-radius: 8px; transition: color .15s; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; background: none; border: none; font-family: inherit; }
   .nav-links > a:hover, .nav-dropdown:hover .nav-trigger { color: var(--white); }
-  .nav-trigger svg { transition: transform .2s; }
+  .nav-trigger svg { transition: transform .2s; } .nav-dropdown:hover .nav-trigger svg { transform: rotate(180deg); }
   .nav-dropdown { position: relative; }
-  .nav-dropdown:hover .nav-trigger svg { transform: rotate(180deg); }
   .nav-menu { position: absolute; top: calc(100% + 8px); left: 0; min-width: 260px; background: var(--panel-2); border: 1px solid var(--border-2); border-radius: 14px; padding: 8px; box-shadow: 0 24px 60px rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: all .18s; }
   .nav-dropdown:hover .nav-menu, .nav-dropdown:focus-within .nav-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-  .nav-menu a { display: block; padding: 11px 14px; border-radius: 10px; color: var(--white); font-size: 14.5px; font-weight: 600; transition: background .15s; }
+  .nav-menu a { display: block; padding: 11px 14px; border-radius: 10px; color: var(--white); font-size: 14.5px; font-weight: 600; }
   .nav-menu a:hover { background: rgba(255,255,255,0.05); }
   .nav-cta .btn { padding: 10px 20px; font-size: 14px; }
 
-  /* SECTIONS */
-  .block { padding: 100px 0; position: relative; }
+  .block { padding: 96px 0; position: relative; }
   .glow { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
   .block > .container { position: relative; z-index: 1; }
-  .sec-head { text-align: center; max-width: 880px; margin: 0 auto 60px; position: relative; z-index: 1; }
-  .sec-head .pill { margin-bottom: 20px; }
-  .sec-head h2 { font-size: clamp(32px, 5vw, 56px); margin-bottom: 18px; }
-  .sec-head p { font-size: 18px; color: var(--muted); max-width: 640px; margin: 0 auto; }
+  .sec-head { text-align: center; max-width: 820px; margin: 0 auto 56px; position: relative; z-index: 1; }
+  .sec-head .pill { margin-bottom: 18px; }
+  .sec-head h2 { font-size: clamp(32px, 5vw, 54px); margin-bottom: 16px; }
+  .sec-head p { font-size: 18px; color: var(--muted); max-width: 620px; margin: 0 auto; }
   .sec-light { background: #FFFFFF; }
-  .sec-light .sec-head h2, .sec-light .split h3 { color: #0A1729; }
+  .sec-light .sec-head h2, .sec-light .frow h3 { color: #0A1729; }
   .sec-light .accent { color: #2B76AA; }
-  .sec-light .sec-head p, .sec-light .split p { color: #3A4656; }
+  .sec-light .sec-head p, .sec-light .frow p { color: #3A4656; }
 
   /* HERO */
-  .hero { padding: 70px 0 80px; position: relative; overflow: hidden; text-align: center; }
-  .hero .glow::before { content: ""; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 1000px; height: 700px; background: radial-gradient(ellipse at center, rgba(62,146,204,0.22), transparent 60%); }
-  .hero .glow::after { content: ""; position: absolute; top: 120px; right: -120px; width: 600px; height: 600px; background: radial-gradient(ellipse at center, rgba(238,119,34,0.10), transparent 60%); }
-  .hero-inner { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; }
-  .hero h1 { font-size: clamp(42px, 6.2vw, 80px); margin: 22px 0 24px; }
-  .hero .lead { font-size: 19px; color: var(--muted); max-width: 680px; margin: 0 auto 34px; }
-  .hero-learn { margin-top: 60px; }
-  .hero-learn a { color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
-  .hero-learn svg { animation: bob 1.8s ease-in-out infinite; }
-  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+  .hero { padding: 76px 0 56px; position: relative; overflow: hidden; text-align: center; }
+  .hero .glow::before { content: ""; position: absolute; top: -220px; left: 50%; transform: translateX(-50%); width: 1100px; height: 760px; background: radial-gradient(ellipse at center, rgba(62,146,204,0.22), transparent 60%); }
+  .hero .glow::after { content: ""; position: absolute; top: 100px; right: -140px; width: 600px; height: 600px; background: radial-gradient(ellipse at center, rgba(238,119,34,0.10), transparent 60%); }
+  .hero-inner { position: relative; z-index: 1; max-width: 940px; margin: 0 auto; }
+  .hero h1 { font-size: clamp(42px, 6.4vw, 82px); margin: 22px 0 24px; }
+  .hero .lead { font-size: 18.5px; color: var(--muted); max-width: 660px; margin: 0 auto 34px; }
 
-  /* SPLIT (latency) */
-  .split { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; }
-  .split h3 { font-size: clamp(30px, 4vw, 48px); margin-bottom: 22px; letter-spacing: 0.01em; }
-  .split p { color: var(--muted); font-size: 16.5px; margin-bottom: 26px; max-width: 480px; }
-  .stat-rows { display: flex; flex-direction: column; gap: 12px; }
-  .stat-row { display: flex; justify-content: space-between; align-items: center; background: #FFFFFF; border: 1px solid #DDE3EC; border-radius: 12px; padding: 16px 20px; box-shadow: 0 3px 12px rgba(10,23,41,0.05); }
-  .stat-row .k { color: #3A4656; font-weight: 600; font-size: 15px; }
-  .stat-row .v { color: var(--blue-deep); font-family: var(--mono); font-weight: 600; font-size: 15px; }
-  /* latency panel */
-  .lat-panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 30px; text-align: center; }
-  .lat-panel .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
-  .lat-panel .big { font-family: var(--display); font-size: clamp(56px, 9vw, 92px); color: var(--pos); line-height: 1; margin: 8px 0 30px; text-shadow: 0 0 30px rgba(63,224,138,0.35); }
-  .pipe { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: 16px 28px; position: relative; overflow: hidden; }
-  .pipe .node { width: 7px; height: 7px; border-radius: 50%; background: rgba(79,168,224,0.5); box-shadow: 0 0 8px rgba(79,168,224,0.4); }
-  .pipe .traveler { position: absolute; top: 50%; left: 8%; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, var(--blue-bright) 0%, rgba(79,168,224,0.12) 70%); box-shadow: 0 0 24px rgba(79,168,224,0.65); transform: translate(-50%, -50%); animation: flow 2.4s ease-in-out infinite; }
-  @keyframes flow { 0% { left: 8%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 92%; opacity: 0; } }
-  .lat-stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 24px; }
-  .lat-stage { text-align: center; }
-  .lat-stage .act { font-size: 11px; color: var(--pos); display: inline-flex; align-items: center; gap: 5px; }
-  .lat-stage .act::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pos); }
-  .lat-stage .nm { color: var(--white); font-size: 13px; font-weight: 600; margin-top: 4px; }
+  /* LIVE TICKER */
+  .ticker-band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .ticker-inner { display: flex; align-items: center; gap: 16px; height: 52px; }
+  .ticker-live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: var(--pos); flex-shrink: 0; }
+  .ticker-live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pos); box-shadow: 0 0 8px var(--pos); animation: blink 1.4s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+  .ticker { display: flex; gap: 24px; overflow: hidden; flex: 1; }
+  .tk { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .tk b { color: var(--white); font-weight: 600; }
+  .tk i { font-family: var(--mono); font-style: normal; color: var(--blue-bright); transition: color .25s; }
+  .tk i.up { color: var(--pos); } .tk i.down { color: var(--red); }
+  .ticker-rate { flex-shrink: 0; font-family: var(--mono); font-size: 12px; color: var(--muted-2); }
+  .ticker-rate b { color: var(--pos); }
 
-  /* COVERAGE bento */
-  .bento { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .cov-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; }
-  .cov-card.wide { grid-column: 1 / -1; }
-  .cov-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-  .cov-head .ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  /* STATS BAND */
+  .num-sec { padding: 54px 0; }
+  .num-band { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+  .num b { display: block; font-family: var(--display); font-size: clamp(34px, 5vw, 54px); color: #0A1729; line-height: 1; }
+  .num span { font-size: 13px; color: #5E7590; font-weight: 600; margin-top: 8px; display: block; letter-spacing: 0.03em; }
+
+  /* FEATURE ROWS */
+  .features { display: flex; flex-direction: column; gap: 84px; }
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .frow.reverse .frow-text { order: 2; }
+  .frow .pill { margin-bottom: 16px; }
+  .frow h3 { font-size: clamp(28px, 3.8vw, 44px); margin-bottom: 18px; }
+  .frow p { color: var(--muted); font-size: 16.5px; margin-bottom: 22px; max-width: 480px; }
+  .checks { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .checks li { display: flex; align-items: flex-start; gap: 11px; font-size: 14.5px; color: var(--text); }
+  .checks li::before { content: ""; flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; margin-top: 1px; background: rgba(63,224,138,0.15); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><path d='M5 9.5l3 3 5-6' stroke='%233FE08A' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); background-repeat: no-repeat; background-position: center; }
+  .sec-light .checks li { color: #3A4656; }
+
+  /* visual panels */
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; }
+  .panel-h { display: flex; align-items: center; gap: 10px; color: var(--white); font-weight: 700; font-size: 15px; margin-bottom: 18px; }
+  .panel-h .ico { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; }
   .ico.blue { background: rgba(62,146,204,0.14); color: var(--blue-bright); }
   .ico.green { background: rgba(23,163,100,0.16); color: var(--pos); }
   .ico.orange { background: rgba(238,119,34,0.14); color: var(--orange); }
   .ico.deep { background: rgba(30,90,133,0.30); color: var(--blue-bright); }
-  .cov-head h4 { color: var(--white); font-size: 17px; font-weight: 700; }
-  .cov-card > p { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+  /* source tiles */
+  .src-cats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+  .src-cat { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+  .src-cat b { display: block; font-family: var(--display); font-size: 30px; color: var(--blue-bright); line-height: 1; }
+  .src-cat span { font-size: 11px; color: var(--muted-2); letter-spacing: 0.03em; }
   .book-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .book { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; font-size: 12.5px; color: var(--text); }
+  .book { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 9px 11px; font-size: 12px; color: var(--text); }
   .book::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pos); flex-shrink: 0; }
-  .book.more { color: var(--muted-2); justify-content: center; }
-  .book.more::before { display: none; }
-  /* ladder / odds rows */
+  .book.more { color: var(--muted-2); justify-content: center; } .book.more::before { display: none; }
+  /* latency */
+  .lat-panel { text-align: center; }
+  .lat-panel .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); }
+  .lat-panel .big { font-family: var(--display); font-size: clamp(54px, 9vw, 88px); color: var(--pos); line-height: 1; margin: 8px 0 30px; text-shadow: 0 0 30px rgba(63,224,138,0.35); }
+  .pipe { display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: 16px 28px; position: relative; overflow: hidden; }
+  .pipe .node { width: 7px; height: 7px; border-radius: 50%; background: rgba(79,168,224,0.5); box-shadow: 0 0 8px rgba(79,168,224,0.4); }
+  .pipe .traveler { position: absolute; top: 50%; left: 8%; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle, var(--blue-bright) 0%, rgba(79,168,224,0.12) 70%); box-shadow: 0 0 24px rgba(79,168,224,0.65); transform: translate(-50%, -50%); animation: flow 2.4s ease-in-out infinite; }
+  @keyframes flow { 0% { left: 8%; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { left: 92%; opacity: 0; } }
+  .lat-stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 22px; }
+  .lat-stage { text-align: center; }
+  .lat-stage .act { font-size: 11px; color: var(--pos); display: inline-flex; align-items: center; gap: 5px; }
+  .lat-stage .act::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--pos); }
+  .lat-stage .nm { color: var(--white); font-size: 13px; font-weight: 600; margin-top: 4px; }
+  /* odds / ladder */
   .odds-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
   .odds-card:last-child { margin-bottom: 0; }
   .odds-card .tt { color: var(--white); font-weight: 700; font-size: 14px; }
@@ -128,30 +145,24 @@
   .odds-line:first-of-type { border-top: none; }
   .odds-line .o { font-family: var(--mono); color: var(--blue-bright); }
   .odds-line .o.hot { color: var(--pos); background: rgba(63,224,138,0.10); border: 1px solid rgba(63,224,138,0.3); border-radius: 6px; padding: 1px 8px; }
-  /* status tiles */
-  .tile-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .tile { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
-  .tile .h { display: flex; align-items: center; gap: 7px; color: var(--white); font-weight: 600; font-size: 13px; margin-bottom: 8px; }
-  .tile .d { font-size: 12.5px; color: var(--muted); }
-  .tile .d b { color: #F1576B; }
-  .tile .d em { color: var(--pos); font-style: normal; }
-  /* chart */
-  .chart-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
   .chart-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
   .chart-meta .p { font-family: var(--display); font-size: 26px; color: var(--pos); }
-  .chart-meta .up { color: var(--pos); font-size: 12px; font-family: var(--mono); }
-  /* tag pills */
+
+  /* BENEFITS */
+  .ben-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .ben { background: #FFFFFF; border: 1px solid #DDE3EC; border-radius: 14px; padding: 22px; box-shadow: 0 4px 14px rgba(10,23,41,0.05); }
+  .ben .ico { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+  .ben h4 { color: #0A1729; font-size: 15px; font-weight: 700; margin-bottom: 7px; }
+  .ben p { color: #3A4656; font-size: 13px; line-height: 1.55; }
+
+  /* COVERAGE tags */
+  .cov-group { margin-bottom: 28px; }
+  .cov-group:last-child { margin-bottom: 0; }
+  .cov-group .lab { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; }
   .tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font-size: 12.5px; color: var(--text); font-weight: 500; }
   .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blue-bright); }
   .tag.hot::before { background: var(--pos); }
-
-  /* PLATFORM feature grid */
-  .feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-  .feat { background: #FFFFFF; border: 1px solid #DDE3EC; border-radius: var(--radius-lg); padding: 26px; box-shadow: 0 4px 14px rgba(10,23,41,0.05); }
-  .feat .ico { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-  .feat h4 { color: #0A1729; font-size: 16px; font-weight: 700; margin-bottom: 10px; line-height: 1.25; }
-  .feat p { color: #3A4656; font-size: 13.5px; line-height: 1.6; }
 
   /* DEVELOPERS */
   .code-panel { background: #081222; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; max-width: 820px; margin: 0 auto; }
@@ -167,23 +178,30 @@
   .code-foot .ok { color: var(--pos); }
   .dev-cta { text-align: center; margin: 28px 0 36px; }
   .dev-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .dev-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
-  .dev-card .h { display: flex; align-items: center; gap: 10px; color: var(--white); font-weight: 700; font-size: 15px; margin-bottom: 8px; }
-  .dev-card p { color: var(--muted); font-size: 13px; }
+  .dev-card { background: #FFFFFF; border: 1px solid #DDE3EC; border-radius: var(--radius); padding: 22px; box-shadow: 0 4px 14px rgba(10,23,41,0.05); }
+  .dev-card .h { display: flex; align-items: center; gap: 10px; color: #0A1729; font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .dev-card p { color: #3A4656; font-size: 13px; }
 
-  /* CTA (blue banner) */
+  /* FAQ */
+  .faq { max-width: 820px; margin: 0 auto; }
+  .faq details { border-bottom: 1px solid var(--border); }
+  .faq summary { padding: 22px 0; cursor: pointer; display: flex; justify-content: space-between; gap: 24px; align-items: center; color: var(--white); font-weight: 600; font-size: 17px; list-style: none; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-family: var(--display); font-size: 26px; color: var(--blue-bright); line-height: 1; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq .a { padding: 0 0 24px; color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 720px; }
+
+  /* CTA */
   .cta-wrap { padding: 80px 0 110px; background: #FFFFFF; }
   .cta { position: relative; overflow: hidden; background: var(--bg); border: 1px solid var(--border-2); border-radius: 24px; padding: 72px 40px; text-align: center; box-shadow: 0 24px 60px rgba(10,23,41,0.3); }
   .cta .glow::before { content:""; position:absolute; top:-150px; left:50%; transform:translateX(-50%); width:700px; height:500px; background: radial-gradient(ellipse at center, rgba(62,146,204,0.22), transparent 60%); }
   .cta .glow::after { content:""; position:absolute; bottom:-150px; left:25%; width:500px; height:400px; background: radial-gradient(ellipse at center, rgba(238,119,34,0.12), transparent 60%); }
   .cta > * { position: relative; z-index: 1; }
   .cta h2 { font-size: clamp(32px, 4.6vw, 52px); margin: 22px 0 16px; color: #fff; }
-  .cta .accent { color: var(--blue-bright); }
   .cta p { color: var(--muted); font-size: 17px; max-width: 580px; margin: 0 auto 30px; }
   .cta-fine { display: flex; gap: 24px; justify-content: center; margin-top: 22px; font-size: 12.5px; color: var(--muted-2); }
   .cta-fine span { display: inline-flex; align-items: center; gap: 6px; }
 
-  /* FOOTER */
   footer { border-top: 1px solid var(--border); padding: 56px 0 32px; }
   .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
   .foot-brand p { color: var(--muted-2); font-size: 14px; margin-top: 16px; max-width: 300px; line-height: 1.6; }
@@ -192,43 +210,22 @@
   .foot-col a:hover { color: var(--blue-bright); }
   .foot-bottom { display: flex; justify-content: space-between; padding-top: 28px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--muted-2); }
   .foot-bottom a { margin-left: 18px; color: var(--muted-2); }
-
   .ribbon { position: fixed; top: 16px; right: -44px; background: var(--orange); color: #fff; padding: 5px 50px; font-size: 11px; font-weight: 800; transform: rotate(45deg); z-index: 200; letter-spacing: 0.08em; text-transform: uppercase; }
 
-  /* live ticker */
-  .ticker-band { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .ticker-inner { display: flex; align-items: center; gap: 16px; height: 52px; }
-  .ticker-live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: var(--pos); flex-shrink: 0; }
-  .ticker-live .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pos); box-shadow: 0 0 8px var(--pos); animation: blink 1.4s ease-in-out infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
-  .ticker { display: flex; gap: 24px; overflow: hidden; flex: 1; }
-  .tk { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); white-space: nowrap; }
-  .tk b { color: var(--white); font-weight: 600; }
-  .tk i { font-family: var(--mono); font-style: normal; color: var(--blue-bright); transition: color .25s; }
-  .tk i.up { color: var(--pos); } .tk i.down { color: #F1576B; }
-  .ticker-rate { flex-shrink: 0; font-family: var(--mono); font-size: 12px; color: var(--muted-2); }
-  .ticker-rate b { color: var(--pos); }
-  /* source category tiles */
-  .src-cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
-  .src-cat { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px 6px; text-align: center; }
-  .src-cat b { display: block; font-family: var(--display); font-size: 26px; color: var(--blue-bright); line-height: 1; }
-  .src-cat span { font-size: 10px; color: var(--muted-2); letter-spacing: 0.03em; }
-
   @media (max-width: 980px) {
-    .split { grid-template-columns: 1fr; gap: 40px; }
-    .bento { grid-template-columns: 1fr; }
-    .cov-card.wide { grid-column: auto; }
-    .feat-grid { grid-template-columns: 1fr 1fr; }
+    .frow, .num-band { grid-template-columns: 1fr; }
+    .frow { gap: 36px; }
+    .frow.reverse .frow-text { order: 0; }
+    .ben-grid { grid-template-columns: 1fr 1fr; }
     .dev-3 { grid-template-columns: 1fr; }
     .nav-links { display: none; }
   }
   @media (max-width: 560px) {
-    .block { padding: 70px 0; }
-    .book-grid { grid-template-columns: 1fr 1fr; }
-    .src-cats { grid-template-columns: 1fr 1fr; }
+    .block { padding: 68px 0; }
+    .num-band { grid-template-columns: 1fr 1fr; gap: 28px 12px; }
+    .ben-grid { grid-template-columns: 1fr; }
+    .src-cats, .book-grid { grid-template-columns: 1fr 1fr; }
     .ticker-rate { display: none; }
-    .feat-grid { grid-template-columns: 1fr; }
-    .lat-stages { gap: 4px; }
     .cta-fine { flex-direction: column; gap: 8px; align-items: center; }
     .foot-grid { grid-template-columns: 1fr 1fr; }
     .cta { padding: 52px 22px; }
@@ -271,13 +268,11 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 7h10M7 7l3-3M7 7l3 3M17 17H7M17 17l-3-3M17 17l-3 3"/></svg>
         Sports Betting API
       </span>
-      <h1>The High-Performance<br>Sports Betting API<br><span class="accent">Built for Modern Trading</span></h1>
-      <p class="lead">Stream real-time odds from 200+ sportsbooks and prediction markets, with unified access to player props, alternate lines, schedules, injuries, and historical data — at scale.</p>
-      <a href="#demo" class="btn btn-primary btn-lg">Book a Demo</a>
-      <div class="hero-learn">
-        <a href="#latency">Learn More
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-        </a>
+      <h1>Every Sportsbook.<br>Every Market.<br><span class="accent">One API.</span></h1>
+      <p class="lead">Stop stitching providers together. Stream normalized real-time odds from 200+ sportsbooks, exchanges, and prediction markets — props, alternates, futures, schedules, injuries, and results, all in one feed.</p>
+      <div class="hero-ctas">
+        <a href="#demo" class="btn btn-primary btn-lg">Book a Demo</a>
+        <a href="/docs/api" class="btn btn-ghost btn-lg">View the Docs ↗</a>
       </div>
     </div>
   </div>
@@ -301,36 +296,129 @@
   </div>
 </div>
 
-<!-- LATENCY -->
-<section class="block sec-light" id="latency">
+<!-- STATS BAND -->
+<section class="num-sec sec-light">
+  <div class="container num-band">
+    <div class="num"><b class="cu" data-to="200" data-suffix="+">200+</b><span>Sources normalized</span></div>
+    <div class="num"><b class="cu" data-to="2500" data-suffix="+">2,500+</b><span>Markets covered</span></div>
+    <div class="num"><b class="cu" data-to="400" data-suffix="ms">400ms</b><span>Median refresh</span></div>
+    <div class="num"><b class="cu" data-to="99.99" data-suffix="%">99.99%</b><span>Uptime SLA</span></div>
+  </div>
+</section>
+
+<!-- FEATURE ROWS -->
+<section class="block">
   <div class="container">
-    <div class="split">
-      <div>
-        <span class="pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
-          Lightning Fast
-        </span>
-        <h3 style="margin-top:18px;">Engineered for<br><span class="accent">Sub-Second Latency</span></h3>
-        <p>Our infrastructure is built on global edge networks for real-time applications. With intelligent caching and optimized data pipelines, we deliver betting odds faster than anyone else — on the books where live edges actually exist.</p>
-        <div class="stat-rows">
-          <div class="stat-row"><span class="k">Median Refresh</span><span class="v cu" data-to="400" data-suffix="ms">400ms</span></div>
-          <div class="stat-row"><span class="k">Uptime SLA</span><span class="v cu" data-to="99.99" data-suffix="%">99.99%</span></div>
-          <div class="stat-row"><span class="k">Sportsbooks &amp; Operators</span><span class="v cu" data-to="200" data-suffix="+">200+</span></div>
+    <div class="features">
+
+      <!-- Row 1: one schema -->
+      <div class="frow">
+        <div class="frow-text">
+          <span class="pill">One Integration</span>
+          <h3>Stop Stitching Providers Together</h3>
+          <p>One integration replaces a dozen. We ingest every source and hand you a single, consistent schema — so your team builds product instead of plumbing.</p>
+          <ul class="checks">
+            <li>200+ sources mapped to one fixture, player, and market model</li>
+            <li>Sportsbooks, DFS &amp; pick'em, exchanges, and prediction markets</li>
+            <li>Deduplicated lines with consistent IDs across every book</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><span class="ico blue"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span>Every source, one feed</div>
+          <div class="src-cats">
+            <div class="src-cat"><b class="cu" data-to="191">191</b><span>Sportsbooks</span></div>
+            <div class="src-cat"><b class="cu" data-to="31">31</b><span>DFS / Pick'em</span></div>
+            <div class="src-cat"><b class="cu" data-to="9">9</b><span>Exchanges</span></div>
+            <div class="src-cat"><b class="cu" data-to="11">11</b><span>Prediction Markets</span></div>
+          </div>
+          <div class="book-grid">
+            <span class="book">DraftKings</span><span class="book">FanDuel</span><span class="book">BetMGM</span>
+            <span class="book">bet365</span><span class="book">Pinnacle</span><span class="book">PrizePicks</span>
+            <span class="book">Sleeper</span><span class="book">Betfair</span><span class="book">Polymarket</span>
+            <span class="book">Kalshi</span><span class="book">PredictIt</span><span class="book more">+186</span>
+          </div>
         </div>
       </div>
-      <div class="lat-panel">
-        <div class="lbl">LATENCY</div>
-        <div class="big"><span id="lat-num">46ms</span></div>
-        <div class="pipe">
-          <span class="node"></span><span class="node"></span><span class="node"></span><span class="node"></span><span class="node"></span>
-          <span class="traveler"></span>
+
+      <!-- Row 2: speed -->
+      <div class="frow reverse">
+        <div class="frow-text">
+          <span class="pill">Real-Time</span>
+          <h3>Your Models React First</h3>
+          <p>Sub-second delivery on the books where live edges actually exist. Pull on demand or subscribe to a push stream — no polling, no stale prices.</p>
+          <ul class="checks">
+            <li>400ms median refresh, 99.99% uptime SLA</li>
+            <li>Pre-match and in-play across every market</li>
+            <li>Server-Sent Events stream or REST — your choice</li>
+          </ul>
         </div>
-        <div class="lat-stages">
-          <div class="lat-stage"><span class="act">Active</span><div class="nm">Ingestion</div></div>
-          <div class="lat-stage"><span class="act">Active</span><div class="nm">Normalization</div></div>
-          <div class="lat-stage"><span class="act">Active</span><div class="nm">Delivery</div></div>
+        <div class="panel lat-panel">
+          <div class="lbl">LATENCY</div>
+          <div class="big"><span id="lat-num">46ms</span></div>
+          <div class="pipe">
+            <span class="node"></span><span class="node"></span><span class="node"></span><span class="node"></span><span class="node"></span>
+            <span class="traveler"></span>
+          </div>
+          <div class="lat-stages">
+            <div class="lat-stage"><span class="act">Active</span><div class="nm">Ingestion</div></div>
+            <div class="lat-stage"><span class="act">Active</span><div class="nm">Normalization</div></div>
+            <div class="lat-stage"><span class="act">Active</span><div class="nm">Delivery</div></div>
+          </div>
         </div>
       </div>
+
+      <!-- Row 3: deep markets -->
+      <div class="frow">
+        <div class="frow-text">
+          <span class="pill">Depth</span>
+          <h3>Deep Markets, Fully Laddered</h3>
+          <p>Every player prop and alternate line, end to end — not just the headline number. Plus game props, futures, and live odds movement, all timestamped.</p>
+          <ul class="checks">
+            <li>Player props with full alternate ladders</li>
+            <li>Game props, periods, futures, and same-game data</li>
+            <li>Live odds movement with point-in-time history</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <div class="odds-card">
+            <div class="tt">Receiving Yards Ladder · Justin Jefferson</div>
+            <div class="sub">Alternates, end to end</div>
+            <div class="odds-line"><span>50+ Receiving Yards</span><span class="o hot">−210</span></div>
+            <div class="odds-line"><span>60+ Receiving Yards</span><span class="o">−128</span></div>
+            <div class="odds-line"><span>70+ Receiving Yards</span><span class="o">+120</span></div>
+            <div class="odds-line"><span>80+ Receiving Yards</span><span class="o">+178</span></div>
+          </div>
+          <div class="odds-card">
+            <div class="chart-meta"><div><div style="color:var(--white);font-weight:700;font-size:14px;">Lakers vs. Warriors</div><div style="color:var(--muted-2);font-size:11px;font-family:var(--mono);">Lakers ML <i id="lo-home" data-odds="-257" style="font-style:normal;color:var(--blue-bright);transition:color .25s;">−257</i> · Warriors ML <i id="lo-away" data-odds="211" style="font-style:normal;color:var(--blue-bright);transition:color .25s;">+211</i></div></div><div style="text-align:right;"><div class="p" id="lo-prob">72%</div><div style="color:var(--muted-2);font-size:10px;">live win prob</div></div></div>
+            <svg width="100%" height="64" viewBox="0 0 400 64" preserveAspectRatio="none" fill="none" style="margin-top:6px;">
+              <path d="M0 56 C60 48 90 32 140 27 C190 22 230 14 280 11 C330 9 360 8 400 6" stroke="var(--pos)" stroke-width="2.5"/>
+              <path d="M0 56 C60 48 90 32 140 27 C190 22 230 14 280 11 C330 9 360 8 400 6 L400 64 L0 64 Z" fill="rgba(63,224,138,0.10)"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="block sec-light">
+  <div class="container">
+    <div class="sec-head">
+      <span class="pill">One Platform</span>
+      <h2>Everything in <span class="accent">One Feed</span></h2>
+      <p>Consolidate the entire betting data stack — no more juggling providers for each data type.</p>
+    </div>
+    <div class="ben-grid">
+      <div class="ben"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/></svg></span><h4>Pre-Match &amp; In-Play</h4><p>Real-time main lines, alternates, and props across pre-game and live.</p></div>
+      <div class="ben"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span><h4>Player Props &amp; Alts</h4><p>Full prop boards with alternate ladders on every line.</p></div>
+      <div class="ben"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-6M21 7v6"/></svg></span><h4>Futures</h4><p>Season-long, tournament, and award markets, normalized across books.</p></div>
+      <div class="ben"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></span><h4>Historical Odds &amp; Results</h4><p>Point-in-time datasets for backtesting and analysis.</p></div>
+      <div class="ben"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><h4>Schedules &amp; Lineups</h4><p>Complete schedules and confirmed lineups across leagues.</p></div>
+      <div class="ben"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></span><h4>Injury Reports</h4><p>Structured injury data mapped across leagues in real time.</p></div>
+      <div class="ben"><span class="ico green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></span><h4>Automated Bet Grading</h4><p>Programmatic settlement for SGPs, props, and standard markets.</p></div>
+      <div class="ben"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span><h4>Deeplinks</h4><p>Route users to the exact market, book, and line — built for conversion.</p></div>
     </div>
   </div>
 </section>
@@ -339,134 +427,36 @@
 <section class="block">
   <div class="container">
     <div class="sec-head">
-      <span class="pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
-        Global Market Reach
-      </span>
-      <h2>Comprehensive <span class="accent">Data Coverage</span></h2>
-      <p>Access the most extensive sports betting data ecosystem in the industry — normalized across every source.</p>
+      <span class="pill">Global Reach</span>
+      <h2>Coverage That <span class="accent">Goes Deep</span></h2>
+      <p>Every major league and prop type — with alternate ladders on every line.</p>
     </div>
-
-    <div class="bento">
-      <!-- Unmatched coverage -->
-      <div class="cov-card">
-        <div class="cov-head"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg></span><h4>Every Source, One Schema</h4></div>
-        <p>200+ sources normalized into a single feed — sportsbooks, DFS &amp; pick'em, exchanges, and prediction markets.</p>
-        <div class="src-cats">
-          <div class="src-cat"><b class="cu" data-to="191">191</b><span>Sportsbooks</span></div>
-          <div class="src-cat"><b class="cu" data-to="31">31</b><span>DFS / Pick'em</span></div>
-          <div class="src-cat"><b class="cu" data-to="9">9</b><span>Exchanges</span></div>
-          <div class="src-cat"><b class="cu" data-to="11">11</b><span>Prediction Mkts</span></div>
-        </div>
-        <div class="book-grid">
-          <span class="book">DraftKings</span><span class="book">FanDuel</span><span class="book">BetMGM</span>
-          <span class="book">Caesars</span><span class="book">bet365</span><span class="book">Pinnacle</span>
-          <span class="book">PrizePicks</span><span class="book">Sleeper</span><span class="book">Underdog</span>
-          <span class="book">Betfair</span><span class="book">Matchbook</span><span class="book">Polymarket</span>
-          <span class="book">Kalshi</span><span class="book">PredictIt</span><span class="book more">+ 186 more</span>
-        </div>
-      </div>
-
-      <!-- Deep player props -->
-      <div class="cov-card">
-        <div class="cov-head"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span><h4>Deep Player Props &amp; Alternate Markets</h4></div>
-        <div class="odds-card">
-          <div class="tt">Receiving Yards Ladder</div>
-          <div class="sub">Justin Jefferson · WR</div>
-          <div class="odds-line"><span>50+ Receiving Yards</span><span class="o hot">−210</span></div>
-          <div class="odds-line"><span>60+ Receiving Yards</span><span class="o">−128</span></div>
-          <div class="odds-line"><span>70+ Receiving Yards</span><span class="o">+120</span></div>
-          <div class="odds-line"><span>80+ Receiving Yards</span><span class="o">+178</span></div>
-        </div>
-        <div class="odds-card">
-          <div class="tt">Anytime TD Scorer</div>
-          <div class="sub">Featured players &amp; odds</div>
-          <div class="odds-line"><span>Ja'Marr Chase · CIN</span><span class="o hot">−150</span></div>
-          <div class="odds-line"><span>Mark Andrews · BAL</span><span class="o">+170</span></div>
-          <div class="odds-line"><span>Joe Burrow · CIN</span><span class="o">+500</span></div>
-        </div>
-      </div>
-
-      <!-- Injury & schedule -->
-      <div class="cov-card">
-        <div class="cov-head"><span class="ico green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><h4>Real-Time Injury &amp; Schedule Data</h4></div>
-        <div class="tile-2">
-          <div class="tile"><div class="h"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F1576B" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg> Status</div><div class="d">Jayson Tatum: <b>OUT</b></div></div>
-          <div class="tile"><div class="h"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue-bright)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> Next Game</div><div class="d"><em>Tonight</em> vs. Lakers · 7:00 PM</div></div>
-        </div>
-      </div>
-
-      <!-- Live odds movement -->
-      <div class="cov-card">
-        <div class="cov-head"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-6M21 7v6"/></svg></span><h4>Live Odds Movements</h4></div>
-        <div class="chart-wrap">
-          <div class="chart-meta"><div><div style="color:var(--white);font-weight:600;font-size:13px;">Lakers vs. Warriors</div><div style="color:var(--muted-2);font-size:11px;font-family:var(--mono);">Lakers ML <i id="lo-home" data-odds="-257" style="font-style:normal;color:var(--blue-bright);transition:color .25s;">−257</i> · Warriors ML <i id="lo-away" data-odds="211" style="font-style:normal;color:var(--blue-bright);transition:color .25s;">+211</i></div></div><div style="text-align:right;"><div class="p" id="lo-prob">72%</div><div class="up">Lakers win prob</div></div></div>
-          <svg width="100%" height="80" viewBox="0 0 400 80" preserveAspectRatio="none" fill="none">
-            <path d="M0 70 C60 60 90 40 140 34 C190 28 230 18 280 14 C330 11 360 10 400 8" stroke="var(--pos)" stroke-width="2.5"/>
-            <path d="M0 70 C60 60 90 40 140 34 C190 28 230 18 280 14 C330 11 360 10 400 8 L400 80 L0 80 Z" fill="rgba(63,224,138,0.10)"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Supported leagues -->
-      <div class="cov-card wide">
-        <div class="cov-head"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9a6 6 0 0 0 12 0V3H6v6z"/><path d="M6 5H3v2a3 3 0 0 0 3 3M18 5h3v2a3 3 0 0 1-3 3M9 21h6M12 15v6"/></svg></span><h4>Supported Leagues</h4></div>
-        <div class="tags">
-          <span class="tag hot">NFL</span><span class="tag hot">NCAAF</span><span class="tag hot">NBA</span><span class="tag hot">WNBA</span><span class="tag hot">NCAAB</span><span class="tag hot">MLB</span><span class="tag hot">NHL</span><span class="tag hot">CFL</span><span class="tag">UFC</span><span class="tag">MLS</span><span class="tag">EPL</span><span class="tag">La Liga</span><span class="tag">UEFA Champions League</span><span class="tag">Serie A</span><span class="tag">Bundesliga</span><span class="tag">Ligue 1</span><span class="tag">ATP</span><span class="tag">WTA</span>
-        </div>
-      </div>
-
-      <!-- Player prop coverage -->
-      <div class="cov-card wide">
-        <div class="cov-head"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg></span><h4>Unmatched Player Prop Coverage</h4></div>
-        <p style="margin-bottom:14px;">Every betting market available, across all major sports — with alternate ladders on every line. NFL example below:</p>
-        <div class="tags">
-          <span class="tag hot">Passing Yards</span><span class="tag hot">Passing TDs</span><span class="tag hot">Interceptions</span><span class="tag hot">Completions</span><span class="tag hot">Receiving Yards</span><span class="tag hot">Receptions</span><span class="tag hot">Anytime TD</span><span class="tag hot">Rushing Yards</span><span class="tag">Carries</span><span class="tag">Longest Reception</span><span class="tag">First TD</span><span class="tag">Tackles + Assists</span><span class="tag">+ alts on every line</span>
-        </div>
+    <div class="cov-group">
+      <div class="lab">Supported Leagues</div>
+      <div class="tags">
+        <span class="tag hot">NFL</span><span class="tag hot">NCAAF</span><span class="tag hot">NBA</span><span class="tag hot">WNBA</span><span class="tag hot">NCAAB</span><span class="tag hot">MLB</span><span class="tag hot">NHL</span><span class="tag hot">CFL</span><span class="tag">UFC</span><span class="tag">MLS</span><span class="tag">EPL</span><span class="tag">La Liga</span><span class="tag">UEFA Champions League</span><span class="tag">Serie A</span><span class="tag">Bundesliga</span><span class="tag">Ligue 1</span><span class="tag">ATP</span><span class="tag">WTA</span>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ALL-IN-ONE PLATFORM -->
-<section class="block sec-light">
-  <div class="container">
-    <div class="sec-head">
-      <span class="pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="18" height="7" rx="1"/></svg>
-        All-in-One Platform
-      </span>
-      <h2>The Complete Sports Betting &amp; <span class="accent">Prediction Market Data Platform</span></h2>
-      <p>Eliminate the complexity of multiple providers. Consolidate the entire betting ecosystem into one powerful API.</p>
-    </div>
-    <div class="feat-grid">
-      <div class="feat"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/></svg></span><h4>Pre-Match &amp; In-Play Live Odds</h4><p>Real-time pre-game and live markets — main lines, alternates, and props across hundreds of global markets.</p></div>
-      <div class="feat"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/></svg></span><h4>Historical Odds &amp; Results</h4><p>Deep point-in-time historical datasets covering odds movement, results, and market context for backtesting.</p></div>
-      <div class="feat"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-6M21 7v6"/></svg></span><h4>Futures</h4><p>Unified futures coverage across sportsbooks and leagues — season-long, tournament, and award markets.</p></div>
-      <div class="feat"><span class="ico green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></span><h4>Automated Bet Grading</h4><p>Programmatic grading via API with real-time settlement logic for SGPs, props, and standard markets.</p></div>
-      <div class="feat"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><h4>Schedules &amp; Lineups</h4><p>Complete schedules and confirmed lineups across leagues, designed to support automation and feeds.</p></div>
-      <div class="feat"><span class="ico deep"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9a6 6 0 0 0 12 0V3H6v6z"/><path d="M9 21h6M12 15v6"/></svg></span><h4>Game &amp; Player Results</h4><p>Live and historical game results with player outcomes and stat resolution, in a consistent schema.</p></div>
-      <div class="feat"><span class="ico orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></span><h4>Injury Reports</h4><p>Structured injury data delivered in real time, mapped across leagues to support pricing and modeling.</p></div>
-      <div class="feat"><span class="ico blue"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span><h4>Deeplinks</h4><p>Route directly to the exact market, book, and line with precision deep linking built for conversion.</p></div>
+    <div class="cov-group">
+      <div class="lab">Player Prop Markets — NFL example</div>
+      <div class="tags">
+        <span class="tag hot">Passing Yards</span><span class="tag hot">Passing TDs</span><span class="tag hot">Interceptions</span><span class="tag hot">Completions</span><span class="tag hot">Receiving Yards</span><span class="tag hot">Receptions</span><span class="tag hot">Anytime TD</span><span class="tag hot">Rushing Yards</span><span class="tag">Carries</span><span class="tag">Longest Reception</span><span class="tag">First TD</span><span class="tag">Tackles + Assists</span><span class="tag">+ alts on every line</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- DEVELOPERS -->
-<section class="block">
+<section class="block sec-light">
   <div class="container">
     <div class="sec-head">
-      <span class="pill">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
-        Developer First
-      </span>
-      <h2>Built for Developers <span class="accent">by Developers</span></h2>
-      <p>Clean, predictable API responses. Comprehensive documentation. SDKs in your favorite languages. Up and running in minutes.</p>
+      <span class="pill">Ship in an Afternoon</span>
+      <h2>Built for Developers, <span class="accent">by Developers</span></h2>
+      <p>Clean, predictable responses. One key, full docs, and SDKs in your language. Live in minutes, not weeks.</p>
     </div>
-
     <div class="code-panel">
       <div class="code-bar">
-        <div style="display:flex;align-items:center;gap:14px;"><span class="code-dots"><i></i><i></i><i></i></span><span class="ep">GET /api/markets</span></div>
+        <div style="display:flex;align-items:center;gap:14px;"><span class="code-dots"><i></i><i></i><i></i></span><span class="ep">GET /api/markets?league=NFL&amp;is_live=true</span></div>
         <span class="copy"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</span>
       </div>
 <pre class="code">{
@@ -476,13 +466,11 @@
       <span class="k">"odds"</span>: <span class="n">2.10</span>,
       <span class="k">"number"</span>: <span class="n">82.5</span>,
       <span class="k">"side"</span>: <span class="s">"Over"</span>,
-      <span class="k">"side_type"</span>: <span class="s">"over"</span>,
       <span class="k">"bet_type"</span>: <span class="s">"Player Prop"</span>,
       <span class="k">"prop_name"</span>: <span class="s">"Receiving Yards"</span>,
-      <span class="k">"period"</span>: <span class="s">"FT"</span>,
       <span class="k">"league"</span>: <span class="s">"NFL"</span>,
       <span class="k">"is_alt"</span>: <span class="b">false</span>,
-      <span class="k">"is_live"</span>: <span class="b">false</span>,
+      <span class="k">"is_live"</span>: <span class="b">true</span>,
       <span class="k">"odd_provider_id"</span>: <span class="n">17</span>,
       <span class="k">"fixture_id"</span>: <span class="s">"01926d5e-819d-7b33-b7ff-bbe89e134958"</span>,
       <span class="k">"player_id"</span>: <span class="s">"01923438-08b3-7dac-bd8a-303c95dbb396"</span>,
@@ -492,13 +480,43 @@
 }</pre>
       <div class="code-foot"><span><span class="ok">● 200 OK</span> · 47ms</span><span>application/json</span></div>
     </div>
-
-    <div class="dev-cta"><a href="/docs/api" class="btn btn-ghost">View Full Documentation ↗</a></div>
-
+    <div class="dev-cta"><a href="/docs/api" class="btn btn-primary">View Full Documentation ↗</a></div>
     <div class="dev-3">
-      <div class="dev-card"><div class="h"><span class="ico blue" style="width:32px;height:32px;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span> REST &amp; Streaming</div><p>Pull via REST or subscribe to a real-time Server-Sent Events stream — choose what fits your stack.</p></div>
-      <div class="dev-card"><div class="h"><span class="ico deep" style="width:32px;height:32px;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span> SDK Libraries</div><p>Python, JavaScript, Go, and more coming — typed clients to get integrated fast.</p></div>
-      <div class="dev-card"><div class="h"><span class="ico orange" style="width:32px;height:32px;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 4 20 12 6 20 6 4"/></svg></span> Interactive Playground</div><p>Test endpoints and explore live data in real time, right from the docs.</p></div>
+      <div class="dev-card"><div class="h"><span class="ico blue" style="width:32px;height:32px;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span> REST &amp; Streaming</div><p>Pull via REST or subscribe to a real-time Server-Sent Events push stream.</p></div>
+      <div class="dev-card"><div class="h"><span class="ico deep" style="width:32px;height:32px;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></span> SDK Libraries</div><p>Python, JavaScript, Go — typed clients to integrate fast.</p></div>
+      <div class="dev-card"><div class="h"><span class="ico orange" style="width:32px;height:32px;border-radius:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 4 20 12 6 20 6 4"/></svg></span> Sandbox &amp; Playground</div><p>Test endpoints and explore live data right from the docs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="block">
+  <div class="container">
+    <div class="sec-head">
+      <span class="pill">FAQ</span>
+      <h2>Questions, <span class="accent">Answered</span></h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>What is the Betstamp Sports Betting API?<span></span></summary>
+        <div class="a">A single API that delivers normalized, real-time betting data — odds, player props, alternate lines, futures, schedules, injuries, and results — from 200+ sportsbooks, exchanges, and prediction markets. One integration, one schema, every source.</div>
+      </details>
+      <details>
+        <summary>Which sportsbooks and markets do you cover?<span></span></summary>
+        <div class="a">200+ sources: 191 sportsbooks, 31 DFS/pick'em operators, 9 exchanges, and 11 prediction markets. We cover 2,500+ markets across the NFL, NBA, MLB, NHL, college football and basketball, soccer (EPL, La Liga, UCL and more), UFC, tennis, and others — including main lines, player props, game props, alternates, and futures.</div>
+      </details>
+      <details>
+        <summary>How do I get the data — REST or streaming?<span></span></summary>
+        <div class="a">Both. Pull on demand via REST, or subscribe to a real-time Server-Sent Events stream for push updates. Median refresh is 400ms with a 99.99% uptime SLA. You can also access everything visually through the PRO Odds Screen.</div>
+      </details>
+      <details>
+        <summary>How fast can we integrate?</summary>
+        <div class="a">Most teams are pulling live data the same day. Grab an API key, hit a single endpoint, and you get a clean, consistent JSON response with stable IDs across every book — plus SDKs and full docs to move fast.</div>
+      </details>
+      <details>
+        <summary>Do you offer historical data?</summary>
+        <div class="a">Yes — deep, point-in-time historical odds and results across 5+ seasons, ideal for backtesting models and analyzing line movement and market context.</div>
+      </details>
     </div>
   </div>
 </section>
@@ -509,12 +527,15 @@
     <div class="cta">
       <div class="glow"></div>
       <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg> Talk to a Data Expert</span>
-      <h2>Ready to Power Your Platform With the <span class="accent">Fastest Data?</span></h2>
-      <p>Join the sportsbooks, market makers, and betting platforms already using Betstamp to deliver real-time odds at scale.</p>
-      <a href="#" class="btn btn-primary btn-lg">Book a Demo</a>
+      <h2>One API to Power <span class="accent">Your Entire Stack</span></h2>
+      <p>Join the sportsbooks, market makers, and betting platforms already building on Betstamp data.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary btn-lg">Book a Demo</a>
+        <a href="/docs/api" class="btn btn-ghost btn-lg">Read the Docs ↗</a>
+      </div>
       <div class="cta-fine">
-        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> No credit card required</span>
-        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg> Cancel anytime</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Trusted by leading operators</span>
+        <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg> One key, full access</span>
       </div>
     </div>
   </div>
@@ -557,89 +578,44 @@
 <script>
 (function () {
   function fmt(a) { return (a > 0 ? '+' : '−') + Math.abs(a); }
-  function nudge(v) {
-    var d = (Math.floor(Math.random() * 8) + 1) * (Math.random() < 0.5 ? -1 : 1);
-    var nv = v + d;
-    if (nv > -101 && nv < 101) nv += (nv >= 0 ? 100 : -100); // skip the dead zone around even
-    return nv;
-  }
-  function flash(el, up) {
-    el.classList.remove('up', 'down'); void el.offsetWidth;
-    el.classList.add(up ? 'up' : 'down');
-  }
+  function nudge(v) { var d = (Math.floor(Math.random() * 8) + 1) * (Math.random() < 0.5 ? -1 : 1); var nv = v + d; if (nv > -101 && nv < 101) nv += (nv >= 0 ? 100 : -100); return nv; }
+  function flash(el, up) { el.classList.remove('up', 'down'); void el.offsetWidth; el.classList.add(up ? 'up' : 'down'); }
 
-  /* live odds ticker */
   var ticker = document.getElementById('ticker');
   if (ticker) {
     var items = Array.prototype.slice.call(ticker.querySelectorAll('.tk i'));
     setInterval(function () {
       var el = items[Math.floor(Math.random() * items.length)];
-      var v = parseInt(el.getAttribute('data-odds'), 10);
-      var nv = nudge(v);
-      el.setAttribute('data-odds', nv);
-      el.textContent = fmt(nv) + (nv > v ? ' ▲' : ' ▼');
-      flash(el, nv > v);
+      var v = parseInt(el.getAttribute('data-odds'), 10); var nv = nudge(v);
+      el.setAttribute('data-odds', nv); el.textContent = fmt(nv) + (nv > v ? ' ▲' : ' ▼'); flash(el, nv > v);
     }, 1400);
   }
-
-  /* updates/sec jitter */
   var rate = document.getElementById('ticker-rate');
-  if (rate) {
-    setInterval(function () {
-      var n = 11800 + Math.floor(Math.random() * 1600);
-      rate.textContent = n.toLocaleString();
-    }, 1000);
-  }
+  if (rate) setInterval(function () { rate.textContent = (11800 + Math.floor(Math.random() * 1600)).toLocaleString(); }, 1000);
 
-  /* live odds movement card */
-  var loHome = document.getElementById('lo-home');
-  var loAway = document.getElementById('lo-away');
-  var loProb = document.getElementById('lo-prob');
+  var latNum = document.getElementById('lat-num');
+  if (latNum) setInterval(function () { latNum.textContent = (38 + Math.floor(Math.random() * 22)) + 'ms'; }, 1300);
+
+  var loHome = document.getElementById('lo-home'), loAway = document.getElementById('lo-away'), loProb = document.getElementById('lo-prob');
   if (loHome && loAway && loProb) {
     var prob = 72;
     setInterval(function () {
-      [loHome, loAway].forEach(function (el) {
-        var v = parseInt(el.getAttribute('data-odds'), 10);
-        var nv = nudge(v);
-        el.setAttribute('data-odds', nv);
-        el.textContent = fmt(nv);
-        flash(el, nv > v);
-      });
-      prob = Math.max(64, Math.min(80, prob + (Math.random() < 0.5 ? -1 : 1)));
-      loProb.textContent = prob + '%';
+      [loHome, loAway].forEach(function (el) { var v = parseInt(el.getAttribute('data-odds'), 10); var nv = nudge(v); el.setAttribute('data-odds', nv); el.textContent = fmt(nv); flash(el, nv > v); });
+      prob = Math.max(64, Math.min(80, prob + (Math.random() < 0.5 ? -1 : 1))); loProb.textContent = prob + '%';
     }, 2600);
   }
 
-  /* live latency readout */
-  var latNum = document.getElementById('lat-num');
-  if (latNum) {
-    setInterval(function () { latNum.textContent = (38 + Math.floor(Math.random() * 22)) + 'ms'; }, 1300);
-  }
-
-  /* count-up stats on scroll into view */
   function countUp(el) {
-    var target = parseFloat(el.getAttribute('data-to'));
-    var suffix = el.getAttribute('data-suffix') || '';
-    var dec = (target % 1 !== 0) ? 2 : 0;
-    var dur = 1100, t0 = null;
-    function step(ts) {
-      if (!t0) t0 = ts;
-      var p = Math.min(1, (ts - t0) / dur);
-      var val = target * (1 - Math.pow(1 - p, 3));
-      el.textContent = (dec ? val.toFixed(dec) : Math.round(val).toLocaleString()) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    }
+    var target = parseFloat(el.getAttribute('data-to')); var suffix = el.getAttribute('data-suffix') || '';
+    var dec = (target % 1 !== 0) ? 2 : 0; var dur = 1100, t0 = null;
+    function step(ts) { if (!t0) t0 = ts; var p = Math.min(1, (ts - t0) / dur); var val = target * (1 - Math.pow(1 - p, 3)); el.textContent = (dec ? val.toFixed(dec) : Math.round(val).toLocaleString()) + suffix; if (p < 1) requestAnimationFrame(step); }
     requestAnimationFrame(step);
   }
   var cu = Array.prototype.slice.call(document.querySelectorAll('.cu'));
   if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } });
-    }, { threshold: 0.5 });
+    var io = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { countUp(e.target); io.unobserve(e.target); } }); }, { threshold: 0.5 });
     cu.forEach(function (el) { io.observe(el); });
-  } else {
-    cu.forEach(countUp);
-  }
+  } else { cu.forEach(countUp); }
 })();
 </script>
 
