@@ -171,6 +171,7 @@
   .tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font-size: 12.5px; color: var(--text); font-weight: 500; }
   .tag::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--blue-bright); }
   .tag.hot::before { background: var(--pos); }
+  .tag.more { color: var(--muted-2); } .tag.more::before { display: none; }
 
   /* DEVELOPERS */
   .code-panel { background: #081222; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; max-width: 820px; margin: 0 auto; }
@@ -457,7 +458,7 @@
     <div class="cov-group">
       <div class="lab">Player Prop Markets — NFL example</div>
       <div class="tags">
-        <span class="tag hot">Passing Yards</span><span class="tag hot">Passing TDs</span><span class="tag hot">Interceptions</span><span class="tag hot">Completions</span><span class="tag hot">Receiving Yards</span><span class="tag hot">Receptions</span><span class="tag hot">Anytime TD</span><span class="tag hot">Rushing Yards</span><span class="tag">Carries</span><span class="tag">Longest Reception</span><span class="tag">First TD</span><span class="tag">Tackles + Assists</span><span class="tag">+ alts on every line</span>
+        <span class="tag hot">Passing Yards</span><span class="tag hot">Passing TDs</span><span class="tag hot">Interceptions</span><span class="tag hot">Completions</span><span class="tag hot">Receiving Yards</span><span class="tag hot">Receptions</span><span class="tag hot">Anytime TD</span><span class="tag hot">Rushing Yards</span><span class="tag">Carries</span><span class="tag">Longest Reception</span><span class="tag">First TD</span><span class="tag">Tackles + Assists</span><span class="tag more">+ 20 more</span><span class="tag more">+ alts on every line</span>
       </div>
     </div>
   </div>
