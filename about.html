@@ -98,7 +98,10 @@
   .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 1000px 560px at 50% -10%, rgba(62,146,204,0.20), transparent 60%), radial-gradient(ellipse 600px 400px at 100% 100%, rgba(238,119,34,0.08), transparent 60%); }
   .hero-inner { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; text-align: center; }
   .hero h1 { font-size: clamp(44px, 6vw, 84px); margin: 6px 0 26px; }
-  .hero .lead { font-size: 19px; line-height: 1.6; color: var(--muted-dark); max-width: 830px; margin: 0 auto 26px; }
+  .hero .lead { font-size: 19px; line-height: 1.6; color: var(--muted-dark); max-width: 830px; margin: 0 auto 18px; }
+  .hero-subline { font-size: 16px; font-weight: 600; color: var(--blue-bright); margin: 0 auto 30px; letter-spacing: 0.01em; }
+  .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 940px; margin: 0 auto; }
+  .mv-grid .icard h3 { margin-top: 0; }
   .hero-proof { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: 0.06em; color: var(--muted-2); text-transform: uppercase; margin-bottom: 32px; }
   .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
@@ -223,9 +226,31 @@
       <span class="eyebrow">The Company</span>
       <h1>The pricing intelligence layer for <span class="accent">sports betting.</span></h1>
       <p class="lead">Betstamp builds pricing intelligence and market data for sportsbooks and professional bettors — the same sharp reference pricing, applied across both sides of the market. We turn 200+ books, exchanges, and prediction markets into one real-time view of fair value: used to set lines, and to beat them.</p>
+      <p class="hero-subline">Sharp enough to price a book. Trusted enough to beat one.</p>
       <div class="hero-ctas">
         <a href="/sportsbook-pricing-feed-v1" class="btn btn-primary btn-lg">For Sportsbooks</a>
         <a href="/pro" class="btn btn-primary btn-lg">For Bettors</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WHO WE ARE / MISSION ==================== -->
+<section class="block light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">Who we are</span>
+      <h2>Pricing intelligence the <span class="accent">whole market can use.</span></h2>
+      <p>Sports betting runs on pricing — but the sharpest references have always been locked inside a handful of trading desks. Betstamp is building that intelligence as shared infrastructure: accurate enough for a sportsbook to price against, and trustworthy enough for a professional bettor to rely on.</p>
+    </div>
+    <div class="mv-grid">
+      <div class="icard">
+        <h3>Our mission</h3>
+        <p>Give every serious market participant access to pricing as sharp as the best trading desks — and make it usable, not just impressive.</p>
+      </div>
+      <div class="icard">
+        <h3>Our vision</h3>
+        <p>A market where one trusted reference prices the board on one side and finds the edge on the other — sharper, fairer, and faster for everyone in it.</p>
       </div>
     </div>
   </div>
@@ -269,7 +294,7 @@
 </section>
 
 <!-- ==================== BUILT BY PROS ==================== -->
-<section class="block soft">
+<section class="block light">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow eyebrow-dark">Built by operators</span>
