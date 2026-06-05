@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Betstamp</title>
+<meta name="description" content="Betstamp is the pricing intelligence layer for sports betting. We turn 200+ books, exchanges, and prediction markets into one sharp, real-time reference — for the sportsbooks that price against it and the bettors who bet with it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Light-first palette — matches /pro and the V1 sportsbook pricing page */
+    --bg: #FFFFFF;
+    --bg-soft: #F3F5F8;
+    --surface: #F4F6F9;
+    --divider: #DDE3EC;
+    --divider-strong: #C2D0DE;
+    --blue: #3E92CC;
+    --blue-bright: #4FA8E0;
+    --blue-dark: #2B76AA;
+    --blue-deep: #1E5A85;
+    --blue-pale: #D5E8F3;
+    --blue-palest: #EEF5FB;
+    --navy: #0A1729;
+    --navy-2: #0E1F36;
+    --navy-line: #1B2C45;
+    --orange: #EE7722;
+    --orange-hover: #F18A3D;
+    --text: #0A1729;
+    --text-body: #3A4656;
+    --muted: #5E7590;
+    --muted-2: #8BA2B8;
+    --muted-dark: #93A6BC;
+    --green: #17A364;
+    --white: #FFFFFF;
+    --shadow: 0 4px 14px rgba(10,23,41,0.08);
+    --shadow-lg: 0 12px 40px rgba(10,23,41,0.10);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --display: "Anton", "Oswald", "Arial Narrow", Impact, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text-body); font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.55; font-size: 16px; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  h1, h2 { font-family: var(--display); font-weight: 400; text-transform: uppercase; line-height: 0.96; letter-spacing: -0.005em; color: var(--text); }
+  .on-dark h1, .on-dark h2 { color: var(--white); }
+  h1 .accent, h2 .accent { color: var(--blue); }
+  .on-dark h1 .accent, .on-dark h2 .accent { color: var(--blue-bright); }
+
+  /* ---------- BUTTONS ---------- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; border: none; font-family: inherit; transition: all .18s; white-space: nowrap; }
+  .btn-lg { padding: 14px 28px; font-size: 15px; }
+  .btn-primary { background: var(--orange); color: var(--white); box-shadow: 0 4px 14px rgba(238,119,34,0.28); }
+  .btn-primary:hover { background: var(--orange-hover); transform: translateY(-1px); }
+  .btn-ghost-dark { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.30); }
+  .btn-ghost-dark:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.55); }
+  .btn-ghost-light { background: transparent; color: var(--blue-deep); border: 1.5px solid var(--blue); }
+  .btn-ghost-light:hover { background: var(--blue-palest); }
+
+  /* ---------- NAV ---------- */
+  .nav { position: sticky; top: 0; z-index: 100; background: var(--blue); border-bottom: 1px solid rgba(255,255,255,0.12); box-shadow: 0 2px 10px rgba(30,90,133,0.15); }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; color: var(--white); }
+  .logo-mark { width: 30px; height: 30px; border-radius: 6px; background: var(--white); display: flex; align-items: center; justify-content: center; color: var(--blue); font-weight: 800; font-size: 18px; }
+  .nav-links { display: flex; gap: 22px; align-items: center; }
+  .nav-links > a { color: rgba(255,255,255,0.92); font-size: 13.5px; font-weight: 500; white-space: nowrap; transition: color .15s; }
+  .nav-links > a:hover, .nav-links > a.active { color: var(--white); }
+  .nav-dropdown { position: relative; }
+  .nav-trigger { color: rgba(255,255,255,0.92); font-size: 13.5px; font-weight: 500; background: none; border: none; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 5px; transition: color .15s; }
+  .nav-dropdown:hover .nav-trigger { color: var(--white); }
+  .nav-trigger svg { transition: transform .2s; }
+  .nav-dropdown:hover .nav-trigger svg { transform: rotate(180deg); }
+  .nav-menu { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 270px; background: var(--surface); border: 1px solid var(--divider); border-radius: 12px; padding: 8px; box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden; transition: all .18s; }
+  .nav-dropdown:hover .nav-menu, .nav-dropdown:focus-within .nav-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+  .nav-menu a { display: block; padding: 11px 13px; border-radius: 9px; color: var(--navy); font-size: 14px; font-weight: 700; transition: background .15s; }
+  .nav-menu a:hover { background: var(--bg-soft); }
+  .nav-cta .btn { padding: 10px 20px; }
+
+  /* ---------- SECTIONS ---------- */
+  section.block { padding: 96px 0; }
+  section.soft { background: var(--bg-soft); }
+  section.dark { background: var(--navy); color: var(--muted-dark); position: relative; overflow: hidden; }
+  .dark::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 900px 500px at 85% 0%, rgba(62,146,204,0.16), transparent 60%), radial-gradient(ellipse 600px 400px at 5% 100%, rgba(238,119,34,0.07), transparent 60%); }
+  .dark > .container { position: relative; z-index: 1; }
+  .eyebrow { display: inline-block; color: var(--blue-bright); font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 18px; }
+  .eyebrow-dark { color: var(--blue-deep); }
+  .section-head { max-width: 880px; margin: 0 auto 56px; text-align: center; }
+  .section-head h2 { font-size: clamp(34px, 5vw, 64px); margin-bottom: 18px; }
+  .section-head p { font-size: 18px; line-height: 1.6; color: var(--text-body); }
+  .dark .section-head p { color: var(--muted-dark); }
+
+  /* ---------- HERO ---------- */
+  .hero { background: var(--navy); color: var(--white); padding: 96px 0 92px; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 1000px 560px at 50% -10%, rgba(62,146,204,0.20), transparent 60%), radial-gradient(ellipse 600px 400px at 100% 100%, rgba(238,119,34,0.08), transparent 60%); }
+  .hero-inner { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; text-align: center; }
+  .hero h1 { font-size: clamp(44px, 6vw, 84px); margin: 6px 0 26px; }
+  .hero .lead { font-size: 19px; line-height: 1.6; color: var(--muted-dark); max-width: 760px; margin: 0 auto 26px; }
+  .hero-proof { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: 0.06em; color: var(--muted-2); text-transform: uppercase; margin-bottom: 32px; }
+  .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  /* ---------- WHAT WE ARE (3 cards) ---------- */
+  .card-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .icard { background: var(--bg); border: 1px solid var(--divider); border-radius: var(--radius-lg); padding: 30px 28px; }
+  .icard .num { font-family: var(--display); font-size: 20px; color: var(--blue); letter-spacing: 0.1em; }
+  .icard h3 { font-family: var(--display); font-size: 24px; font-weight: 400; text-transform: uppercase; color: var(--navy); line-height: 1.05; margin: 12px 0 12px; }
+  .icard p { font-size: 14.5px; line-height: 1.65; color: var(--text-body); }
+  .lead-statement { max-width: 860px; margin: 0 auto 56px; text-align: center; font-size: 19px; line-height: 1.65; color: var(--text-body); }
+  .lead-statement strong { color: var(--navy); font-weight: 700; }
+
+  /* ---------- TWO-TRACK ---------- */
+  .track-grid { display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 24px; align-items: stretch; }
+  .track-card { background: var(--bg); border: 1px solid var(--divider); border-radius: var(--radius-lg); padding: 38px 34px; display: flex; flex-direction: column; }
+  .track-card.featured { border: 2px solid var(--blue); box-shadow: 0 18px 50px rgba(62,146,204,0.16); }
+  .track-tag { display: inline-flex; align-self: flex-start; align-items: center; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); background: var(--bg-soft); padding: 5px 12px; border-radius: 999px; margin-bottom: 18px; }
+  .track-card.featured .track-tag { background: var(--blue); color: var(--white); }
+  .track-card h3 { font-family: var(--display); font-size: 32px; font-weight: 400; text-transform: uppercase; color: var(--navy); line-height: 1.0; margin-bottom: 12px; }
+  .track-card .track-sub { color: var(--text-body); font-size: 15.5px; line-height: 1.6; margin-bottom: 22px; }
+  .track-list { list-style: none; margin-bottom: 26px; }
+  .track-list li { padding: 12px 0; border-top: 1px solid var(--divider); display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; color: var(--text); font-weight: 500; line-height: 1.45; }
+  .track-list li:first-child { border-top: none; }
+  .track-list li strong { color: var(--navy); font-weight: 700; }
+  .track-list li::before { content: ""; flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; margin-top: 1px; background: var(--blue-pale); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><path d='M5 9.5l3 3 5-6' stroke='%231E5A85' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); background-repeat: no-repeat; background-position: center; }
+  .track-card .track-cta { margin-top: auto; }
+  .track-card .track-cta a { color: var(--blue-deep); font-weight: 700; font-size: 14.5px; display: inline-flex; align-items: center; gap: 6px; }
+  .track-card .track-cta a:hover { gap: 10px; }
+
+  /* ---------- WHY IT MATTERS (dark) ---------- */
+  .matter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .matter { background: var(--navy-2); border: 1px solid var(--navy-line); border-radius: var(--radius-lg); padding: 34px 32px; }
+  .matter .k { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 14px; }
+  .matter p { color: var(--muted-dark); font-size: 15.5px; line-height: 1.7; }
+  .matter p strong { color: var(--white); font-weight: 600; }
+  .matter-mid { text-align: center; max-width: 760px; margin: 36px auto 0; font-size: 18px; line-height: 1.6; color: var(--white); font-weight: 500; }
+  .matter-mid .accent { color: var(--blue-bright); }
+
+  /* ---------- PRINCIPLES (4) ---------- */
+  .card-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .principle { background: var(--bg); border: 1px solid var(--divider); border-radius: var(--radius-lg); padding: 28px 24px; }
+  .principle .pn { font-family: var(--display); font-size: 30px; color: var(--blue); line-height: 1; }
+  .principle h4 { color: var(--navy); font-size: 17px; font-weight: 700; margin: 16px 0 10px; line-height: 1.25; }
+  .principle p { color: var(--text-body); font-size: 13.5px; line-height: 1.6; }
+
+  /* ---------- WHERE WE'RE GOING (stat band) ---------- */
+  .stat-band { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--divider); border-bottom: 1px solid var(--divider); margin-top: 48px; }
+  .stat-cell { text-align: center; padding: 30px 16px; border-right: 1px solid var(--divider); }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell .n { font-family: var(--display); font-size: clamp(34px, 4vw, 52px); color: var(--blue); line-height: 1; }
+  .stat-cell .l { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 10px; }
+
+  /* ---------- CTA BANNER ---------- */
+  .cta-wrap { padding: 96px 0; background: var(--bg); }
+  .cta-banner { background: var(--navy); border-radius: var(--radius-lg); padding: 72px 48px; text-align: center; position: relative; overflow: hidden; }
+  .cta-banner::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 500px 300px at 12% 0%, rgba(62,146,204,0.22), transparent), radial-gradient(ellipse 400px 300px at 90% 100%, rgba(238,119,34,0.16), transparent); }
+  .cta-banner > * { position: relative; z-index: 1; }
+  .cta-banner h2 { color: var(--white); font-size: clamp(34px, 5vw, 60px); }
+  .cta-banner p { color: var(--muted-dark); font-size: 17px; margin: 16px auto 30px; max-width: 620px; }
+  .cta-banner .hero-ctas { justify-content: center; }
+
+  /* ---------- FOOTER ---------- */
+  footer { background: var(--navy); color: var(--muted-dark); padding: 60px 0 30px; border-top: 1px solid var(--navy-line); }
+  footer .logo { color: var(--white); }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand p { color: var(--muted-dark); font-size: 14px; margin-top: 16px; line-height: 1.6; max-width: 320px; }
+  .footer-col h4 { color: var(--white); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; }
+  .footer-col a { display: block; color: var(--muted-dark); font-size: 14px; padding: 6px 0; }
+  .footer-col a:hover { color: var(--blue-bright); }
+  .footer-bottom { display: flex; justify-content: space-between; padding-top: 28px; border-top: 1px solid var(--navy-line); font-size: 12px; color: var(--muted); }
+  .footer-bottom a { color: var(--muted); margin-left: 20px; }
+
+  .ribbon { position: fixed; top: 14px; right: -42px; background: var(--orange); color: #fff; padding: 5px 50px; font-size: 11px; font-weight: 800; transform: rotate(45deg); z-index: 200; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1023px) {
+    .card-3, .card-4, .matter-grid { grid-template-columns: 1fr 1fr; }
+    .track-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    section.block { padding: 64px 0; }
+    .card-3, .card-4, .matter-grid, .stat-band { grid-template-columns: 1fr; }
+    .stat-cell { border-right: none; border-bottom: 1px solid var(--divider); }
+    .stat-cell:last-child { border-bottom: none; }
+    .nav-links { display: none; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .cta-banner { padding: 48px 24px; }
+    .hero { padding: 64px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ribbon">V1 Mockup</div>
+
+<!-- ==================== NAV ==================== -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#" class="logo"><span class="logo-mark">B</span> betstamp</a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <button class="nav-trigger">Products
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-menu">
+          <a href="/sportsbook-pricing-feed-v1">Sportsbook Pricing Feed</a>
+          <a href="/sgp-pricing-engine">SGP Pricing Engine</a>
+          <a href="/sports-betting-api">Sports Betting API</a>
+        </div>
+      </div>
+      <a href="#">Customers</a>
+      <a href="/docs/api">Documentation</a>
+      <a href="/about" class="active">About</a>
+    </div>
+    <div class="nav-cta"><a href="#contact" class="btn btn-primary">Book a Demo</a></div>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero on-dark">
+  <div class="container">
+    <div class="hero-inner">
+      <span class="eyebrow">The Company</span>
+      <h1>The pricing intelligence layer for <span class="accent">sports betting.</span></h1>
+      <p class="lead">Betstamp turns 200+ sportsbooks, exchanges, and prediction markets into one sharp, real-time reference — and puts it everywhere it matters. Operators price against it. Serious bettors bet with it. It's the same pricing intelligence, expressed two ways.</p>
+      <div class="hero-proof">200+ books &amp; operators · 2,500+ markets · sub-second refresh</div>
+      <div class="hero-ctas">
+        <a href="/sportsbook-pricing-feed-v1" class="btn btn-primary btn-lg">For Sportsbooks →</a>
+        <a href="/pro" class="btn btn-ghost-dark btn-lg">For Bettors</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WHAT WE ARE ==================== -->
+<section class="block light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">What we are</span>
+      <h2>Not a betting app.<br>A <span class="accent">pricing company.</span></h2>
+    </div>
+    <p class="lead-statement">Betstamp builds pricing intelligence and market data for sports betting — the kind sportsbooks price against and sharp bettors rely on. We started by giving bettors a clearer view of the market. Today that same engine powers the <strong>data and pricing products operators build on</strong>.</p>
+    <div class="card-3">
+      <div class="icard">
+        <span class="num">01</span>
+        <h3>Sharper pricing</h3>
+        <p>A market-weighted True Line, calibrated across every major book and recalibrated continuously against closing outcomes — sharpest exactly where pricing fails most.</p>
+      </div>
+      <div class="icard">
+        <span class="num">02</span>
+        <h3>Market intelligence</h3>
+        <p>Real-time odds, line movement, and pricing context normalized across 200+ sources into one consistent, queryable view of the entire market.</p>
+      </div>
+      <div class="icard">
+        <span class="num">03</span>
+        <h3>Built to be used</h3>
+        <p>Delivered as feeds, APIs, and screens that slot into how operators and bettors already work — meant to be priced, traded, and bet with, not just described.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOW IT COMES TO LIFE ==================== -->
+<section class="block soft">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">How it shows up</span>
+      <h2>One engine.<br>Two sides of <span class="accent">the market.</span></h2>
+      <p>The same pricing intelligence powers products on both sides of the line — for the books setting prices, and the bettors attacking them.</p>
+    </div>
+    <div class="track-grid">
+      <div class="track-card featured">
+        <span class="track-tag">For Sportsbooks &amp; Operators</span>
+        <h3>Operator-grade pricing &amp; data</h3>
+        <p class="track-sub">The lead expression of what we do — pricing intelligence and market data built to slot alongside an operator's existing stack, sharpest where official-data feeds leave a gap.</p>
+        <ul class="track-list">
+          <li><strong>Sportsbook Pricing Feed</strong> — the front-runner on player props, alts, ladders, and exotics, priced with our True Line.</li>
+          <li><strong>SGP Pricing Engine</strong> — correlation-aware Same Game pricing, benchmarked across every major book.</li>
+          <li><strong>Sports Betting API</strong> — 200+ books, exchanges, and prediction markets, normalized and real-time.</li>
+          <li><strong>Fits your stack</strong> — keep your official-data primary; slot us in where pricing is hardest.</li>
+        </ul>
+        <div class="track-cta"><a href="/sportsbook-pricing-feed-v1">Explore operator products →</a></div>
+      </div>
+      <div class="track-card">
+        <span class="track-tag">For Serious Bettors</span>
+        <h3>Betstamp Pro</h3>
+        <p class="track-sub">The same pricing engine, in the hands of the people pricing against the books — a sharper view of fair value and where the best number actually is.</p>
+        <ul class="track-list">
+          <li><strong>PRO Odds Screen</strong> — the sharpest market reference, in one place.</li>
+          <li><strong>True Line fair value</strong> — see what a market is really worth, per book and prop type.</li>
+          <li><strong>Line shopping</strong> — best available price across 200+ books and markets.</li>
+          <li><strong>Tracking &amp; CLV</strong> — measure your bets against the close that matters.</li>
+        </ul>
+        <div class="track-cta"><a href="/pro">Explore Betstamp Pro →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WHY IT MATTERS ==================== -->
+<section class="block dark on-dark">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Why it matters</span>
+      <h2>A market is only as good as <span class="accent">its pricing.</span></h2>
+      <p>Both sides of the line are pricing against the same markets — and both are underserved exactly where it's hardest.</p>
+    </div>
+    <div class="matter-grid">
+      <div class="matter">
+        <div class="k">For operators</div>
+        <p>Official-data feeds anchor the mains, but <strong>props, alts, and exotics are where books leak</strong> — and where most references are thin. Operators need real depth and a sharper number precisely where pricing is hardest to get right.</p>
+      </div>
+      <div class="matter">
+        <div class="k">For bettors</div>
+        <p>Serious bettors are pricing against those same books with worse tools. They need <strong>real visibility into fair value</strong>, line movement, and where the best available number actually sits.</p>
+      </div>
+    </div>
+    <p class="matter-mid">Betstamp sits in the middle — the <span class="accent">shared pricing reference</span> both sides depend on.</p>
+  </div>
+</section>
+
+<!-- ==================== WHAT WE STAND FOR ==================== -->
+<section class="block light">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">What we stand for</span>
+      <h2>Principles, <span class="accent">not platitudes.</span></h2>
+    </div>
+    <div class="card-4">
+      <div class="principle">
+        <span class="pn">A</span>
+        <h4>Sharper over noisier</h4>
+        <p>More data only matters if it makes the number better. We optimize for accuracy, not volume.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">B</span>
+        <h4>Practical over performative</h4>
+        <p>Everything ships as something you can price, trade, or bet with — never slideware.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">C</span>
+        <h4>For real participants</h4>
+        <p>Built for operators and sharps who price for performance, not casual dabblers.</p>
+      </div>
+      <div class="principle">
+        <span class="pn">D</span>
+        <h4>Infrastructure, not fluff</h4>
+        <p>We build the reference layer the market runs on, and let the numbers do the talking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WHERE WE'RE GOING ==================== -->
+<section class="block soft">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">Where we're going</span>
+      <h2>From consumer tools to <span class="accent">market infrastructure.</span></h2>
+      <p>Betstamp started in the hands of bettors. The same pricing engine now powers operator-grade data and pricing products — and we're extending it across every market that needs a sharper reference.</p>
+    </div>
+    <div class="stat-band">
+      <div class="stat-cell"><div class="n">200+</div><div class="l">Books &amp; Operators</div></div>
+      <div class="stat-cell"><div class="n">2,500+</div><div class="l">Markets</div></div>
+      <div class="stat-cell"><div class="n">Sub-second</div><div class="l">Refresh</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CTA ==================== -->
+<div class="cta-wrap" id="contact">
+  <div class="container">
+    <div class="cta-banner on-dark">
+      <span class="eyebrow">Work with Betstamp</span>
+      <h2>Put sharper pricing <span class="accent">to work.</span></h2>
+      <p>Whether you're pricing a book or beating one — the same market intelligence is built for you.</p>
+      <div class="hero-ctas">
+        <a href="/sportsbook-pricing-feed-v1" class="btn btn-primary btn-lg">Talk to our trading team</a>
+        <a href="/pro" class="btn btn-ghost-dark btn-lg">Explore Betstamp Pro</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo"><span class="logo-mark">B</span> betstamp</a>
+        <p>The odds and pricing data company. Built for the sharps, sportsbooks, and syndicates pricing for performance.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="/sportsbook-pricing-feed-v1">Sportsbook Pricing Feed</a>
+        <a href="/sgp-pricing-engine">SGP Pricing Engine</a>
+        <a href="/sports-betting-api">Sports Betting API</a>
+        <a href="/pro">Betstamp Pro</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/about">About</a>
+        <a href="#">Customers</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="/docs/api">Documentation</a>
+        <a href="#">Methodology</a>
+        <a href="#">Status</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>&copy; 2026 Betstamp. All rights reserved.</div>
+      <div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
