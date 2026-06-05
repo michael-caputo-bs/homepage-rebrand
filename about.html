@@ -102,6 +102,13 @@
   .hero-subline { font-size: 16px; font-weight: 600; color: var(--blue-bright); margin: 0 auto 30px; letter-spacing: 0.01em; }
   .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 940px; margin: 0 auto; }
   .mv-grid .icard h3 { margin-top: 0; }
+  /* mission side-by-side (OpticOdds-style) */
+  .about-split { display: grid; grid-template-columns: 1fr 1.15fr; gap: 64px; align-items: start; }
+  .about-split-head .eyebrow { margin-bottom: 18px; }
+  .about-split-head h2 { font-size: clamp(34px, 4.4vw, 56px); line-height: 1.0; }
+  .about-split-body p { font-size: 16.5px; line-height: 1.7; color: var(--text-body); margin-bottom: 20px; }
+  .about-split-body p:last-child { margin-bottom: 0; }
+  .about-split-body p strong { color: var(--navy); font-weight: 700; }
   .hero-proof { font-family: "Inter", sans-serif; font-size: 13px; letter-spacing: 0.06em; color: var(--muted-2); text-transform: uppercase; margin-bottom: 32px; }
   .hero-ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
@@ -179,6 +186,7 @@
   @media (max-width: 1023px) {
     .card-3, .card-4, .matter-grid { grid-template-columns: 1fr 1fr; }
     .track-grid { grid-template-columns: 1fr; }
+    .about-split { grid-template-columns: 1fr; gap: 28px; }
   }
   @media (max-width: 640px) {
     section.block { padding: 64px 0; }
@@ -238,20 +246,21 @@
 <!-- ==================== WHO WE ARE / MISSION ==================== -->
 <section class="block light">
   <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-dark">Who we are</span>
-      <h2>Pricing intelligence the<br><span class="accent">whole market can use.</span></h2>
-      <p>Sports betting runs on pricing — but the sharpest references have always been locked inside a handful of trading desks. Betstamp is building that intelligence as shared infrastructure: accurate enough for a sportsbook to price against, and trustworthy enough for a professional bettor to rely on.</p>
+    <div class="about-split">
+      <div class="about-split-head">
+        <span class="eyebrow eyebrow-dark">Our mission</span>
+        <h2>Sharper pricing for the <span class="accent">whole market.</span></h2>
+      </div>
+      <div class="about-split-body">
+        <p>Sports betting runs on pricing — but the sharpest references have always been locked inside a handful of trading desks. Betstamp is building that intelligence as shared infrastructure: <strong>accurate enough for a sportsbook to price against, and trustworthy enough for a professional bettor to rely on.</strong></p>
+        <p>We were founded by professional bettors who built the tools they needed — and won at professional scale using them. That same engine now powers the operator-grade data and pricing products the market builds on.</p>
+        <p>Our vision is a market where one trusted reference prices the board on one side and finds the edge on the other — sharper, fairer, and faster for everyone in it.</p>
+      </div>
     </div>
-    <div class="mv-grid">
-      <div class="icard">
-        <h3>Our mission</h3>
-        <p>Give every serious market participant access to pricing as sharp as the best trading desks — and make it usable, not just impressive.</p>
-      </div>
-      <div class="icard">
-        <h3>Our vision</h3>
-        <p>A market where one trusted reference prices the board on one side and finds the edge on the other — sharper, fairer, and faster for everyone in it.</p>
-      </div>
+    <div class="stat-band">
+      <div class="stat-cell"><div class="n">200+</div><div class="l">Books &amp; Operators</div></div>
+      <div class="stat-cell"><div class="n">2,500+</div><div class="l">Markets</div></div>
+      <div class="stat-cell"><div class="n">Sub-second</div><div class="l">Refresh</div></div>
     </div>
   </div>
 </section>
@@ -289,22 +298,6 @@
         </ul>
         <div class="track-cta"><a href="/pro">Explore Betstamp Pro →</a></div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== BUILT BY PROS ==================== -->
-<section class="block light">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow eyebrow-dark">Built by operators</span>
-      <h2>Founded by pro bettors.<br><span class="accent">Proven at scale.</span></h2>
-      <p>Betstamp was built by professional bettors who needed sharper tools than the market offered — and won at professional scale using them. That same engine now powers the data and pricing products operators build on.</p>
-    </div>
-    <div class="stat-band">
-      <div class="stat-cell"><div class="n">200+</div><div class="l">Books &amp; Operators</div></div>
-      <div class="stat-cell"><div class="n">2,500+</div><div class="l">Markets</div></div>
-      <div class="stat-cell"><div class="n">Sub-second</div><div class="l">Refresh</div></div>
     </div>
   </div>
 </section>
