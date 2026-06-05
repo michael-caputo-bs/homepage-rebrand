@@ -75,13 +75,12 @@
 
   /* ---------- PILLS / EYEBROWS ---------- */
   .pill {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    display: inline-block;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--blue-bright);
-    padding: 7px 16px; border-radius: 999px;
-    border: 1px solid rgba(62,146,204,0.35);
-    background: rgba(62,146,204,0.08);
   }
+  .pill svg { display: none; }
+  .sec-light .pill { color: var(--blue-deep); }
 
   /* ---------- NAV ---------- */
   .nav {
@@ -342,7 +341,7 @@
   .cta h2 { font-size: clamp(34px, 4.8vw, 56px); margin: 22px 0 16px; color: #FFFFFF; }
   .cta .accent { color: var(--blue-bright); }
   .cta p { color: var(--muted); font-size: 17px; max-width: 600px; margin: 0 auto 32px; }
-  .cta .pill { background: rgba(62,146,204,0.12); color: var(--blue-bright); border-color: rgba(62,146,204,0.4); }
+  .cta .pill { color: var(--blue-bright); }
 
   /* ---------- FOOTER ---------- */
   footer { border-top: 1px solid var(--border); padding: 56px 0 32px; }
