@@ -1716,6 +1716,39 @@
     .bnav-links, .bnav-cta { display: none; }
     .bnav-mob { display: flex; align-items: center; gap: 14px; }
   }
+  /* ===== betstamp.com replica footer ===== */
+  .bft { background: #061B29; color: #fff; width: 100%; padding: 40px 16px 144px; font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.5; }
+  .bft a { color: inherit; }
+  .bft-inner { max-width: 1536px; margin: 0 auto; }
+  .bft-top { display: flex; flex-direction: column; gap: 16px; }
+  .bft-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 32px; }
+  .bft-col { display: flex; flex-direction: column; gap: 8px; }
+  .bft-h { font-weight: 600; }
+  .bft-col a { color: #fff; transition: color .15s; }
+  .bft-col a:hover { color: #40a0db; text-decoration: underline; }
+  .bft-brand { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 24px; }
+  .bft-wordmark { height: 64px; width: auto; display: block; }
+  .bft-social { display: flex; flex-direction: row; align-items: center; gap: 16px; }
+  .bft-social a { color: #fff; transition: color .15s; }
+  .bft-social a:hover { color: #40a0db; }
+  .bft-social svg { height: 24px; width: 24px; display: block; }
+  .bft-copy { margin-top: 32px; border-top: 1px solid #a1a1aa; text-align: center; color: #a1a1aa; padding-top: 24px; }
+  .bft-rg { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; padding-top: 16px; color: #a1a1aa; }
+  .bft-rg-block { align-items: flex-start; }
+  .bft-badge { flex: 0 0 42px; width: 42px; height: 42px; border: 1px solid #ef4444; border-radius: 9999px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+  .bft-link-sky { color: #7dd3fc; }
+  .bft-logos { display: flex; flex-direction: column; align-items: center; gap: 16px; padding-top: 16px; }
+  @media (min-width: 768px) {
+    .bft { padding: 80px 16px 144px; }
+    .bft-cols { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .bft-logos { flex-direction: row; justify-content: center; }
+  }
+  @media (min-width: 1024px) {
+    .bft-top { flex-direction: row-reverse; }
+    .bft-cols { display: flex; flex-direction: row; gap: 48px; flex: 2; }
+    .bft-col { flex: 1; }
+    .bft-brand { flex: 1; padding-top: 0; }
+  }
 </style>
 </head>
 <body>
@@ -2551,53 +2584,90 @@
 </div>
 
 <!-- ==================== FOOTER (dark editorial moment) ==================== -->
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="logo">
-          <div class="logo-mark">b</div>
-          <span>betstamp</span>
-        </a>
-        <p>The odds screen built for sharps who already win. Proprietary True Line pricing, industry-leading prop depth, and sub-second refresh across 200+ sportsbooks.</p>
+<!-- ==================== FOOTER (betstamp.com replica) ==================== -->
+<footer class="bft">
+  <div class="bft-inner">
+    <div class="bft-top">
+      <div class="bft-cols">
+        <div class="bft-col">
+          <span class="bft-h">Products</span>
+          <a href="/pro">Betstamp PRO</a>
+          <a href="#">Bet Tracking</a>
+          <a href="/sportsbook-pricing-feed-v1">Sportsbook Pricing Feed</a>
+          <a href="/sgp-pricing-engine">SGP Pricing Engine</a>
+          <a href="/sports-betting-api">Sports Betting API</a>
+        </div>
+        <div class="bft-col">
+          <span class="bft-h">About</span>
+          <a href="/about">About Us</a>
+          <a href="#">Careers</a>
+          <a href="#">FAQs</a>
+          <a href="#">Tutorials</a>
+          <a href="#">API Docs</a>
+          <a href="#">Education</a>
+        </div>
+        <div class="bft-col">
+          <span class="bft-h">Odds API</span>
+          <a href="#">Bet365 API</a>
+          <a href="#">Kalshi API</a>
+          <a href="#">Polymarket API</a>
+          <a href="#">Bookmaker API</a>
+          <a href="#">FanDuel API</a>
+          <a href="#">See All Odds APIs</a>
+        </div>
+        <div class="bft-col">
+          <span class="bft-h">Comparisons</span>
+          <a href="#">DonBest</a>
+          <a href="#">OddsJam</a>
+          <a href="#">OddsLogic</a>
+          <a href="#">Unabated</a>
+        </div>
+        <div class="bft-col">
+          <span class="bft-h">Betting Promotions</span>
+          <a href="#">Sports Betting Promotions</a>
+          <a href="#">Online Casino Promotions</a>
+          <a href="#">Sweepstakes Casino Promotions</a>
+          <a href="#">DFS Promotions</a>
+        </div>
+        <div class="bft-col">
+          <span class="bft-h">Legal</span>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Responsible Gaming</a>
+          <a href="#">Affiliate Disclosure</a>
+        </div>
       </div>
-      <div class="footer-col">
-        <h4>Products</h4>
-        <a href="#">Odds Screen</a>
-        <a href="#">SGP Engine</a>
-        <a href="#">Odds API</a>
-        <a href="#">Widgets</a>
-        <a href="#">Bet Tracking</a>
-      </div>
-      <div class="footer-col">
-        <h4>For</h4>
-        <a href="#">Pro Bettors</a>
-        <a href="#">Syndicates</a>
-        <a href="#">Market Makers</a>
-        <a href="#">Sportsbooks</a>
-      </div>
-      <div class="footer-col">
-        <h4>Resources</h4>
-        <a href="#">Blog</a>
-        <a href="#">Docs</a>
-        <a href="#">Changelog</a>
-        <a href="#">Status</a>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <a href="#">About</a>
-        <a href="#">Careers</a>
-        <a href="#">Press</a>
-        <a href="#">Contact</a>
+      <div class="bft-brand">
+        <img class="bft-wordmark" src="https://www.betstamp.com/betstamp_wordmark_white_trans-cropped.svg" alt="betstamp logo">
+        <div class="bft-social">
+          <a href="mailto:sales@betstamppro.com" aria-label="Email sales@betstamppro.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="https://www.linkedin.com/company/betstamp" target="_blank" rel="noopener noreferrer" aria-label="betstamp on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 17V10.66H6.2V17h2.14zM7.27 9.67a1.24 1.24 0 1 0 0-2.48 1.24 1.24 0 0 0 0 2.48zM18 17v-3.6c0-1.93-.41-3.41-2.67-3.41-1.09 0-1.82.6-2.12 1.16h-.03v-.98H11.1V17h2.14v-3.13c0-.83.16-1.63 1.18-1.63 1.01 0 1.02.94 1.02 1.68V17H18z"/></svg></a>
+          <a href="https://x.com/betstamp" target="_blank" rel="noopener noreferrer" aria-label="betstamp on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 Betstamp. All rights reserved.</span>
-      <div>
-        <a href="#">Terms</a>
-        <a href="#">Privacy</a>
-        <a href="#">Contact</a>
-      </div>
+
+    <div class="bft-copy">Copyright 2026 &copy; Betstamp, All Rights Reserved</div>
+
+    <div class="bft-rg">
+      <div class="bft-badge">19+</div>
+      <div>Gambling can be addictive. Play responsibly - <a href="https://www.connexontario.ca/" class="bft-link-sky">www.connexontario.ca</a> 1-866-531-2600</div>
+    </div>
+    <div class="bft-rg bft-rg-block">
+      <p>*GAMBLING PROBLEM? CALL 1-800-GAMBLER (1-800-426-2537) (AZ/CO/DC/IA/IL/IN/KS/KY/LA/MD/ME/MI/NC/NH/NJ/OH/OR/PA/TN/VA/VT/WV/WY), (800) 327-5050 or visit <a class="bft-link-sky" href="https://gamblinghelplinema.org" target="_blank" rel="noopener noreferrer">gamblinghelplinema.org</a> (MA). </p>
+    </div>
+    <div class="bft-rg">
+      <div class="bft-badge">21+</div>
+      <p>Call 877-8-HOPENY/text HOPENY (467369) (NY).</p>
+    </div>
+    <div class="bft-rg">
+      <p style="text-align:center">Please Gamble Responsibly. Call 888-789-7777/visit <a class="bft-link-sky" href="https://ccpg.org" target="_blank" rel="noopener noreferrer">ccpg.org</a> (CT), or visit <a class="bft-link-sky" href="https://www.1800gambler.net" target="_blank" rel="noopener noreferrer">www.1800gambler.net</a> (WV).</p>
+    </div>
+    <div class="bft-logos">
+      <a href="https://www.igamingontario.ca" target="_blank" rel="noopener noreferrer"><img src="https://www.betstamp.com/igaming.svg" alt="iGaming Ontario" style="width:128px"></a>
+      <a href="https://www.gambleaware.org" target="_blank" rel="noopener noreferrer"><img src="https://www.betstamp.com/begambleaware.png" alt="Be Gamble Aware" style="width:188px"></a>
+      <img src="https://www.betstamp.com/mahelp.png" alt="gamblinghelplinema.org" style="height:42px">
+      <img src="https://www.betstamp.com/gamesense.png" alt="gamesense.com" style="height:42px">
     </div>
   </div>
 </footer>
