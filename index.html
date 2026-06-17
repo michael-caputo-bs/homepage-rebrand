@@ -2151,6 +2151,52 @@
     line-height: 0.98;
   }
 
+  /* ===== betstamp.com replica nav ===== */
+  .bnav { position: sticky; top: 0; z-index: 200; width: 100%; background: #40a0db; color: #fff; font-family: 'Inter', sans-serif; }
+  .bnav--home { background: #061B29; }
+  .bnav-inner { display: flex; align-items: center; justify-content: space-between; gap: 18px; max-width: 1400px; margin: 0 auto; padding: 14px 28px; }
+  .bnav-logo { display: flex; align-items: center; }
+  .bnav-logo img { height: 40px; width: auto; display: block; }
+  .bnav-links { display: flex; align-items: center; gap: 2px; }
+  .bnav-link, .bnav-trigger { color: #fff; font-size: 15px; font-weight: 500; padding: 8px 12px; background: none; border: 0; cursor: pointer; font-family: inherit; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; }
+  .bnav-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .bnav-trigger svg { transition: transform .2s; }
+  .bnav-dd { position: relative; }
+  .bnav-dd:hover .bnav-trigger svg, .bnav-dd:focus-within .bnav-trigger svg { transform: rotate(180deg); }
+  .bnav-menu { position: absolute; top: calc(100% + 4px); left: 0; min-width: 244px; background: #fff; color: #000; border-radius: 8px; padding: 8px; box-shadow: 0 12px 32px rgba(0,0,0,.20); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .16s, transform .16s, visibility .16s; z-index: 60; }
+  .bnav-dd:hover .bnav-menu, .bnav-dd:focus-within .bnav-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .bnav-menu > a, .bnav-sub > a { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 9px 12px; border-radius: 6px; color: #111827; font-size: 14px; font-weight: 500; white-space: nowrap; transition: background .12s; }
+  .bnav-menu > a:hover, .bnav-sub > a:hover { background: #f3f4f6; }
+  .bnav-menu > a::after, .bnav-sub > a::after { content: "\2192"; color: #9ca3af; font-size: 13px; }
+  .bnav-sub { position: relative; }
+  .bnav-sub > a::after { content: "\203A"; font-size: 16px; line-height: 1; }
+  .bnav-subtray { position: absolute; left: 100%; top: -6px; margin-left: 4px; min-width: 170px; background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 6px; box-shadow: 0 12px 32px rgba(0,0,0,.20); display: none; }
+  .bnav-sub:hover .bnav-subtray { display: block; }
+  .bnav-subtray a { display: block; padding: 7px 10px; border-radius: 6px; color: #111827; font-size: 13.5px; font-weight: 500; transition: background .12s; }
+  .bnav-subtray a:hover { background: #f3f4f6; }
+  .bnav-cta { display: flex; align-items: center; gap: 12px; }
+  .bnav-demo { border-radius: 8px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.30); color: #fff; padding: 8px 16px; font-weight: 600; font-size: 15px; white-space: nowrap; transition: background .15s; }
+  .bnav-demo:hover { background: rgba(255,255,255,.28); }
+  .bnav-login { border-radius: 8px; background: #fff; color: #2178ae; border: 1px solid #fff; padding: 8px 20px; font-weight: 600; font-size: 15px; white-space: nowrap; transition: box-shadow .15s; }
+  .bnav-login:hover { box-shadow: 0 2px 10px rgba(0,0,0,.18); }
+  .bnav-demo-sm { border-radius: 8px; background: #fff; color: #2178ae; padding: 6px 12px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+  .bnav-mob { display: none; }
+  .bnav-burger { list-style: none; cursor: pointer; font-size: 26px; line-height: 1; color: #fff; padding: 2px 4px; }
+  .bnav-burger::-webkit-details-marker { display: none; }
+  .bnav-drawer { position: absolute; left: 0; right: 0; top: 100%; background: #40a0db; display: flex; flex-direction: column; gap: 2px; padding: 16px 24px 28px; max-height: calc(100dvh - 68px); overflow-y: auto; box-shadow: 0 16px 32px rgba(0,0,0,.25); }
+  .bnav--home .bnav-drawer { background: #061B29; }
+  .bnav-drawer a, .bnav-drawer summary { color: #fff; font-size: 16px; font-weight: 500; padding: 8px 0; cursor: pointer; }
+  .bnav-drawer details summary { list-style: none; display: flex; justify-content: space-between; align-items: center; }
+  .bnav-drawer details summary::-webkit-details-marker { display: none; }
+  .bnav-drawer details summary::after { content: "+"; }
+  .bnav-drawer details[open] > summary::after { content: "\2212"; }
+  .bnav-drawer details > div { display: flex; flex-direction: column; padding-left: 14px; }
+  .bnav-drawer .bnav-demo-sm, .bnav-drawer .bnav-login { text-align: center; margin-top: 10px; }
+  @media (max-width: 1199px) {
+    .bnav-links, .bnav-cta { display: none; }
+    .bnav-mob { display: flex; align-items: center; gap: 14px; }
+  }
+
   </style>
 </head>
 <body>
@@ -2162,60 +2208,77 @@
 
 <div class="mockup-ribbon">Rough Draft</div>
 
-<!-- ==================== NAV ==================== -->
-<nav class="nav">
-  <div class="container nav-inner">
-    <a href="/" class="logo">
-      <div class="logo-mark">b</div>
-      <span>betstamp</span>
-    </a>
-    <div class="nav-links">
-      <a href="/pro">PRO Odds Screen</a>
-
-      <div class="nav-item">
-        <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Products</button>
-        <div class="nav-dropdown-menu" role="menu">
-          <a href="#" role="menuitem">Sportsbook Pricing Feed</a>
-          <a href="/sgp" role="menuitem">SGP Pricing Engine</a>
-          <a href="#" role="menuitem">Sports Betting API</a>
-          <a href="#" role="menuitem">Prediction Market API</a>
-          <a href="/pro" role="menuitem">Odds Screen</a>
-          <a href="#" role="menuitem">Sports Betting Widgets</a>
-          <a href="#" role="menuitem">Bet Tracking App</a>
+<!-- ==================== NAV (betstamp.com replica) ==================== -->
+<nav class="bnav bnav--home">
+  <div class="bnav-inner">
+    <a href="/" class="bnav-logo" aria-label="betstamp home"><img src="https://www.betstamp.com/betstamp_wordmark_white_trans-cropped.svg" alt="betstamp"></a>
+    <div class="bnav-links">
+      <a href="#" class="bnav-link">PRO Odds Screen</a>
+      <a href="#" class="bnav-link">Bet Tracking</a>
+      <div class="bnav-dd">
+        <button class="bnav-trigger" type="button">Promo Offers <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="bnav-menu">
+          <a href="#">Online Casinos</a>
+          <a href="#">Sweepstake Casinos</a>
+          <a href="#">Sportsbooks</a>
+          <a href="#">Daily Fantasy Sports (DFS)</a>
+          <a href="#">Sports Sweepstakes</a>
+          <a href="#">Prediction Markets</a>
         </div>
       </div>
-
-      <div class="nav-item">
-        <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Customers</button>
-        <div class="nav-dropdown-menu" role="menu">
-          <a href="#" role="menuitem">Professional Bettors</a>
-          <a href="#" role="menuitem">Betting Syndicates</a>
-          <a href="#" role="menuitem">Market Makers</a>
-          <a href="#" role="menuitem">Sportsbooks</a>
-          <a href="#" role="menuitem">Prediction Markets</a>
-          <a href="#" role="menuitem">DFS &amp; Sweepstakes Operators</a>
-          <a href="#" role="menuitem">Media &amp; Affiliates</a>
-          <a href="#" role="menuitem">Professional Sports Organizations</a>
+      <div class="bnav-dd">
+        <button class="bnav-trigger" type="button">Betting Resources <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="bnav-menu">
+          <div class="bnav-sub">
+            <a href="#">Odds</a>
+            <div class="bnav-subtray">
+              <a href="#">NFL</a><a href="#">NCAAF</a><a href="#">NBA</a><a href="#">NCAAB</a><a href="#">MLB</a><a href="#">NHL</a><a href="#">Soccer</a><a href="#">UFC</a><a href="#">WNBA</a><a href="#">CFL</a><a href="#">ATP</a><a href="#">WTA</a>
+            </div>
+          </div>
+          <a href="#">Podcasts</a>
+          <a href="#">Blog</a>
+          <a href="#">Tools &amp; Calculators</a>
         </div>
       </div>
-
-      <div class="nav-item">
-        <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">Resources</button>
-        <div class="nav-dropdown-menu" role="menu">
-          <a href="#" role="menuitem">Tools &amp; Calculators</a>
-          <a href="#" role="menuitem">Podcasts</a>
-          <a href="#" role="menuitem">Blog</a>
+      <div class="bnav-dd">
+        <button class="bnav-trigger" type="button">Products <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="bnav-menu">
+          <a href="/sportsbook-pricing-feed-v1">Sportsbook Pricing Feed</a>
+          <a href="/sgp-pricing-engine">SGP Pricing Engine</a>
+          <a href="/sports-betting-api">Sports Betting API</a>
+          <a href="/pro">Betstamp Pro</a>
         </div>
       </div>
-
-      <a href="#">Betting Promotions</a>
-      <a href="#">Our Story</a>
-      <a href="#">Careers</a>
-      <a href="#">Contact Us</a>
+      <a href="/about" class="bnav-link">About</a>
     </div>
-    <div class="nav-cta">
-      <a href="#" class="btn btn-login">Log in</a>
-      <a href="#" class="btn btn-primary">Request a Demo</a>
+    <div class="bnav-cta">
+      <a href="#contact" class="bnav-demo">Request a Demo</a>
+      <a href="#" class="bnav-login">Login</a>
+    </div>
+    <div class="bnav-mob">
+      <a href="#contact" class="bnav-demo-sm">Request a Demo</a>
+      <details>
+        <summary class="bnav-burger">&#9776;</summary>
+        <div class="bnav-drawer">
+          <a href="/">Home</a>
+          <a href="#">PRO Odds Screen</a>
+          <a href="#">Bet Tracking</a>
+          <details><summary>Promo Offers</summary><div>
+            <a href="#">Online Casinos</a><a href="#">Sweepstake Casinos</a><a href="#">Sportsbooks</a><a href="#">Daily Fantasy Sports (DFS)</a><a href="#">Sports Sweepstakes</a><a href="#">Prediction Markets</a>
+          </div></details>
+          <details><summary>Betting Resources</summary><div>
+            <details><summary>Odds</summary><div>
+              <a href="#">NFL</a><a href="#">NCAAF</a><a href="#">NBA</a><a href="#">NCAAB</a><a href="#">MLB</a><a href="#">NHL</a><a href="#">Soccer</a><a href="#">UFC</a><a href="#">WNBA</a><a href="#">CFL</a><a href="#">ATP</a><a href="#">WTA</a>
+            </div></details>
+            <a href="#">Podcasts</a><a href="#">Blog</a><a href="#">Tools &amp; Calculators</a>
+          </div></details>
+          <details><summary>Products</summary><div>
+            <a href="/sportsbook-pricing-feed-v1">Sportsbook Pricing Feed</a><a href="/sgp-pricing-engine">SGP Pricing Engine</a><a href="/sports-betting-api">Sports Betting API</a><a href="/pro">Betstamp Pro</a>
+          </div></details>
+          <a href="/about">About</a>
+          <a href="#" class="bnav-login">Login</a>
+        </div>
+      </details>
     </div>
   </div>
 </nav>
