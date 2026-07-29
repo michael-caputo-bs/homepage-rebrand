@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sportsbook Pricing Feed — Betstamp</title>
-<meta name="description" content="The sharpest pricing on North American player props. NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC props priced deeper and sharper than any generic feed — the best price in market across every prop, alt line, and milestone, pre-game and in-play.">
+<meta name="description" content="The most accurate player-props pricing in North America — configurable to your book. A market aggregate priced across 200+ books, delivered sub-200ms with an auditable timestamp on every message, and built to run alongside your current feed across every prop, alt line, and milestone, pre-game and in-play.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1027,6 +1027,37 @@
     letter-spacing: 0.04em; padding: 9px 16px; border-radius: 999px; cursor: pointer;
   }
 
+  /* ---------- STATS ID PILL ---------- */
+  .stats-idpill { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  .stats-idpill span {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid var(--navy-line); border-radius: 999px;
+    padding: 9px 18px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted-dark);
+  }
+  .stats-idpill span strong { color: var(--blue-bright); font-weight: 800; }
+  .stats-idpill span em { font-style: normal; color: var(--muted-2); font-weight: 600; letter-spacing: 0.04em; text-transform: none; }
+
+  /* ---------- PIPELINE (integration & ops, dark) ---------- */
+  .pipeline-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
+    text-align: left;
+  }
+  .pipeline-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(62,146,204,0.25);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .pipeline-card .pl-key {
+    display: block; margin-bottom: 10px;
+    font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue-bright);
+  }
+  .pipeline-card h4 { color: var(--white); font-size: 16px; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
+  .pipeline-card p { color: var(--muted-dark); font-size: 14px; line-height: 1.6; }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1100px) {
     .stats-band { grid-template-columns: repeat(3, 1fr); }
@@ -1036,6 +1067,7 @@
     .fit-card.featured,
     .fit-card.dim { transform: none; }
     .method-grid { grid-template-columns: 1fr 1fr; }
+    .pipeline-grid { grid-template-columns: 1fr 1fr; }
     .usecase-grid { grid-template-columns: 1fr 1fr; }
     .flow { grid-template-columns: 1fr 1fr; }
     .diff-row { grid-template-columns: 1fr; gap: 40px; }
@@ -1053,7 +1085,7 @@
     .stat-label { font-size: 10px; }
     .nav-links { display: none; }
     .footer-grid { grid-template-columns: 1fr; }
-    .method-grid, .flow { grid-template-columns: 1fr; }
+    .method-grid, .flow, .pipeline-grid { grid-template-columns: 1fr; }
     /* Use cases -> horizontal swipe carousel on mobile */
     .usecase-grid {
       display: flex; gap: 14px;
@@ -1295,11 +1327,11 @@
 <section class="hero">
   <div class="container hero-inner">
     <span class="eyebrow">Sportsbook Pricing Feed</span>
-    <h1>The sharpest player props pricing in <span class="accent">sports betting.</span></h1>
-    <p class="lead">North American player props, priced deeper and sharper than generic feeds — with the prop depth they don't reach.</p>
+    <h1>The most accurate player-props pricing in <span class="accent">North America.</span></h1>
+    <p class="lead">A market aggregate priced across 200+ books and configurable to your book — delivered sub-200ms with an auditable timestamp on every message. Runs alongside your current feed across every prop, alt line, and milestone.</p>
     <div class="hero-ctas">
       <a href="#demo" class="btn btn-primary btn-lg">Request a Demo →</a>
-      <a href="#methodology" class="btn btn-ghost-dark btn-lg hide-mobile">See the methodology</a>
+      <a href="#demo" class="btn btn-ghost-dark btn-lg hide-mobile">Run us alongside your current feed</a>
     </div>
   </div>
 </section>
@@ -1316,9 +1348,10 @@
         <div class="stat-num">2,500+</div>
         <div class="stat-label">Markets</div>
       </div>
+      <!-- VERIFY WITH JULIAN before deploy: latency figures (sub-200ms delivery, ~150ms P99) came from figures Julian gave Penn — confirm not softened below what's published elsewhere. -->
       <div class="stat-cell">
-        <div class="stat-num">400ms</div>
-        <div class="stat-label">Median Refresh</div>
+        <div class="stat-num">&lt;200ms</div>
+        <div class="stat-label">Median Delivery</div>
       </div>
       <div class="stat-cell">
         <div class="stat-num">99.99%</div>
@@ -1328,6 +1361,11 @@
         <div class="stat-num">5+</div>
         <div class="stat-label">Seasons Backtested</div>
       </div>
+    </div>
+    <!-- VERIFY WITH JULIAN before deploy: ~150ms P99 + Sportradar-aligned IDs claims. -->
+    <div class="stats-idpill">
+      <span><strong>~150ms P99</strong> <em>timestamped on every message — you can verify it</em></span>
+      <span><strong>Sportradar-aligned IDs</strong> <em>same IDs live &amp; historical, no fuzzy matching</em></span>
     </div>
   </div>
 </div>
@@ -1340,7 +1378,7 @@
     <div class="section-head">
       <span class="eyebrow eyebrow-dark">Why Betstamp</span>
       <h2>Specialized in North American<br>player prop pricing.</h2>
-      <p>North American player props — NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — are where the most handle and the sharpest action land, so getting the price right matters most. It's also where traditional data providers struggle: their models are built for main markets, and player props get priced thin. That's the gap we're built to close.</p>
+      <p>North American player props — NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — carry the highest handle and the tightest margins, so pricing accuracy matters most here. It's also where traditional data providers are weakest: their models are built for main markets, and player props end up under-modeled. That's the gap we're built to close.</p>
     </div>
 
     <div class="fit-grid">
@@ -1349,7 +1387,7 @@
         <span class="fit-tag">The specialty</span>
         <h3>North American props</h3>
         <div class="fit-sub">NFL · NBA · MLB · NCAAF · NCAAB · NHL · UFC</div>
-        <p class="fit-body">The major North American player prop markets are what we price best — modeled sport by sport and market by market, not a thin layer stretched across every league in the world.</p>
+        <p class="fit-body">The major North American player prop markets are what we price best — modeled sport by sport and market by market, not a generic model stretched across every league in the world.</p>
         <ul>
           <li>NFL, NBA, MLB, NCAAF, NCAAB, NHL &amp; UFC props</li>
           <li>Modeled market by market</li>
@@ -1358,13 +1396,13 @@
       </div>
 
       <div class="fit-card featured">
-        <span class="fit-tag">Best price in market</span>
+        <span class="fit-tag">Most accurate price in market</span>
         <h3>Pricing that wins</h3>
         <div class="fit-sub">By Betstamp</div>
-        <p class="fit-body">Where a big share of handle and the sharpest action lands, the generic line a traditional feed produces isn't good enough. Our True Line is built to be the sharpest reference available on these markets — the best price in market, not the same number everyone else runs.</p>
+        <p class="fit-body">Where a large share of handle and the tightest margins sit, the generic line a traditional feed produces isn't accurate enough. Our market aggregate is built to be the most accurate reference available on these markets — the most accurate price in market, not the same number everyone else runs.</p>
         <ul>
-          <li>Sharpest True Line on major props</li>
-          <li>Built for high-volume, sharp markets</li>
+          <li>Most accurate market aggregate on major props</li>
+          <li>Built for high-volume, high-competition markets</li>
           <li>Better prop CLV than generic feeds</li>
           <li>Pre-game props, sub-second</li>
         </ul>
@@ -1374,7 +1412,7 @@
         <span class="fit-tag">Depth</span>
         <h3>Past the headline numbers</h3>
         <div class="fit-sub">Props · alts · milestones</div>
-        <p class="fit-body">Player props, alt lines, ladders, and milestones across the major North American sports — the depth a generalized feed prices thin or skips.</p>
+        <p class="fit-body">Player props, alt lines, ladders, and milestones across the major North American sports — the depth a generalized feed under-models or skips.</p>
         <ul>
           <li>Props, alts &amp; milestones</li>
           <li>Full alt ladders, priced</li>
@@ -1396,7 +1434,7 @@
     <div class="section-head">
       <span class="eyebrow">Performance</span>
       <h2>Priced to protect <span class="accent">your margin.</span></h2>
-      <p>How far our True Line beats the market's closing price on player props — the edge a sharper line captures instead of leaving on the table. Sharper closing prices mean stronger hold and fewer stale lines getting picked off.</p>
+      <p>How far our market aggregate beats the market's closing price on player props — the edge a more accurate line captures instead of leaving on the table. More accurate closing prices mean stronger hold and less exposure to stale lines.</p>
     </div>
 
     <div class="perf-stats">
@@ -1420,7 +1458,7 @@
     <div class="perf-card">
       <div class="perf-row head">
         <div class="perf-cell">Book</div>
-        <div class="perf-cell">True Line CLV Edge</div>
+        <div class="perf-cell">Market Aggregate CLV Edge</div>
         <div class="perf-cell">Kelly ROI vs. Book</div>
         <div class="perf-cell">Markets Priced</div>
       </div>
@@ -1477,9 +1515,9 @@
       </div>
     </div>
 
-    <p class="perf-disclaimer"><strong>Placeholder data — pending dashboard export.</strong> Numbers in this section will be replaced with real values from the True Line Historical Performance dashboard (per-book filter sweep, Min EV 5%, last 90 days, all sports). The shape and structure here is the final layout; only the digits change.</p>
+    <p class="perf-disclaimer"><strong>Placeholder data — pending dashboard export.</strong> Numbers in this section will be replaced with real values from the market aggregate historical-performance dashboard (per-book filter sweep, Min EV 5%, last 90 days, all sports). The shape and structure here is the final layout; only the digits change.</p>
 
-    <p class="perf-howto"><strong>How to read this:</strong> "CLV Edge" = how much sharper our True Line closing price is than the book's closing price. "Kelly ROI" = realized return when a Kelly-staked sharp bet against the book using our line as signal.</p>
+    <p class="perf-howto"><strong>How to read this:</strong> "CLV Edge" = how much more accurate our market aggregate closing price is than the book's closing price. "Kelly ROI" = realized return when a Kelly-staked position against the book uses our line as the reference signal.</p>
   </div>
 </section>
 
@@ -1489,15 +1527,15 @@
 
     <div class="section-head">
       <span class="eyebrow eyebrow-dark">Why it wins</span>
-      <h2>Sharper on price.<br>Deeper on coverage.</h2>
+      <h2>More accurate on price.<br>Deeper on coverage.</h2>
       <p>The two places traditional data providers fall short on player props — and the two we're built to win.</p>
     </div>
 
     <div class="diff-row">
       <div class="diff-text">
-        <span class="eyebrow eyebrow-dark">True Line Pricing</span>
-        <h3>The sharpest player props reference in the industry.</h3>
-        <p>A market-weighted True Line priced across 200+ books and backtested on 5+ seasons of closing lines. It's not a "sharp book" consensus — it's our own model, calibrated to surface the most efficient prop pricing in sports betting.</p>
+        <span class="eyebrow eyebrow-dark">Market Aggregate Pricing</span>
+        <h3>The most accurate player-props reference in the industry.</h3>
+        <p>A market-weighted consensus price — our market aggregate, the True Line — priced across 200+ books and backtested on 5+ seasons of closing lines. It's not a single-book consensus; it's our own model, calibrated to surface the most accurate prop pricing in North America.</p>
       </div>
       <div class="diff-visual on-dark">
         <h4>Sample: NFL — Anytime TD Scorer</h4>
@@ -1528,7 +1566,7 @@
         <div class="price-legend">
           <span class="market-tag">FanDuel</span>
           <span class="market-tag">DraftKings</span>
-          <span class="ours">Our True Line — fair value</span>
+          <span class="ours">Our market aggregate — fair value</span>
         </div>
       </div>
     </div>
@@ -1537,7 +1575,7 @@
       <div class="diff-text">
         <span class="eyebrow eyebrow-dark">Coverage</span>
         <h3>The depth most feeds<br>stop short of.</h3>
-        <p>Across NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — player props, alts, and milestones priced to a depth generic feeds run thin on or skip entirely. Coverage that goes past the headline numbers, without adding manual pricing overhead on your side.</p>
+        <p>Across NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — player props, alts, and milestones priced to a depth generic feeds under-model or skip entirely. Coverage that goes past the headline numbers, without adding manual pricing overhead on your side.</p>
       </div>
       <div class="diff-visual on-dark">
         <h4>What you get priced — NFL example</h4>
@@ -1582,30 +1620,30 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">The Methodology</span>
-      <h2>Inside the <span class="accent">True Line model.</span></h2>
-      <p>Our True Line model is built on four interlocking principles — the same principles that power the PRO Odds Screen used by sharp bettors and syndicates. Each one addresses a specific structural weakness in conventional prop pricing.</p>
+      <h2>Inside the <span class="accent">market aggregate model.</span></h2>
+      <p>Our market aggregate is built on four interlocking principles — the same principles that power the PRO Odds Screen trusted by professional trading syndicates. Each one addresses a specific structural weakness in conventional prop pricing.</p>
     </div>
 
     <div class="method-grid">
       <div class="method-card">
         <span class="step-num">01</span>
-        <h4>Historical book efficiency</h4>
-        <p>Each book is weighted by sport, market, and prop type based on its historical sharpness. Pinnacle's NBA spread isn't the same signal as their NFL alts — and the model treats them differently. Book weights are recalibrated continuously against closing line outcomes.</p>
+        <h4>Historical book-efficiency weighting</h4>
+        <p>Each book is weighted by sport, market, and prop type based on its historical accuracy. Pinnacle's NBA spread isn't the same signal as their NFL alts — and the model treats them differently, weighting the most efficient book on each market the highest.</p>
       </div>
       <div class="method-card">
         <span class="step-num">02</span>
-        <h4>Line move direction and timing</h4>
-        <p>Sharp early action, steam moves, and reverse line movement feed into how confidently each price is set. A line that moves with sharp money is treated differently from a line that moves with public action — the same signals a sharp bettor reads off the market.</p>
+        <h4>Bias correction by prop type</h4>
+        <p>Anytime TD prices differently than first TD. Receiving-yards ladders behave differently from passing-yards lines. The model corrects per prop type rather than treating all props as one bucket — pricing each market on its own distribution instead of a single football-wide model.</p>
       </div>
       <div class="method-card">
         <span class="step-num">03</span>
-        <h4>Bias correction by prop type</h4>
-        <p>Anytime TD prices differently than first TD. Receiving yards ladders behave differently from passing yards lines. Our model corrects per prop type rather than treating all props as one bucket — the difference between a model that prices football and one that prices the prop markets sharps actually attack.</p>
+        <h4>Statistical outlier exclusion</h4>
+        <p>Before a price is set, book quotes that fall outside the expected distribution are down-weighted or excluded under a published, auditable rule. A single mispriced or lagging book can't drag the aggregate — the consensus stays anchored to the books you trust.</p>
       </div>
       <div class="method-card">
         <span class="step-num">04</span>
-        <h4>Offshore and sharp-out reference set</h4>
-        <p>We ingest more offshore and sharp-out reference books than any other public pricing model — the books that move first when smart money lands. These are the books most aggregators don't ingest at all, and the books any retail-only model is structurally blind to.</p>
+        <h4>Backtesting against closing prices</h4>
+        <p>Every price is graded against the closing line on the same market across 5+ seasons of history. Book weights and bias corrections are recalibrated continuously against those closing-price outcomes, so the model is measured on realized accuracy rather than opinion.</p>
       </div>
     </div>
   </div>
@@ -1617,29 +1655,29 @@
     <div class="section-head">
       <span class="eyebrow eyebrow-dark">Who it's for</span>
       <h2>Built for trading desks that<br>price for performance.</h2>
-      <p>Whether you're bringing trading fully in-house, scaling an existing prop catalog, or sharpening pricing you already have — our Pricing Feed is the front-runner on the markets that drive prop P&amp;L.</p>
+      <p>Every trading team thinks its own desk is sharp — and the best results come from putting that team on top of a market they can trust. Our Pricing Feed combines with your models and your methods to get outsized results on the markets that drive prop P&amp;L.</p>
     </div>
 
     <div class="usecase-grid">
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 01</span>
         <h4>Books bringing<br>trading in-house</h4>
-        <p>Replace your MTS dependency cleanly. Pair our Pricing Feed with your official-data primary, and own your enterprise end to end — without scaling an in-house quant team for every prop type.</p>
+        <p>Regress your models to a market you can trust. Pair our market aggregate with your official-data primary and your own pricing, and own your enterprise end to end — with an accurate reference to benchmark against on every prop type.</p>
       </div>
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 02</span>
         <h4>Books expanding<br>prop catalog</h4>
-        <p>Add depth across markets without taking on added props pricing risk. We price the props most pricing models can't safely cover.</p>
+        <p>Extend your own catalog with a market aggregate underneath every new market. Launch alt ladders and milestones with an accurate reference from day one, instead of months of manual modeling before you can price them.</p>
       </div>
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 03</span>
         <h4>Trading desks scaling<br>live prop coverage</h4>
-        <p>Price live props with the same model that powers them pre-game. Sub-second updates as game state, possession, and player news shift — built for the in-play prop markets sharps are attacking hardest.</p>
+        <p>Play defense with outlier alerts instead of screen-watching. Price live props with the same model that powers them pre-game, and let the feed flag mispriced markets as game state, possession, and player news shift — sub-second.</p>
       </div>
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 04</span>
-        <h4>Mid-market and<br>challenger books</h4>
-        <p>Compete with tier-1 pricing without building a tier-1 quant team. Outsource the model, keep the trading judgment — and slot us in alongside whichever official-data provider your in-play stack already uses.</p>
+        <h4>Books that want<br>tier-1 pricing power</h4>
+        <p>Put your trading team on overdrive by combining your edge with our aggregate. Keep your trading judgment, add an accurate market reference on every prop, and slot us in alongside whichever official-data provider your in-play stack already uses.</p>
       </div>
     </div>
     <div class="uc-hint" aria-hidden="true">
@@ -1670,7 +1708,8 @@
         <span class="spec-step-num">02</span>
         <div class="spec-step-body">
           <span class="spec-step-key">Latency</span>
-          <div class="spec-step-val">Sub-second updates<small>Tick-by-tick on game state, possession, news</small></div>
+          <!-- VERIFY WITH JULIAN before deploy: sub-200ms / ~150ms P99 latency figures. -->
+          <div class="spec-step-val">Sub-200ms delivery<small>~150ms P99, timestamped on every message so you can audit it</small></div>
         </div>
       </li>
       <li class="spec-step">
@@ -1684,7 +1723,7 @@
         <span class="spec-step-num">04</span>
         <div class="spec-step-body">
           <span class="spec-step-key">Output</span>
-          <div class="spec-step-val">True Line + book consensus<small>Fair-value pricing with confidence intervals</small></div>
+          <div class="spec-step-val">Market aggregate + book consensus<small>Fair-value pricing with confidence intervals</small></div>
         </div>
       </li>
       <li class="spec-step">
@@ -1712,13 +1751,106 @@
   </div>
 </section>
 
+<!-- ==================== BUILT FOR YOUR PIPELINE (integration & ops) ==================== -->
+<section class="block dark on-dark">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Integration &amp; Ops</span>
+      <h2>Built for <span class="accent">your pipeline.</span></h2>
+      <p>The procurement checklist, answered. Everything a trading and product team needs to run our market aggregate in production — configurable, auditable, and observable, so it slots into your stack instead of forcing a workflow on you.</p>
+    </div>
+
+    <div class="pipeline-grid">
+      <div class="pipeline-card">
+        <span class="pl-key">Configurable weightings</span>
+        <h4>Tune the model to your book</h4>
+        <p>Adjust weightings by book, market, and prop type — and apply bulk changes across many props at once instead of editing them one by one.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Outlier definition &amp; alerts</span>
+        <h4>A published, auditable rule</h4>
+        <p>The outlier definition is documented, not a black box. An outlier alert feed surfaces flagged markets in real time and routes straight to Slack.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Update thresholds</span>
+        <h4>Control your message volume</h4>
+        <p>Configure update thresholds per market — tight on high-handle markets, quiet on the long tail — so you receive the changes that matter and not the noise.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Market states</span>
+        <h4>Explicit, not inferred</h4>
+        <p>Suspended, off-board, and removed states are sent explicitly, anchored to the reference books you trust — so your traders never have to guess why a market went quiet.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Outage recovery</span>
+        <h4>Reconnect and replay</h4>
+        <p>A heartbeat keeps the connection observable, and a <code>since</code> parameter lets you reconnect and replay every change you missed — no gaps after a drop.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Environments</span>
+        <h4>Prod and non-prod, separated</h4>
+        <p>Separate production and non-production API keys, with dedicated dev and staging environments to test integrations before they touch your live book.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Audit &amp; access control</span>
+        <h4>Every change on the record</h4>
+        <p>Audit logs plus role-based access (admin / trader) on every weighting change and override — so you can see who changed what, and when.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Delivery</span>
+        <h4>REST, WebSocket, or polling</h4>
+        <p>Stream over WebSocket, pull over REST, or fall back to polling — integrate against the transport your infrastructure already runs.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-key">Identifiers</span>
+        <h4>Sportradar-aligned IDs</h4>
+        <p>The same IDs across live and historical data, aligned to Sportradar — markets map one-to-one across every feed, with no fuzzy matching to maintain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HISTORICAL DATA ==================== -->
+<section class="block soft">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow eyebrow-dark">Historical Data</span>
+      <h2>Every price, kept.</h2>
+      <p>Historical odds are a first-class capability here, not a footnote — every tick, every book, live markets included, on the same IDs as the live API. The full price path through every event, ready to query.</p>
+    </div>
+
+    <div class="usecase-grid">
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Depth</span>
+        <h4>Every tick,<br>every book</h4>
+        <p>Full historical odds — every price change from every book we ingest, not just periodic snapshots. The complete movement on each market, preserved.</p>
+      </div>
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Coverage</span>
+        <h4>Live markets<br>included</h4>
+        <p>In-play history is captured alongside pre-game — the entire price path from open through settlement, not just where a market started.</p>
+      </div>
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Identifiers</span>
+        <h4>Same IDs as<br>the live API</h4>
+        <p>Sportradar-aligned IDs across live and historical, so a market maps one-to-one between the two with no fuzzy matching or reconciliation work.</p>
+      </div>
+      <div class="usecase-card">
+        <span class="uc-eyebrow">Risk &amp; Compliance</span>
+        <h4>Retrospective<br>account review</h4>
+        <p>Reconstruct the closing price on any market for account review and dispute resolution — the full price history behind every graded bet, on demand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== CTA BANNER ==================== -->
 <div class="cta-banner-wrap" id="demo">
   <div class="container">
     <div class="cta-banner on-dark">
       <span class="eyebrow">Request a Demo</span>
-      <h2>Build a sharper <span class="accent">prop book.</span></h2>
-      <p>Talk to a sports data expert about how Betstamp can sharpen your props pricing.</p>
+      <h2>Build a more accurate <span class="accent">prop book.</span></h2>
+      <p>Talk to a sports data expert about how Betstamp can make your props pricing more accurate — and run it alongside your current feed.</p>
       <div class="hero-ctas">
         <a href="#" class="btn btn-primary btn-lg">Request a Demo →</a>
       </div>
