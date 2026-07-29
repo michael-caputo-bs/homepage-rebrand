@@ -1063,6 +1063,52 @@
   .pipeline-card h4 { color: var(--white); font-size: 16px; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
   .pipeline-card p { color: var(--muted-dark); font-size: 14px; line-height: 1.6; }
 
+  /* ---------- PIPELINE SCROLL CAROUSEL ---------- */
+  .pl-scroll { padding: 0; }
+  .pl-scroll-wrap { position: relative; }
+  .pl-sticky { padding: 88px 0; }
+  .pl-head { margin: 0 auto 44px; }
+  .pl-viewport {
+    overflow-x: auto; overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .pl-viewport::-webkit-scrollbar { display: none; }
+  .pl-track {
+    display: flex; gap: 22px;
+    padding: 4px 32px 12px;
+    align-items: stretch;
+  }
+  .pl-track .pipeline-card {
+    flex: 0 0 clamp(280px, 30vw, 420px);
+    scroll-snap-align: center;
+    display: flex; flex-direction: column;
+  }
+  .pl-num {
+    display: block;
+    font-family: var(--display);
+    font-size: 15px; letter-spacing: 0.04em;
+    color: rgba(62,146,204,0.5);
+    margin-bottom: 14px;
+  }
+  .pl-progress-wrap { display: none; max-width: 1280px; margin: 34px auto 0; padding: 0 32px; }
+  .pl-progress { height: 3px; background: var(--navy-line); border-radius: 999px; overflow: hidden; }
+  .pl-progress span { display: block; height: 100%; width: 8%; background: var(--blue-bright); border-radius: 999px; }
+  .pl-hint { text-align: center; margin-top: 16px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-2); }
+
+  @media (min-width: 1024px) {
+    .pl-scroll.pl-pinned .pl-sticky {
+      position: sticky; top: 0; height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      overflow: hidden; padding: 0;
+    }
+    .pl-scroll.pl-pinned .pl-head { margin: 0 auto 44px; padding-top: 20px; }
+    .pl-scroll.pl-pinned .pl-viewport { overflow: visible; scroll-snap-type: none; }
+    .pl-scroll.pl-pinned .pl-track { will-change: transform; }
+    .pl-scroll.pl-pinned .pl-progress-wrap { display: block; }
+  }
+
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1100px) {
     .stats-band { grid-template-columns: repeat(3, 1fr); }
@@ -1757,59 +1803,77 @@
 </section>
 
 <!-- ==================== BUILT FOR YOUR PIPELINE (integration & ops) ==================== -->
-<section class="block dark on-dark">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Integration &amp; Ops</span>
-      <h2>Built for <span class="accent">your pipeline.</span></h2>
-      <p>The procurement checklist, answered. Everything a trading and product team needs to run our market aggregate in production — configurable, auditable, and observable, so it slots into your stack instead of forcing a workflow on you.</p>
-    </div>
-
-    <div class="pipeline-grid">
-      <div class="pipeline-card">
-        <span class="pl-key">Configurable weightings</span>
-        <h4>Tune the model to your book</h4>
-        <p>Adjust weightings by book, market, and prop type — and apply bulk changes across many props at once instead of editing them one by one.</p>
+<section class="block dark on-dark pl-scroll" id="pipeline">
+  <div class="pl-scroll-wrap">
+    <div class="pl-sticky">
+      <div class="container">
+        <div class="section-head pl-head">
+          <span class="eyebrow">Integration &amp; Ops</span>
+          <h2>Built for <span class="accent">your pipeline.</span></h2>
+          <p>The procurement checklist, answered. Everything a trading and product team needs to run our market aggregate in production — configurable, auditable, and observable, so it slots into your stack instead of forcing a workflow on you.</p>
+        </div>
       </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Outlier definition &amp; alerts</span>
-        <h4>A published, auditable rule</h4>
-        <p>The outlier definition is documented, not a black box. An outlier alert feed surfaces flagged markets in real time and routes straight to Slack.</p>
+      <div class="pl-viewport">
+        <div class="pl-track">
+          <div class="pipeline-card">
+            <span class="pl-num">01</span>
+            <span class="pl-key">Configurable weightings</span>
+            <h4>Tune the model to your book</h4>
+            <p>Adjust weightings by book, market, and prop type — and apply bulk changes across many props at once instead of editing them one by one.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">02</span>
+            <span class="pl-key">Outlier definition &amp; alerts</span>
+            <h4>A published, auditable rule</h4>
+            <p>The outlier definition is documented, not a black box. An outlier alert feed surfaces flagged markets in real time and routes straight to Slack.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">03</span>
+            <span class="pl-key">Update thresholds</span>
+            <h4>Control your message volume</h4>
+            <p>Configure update thresholds per market — tight on high-handle markets, quiet on the long tail — so you receive the changes that matter and not the noise.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">04</span>
+            <span class="pl-key">Market states</span>
+            <h4>Explicit, not inferred</h4>
+            <p>Suspended, off-board, and removed states are sent explicitly, anchored to the reference books you trust — so your traders never have to guess why a market went quiet.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">05</span>
+            <span class="pl-key">Outage recovery</span>
+            <h4>Reconnect and replay</h4>
+            <p>A heartbeat keeps the connection observable, and a <code>since</code> parameter lets you reconnect and replay every change you missed — no gaps after a drop.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">06</span>
+            <span class="pl-key">Environments</span>
+            <h4>Prod and non-prod, separated</h4>
+            <p>Separate production and non-production API keys, with dedicated dev and staging environments to test integrations before they touch your live book.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">07</span>
+            <span class="pl-key">Audit &amp; access control</span>
+            <h4>Every change on the record</h4>
+            <p>Audit logs plus role-based access (admin / trader) on every weighting change and override — so you can see who changed what, and when.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">08</span>
+            <span class="pl-key">Delivery</span>
+            <h4>REST, WebSocket, or polling</h4>
+            <p>Stream over WebSocket, pull over REST, or fall back to polling — integrate against the transport your infrastructure already runs.</p>
+          </div>
+          <div class="pipeline-card">
+            <span class="pl-num">09</span>
+            <span class="pl-key">Identifiers</span>
+            <h4>Sportradar-aligned IDs</h4>
+            <p>The same IDs across live and historical data, aligned to Sportradar — markets map one-to-one across every feed, with no fuzzy matching to maintain.</p>
+          </div>
+        </div>
       </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Update thresholds</span>
-        <h4>Control your message volume</h4>
-        <p>Configure update thresholds per market — tight on high-handle markets, quiet on the long tail — so you receive the changes that matter and not the noise.</p>
-      </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Market states</span>
-        <h4>Explicit, not inferred</h4>
-        <p>Suspended, off-board, and removed states are sent explicitly, anchored to the reference books you trust — so your traders never have to guess why a market went quiet.</p>
-      </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Outage recovery</span>
-        <h4>Reconnect and replay</h4>
-        <p>A heartbeat keeps the connection observable, and a <code>since</code> parameter lets you reconnect and replay every change you missed — no gaps after a drop.</p>
-      </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Environments</span>
-        <h4>Prod and non-prod, separated</h4>
-        <p>Separate production and non-production API keys, with dedicated dev and staging environments to test integrations before they touch your live book.</p>
-      </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Audit &amp; access control</span>
-        <h4>Every change on the record</h4>
-        <p>Audit logs plus role-based access (admin / trader) on every weighting change and override — so you can see who changed what, and when.</p>
-      </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Delivery</span>
-        <h4>REST, WebSocket, or polling</h4>
-        <p>Stream over WebSocket, pull over REST, or fall back to polling — integrate against the transport your infrastructure already runs.</p>
-      </div>
-      <div class="pipeline-card">
-        <span class="pl-key">Identifiers</span>
-        <h4>Sportradar-aligned IDs</h4>
-        <p>The same IDs across live and historical data, aligned to Sportradar — markets map one-to-one across every feed, with no fuzzy matching to maintain.</p>
+      <div class="container">
+        <div class="pl-progress-wrap"><div class="pl-progress"><span></span></div></div>
+        <p class="pl-hint">Scroll to explore →</p>
       </div>
     </div>
   </div>
@@ -2088,6 +2152,52 @@
     });
   });
   update();
+})();
+
+/* Pipeline: scroll-pinned horizontal pan on desktop; native horizontal
+   scroll on tablet/mobile and for reduced-motion users (no scroll-jack). */
+(function () {
+  var section = document.querySelector('.pl-scroll');
+  if (!section) return;
+  var wrap = section.querySelector('.pl-scroll-wrap');
+  var sticky = section.querySelector('.pl-sticky');
+  var track = section.querySelector('.pl-track');
+  var fill = section.querySelector('.pl-progress span');
+  var mqPin = window.matchMedia('(min-width: 1024px)');
+  var mqMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var pinned = false, distance = 0, ticking = false;
+
+  function measure() {
+    track.style.transform = '';
+    distance = Math.max(0, track.scrollWidth - sticky.clientWidth);
+    wrap.style.height = (window.innerHeight + distance) + 'px';
+  }
+  function render() {
+    var top = wrap.getBoundingClientRect().top;
+    var p = distance > 0 ? Math.min(1, Math.max(0, -top / distance)) : 0;
+    track.style.transform = 'translate3d(' + (-distance * p).toFixed(1) + 'px,0,0)';
+    if (fill) fill.style.width = (8 + p * 92) + '%';
+  }
+  function onScroll() {
+    if (!pinned || ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () { render(); ticking = false; });
+  }
+  function enable() { section.classList.add('pl-pinned'); pinned = true; measure(); render(); }
+  function disable() {
+    section.classList.remove('pl-pinned'); pinned = false;
+    wrap.style.height = ''; track.style.transform = '';
+    if (fill) fill.style.width = '';
+  }
+  function setup() { (mqPin.matches && !mqMotion.matches) ? enable() : disable(); }
+
+  setup();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function () { if (pinned) { measure(); render(); } });
+  window.addEventListener('load', function () { if (pinned) { measure(); render(); } });
+  var onChange = function () { setup(); };
+  if (mqPin.addEventListener) { mqPin.addEventListener('change', onChange); mqMotion.addEventListener('change', onChange); }
+  else if (mqPin.addListener) { mqPin.addListener(onChange); mqMotion.addListener(onChange); }
 })();
 </script>
 
