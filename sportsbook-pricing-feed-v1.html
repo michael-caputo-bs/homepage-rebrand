@@ -1852,28 +1852,28 @@
 
     <div class="faq-list">
       <details class="faq-item">
-        <summary class="faq-q">What's the closing line value backtest methodology?</summary>
-        <div class="faq-a">We backtest our True Line against the closing lines of the sharpest books available, across 5+ seasons of historical data. Each price is graded against the closing line on the same market — CLV calculated per sport, per market, and per prop type.</div>
+        <summary class="faq-q">What is the Sportsbook Pricing Feed?</summary>
+        <div class="faq-a">A market-aggregate pricing feed for North American player props. We price a market-weighted consensus across 200+ books — NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC props, alternates, ladders, and milestones — and deliver it as an API built to run inside your own trading stack.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">How does the model handle live game state?</summary>
-        <div class="faq-a">Live game state, score, time, possession, player events, and verified injury news are all ingested. The model updates sub-second across in-play markets. Latency on game-state-driven price updates is the same as on tick-by-tick book updates — built specifically for the in-play prop markets sharps are attacking now.</div>
+        <summary class="faq-q">What sports, markets, and books do you cover?</summary>
+        <div class="faq-a">NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — player props, alternate lines, ladders, and milestones, priced across 200+ books. Each market is modeled on its own rather than stretched from a single general model. If there's a specific market you need that isn't listed, tell us — coverage is scoped to your book.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">Can we use you for some markets and our own model for others?</summary>
-        <div class="faq-a">Yes. Many operators use our Pricing Feed as the primary signal for prop markets where their in-house model is weaker, while keeping their own pricing on main markets. The feed can be filtered by sport, market, or prop type at the integration layer — slot us in only where we add value.</div>
+        <summary class="faq-q">Can I configure the pricing to my book?</summary>
+        <div class="faq-a">Yes. Weightings are configurable by book, market, and prop type, with bulk changes across many props at once, and you set your own margins. Use our aggregate as the reference where you want it and your own model where you don't — you keep full control of the price you publish.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">How does this work alongside our primary in-play feed?</summary>
-        <div class="faq-a">Cleanly. Official-data feeds handle the licensed in-play markets — that's their job, and they're strong at it. Our specialty is the rest of the board: every player prop, alt, and milestone across the major North American sports, priced to be the best in market. The feed filters by sport, market, or prop type at the integration layer, so most operators run us across props alongside whatever they already have. No book and no MTS runs on one feed — many larger books run multiple feeds.</div>
+        <summary class="faq-q">How do you keep pricing accurate and protect against bad data?</summary>
+        <div class="faq-a">Every price is graded against the closing line on the same market across 5+ seasons and recalibrated continuously. Book quotes that fall outside the expected distribution are down-weighted or excluded under a published, auditable rule, so a single lagging or mispriced book can't drag the aggregate — and flagged markets surface on an outlier alert feed.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">How fast can we integrate?</summary>
-        <div class="faq-a">Typical integrations run 2–4 weeks from contract to first market live, depending on the complexity of your existing trading stack. Dedicated technical contact assigned for the integration phase and beyond.</div>
+        <summary class="faq-q">How fast can we integrate, and can we run it alongside our current feed?</summary>
+        <div class="faq-a">The feed delivers as REST or WebSocket in JSON, with a polling fallback, and is built to drop into your existing infrastructure. Most teams run us alongside their current provider first as a fallback reference, compare over a season, and promote us to primary once we win the trade study. A dedicated integration engineer and a shared Slack channel support you through launch and beyond.</div>
       </details>
       <details class="faq-item">
-        <summary class="faq-q">How do you handle injury reports and lineup changes?</summary>
-        <div class="faq-a">Verified injury reports, lineup changes, and roster updates are ingested from primary sources. Model adjustments propagate to all affected markets within seconds. Full data source documentation provided in the integration guide.</div>
+        <summary class="faq-q">Do you provide historical odds, and how do markets map to our system?</summary>
+        <div class="faq-a">Yes — full tick history, every book, live markets included, on the same Sportradar-aligned IDs as the live API, so markets map one-to-one with no fuzzy matching. You can reconstruct the full price path on any market for backtesting or retrospective account review. Want to try it? We'll set you up with a trial key alongside your current feed.</div>
       </details>
     </div>
   </div>
