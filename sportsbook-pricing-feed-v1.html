@@ -498,9 +498,9 @@
   .diff-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 72px;
     align-items: center;
-    margin-bottom: 100px;
+    margin-bottom: 64px;
   }
   .diff-row:last-child { margin-bottom: 0; }
   .diff-row.reverse .diff-text { order: 2; }
@@ -1063,49 +1063,32 @@
   .pipeline-card h4 { color: var(--white); font-size: 16px; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
   .pipeline-card p { color: var(--muted-dark); font-size: 14px; line-height: 1.6; }
 
-  /* ---------- PIPELINE CAROUSEL ---------- */
-  .pl-carousel { margin-top: 8px; }
-  .pl-viewport {
-    overflow-x: auto; overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    margin: 0 -4px;
+  /* ---------- DELIVERY SPEC STRIP ---------- */
+  .spec-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--navy-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin: 0 auto 44px;
   }
-  .pl-viewport::-webkit-scrollbar { display: none; }
-  .pl-track { display: flex; gap: 24px; align-items: stretch; padding: 6px 4px 8px; }
-  .pl-track .pipeline-card {
-    flex: 0 0 clamp(300px, 42vw, 540px);
-    scroll-snap-align: start;
-    display: flex; flex-direction: column;
-    padding: 40px 38px;
-    min-height: 320px;
-  }
-  .pl-track .pipeline-card .pl-key { font-size: 12px; margin-bottom: 12px; }
-  .pl-track .pipeline-card h4 { font-size: 23px; margin-bottom: 14px; line-height: 1.2; }
-  .pl-track .pipeline-card p { font-size: 15.5px; line-height: 1.65; }
+  .spec-item { padding: 22px 26px; border-right: 1px solid var(--navy-line); }
+  .spec-item:last-child { border-right: none; }
+  .spec-k { display: block; font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 8px; }
+  .spec-v { color: var(--white); font-size: 17px; font-weight: 600; line-height: 1.3; }
+  .spec-v small { display: block; color: var(--muted-dark); font-size: 12.5px; font-weight: 400; line-height: 1.5; margin-top: 5px; }
+  /* Pipeline card index number (in the 3x3 grid) */
   .pl-num {
     display: block;
     font-family: var(--display);
-    font-size: 34px; line-height: 1; letter-spacing: 0.02em;
-    color: rgba(62,146,204,0.45);
-    margin-bottom: 22px;
+    font-size: 26px; line-height: 1; letter-spacing: 0.02em;
+    color: rgba(62,146,204,0.4);
+    margin-bottom: 14px;
   }
-  .pl-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 34px; }
-  .pl-dots { display: inline-flex; gap: 8px; flex-wrap: wrap; }
-  .pl-dots b { width: 8px; height: 8px; border-radius: 50%; background: var(--navy-line); cursor: pointer; transition: all .25s; }
-  .pl-dots b.on { background: var(--blue-bright); width: 26px; border-radius: 999px; }
-  .pl-arrows { display: inline-flex; gap: 10px; }
-  .pl-arrow {
-    width: 48px; height: 48px; border-radius: 50%;
-    border: 1px solid var(--navy-line); background: var(--navy-2);
-    color: var(--white); cursor: pointer;
-    display: inline-flex; align-items: center; justify-content: center;
-    transition: all .18s; font-family: inherit;
+  @media (max-width: 760px) {
+    .spec-strip { grid-template-columns: 1fr; }
+    .spec-item { border-right: none; border-bottom: 1px solid var(--navy-line); }
+    .spec-item:last-child { border-bottom: none; }
   }
-  .pl-arrow:hover:not(:disabled) { border-color: var(--blue); background: var(--blue); transform: translateY(-1px); }
-  .pl-arrow:disabled { opacity: 0.3; cursor: default; }
-  .pl-arrow svg { width: 18px; height: 18px; }
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 1100px) {
@@ -1402,6 +1385,7 @@
         <div class="stat-num">&lt;200ms</div>
         <div class="stat-label">Median Delivery</div>
       </div>
+      <!-- VERIFY WITH JULIAN before deploy: "99.99% Uptime SLA" is a hard contractual claim (also implied in copy) — confirm we can contractually stand behind it, or soften. Also sanity-check "2,500+ Markets" and "5+ Seasons Backtested" below. -->
       <div class="stat-cell">
         <div class="stat-num">99.99%</div>
         <div class="stat-label">Uptime SLA</div>
@@ -1571,7 +1555,7 @@
 </section>
 
 <!-- ==================== DIFFERENTIATORS ==================== -->
-<section class="block light">
+<section class="block-tight light">
   <div class="container">
 
     <div class="section-head">
@@ -1736,144 +1720,85 @@
   </div>
 </section>
 
-<!-- ==================== DELIVERY ==================== -->
-<section class="block dark on-dark">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Delivery</span>
-      <h2>Built to drop into your<br><span class="accent">trading stack.</span></h2>
-      <p>Sportsbook Pricing Feed delivers as a streaming or REST API in JSON, integrated against your existing trading infrastructure. Sub-second updates, settlement-ready outputs, full SLA support, and a dedicated technical contact for the integration phase and beyond.</p>
-    </div>
-
-    <ol class="spec-steps">
-      <li class="spec-step">
-        <span class="spec-step-num">01</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">Format</span>
-          <div class="spec-step-val">REST + Streaming<small>WebSocket / HTTP/2, JSON payloads</small></div>
-        </div>
-      </li>
-      <li class="spec-step">
-        <span class="spec-step-num">02</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">Latency</span>
-          <!-- VERIFY WITH JULIAN before deploy: sub-200ms / ~150ms P99 latency figures. -->
-          <div class="spec-step-val">Sub-200ms delivery<small>~150ms P99, timestamped on every message so you can audit it</small></div>
-        </div>
-      </li>
-      <li class="spec-step">
-        <span class="spec-step-num">03</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">Coverage</span>
-          <div class="spec-step-val">Every prop, every sport<small>Pre-game and in-play, alt ladders included</small></div>
-        </div>
-      </li>
-      <li class="spec-step">
-        <span class="spec-step-num">04</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">Output</span>
-          <div class="spec-step-val">Market aggregate + book consensus<small>Fair-value pricing with confidence intervals</small></div>
-        </div>
-      </li>
-      <li class="spec-step">
-        <span class="spec-step-num">05</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">SLA</span>
-          <div class="spec-step-val">99.99% uptime<small>24/7 monitoring, dedicated status page</small></div>
-        </div>
-      </li>
-      <li class="spec-step">
-        <span class="spec-step-num">06</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">Settlement</span>
-          <div class="spec-step-val">Full grading support<small>Settlement outputs aligned to market state</small></div>
-        </div>
-      </li>
-      <li class="spec-step">
-        <span class="spec-step-num">07</span>
-        <div class="spec-step-body">
-          <span class="spec-step-key">Support</span>
-          <div class="spec-step-val">Dedicated integration team<small>Slack channel, integration engineer, ongoing tuning</small></div>
-        </div>
-      </li>
-    </ol>
-  </div>
-</section>
-
-<!-- ==================== BUILT FOR YOUR PIPELINE (integration & ops) ==================== -->
+<!-- ==================== BUILT FOR YOUR PIPELINE (delivery spec strip + integration & ops) ==================== -->
 <section class="block dark on-dark" id="pipeline">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Integration &amp; Ops</span>
-      <h2>Built for <span class="accent">your pipeline.</span></h2>
-      <p>The procurement checklist, answered. Everything a trading and product team needs to run our market aggregate in production — configurable, auditable, and observable, so it slots into your stack instead of forcing a workflow on you.</p>
+      <h2>Built to drop into <span class="accent">your pipeline.</span></h2>
+      <p>Delivered as a REST or streaming API in JSON, engineered to slot into your existing trading stack — with everything a trading and product team needs to run our market aggregate in production: configurable, auditable, and observable.</p>
     </div>
 
-    <div class="pl-carousel">
-      <div class="pl-viewport">
-        <div class="pl-track">
-          <div class="pipeline-card">
-            <span class="pl-num">01</span>
-            <span class="pl-key">Configurable weightings</span>
-            <h4>Tune the model to your book</h4>
-            <p>Adjust weightings by book, market, and prop type — and apply bulk changes across many props at once instead of editing them one by one.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">02</span>
-            <span class="pl-key">Outlier definition &amp; alerts</span>
-            <h4>A published, auditable rule</h4>
-            <p>The outlier definition is documented, not a black box. An outlier alert feed surfaces flagged markets in real time and routes straight to Slack.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">03</span>
-            <span class="pl-key">Update thresholds</span>
-            <h4>Control your message volume</h4>
-            <p>Configure update thresholds per market — tight on high-handle markets, quiet on the long tail — so you receive the changes that matter and not the noise.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">04</span>
-            <span class="pl-key">Market states</span>
-            <h4>Explicit, not inferred</h4>
-            <p>Suspended, off-board, and removed states are sent explicitly, anchored to the reference books you trust — so your traders never have to guess why a market went quiet.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">05</span>
-            <span class="pl-key">Outage recovery</span>
-            <h4>Reconnect and replay</h4>
-            <p>A heartbeat keeps the connection observable, and a <code>since</code> parameter lets you reconnect and replay every change you missed — no gaps after a drop.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">06</span>
-            <span class="pl-key">Environments</span>
-            <h4>Prod and non-prod, separated</h4>
-            <p>Separate production and non-production API keys, with dedicated dev and staging environments to test integrations before they touch your live book.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">07</span>
-            <span class="pl-key">Audit &amp; access control</span>
-            <h4>Every change on the record</h4>
-            <p>Audit logs plus role-based access (admin / trader) on every weighting change and override — so you can see who changed what, and when.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">08</span>
-            <span class="pl-key">Delivery</span>
-            <h4>REST, WebSocket, or polling</h4>
-            <p>Stream over WebSocket, pull over REST, or fall back to polling — integrate against the transport your infrastructure already runs.</p>
-          </div>
-          <div class="pipeline-card">
-            <span class="pl-num">09</span>
-            <span class="pl-key">Identifiers</span>
-            <h4>Sportradar-aligned IDs</h4>
-            <p>The same IDs across live and historical data, aligned to Sportradar — markets map one-to-one across every feed, with no fuzzy matching to maintain.</p>
-          </div>
-        </div>
+    <!-- VERIFY WITH JULIAN before deploy: sub-200ms / ~150ms P99 latency figures. -->
+    <div class="spec-strip">
+      <div class="spec-item">
+        <span class="spec-k">Format</span>
+        <div class="spec-v">REST + WebSocket<small>Polling fallback · JSON payloads</small></div>
       </div>
-      <div class="pl-nav">
-        <div class="pl-dots" aria-hidden="true"><b class="on"></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b><b></b></div>
-        <div class="pl-arrows">
-          <button class="pl-arrow" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button class="pl-arrow" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
+      <div class="spec-item">
+        <span class="spec-k">Latency</span>
+        <div class="spec-v">Sub-200ms · ~150ms P99<small>Timestamped on every message so you can audit it</small></div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-k">Output</span>
+        <div class="spec-v">Market aggregate + consensus<small>Fair value with confidence intervals, settlement-ready</small></div>
+      </div>
+    </div>
+
+    <div class="pipeline-grid">
+      <div class="pipeline-card">
+        <span class="pl-num">01</span>
+        <span class="pl-key">Configurable weightings</span>
+        <h4>Tune the model to your book</h4>
+        <p>Adjust weightings by book, market, and prop type — and apply bulk changes across many props at once instead of editing them one by one.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">02</span>
+        <span class="pl-key">Outlier definition &amp; alerts</span>
+        <h4>A published, auditable rule</h4>
+        <p>The outlier definition is documented, not a black box. An outlier alert feed surfaces flagged markets in real time and routes straight to Slack.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">03</span>
+        <span class="pl-key">Update thresholds</span>
+        <h4>Control your message volume</h4>
+        <p>Configure update thresholds per market — tight on high-handle markets, quiet on the long tail — so you receive the changes that matter and not the noise.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">04</span>
+        <span class="pl-key">Market states</span>
+        <h4>Explicit, not inferred</h4>
+        <p>Suspended, off-board, and removed states are sent explicitly, anchored to the reference books you trust — so your traders never have to guess why a market went quiet.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">05</span>
+        <span class="pl-key">Outage recovery</span>
+        <h4>Reconnect and replay</h4>
+        <p>A heartbeat keeps the connection observable, and a <code>since</code> parameter lets you reconnect and replay every change you missed — no gaps after a drop.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">06</span>
+        <span class="pl-key">Environments</span>
+        <h4>Prod and non-prod, separated</h4>
+        <p>Separate production and non-production API keys, with dedicated dev and staging environments to test integrations before they touch your live book.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">07</span>
+        <span class="pl-key">Audit &amp; access control</span>
+        <h4>Every change on the record</h4>
+        <p>Audit logs plus role-based access (admin / trader) on every weighting change and override — so you can see who changed what, and when.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">08</span>
+        <span class="pl-key">Support</span>
+        <h4>A dedicated integration team</h4>
+        <p>A named integration engineer and a shared Slack channel, with ongoing model tuning — through launch and beyond, not just at go-live.</p>
+      </div>
+      <div class="pipeline-card">
+        <span class="pl-num">09</span>
+        <span class="pl-key">Identifiers</span>
+        <h4>Sportradar-aligned IDs</h4>
+        <p>The same IDs across live and historical data, aligned to Sportradar — markets map one-to-one across every feed, with no fuzzy matching to maintain.</p>
       </div>
     </div>
   </div>
@@ -2154,37 +2079,6 @@
   update();
 })();
 
-/* Pipeline carousel: prev/next arrows + dots over a scroll-snap track. */
-(function () {
-  var root = document.querySelector('.pl-carousel');
-  if (!root) return;
-  var vp = root.querySelector('.pl-viewport');
-  var track = root.querySelector('.pl-track');
-  var cards = Array.prototype.slice.call(track.querySelectorAll('.pipeline-card'));
-  var dots = Array.prototype.slice.call(root.querySelectorAll('.pl-dots b'));
-  var prev = root.querySelector('.pl-arrow[data-dir="-1"]');
-  var next = root.querySelector('.pl-arrow[data-dir="1"]');
-  if (cards.length < 2) return;
-
-  function step() { return Math.max(1, cards[1].offsetLeft - cards[0].offsetLeft); }
-  function maxScroll() { return vp.scrollWidth - vp.clientWidth; }
-  function update() {
-    var i = Math.max(0, Math.min(cards.length - 1, Math.round(vp.scrollLeft / step())));
-    dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
-    if (prev) prev.disabled = vp.scrollLeft <= 2;
-    if (next) next.disabled = vp.scrollLeft >= maxScroll() - 2;
-  }
-  function go(dir) { vp.scrollBy({ left: dir * step(), behavior: 'smooth' }); }
-
-  if (prev) prev.addEventListener('click', function () { go(-1); });
-  if (next) next.addEventListener('click', function () { go(1); });
-  dots.forEach(function (d, k) {
-    d.addEventListener('click', function () { vp.scrollTo({ left: k * step(), behavior: 'smooth' }); });
-  });
-  vp.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
-  window.addEventListener('resize', update);
-  update();
-})();
 </script>
 
 </body>
