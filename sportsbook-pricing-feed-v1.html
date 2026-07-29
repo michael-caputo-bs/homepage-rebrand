@@ -691,6 +691,11 @@
   .method-card p {
     color: var(--muted-dark); font-size: 14.5px; line-height: 1.6;
   }
+  /* Methodology heading: keep on one line (desktop) without nowrap overflow on mobile */
+  @media (min-width: 761px) {
+    #methodology .section-head { max-width: 1040px; }
+    #methodology .section-head h2 { font-size: clamp(40px, 4.8vw, 60px); }
+  }
 
   /* ---------- USE CASE CARDS ---------- */
   .usecase-grid {
