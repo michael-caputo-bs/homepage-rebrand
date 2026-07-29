@@ -248,7 +248,7 @@
 
   /* ---------- SECTION DEFAULTS ---------- */
   section.block { padding: 96px 0; }
-  section.block-tight { padding: 80px 0; }
+  section.block-tight { padding: 64px 0; }
   section.light { background: var(--bg); }
   section.soft { background: var(--bg-soft); }
   section.dark { background: var(--navy); color: var(--white); }
@@ -500,7 +500,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 72px;
     align-items: center;
-    margin-bottom: 64px;
+    margin-bottom: 40px;
   }
   .diff-row:last-child { margin-bottom: 0; }
   .diff-row.reverse .diff-text { order: 2; }
@@ -1492,7 +1492,7 @@
 </section>
 
 <!-- ==================== PERFORMANCE (dark centerpiece) ==================== -->
-<section class="block dark on-dark">
+<section class="block-tight dark on-dark">
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">Performance</span>
@@ -1584,21 +1584,15 @@
   </div>
 </section>
 
-<!-- ==================== DIFFERENTIATORS ==================== -->
+<!-- ==================== MARKET AGGREGATE PRICING (sample odds proof) ==================== -->
 <section class="block-tight light">
   <div class="container">
-
-    <div class="section-head">
-      <span class="eyebrow eyebrow-dark">Why it wins</span>
-      <h2>More accurate on price.<br>Deeper on coverage.</h2>
-      <p>The two places traditional data providers fall short on player props — and the two we're built to win.</p>
-    </div>
 
     <div class="diff-row">
       <div class="diff-text">
         <span class="eyebrow eyebrow-dark">Market Aggregate Pricing</span>
         <h3>The most accurate player-props reference in the industry.</h3>
-        <p>A market-weighted consensus price — our market aggregate, the True Line — priced across 200+ books and backtested on 5+ seasons of closing lines. It's not a single-book consensus; it's our own model, calibrated to surface the most accurate prop pricing in North America.</p>
+        <p>A market-weighted consensus priced across 200+ books and backtested on 5+ seasons of closing lines — our own model, not a single-book average.</p>
       </div>
       <div class="diff-visual on-dark">
         <h4>Sample: NFL — Anytime TD Scorer</h4>
@@ -1631,47 +1625,6 @@
           <span class="market-tag">DraftKings</span>
           <span class="ours">Our market aggregate — fair value</span>
         </div>
-      </div>
-    </div>
-
-    <div class="diff-row reverse">
-      <div class="diff-text">
-        <span class="eyebrow eyebrow-dark">Coverage</span>
-        <h3>The depth most feeds<br>stop short of.</h3>
-        <p>Across NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — player props, alts, and milestones priced to a depth generic feeds under-model or skip entirely. Coverage that goes past the headline numbers, without adding manual pricing overhead on your side.</p>
-      </div>
-      <div class="diff-visual on-dark">
-        <h4>What you get priced — NFL example</h4>
-        <div class="coverage-pills">
-          <span class="coverage-pill hot">Passing Yds</span>
-          <span class="coverage-pill hot">Passing TDs</span>
-          <span class="coverage-pill hot">Completions</span>
-          <span class="coverage-pill hot">Interceptions</span>
-          <span class="coverage-pill hot">Rushing Yds</span>
-          <span class="coverage-pill hot">Rushing TDs</span>
-          <span class="coverage-pill hot">Rushing Atts</span>
-          <span class="coverage-pill hot">Receiving Yds</span>
-          <span class="coverage-pill hot">Receptions</span>
-          <span class="coverage-pill hot">Receiving TDs</span>
-          <span class="coverage-pill hot">Anytime TD</span>
-          <span class="coverage-pill hot">First TD</span>
-          <span class="coverage-pill hot">Last TD</span>
-          <span class="coverage-pill hot">Sacks</span>
-          <span class="coverage-pill hot">Tackles + Assists</span>
-          <span class="coverage-pill hot">Solo Tackles</span>
-          <span class="coverage-pill hot">INTs Thrown</span>
-          <span class="coverage-pill hot">Fantasy Pts</span>
-          <span class="coverage-pill">Longest Reception</span>
-          <span class="coverage-pill">Longest Rush</span>
-          <span class="coverage-pill">FG Made</span>
-          <span class="coverage-pill">Extra Pts Made</span>
-          <span class="coverage-pill">2PT Conversions</span>
-          <span class="coverage-pill">Punts</span>
-          <span class="coverage-pill">Kicker Pts</span>
-          <span class="coverage-pill">+ alts on every line</span>
-        </div>
-        <button class="coverage-toggle" type="button" aria-expanded="false">See more markets</button>
-        <p class="perf-note" style="margin-top:26px;color:var(--muted-dark);">Same depth across NBA, MLB, NHL, NCAAF, NCAAB, soccer, and UFC. Every line priced with alt ladders — not just the consensus number.</p>
       </div>
     </div>
 
