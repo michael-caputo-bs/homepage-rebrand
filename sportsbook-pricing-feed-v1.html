@@ -506,7 +506,10 @@
   .perf2-hero-label { color: var(--muted-dark); font-size: 15px; line-height: 1.4; max-width: 360px; }
   .perf2-meta { color: var(--muted-2); font-size: 12.5px; margin-top: 10px; margin-bottom: 34px; }
   .perf2-bars { display: flex; flex-direction: column; gap: 10px; }
-  .perf2-row { display: flex; align-items: center; gap: 16px; }
+  .perf2-row { display: flex; align-items: center; gap: 16px; min-height: 40px; }
+  .perf2-row--exp { cursor: pointer; border-radius: 6px; }
+  .perf2-row--exp:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 3px; }
+  .perf2-row--chip { flex-wrap: wrap; row-gap: 8px; }
   .perf2-sport {
     flex: 0 0 72px; font-size: 14px; font-weight: 700;
     color: var(--white); text-transform: uppercase; letter-spacing: 0.04em;
@@ -517,21 +520,51 @@
     border-radius: 6px; overflow: hidden;
   }
   .perf2-fill { display: block; height: 100%; width: var(--w); background: #3FE08A; border-radius: 6px; transition: width .6s ease-out; }
-  .perf2-val { flex: 0 0 160px; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 0 8px; }
+  .perf2-val { flex: 0 0 90px; text-align: right; }
   .perf2-val .roi { color: #3FE08A; font-weight: 700; font-size: 15px; }
-  .perf2-val .n { color: var(--muted-dark); font-size: 12px; }
-  .perf2-method { color: var(--muted-dark); font-size: 12.5px; line-height: 1.6; max-width: 640px; margin-top: 20px; }
+  .perf2-end { flex: 0 0 28px; display: flex; align-items: center; justify-content: flex-end; }
+  .perf2-end--chip { flex: 0 0 auto; }
+  .perf2-chev { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted-dark); transition: transform .25s; }
+  .perf2-chev svg { width: 18px; height: 18px; }
+  .perf2-row--exp[aria-expanded="true"] .perf2-chev { transform: rotate(180deg); }
+  .perf2-chip {
+    display: inline-flex; align-items: center; white-space: nowrap;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+    color: #3FE08A; background: rgba(63,224,138,0.10);
+    border: 1px solid rgba(63,224,138,0.30); border-radius: 999px; padding: 3px 10px;
+  }
+  .perf2-drawer { overflow: hidden; max-height: 0; opacity: 0; transition: max-height .25s ease, opacity .25s ease; }
+  .perf2-item.open .perf2-drawer { max-height: 460px; opacity: 1; }
+  .perf2-drawer-inner {
+    margin: 8px 0 4px 88px; padding: 12px 16px;
+    background: rgba(255,255,255,0.02);
+    border-left: 2px solid var(--navy-line); border-radius: 8px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .perf2-subrow { display: flex; align-items: center; gap: 12px; }
+  .perf2-subname { flex: 0 0 148px; font-size: 12.5px; color: var(--muted-dark); }
+  .perf2-subtrack { flex: 1 1 auto; min-width: 60px; height: 8px; background: var(--navy-line); border-radius: 999px; overflow: hidden; }
+  .perf2-subfill { display: block; height: 100%; width: var(--w); background: #3FE08A; border-radius: 999px; }
+  .perf2-subroi { flex: 0 0 56px; text-align: right; color: #3FE08A; font-weight: 600; font-size: 13px; }
+  .perf2-method { color: var(--muted-dark); font-size: 12.5px; line-height: 1.6; max-width: 640px; margin-top: 24px; }
   .perf2-cta { margin-top: 28px; }
+  .perf2-cta-sub { color: var(--muted-dark); font-size: 12.5px; margin-top: 12px; }
   @media (prefers-reduced-motion: reduce) {
-    .perf2-fill { transition: none; }
+    .perf2-fill, .perf2-drawer, .perf2-chev { transition: none; }
   }
   @media (max-width: 640px) {
     .perf2-hero { flex-direction: column; align-items: flex-start; gap: 6px; }
     .perf2-hero-label { font-size: 13.5px; }
     .perf2-row { gap: 10px; }
     .perf2-sport { flex-basis: 56px; font-size: 12.5px; }
-    .perf2-val { flex-basis: 92px; }
+    .perf2-val { flex-basis: 64px; }
     .perf2-val .roi { font-size: 13.5px; }
+    .perf2-end { flex-basis: 40px; }
+    .perf2-chev { width: 40px; height: 40px; }
+    .perf2-chip { font-size: 10px; padding: 3px 8px; }
+    .perf2-drawer-inner { margin-left: 66px; padding: 10px 12px; }
+    .perf2-subname { flex-basis: 108px; font-size: 11.5px; }
+    .perf2-subroi { flex-basis: 48px; font-size: 12px; }
   }
 
   /* ---------- DIFFERENTIATORS (alternating) ---------- */
@@ -1540,46 +1573,99 @@
     </div>
 
     <div class="perf2-hero">
-      <span class="perf2-big">+12.4%</span>
+      <span class="perf2-big">+8.56%</span>
       <span class="perf2-hero-label">realized Kelly ROI across our core North American player-prop markets</span>
     </div>
-    <p class="perf2-meta">5.3M+ graded prop observations · Sep 2025–Jul 2026 · vs. market closing price</p>
+    <p class="perf2-meta">6.9M+ graded prop observations · Jan 2025–Jul 2026 · vs. market closing price</p>
 
     <div class="perf2-bars">
-      <div class="perf2-row">
-        <span class="perf2-sport">NBA</span>
-        <span class="perf2-track"><span class="perf2-fill" style="--w:100%"></span></span>
-        <span class="perf2-val"><span class="roi">+13.33%</span><span class="n">4.48M bets</span></span>
+
+      <div class="perf2-item">
+        <div class="perf2-row perf2-row--exp" role="button" tabindex="0" aria-expanded="false" aria-controls="perf-nba">
+          <span class="perf2-sport">NBA</span>
+          <span class="perf2-track"><span class="perf2-fill" style="--w:100%"></span></span>
+          <span class="perf2-val"><span class="roi">+9.44%</span></span>
+          <span class="perf2-end"><span class="perf2-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></span>
+        </div>
+        <div class="perf2-drawer" id="perf-nba" role="region" aria-label="NBA top prop markets">
+          <div class="perf2-drawer-inner">
+            <div class="perf2-subrow"><span class="perf2-subname">Pts+Rebs</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:100%"></span></span><span class="perf2-subroi">+12.2%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Pts+Asts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:99%"></span></span><span class="perf2-subroi">+12.1%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Pts+Rebs+Asts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:97%"></span></span><span class="perf2-subroi">+11.8%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Made FGs</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:83%"></span></span><span class="perf2-subroi">+10.1%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Points</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:80%"></span></span><span class="perf2-subroi">+9.7%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Rebs+Asts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:71%"></span></span><span class="perf2-subroi">+8.7%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Assists</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:68%"></span></span><span class="perf2-subroi">+8.3%</span></div>
+          </div>
+        </div>
       </div>
-      <div class="perf2-row">
-        <span class="perf2-sport">NCAAB</span>
-        <span class="perf2-track"><span class="perf2-fill" style="--w:63%"></span></span>
-        <span class="perf2-val"><span class="roi">+8.41%</span><span class="n">156k bets</span></span>
+
+      <div class="perf2-item">
+        <div class="perf2-row perf2-row--exp" role="button" tabindex="0" aria-expanded="false" aria-controls="perf-ncaab">
+          <span class="perf2-sport">NCAAB</span>
+          <span class="perf2-track"><span class="perf2-fill" style="--w:61%"></span></span>
+          <span class="perf2-val"><span class="roi">+5.78%</span></span>
+          <span class="perf2-end"><span class="perf2-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></span>
+        </div>
+        <div class="perf2-drawer" id="perf-ncaab" role="region" aria-label="NCAAB top prop markets">
+          <div class="perf2-drawer-inner">
+            <div class="perf2-subrow"><span class="perf2-subname">Points</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:100%"></span></span><span class="perf2-subroi">+7.9%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Pts+Rebs+Asts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:94%"></span></span><span class="perf2-subroi">+7.4%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Pts+Asts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:84%"></span></span><span class="perf2-subroi">+6.6%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Rebs+Asts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:72%"></span></span><span class="perf2-subroi">+5.7%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Pts+Rebs</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:67%"></span></span><span class="perf2-subroi">+5.3%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Rebounds</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:51%"></span></span><span class="perf2-subroi">+4.0%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">3PT FGs</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:43%"></span></span><span class="perf2-subroi">+3.4%</span></div>
+          </div>
+        </div>
       </div>
-      <div class="perf2-row">
-        <span class="perf2-sport">NFL</span>
-        <span class="perf2-track"><span class="perf2-fill" style="--w:49%"></span></span>
-        <span class="perf2-val"><span class="roi">+6.52%</span><span class="n">361k bets</span></span>
+
+      <div class="perf2-item">
+        <div class="perf2-row perf2-row--exp" role="button" tabindex="0" aria-expanded="false" aria-controls="perf-nfl">
+          <span class="perf2-sport">NFL</span>
+          <span class="perf2-track"><span class="perf2-fill" style="--w:45%"></span></span>
+          <span class="perf2-val"><span class="roi">+4.24%</span></span>
+          <span class="perf2-end"><span class="perf2-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></span>
+        </div>
+        <div class="perf2-drawer" id="perf-nfl" role="region" aria-label="NFL top prop markets">
+          <div class="perf2-drawer-inner">
+            <div class="perf2-subrow"><span class="perf2-subname">Receiving yards</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:100%"></span></span><span class="perf2-subroi">+6.7%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Touchdowns</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:70%"></span></span><span class="perf2-subroi">+4.7%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Rush attempts</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:57%"></span></span><span class="perf2-subroi">+3.8%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Rush yards</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:51%"></span></span><span class="perf2-subroi">+3.4%</span></div>
+            <div class="perf2-subrow"><span class="perf2-subname">Receptions</span><span class="perf2-subtrack"><span class="perf2-subfill" style="--w:30%"></span></span><span class="perf2-subroi">+2.0%</span></div>
+          </div>
+        </div>
       </div>
-      <div class="perf2-row">
-        <span class="perf2-sport">NCAAF</span>
-        <span class="perf2-track"><span class="perf2-fill" style="--w:41%"></span></span>
-        <span class="perf2-val"><span class="roi">+5.51%</span><span class="n">129k bets</span></span>
+
+      <div class="perf2-item">
+        <div class="perf2-row perf2-row--chip">
+          <span class="perf2-sport">NCAAF</span>
+          <span class="perf2-track"><span class="perf2-fill" style="--w:39%"></span></span>
+          <span class="perf2-val"><span class="roi">+3.70%</span></span>
+          <span class="perf2-end perf2-end--chip"><span class="perf2-chip">Passing yards +19.2%</span></span>
+        </div>
       </div>
-      <div class="perf2-row">
-        <span class="perf2-sport">NHL</span>
-        <span class="perf2-track"><span class="perf2-fill" style="--w:21%"></span></span>
-        <span class="perf2-val"><span class="roi">+2.83%</span><span class="n">164k bets</span></span>
+
+      <div class="perf2-item">
+        <div class="perf2-row">
+          <span class="perf2-sport">NHL</span>
+          <span class="perf2-track"><span class="perf2-fill" style="--w:11%"></span></span>
+          <span class="perf2-val"><span class="roi">+1.04%</span></span>
+          <span class="perf2-end"></span>
+        </div>
       </div>
+
     </div>
 
-    <p class="perf2-method">Realized performance on every core-market player prop where our line flagged 5%+ edge, graded against the market's closing price. All books, all pre-game snapshots, Sep 2025–Jul 2026. Kelly-staked at 0.25×. Figures are realized, not projected.</p>
+    <p class="perf2-method">Realized performance on every core-market player prop where our line flagged 3–20% edge, graded against the market's closing price. All books, all pre-game snapshots, Jan 2025–Jul 2026. Kelly-staked at 0.25×. Figures are realized, not projected.</p>
 
     <div class="perf2-cta">
       <a href="#demo" class="btn btn-ghost-dark">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:9px"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
         Run the study on your own closing lines
       </a>
+      <p class="perf2-cta-sub">Get a trial key and grade our line against your own closing prices.</p>
     </div>
   </div>
 </section>
@@ -2089,6 +2175,23 @@
     });
   }, { threshold: 0.35 });
   io.observe(wrap);
+})();
+
+/* Performance per-sport drawers: click / Enter / Space to expand. */
+(function () {
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.perf2-row--exp'));
+  if (!rows.length) return;
+  rows.forEach(function (btn) {
+    var item = btn.parentNode;
+    function toggle() {
+      var open = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', toggle);
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); toggle(); }
+    });
+  });
 })();
 
 </script>
