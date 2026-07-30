@@ -494,6 +494,46 @@
   }
   .perf-disclaimer strong { color: var(--white); }
 
+  /* ---------- PERFORMANCE (rebuilt, real data) ---------- */
+  .perf2-head { max-width: 900px; margin-bottom: 34px; }
+  .perf2-head h2 { font-size: clamp(36px, 5.5vw, 72px); }
+  .perf2-hero { display: flex; align-items: baseline; gap: 22px; flex-wrap: wrap; }
+  .perf2-big {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(40px, 6vw, 60px); line-height: 1; letter-spacing: -0.01em;
+    color: #3FE08A;
+  }
+  .perf2-hero-label { color: var(--muted-dark); font-size: 15px; line-height: 1.4; max-width: 360px; }
+  .perf2-meta { color: var(--muted-2); font-size: 12.5px; margin-top: 10px; margin-bottom: 34px; }
+  .perf2-bars { display: flex; flex-direction: column; gap: 10px; }
+  .perf2-row { display: flex; align-items: center; gap: 16px; }
+  .perf2-sport {
+    flex: 0 0 72px; font-size: 14px; font-weight: 700;
+    color: var(--white); text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .perf2-track {
+    flex: 1 1 auto; min-width: 80px; height: 26px;
+    background: var(--navy-2); border: 1px solid var(--navy-line);
+    border-radius: 6px; overflow: hidden;
+  }
+  .perf2-fill { display: block; height: 100%; width: var(--w); background: #3FE08A; border-radius: 6px; transition: width .6s ease-out; }
+  .perf2-val { flex: 0 0 160px; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: baseline; gap: 0 8px; }
+  .perf2-val .roi { color: #3FE08A; font-weight: 700; font-size: 15px; }
+  .perf2-val .n { color: var(--muted-dark); font-size: 12px; }
+  .perf2-method { color: var(--muted-dark); font-size: 12.5px; line-height: 1.6; max-width: 640px; margin-top: 20px; }
+  .perf2-cta { margin-top: 28px; }
+  @media (prefers-reduced-motion: reduce) {
+    .perf2-fill { transition: none; }
+  }
+  @media (max-width: 640px) {
+    .perf2-hero { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .perf2-hero-label { font-size: 13.5px; }
+    .perf2-row { gap: 10px; }
+    .perf2-sport { flex-basis: 56px; font-size: 12.5px; }
+    .perf2-val { flex-basis: 92px; }
+    .perf2-val .roi { font-size: 13.5px; }
+  }
+
   /* ---------- DIFFERENTIATORS (alternating) ---------- */
   .diff-row {
     display: grid;
@@ -1491,96 +1531,56 @@
   </div>
 </section>
 
-<!-- ==================== PERFORMANCE (dark centerpiece) ==================== -->
-<section class="block-tight dark on-dark">
+<!-- ==================== PERFORMANCE (real data) ==================== -->
+<section class="block-tight dark on-dark" id="performance">
   <div class="container">
-    <div class="section-head">
+    <div class="perf2-head">
       <span class="eyebrow">Performance</span>
-      <h2>Priced to protect <span class="accent">your margin.</span></h2>
-      <p>How far our market aggregate beats the market's closing price on player props — the edge a more accurate line captures instead of leaving on the table. More accurate closing prices mean stronger hold and less exposure to stale lines.</p>
+      <h2>Measured against the closing line.<br><span class="accent">Not projected.</span></h2>
     </div>
 
-    <div class="perf-stats">
-      <div class="perf-stat">
-        <div class="perf-stat-num perf-pos">+3.9%</div>
-        <div class="perf-stat-label">Avg CLV Edge</div>
-        <div class="perf-stat-sub">across 6 major books, player props</div>
-      </div>
-      <div class="perf-stat">
-        <div class="perf-stat-num">487k</div>
-        <div class="perf-stat-label">Markets Priced</div>
-        <div class="perf-stat-sub">last 90 days, Min EV 5%+</div>
-      </div>
-      <div class="perf-stat">
-        <div class="perf-stat-num perf-pos">+5.4%</div>
-        <div class="perf-stat-label">Kelly ROI vs. Book Avg</div>
-        <div class="perf-stat-sub">realized, full Kelly, $100k flat bankroll</div>
-      </div>
+    <div class="perf2-hero">
+      <span class="perf2-big">+12.4%</span>
+      <span class="perf2-hero-label">realized Kelly ROI across our core North American player-prop markets</span>
     </div>
+    <p class="perf2-meta">5.3M+ graded prop observations · Sep 2025–Jul 2026 · vs. market closing price</p>
 
-    <div class="perf-card">
-      <div class="perf-row head">
-        <div class="perf-cell">Book</div>
-        <div class="perf-cell">Market Aggregate CLV Edge</div>
-        <div class="perf-cell">Kelly ROI vs. Book</div>
-        <div class="perf-cell">Markets Priced</div>
+    <div class="perf2-bars">
+      <div class="perf2-row">
+        <span class="perf2-sport">NBA</span>
+        <span class="perf2-track"><span class="perf2-fill" style="--w:100%"></span></span>
+        <span class="perf2-val"><span class="roi">+13.33%</span><span class="n">4.48M bets</span></span>
       </div>
-      <div class="perf-row">
-        <div class="perf-cell"><span class="perf-book">Book A</span></div>
-        <div class="perf-cell"><span class="perf-delta">+5.4%</span></div>
-        <div class="perf-cell"><span class="perf-delta">+7.2%</span></div>
-        <div class="perf-cell perf-markets">~52,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL</span></div>
+      <div class="perf2-row">
+        <span class="perf2-sport">NCAAB</span>
+        <span class="perf2-track"><span class="perf2-fill" style="--w:63%"></span></span>
+        <span class="perf2-val"><span class="roi">+8.41%</span><span class="n">156k bets</span></span>
       </div>
-      <div class="perf-row">
-        <div class="perf-cell"><span class="perf-book">Book B</span></div>
-        <div class="perf-cell"><span class="perf-delta">+4.9%</span></div>
-        <div class="perf-cell"><span class="perf-delta">+6.8%</span></div>
-        <div class="perf-cell perf-markets">~78,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL</span></div>
+      <div class="perf2-row">
+        <span class="perf2-sport">NFL</span>
+        <span class="perf2-track"><span class="perf2-fill" style="--w:49%"></span></span>
+        <span class="perf2-val"><span class="roi">+6.52%</span><span class="n">361k bets</span></span>
       </div>
-      <div class="perf-row">
-        <div class="perf-cell"><span class="perf-book">Book C</span></div>
-        <div class="perf-cell"><span class="perf-delta">+4.1%</span></div>
-        <div class="perf-cell"><span class="perf-delta">+5.5%</span></div>
-        <div class="perf-cell perf-markets">~95,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL · UFC</span></div>
+      <div class="perf2-row">
+        <span class="perf2-sport">NCAAF</span>
+        <span class="perf2-track"><span class="perf2-fill" style="--w:41%"></span></span>
+        <span class="perf2-val"><span class="roi">+5.51%</span><span class="n">129k bets</span></span>
       </div>
-      <div class="perf-row">
-        <div class="perf-cell"><span class="perf-book">Book D</span></div>
-        <div class="perf-cell"><span class="perf-delta">+3.6%</span></div>
-        <div class="perf-cell"><span class="perf-delta">+4.9%</span></div>
-        <div class="perf-cell perf-markets">~88,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL</span></div>
-      </div>
-      <div class="perf-row">
-        <div class="perf-cell"><span class="perf-book">Book E</span></div>
-        <div class="perf-cell"><span class="perf-delta">+2.9%</span></div>
-        <div class="perf-cell"><span class="perf-delta">+3.7%</span></div>
-        <div class="perf-cell perf-markets">~64,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB</span></div>
-      </div>
-      <div class="perf-row">
-        <div class="perf-cell"><span class="perf-book">Book F</span></div>
-        <div class="perf-cell"><span class="perf-delta">+2.3%</span></div>
-        <div class="perf-cell"><span class="perf-delta">+3.1%</span></div>
-        <div class="perf-cell perf-markets">~110,000 <small>markets</small><span class="perf-sports">NFL · NBA · MLB · NCAAB · NHL · UFC</span></div>
+      <div class="perf2-row">
+        <span class="perf2-sport">NHL</span>
+        <span class="perf2-track"><span class="perf2-fill" style="--w:21%"></span></span>
+        <span class="perf2-val"><span class="roi">+2.83%</span><span class="n">164k bets</span></span>
       </div>
     </div>
 
-    <div class="perf-sport-band">
-      <div class="perf-sport-head">
-        <span class="perf-sport-eyebrow">Pooled across all 6 books</span>
-        <h4>CLV by Sport</h4>
-      </div>
-      <div class="perf-sport-pills">
-        <span class="perf-pill">NFL <strong>+3.4%</strong></span>
-        <span class="perf-pill">NBA <strong>+4.1%</strong></span>
-        <span class="perf-pill">MLB <strong>+3.1%</strong></span>
-        <span class="perf-pill">NCAAB <strong>+3.9%</strong></span>
-        <span class="perf-pill">NHL <strong>+2.8%</strong></span>
-        <span class="perf-pill">UFC <strong>+2.2%</strong></span>
-      </div>
+    <p class="perf2-method">Realized performance on every core-market player prop where our line flagged 5%+ edge, graded against the market's closing price. All books, all pre-game snapshots, Sep 2025–Jul 2026. Kelly-staked at 0.25×. Figures are realized, not projected.</p>
+
+    <div class="perf2-cta">
+      <a href="#demo" class="btn btn-ghost-dark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:9px"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+        Run the study on your own closing lines
+      </a>
     </div>
-
-    <p class="perf-disclaimer"><strong>Placeholder data — pending dashboard export.</strong> Numbers in this section will be replaced with real values from the market aggregate historical-performance dashboard (per-book filter sweep, Min EV 5%, last 90 days, all sports). The shape and structure here is the final layout; only the digits change.</p>
-
-    <p class="perf-howto"><strong>How to read this:</strong> "CLV Edge" = how much more accurate our market aggregate closing price is than the book's closing price. "Kelly ROI" = realized return when a Kelly-staked position against the book uses our line as the reference signal.</p>
   </div>
 </section>
 
@@ -2067,6 +2067,28 @@
     });
   });
   update();
+})();
+
+/* Performance bars: animate width 0 -> target on scroll-in, staggered.
+   No-JS / reduced-motion leave bars at full width (CSS default). */
+(function () {
+  var wrap = document.querySelector('.perf2-bars');
+  if (!wrap) return;
+  var fills = Array.prototype.slice.call(wrap.querySelectorAll('.perf2-fill'));
+  if (!fills.length) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return; // leave full width
+  fills.forEach(function (f) { f.style.width = '0%'; });
+  var io = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      fills.forEach(function (f, i) {
+        setTimeout(function () { f.style.width = f.style.getPropertyValue('--w') || '0%'; }, i * 60);
+      });
+      obs.disconnect();
+    });
+  }, { threshold: 0.35 });
+  io.observe(wrap);
 })();
 
 </script>
