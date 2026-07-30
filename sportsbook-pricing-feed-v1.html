@@ -674,7 +674,7 @@
   }
   .price-row {
     display: grid;
-    grid-template-columns: 1fr auto auto auto;
+    grid-template-columns: 1fr 82px 82px 82px;
     gap: 14px;
     padding: 14px 0;
     border-top: 1px solid var(--navy-line);
@@ -701,12 +701,26 @@
     text-align: center;
   }
   .price-row .price-tag.us {
-    border-color: rgba(62,146,204,0.35);
-    background: rgba(62,146,204,0.10);
-    color: var(--blue-bright);
+    border-color: var(--blue-bright);
+    background: var(--blue);
+    color: var(--white);
     font-weight: 700;
+    box-shadow: 0 0 0 1px var(--blue-bright), 0 4px 14px rgba(62,146,204,0.35);
   }
   .price-row .price-tag.us strong { color: var(--white); }
+  /* column header titles for the sample odds table */
+  .price-head { padding: 0 0 8px; border-top: none; }
+  .price-col-h {
+    font-size: 9.5px; font-weight: 800; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--muted-dark);
+    text-align: center; align-self: end;
+  }
+  .price-col-h.ours-h { color: var(--blue-bright); }
+  @media (max-width: 760px) {
+    .price-row { grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 8px; }
+    .price-row .price-tag { min-width: 0; padding: 6px 4px; font-size: 12px; }
+    .price-col-h { font-size: 8px; letter-spacing: 0.02em; }
+  }
   .price-legend {
     margin-top: 22px;
     display: flex; gap: 18px;
@@ -1624,37 +1638,39 @@
         <span class="eyebrow eyebrow-dark">Market Aggregate Pricing</span>
         <h3>The most accurate player-props reference in the industry.</h3>
         <p>A market-weighted consensus priced across 200+ books and backtested on 5+ seasons of closing lines — our own model, not a single-book average.</p>
+        <p>That confidence is the difference between defending your lines and competing on them — prices you can stand behind, and more volume taken on the bets you win.</p>
       </div>
       <div class="diff-visual on-dark">
         <h4>Sample: NFL — Anytime TD Scorer</h4>
+        <div class="price-row price-head">
+          <div class="market"></div>
+          <div class="price-col-h ours-h">Our fair value</div>
+          <div class="price-col-h">FanDuel</div>
+          <div class="price-col-h">DraftKings</div>
+        </div>
         <div class="price-row">
           <div class="market">Saquon Barkley<small>Anytime TD</small></div>
+          <div class="price-tag us"><strong>−147</strong></div>
           <div class="price-tag">−155</div>
           <div class="price-tag">−158</div>
-          <div class="price-tag us"><strong>−147</strong></div>
         </div>
         <div class="price-row">
           <div class="market">Travis Etienne<small>Anytime TD</small></div>
+          <div class="price-tag us"><strong>+152</strong></div>
           <div class="price-tag">+140</div>
           <div class="price-tag">+138</div>
-          <div class="price-tag us"><strong>+152</strong></div>
         </div>
         <div class="price-row">
           <div class="market">Brock Bowers<small>Anytime TD</small></div>
+          <div class="price-tag us"><strong>+196</strong></div>
           <div class="price-tag">+185</div>
           <div class="price-tag">+178</div>
-          <div class="price-tag us"><strong>+196</strong></div>
         </div>
         <div class="price-row">
           <div class="market">Zay Flowers<small>Anytime TD</small></div>
+          <div class="price-tag us"><strong>+236</strong></div>
           <div class="price-tag">+220</div>
           <div class="price-tag">+225</div>
-          <div class="price-tag us"><strong>+236</strong></div>
-        </div>
-        <div class="price-legend">
-          <span class="market-tag">FanDuel</span>
-          <span class="market-tag">DraftKings</span>
-          <span class="ours">Our market aggregate — fair value</span>
         </div>
       </div>
     </div>
@@ -1674,29 +1690,29 @@
   <div class="container">
     <div class="section-head">
       <span class="eyebrow">The Methodology</span>
-      <h2>Inside the <span class="accent">market aggregate model.</span></h2>
+      <h2>How the <span class="accent">market aggregate works.</span></h2>
       <p>Our market aggregate is built on four interlocking principles — the same principles that power the PRO Odds Screen trusted by professional trading syndicates. Each one addresses a specific structural weakness in conventional prop pricing.</p>
     </div>
 
     <div class="method-grid">
       <div class="method-card">
-        <span class="step-num">01</span>
-        <h4>Historical book-efficiency weighting</h4>
+        <span class="step-num">01 · Historical book-efficiency weighting</span>
+        <h4>Trust the right book on every market</h4>
         <p>Each book is weighted by sport, market, and prop type based on its historical accuracy. Pinnacle's NBA spread isn't the same signal as their NFL alts — and the model treats them differently, weighting the most efficient book on each market the highest.</p>
       </div>
       <div class="method-card">
-        <span class="step-num">02</span>
-        <h4>Bias correction by prop type</h4>
+        <span class="step-num">02 · Bias correction by prop type</span>
+        <h4>Every prop priced on its own terms</h4>
         <p>Anytime TD prices differently than first TD. Receiving-yards ladders behave differently from passing-yards lines. The model corrects per prop type rather than treating all props as one bucket — pricing each market on its own distribution instead of a single football-wide model.</p>
       </div>
       <div class="method-card">
-        <span class="step-num">03</span>
-        <h4>Statistical outlier exclusion</h4>
+        <span class="step-num">03 · Statistical outlier exclusion</span>
+        <h4>Don't get pulled off market by someone else's mistake</h4>
         <p>Before a price is set, book quotes that fall outside the expected distribution are down-weighted or excluded under a published, auditable rule. A single mispriced or lagging book can't drag the aggregate — the consensus stays anchored to the books you trust.</p>
       </div>
       <div class="method-card">
-        <span class="step-num">04</span>
-        <h4>Backtesting against closing prices</h4>
+        <span class="step-num">04 · Backtesting against closing prices</span>
+        <h4>Proven against the market, continuously</h4>
         <p>Every price is graded against the closing line on the same market across 5+ seasons of history. Book weights and bias corrections are recalibrated continuously against those closing-price outcomes, so the model is measured on realized accuracy rather than opinion.</p>
       </div>
     </div>
@@ -1715,22 +1731,22 @@
     <div class="usecase-grid">
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 01</span>
-        <h4>Books bringing<br>trading in-house</h4>
+        <h4>Bring your trading<br>in-house</h4>
         <p>Regress your models to a market you can trust. Pair our market aggregate with your official-data primary and your own pricing, and own your enterprise end to end — with an accurate reference to benchmark against on every prop type.</p>
       </div>
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 02</span>
-        <h4>Books expanding<br>prop catalog</h4>
-        <p>Extend your own catalog with a market aggregate underneath every new market. Launch alt ladders and milestones with an accurate reference from day one, instead of months of manual modeling before you can price them.</p>
+        <h4>Expand your<br>prop catalogue</h4>
+        <p>Extend your own catalogue with a market aggregate underneath every new market. Launch alt ladders and milestones with an accurate reference from day one, instead of months of manual modeling before you can price them.</p>
       </div>
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 03</span>
-        <h4>Trading desks scaling<br>live prop coverage</h4>
+        <h4>Scale your live<br>prop coverage</h4>
         <p>Play defense with outlier alerts instead of screen-watching. Price live props with the same model that powers them pre-game, and let the feed flag mispriced markets as game state, possession, and player news shift — sub-second.</p>
       </div>
       <div class="usecase-card">
         <span class="uc-eyebrow">Use Case 04</span>
-        <h4>Books that want<br>tier-1 pricing power</h4>
+        <h4>Get tier-1<br>pricing power</h4>
         <p>Put your trading team on overdrive by combining your edge with our aggregate. Keep your trading judgment, add an accurate market reference on every prop, and slot us in alongside whichever official-data provider your in-play stack already uses.</p>
       </div>
     </div>
@@ -1747,7 +1763,7 @@
     <div class="section-head">
       <span class="eyebrow">Integration &amp; Ops</span>
       <h2>Built to drop into <span class="accent">your pipeline.</span></h2>
-      <p>Delivered as a REST or streaming API in JSON, engineered to slot into your existing trading stack — with everything a trading and product team needs to run our market aggregate in production: configurable, auditable, and observable.</p>
+      <p>Pricing that operates at a speed no human desk can — reacting to every limit and line change the moment it happens, so you're never caught off guard. It drops into your existing stack and gives your trading and product teams everything they need to run it in production: tune it, audit it, and see exactly what it's doing.</p>
     </div>
 
     <!-- VERIFY WITH JULIAN before deploy: sub-200ms / ~150ms P99 latency figures. -->
@@ -1770,56 +1786,56 @@
       <div class="pipeline-card">
         <span class="pl-num">01</span>
         <span class="pl-key">Configurable weightings</span>
-        <h4>Tune the model to your book</h4>
-        <p>Adjust weightings by book, market, and prop type — and apply bulk changes across many props at once instead of editing them one by one.</p>
+        <h4>Price it your way</h4>
+        <p>Adjust how much each book and market counts, across your whole catalogue at once.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">02</span>
         <span class="pl-key">Outlier definition &amp; alerts</span>
-        <h4>A published, auditable rule</h4>
-        <p>The outlier definition is documented, not a black box. An outlier alert feed surfaces flagged markets in real time and routes straight to Slack.</p>
+        <h4>Don't get dragged by a bad line</h4>
+        <p>A published rule catches outliers before they hit your price, and alerts your team in real time.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">03</span>
         <span class="pl-key">Update thresholds</span>
-        <h4>Control your message volume</h4>
-        <p>Configure update thresholds per market — tight on high-handle markets, quiet on the long tail — so you receive the changes that matter and not the noise.</p>
+        <h4>Only the updates that matter</h4>
+        <p>Tight on your high-handle markets, quiet on the long tail — your pipeline never drowns in noise.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">04</span>
         <span class="pl-key">Market states</span>
-        <h4>Explicit, not inferred</h4>
-        <p>Suspended, off-board, and removed states are sent explicitly, anchored to the reference books you trust — so your traders never have to guess why a market went quiet.</p>
+        <h4>Never guess why a market went quiet</h4>
+        <p>Suspended, off-board, and removed are told to you explicitly — anchored to the books you trust.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">05</span>
         <span class="pl-key">Outage recovery</span>
-        <h4>Reconnect and replay</h4>
-        <p>A heartbeat keeps the connection observable, and a <code>since</code> parameter lets you reconnect and replay every change you missed — no gaps after a drop.</p>
+        <h4>Never miss a move — even after a drop</h4>
+        <p>Reconnect and replay everything you missed, automatically. No gaps, no manual reconciliation.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">06</span>
         <span class="pl-key">Environments</span>
-        <h4>Prod and non-prod, separated</h4>
-        <p>Separate production and non-production API keys, with dedicated dev and staging environments to test integrations before they touch your live book.</p>
+        <h4>Test it before your book feels it</h4>
+        <p>Fully separated test and production access, so nothing experimental touches your live prices.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">07</span>
         <span class="pl-key">Audit &amp; access control</span>
         <h4>Every change on the record</h4>
-        <p>Audit logs plus role-based access (admin / trader) on every weighting change and override — so you can see who changed what, and when.</p>
+        <p>Role-based access and a full log of who changed what, and when.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">08</span>
         <span class="pl-key">Support</span>
-        <h4>A dedicated integration team</h4>
-        <p>A named integration engineer and a shared Slack channel, with ongoing model tuning — through launch and beyond, not just at go-live.</p>
+        <h4>A team on call, not a ticket queue</h4>
+        <p>A named integration engineer and a shared channel, through launch and beyond.</p>
       </div>
       <div class="pipeline-card">
         <span class="pl-num">09</span>
         <span class="pl-key">Identifiers</span>
-        <h4>Best-in-class ID mapping</h4>
-        <p>Stable, consistent IDs across live and historical data, mapped one-to-one into your internal systems — best-in-class custom mapping, with no fuzzy matching to maintain.</p>
+        <h4>No mapping headaches</h4>
+        <p>Industry-standard IDs, identical across live and historical — everything matches one-to-one, forever.</p>
       </div>
     </div>
   </div>
@@ -1888,7 +1904,7 @@
       </details>
       <details class="faq-item">
         <summary class="faq-q">What sports, markets, and books do you cover?</summary>
-        <div class="faq-a">NFL, NBA, MLB, NCAAF, NCAAB, NHL, and UFC — player props, alternate lines, ladders, and milestones, priced across 200+ books. Each market is modeled on its own rather than stretched from a single general model. If there's a specific market you need that isn't listed, tell us — coverage is scoped to your book.</div>
+        <div class="faq-a">NFL, NBA, MLB, NCAAF, NCAAB, NHL, UFC, and Tennis — player props, alternate lines, ladders, and milestones, priced across 200+ books. Each market is modeled on its own rather than stretched from a single general model. More leagues and markets are available beyond this list — if you need something specific, ask us. Coverage is scoped to your book.</div>
       </details>
       <details class="faq-item">
         <summary class="faq-q">Can I configure the pricing to my book?</summary>
