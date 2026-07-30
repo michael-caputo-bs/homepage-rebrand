@@ -505,7 +505,11 @@
   }
   .perf2-hero-label { color: var(--muted-dark); font-size: 15px; line-height: 1.4; max-width: 360px; }
   .perf2-meta { color: var(--muted-2); font-size: 12.5px; margin-top: 10px; margin-bottom: 34px; }
-  .perf2-bars { display: flex; flex-direction: column; gap: 10px; }
+  .perf2-bars { position: relative; display: flex; flex-direction: column; gap: 10px; }
+  /* baseline reference marker at the track origin (x = 0% = market close) */
+  .perf2-baseline { position: absolute; left: 88px; top: -2px; bottom: -2px; width: 2px; background: var(--muted-2); opacity: 0.55; z-index: 2; pointer-events: none; }
+  .perf2-baseline-label { display: block; margin: 12px 0 0 88px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-2); }
+  .perf2-sowhat { color: var(--muted-dark); font-size: 14px; line-height: 1.55; max-width: 640px; margin-top: 22px; }
   .perf2-row { display: flex; align-items: center; gap: 16px; min-height: 40px; }
   .perf2-row--exp { cursor: pointer; border-radius: 6px; }
   .perf2-row--exp:focus-visible { outline: 2px solid var(--blue-bright); outline-offset: 3px; }
@@ -557,6 +561,8 @@
     .perf2-hero-label { font-size: 13.5px; }
     .perf2-row { gap: 10px; }
     .perf2-sport { flex-basis: 56px; font-size: 12.5px; }
+    .perf2-baseline { left: 66px; }
+    .perf2-baseline-label { margin-left: 66px; }
     .perf2-val { flex-basis: 64px; }
     .perf2-val .roi { font-size: 13.5px; }
     .perf2-end { flex-basis: 40px; }
@@ -1579,6 +1585,7 @@
     <p class="perf2-meta">6.9M+ graded prop observations · Jan 2025–Jul 2026 · vs. market closing price</p>
 
     <div class="perf2-bars">
+      <span class="perf2-baseline" aria-hidden="true"></span>
       <div class="perf2-row">
         <span class="perf2-sport">NBA</span>
         <span class="perf2-track"><span class="perf2-fill" style="--w:100%"></span></span>
@@ -1599,12 +1606,10 @@
         <span class="perf2-track"><span class="perf2-fill" style="--w:39%"></span></span>
         <span class="perf2-val"><span class="roi">+3.70%</span></span>
       </div>
-      <div class="perf2-row">
-        <span class="perf2-sport">NHL</span>
-        <span class="perf2-track"><span class="perf2-fill" style="--w:11%"></span></span>
-        <span class="perf2-val"><span class="roi">+1.04%</span></span>
-      </div>
     </div>
+    <span class="perf2-baseline-label">0% = market close</span>
+
+    <p class="perf2-sowhat">That's edge a sharper closing line captures instead of leaving in the market — straight to your hold.</p>
 
     <p class="perf2-method">Realized performance on every core-market player prop where our line flagged 3–20% edge, graded against the market's closing price. All books, all pre-game snapshots, Jan 2025–Jul 2026. Kelly-staked at 0.25×. Figures are realized, not projected.</p>
   </div>
