@@ -770,11 +770,12 @@
   }
   .method-card .step-num {
     display: block;
-    font-size: 12px;
+    font-size: 10.5px;
     font-weight: 700;
     color: var(--blue);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.02em;
     margin-bottom: 10px;
+    white-space: nowrap;
   }
   .method-card h4 {
     color: var(--white); font-size: 17px; font-weight: 600;
@@ -789,6 +790,8 @@
     #methodology .section-head { max-width: 1140px; }
     #methodology .section-head h2 { font-size: clamp(40px, 4.8vw, 60px); }
     #methodology .section-head p { text-wrap: balance; }
+    /* reserve equal title height so all four card bodies start on the same line */
+    #methodology .method-card h4 { min-height: 2.6em; }
   }
 
   /* ---------- USE CASE CARDS ---------- */
@@ -1691,19 +1694,19 @@
     <div class="section-head">
       <span class="eyebrow">The Methodology</span>
       <h2>How the <span class="accent">market aggregate works.</span></h2>
-      <p>Our market aggregate is built on four interlocking principles — the same principles that power the PRO Odds Screen trusted by professional trading syndicates. Each one addresses a specific structural weakness in conventional prop pricing.</p>
+      <p>Our market aggregate is built on four interlocking principles — the same principles that power the PRO Odds Screen trusted by professional trading syndicates. Each one addresses a specific weakness in conventional prop pricing.</p>
     </div>
 
     <div class="method-grid">
       <div class="method-card">
         <span class="step-num">01 · Historical book-efficiency weighting</span>
         <h4>Trust the right book on every market</h4>
-        <p>Each book is weighted by sport, market, and prop type based on its historical accuracy. Pinnacle's NBA spread isn't the same signal as their NFL alts — and the model treats them differently, weighting the most efficient book on each market the highest.</p>
+        <p>Not every book is worth listening to on every market. We grade each one's historical accuracy — sport by sport, market by market — and let the most reliable signal carry the most weight. Pinnacle's NBA spread earns trust; their NFL alts have to prove it.</p>
       </div>
       <div class="method-card">
         <span class="step-num">02 · Bias correction by prop type</span>
         <h4>Every prop priced on its own terms</h4>
-        <p>Anytime TD prices differently than first TD. Receiving-yards ladders behave differently from passing-yards lines. The model corrects per prop type rather than treating all props as one bucket — pricing each market on its own distribution instead of a single football-wide model.</p>
+        <p>An anytime TD doesn't behave like a passing-yards ladder, and neither behaves like a first TD. Every prop type gets its own distribution and its own bias correction — instead of one football-wide model stretched across all of them.</p>
       </div>
       <div class="method-card">
         <span class="step-num">03 · Statistical outlier exclusion</span>
