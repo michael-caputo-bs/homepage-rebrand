@@ -134,7 +134,7 @@
           "name": "What does the volatility and off-board signal do?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It watches the sources behind each leg of a slip and returns a per-market state your quoting logic can act on: quote, widen or stop. It flags when a market has been pulled off the board, with a reason, and when the price underneath a slip is moving too fast to quote. When the market settles, the signal clears."
+            "text": "It watches the sources behind each leg of a slip and returns a per-market state your quoting logic can act on: quote or stop. It flags when a market has been pulled off the board, with a reason, and when the price underneath a slip is moving too fast to quote. When the market settles, the signal clears."
           }
         },
         {
@@ -280,6 +280,7 @@
   .pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid var(--hair);color:var(--ink-62)}
   .pill.ok{color:var(--green);border-color:rgba(156,230,184,.3)}
   .pill.warn{color:var(--amber);border-color:rgba(255,213,107,.3)}
+  .pill.stop{color:var(--red);border-color:rgba(255,107,122,.35)}
   .pill.live{color:var(--green);border-color:rgba(156,230,184,.3)}
   .pill.dev{color:var(--amber);border-color:rgba(255,213,107,.3)}
   .pill .dot{width:6px;height:6px;border-radius:50%;background:currentColor}
@@ -377,8 +378,8 @@
   .state{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .state div{border:1px solid var(--hair);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--ink-62)}
   .state b{display:block;font-family:'JetBrains Mono',monospace;font-size:14px;color:#fff;margin-bottom:2px}
-  .state .on{border-color:rgba(255,213,107,.35);background:rgba(255,213,107,.06)}
-  .state .on b{color:var(--amber)}
+  .state .on{border-color:rgba(255,107,122,.35);background:rgba(255,107,122,.06)}
+  .state .on b{color:var(--red)}
   .viz .note{margin-top:14px;font-size:11px;color:var(--ink-42);letter-spacing:.3px}
 
   /* how it works */
@@ -1003,7 +1004,7 @@
     <div class="desk" aria-label="Illustrative example of the suite reading a same-game slip">
       <div class="desk-head">
         <span class="t">RFQ · 3 legs · NFL · pregame</span>
-        <span class="pill warn"><span class="dot"></span>Widen</span>
+        <span class="pill stop"><span class="dot"></span>Stop</span>
       </div>
       <div class="legs">
         <div class="leg"><div><b>Home team moneyline</b><small>Match result</small></div><span class="odds">−135</span></div>
@@ -1012,7 +1013,7 @@
       </div>
       <div class="books">
         <div class="brow"><span>Home team moneyline</span><span class="q" style="color:var(--green)">QUOTE</span><span class="c">stable</span></div>
-        <div class="brow"><span>QB passing yards</span><span class="q" style="color:var(--amber)">WIDEN</span><span class="c">3/12 off board</span></div>
+        <div class="brow"><span>QB passing yards</span><span class="q" style="color:var(--red)">STOP</span><span class="c">3/12 off board</span></div>
         <div class="brow"><span>WR anytime touchdown</span><span class="q" style="color:var(--green)">QUOTE</span><span class="c">stable</span></div>
         <div class="brow agg"><span>Market fair price</span><span class="q">+498</span><span class="c">vig-free</span></div>
       </div>
@@ -1051,7 +1052,7 @@
       <div class="pcard">
         <div class="n">01 / TIMING</div>
         <h3>Stale quotes get hit</h3>
-        <p>Injury news, a lineup change, a line pulled from the board. The quote you left out is the one someone takes. You need to know when to widen, and when to stop.</p>
+        <p>Injury news, a lineup change, a line pulled from the board. The quote you left out is the one someone takes. You need to know when to stop, and when you're back on.</p>
       </div>
       <div class="pcard">
         <div class="n">02 / REFERENCE</div>
@@ -1119,7 +1120,7 @@
         <div class="kicker">01 · Volatility &amp; off-board signal</div>
         <h3>Know when <span class="acc">to stop quoting.</span></h3>
         <p>You get picked off on the quotes you leave out while the market moves. The signal watches the sources behind each leg and tells you when a market has gone off the board, and why, and when the price underneath a slip is too unstable to quote.</p>
-        <p>It returns a per-market state your auto-quoting logic can act on: quote, widen, or stop. When the market settles, the signal clears and you're back in.</p>
+        <p>It returns a per-market state your auto-quoting logic can act on: quote or stop. When the market settles, the signal clears and you're back in.</p>
         <ul class="spec">
           <li>Per-fixture, per-market volatility state, updated as legs move</li>
           <li>Off-the-board status with a reason code, across the sources behind the price</li>
@@ -1129,7 +1130,7 @@
         </ul>
       </div>
       <div class="viz" aria-label="Illustrative volatility state for one market over time">
-        <div class="t"><span>Per-market volatility · last 12 min</span><span class="pill warn"><span class="dot"></span>Widen</span></div>
+        <div class="t"><span>Per-market volatility · last 12 min</span><span class="pill stop"><span class="dot"></span>Stop</span></div>
         <div class="body">
         <div class="timeline" aria-hidden="true">
           <div class="tick"><i style="height:22%"></i></div>
@@ -1147,11 +1148,11 @@
         </div>
         <div class="state">
           <div><b>3 / 12</b>sources off the board</div>
-          <div class="on"><b>WIDEN</b>signal</div>
+          <div class="on"><b>STOP</b>signal</div>
           <div><b>249.5 → 262.5</b>QB yards line, 90s</div>
         </div>
         <div class="ladder" style="margin-top:14px">
-          <div class="lrow"><span>QB passing yards O/U</span><span class="d">off board</span><span class="q" style="color:var(--amber)">WIDEN</span></div>
+          <div class="lrow"><span>QB passing yards O/U</span><span class="d">off board</span><span class="q" style="color:var(--red)">STOP</span></div>
           <div class="lrow"><span>Home team moneyline</span><span class="d">stable</span><span class="q" style="color:var(--green)">QUOTE</span></div>
           <div class="lrow"><span>WR anytime touchdown</span><span class="d">stable</span><span class="q" style="color:var(--green)">QUOTE</span></div>
         </div>
@@ -1276,7 +1277,7 @@
           <div><pre><span class="c">// response</span>
 {
   <span class="c">// the signal and the market fair price</span>
-  <span class="k">"volatility"</span>: { <span class="k">"state"</span>: <span class="s">"volatile"</span>, <span class="k">"action"</span>: <span class="s">"widen"</span>,
+  <span class="k">"volatility"</span>: { <span class="k">"state"</span>: <span class="s">"volatile"</span>, <span class="k">"action"</span>: <span class="s">"stop"</span>,
                   <span class="k">"reason"</span>: <span class="s">"off_board"</span>, <span class="k">"leg"</span>: <span class="n">2</span> },
   <span class="k">"fair_price"</span>: { <span class="k">"american"</span>: <span class="s">"+498"</span>, <span class="k">"decimal"</span>: <span class="n">5.98</span> },
 
@@ -1295,7 +1296,7 @@
           <li><h4>Authenticate once</h4><p>Every endpoint takes an <code class="mono" style="font-size:13px">X-API-KEY</code> header. Entitlements set which leagues, books and products your key can reach.</p></li>
           <li><h4>Resolve your legs</h4><p>Pull fixtures, players and markets from the reference endpoints. The same IDs work everywhere, so a leg you built from the markets feed prices without remapping.</p></li>
           <li><h4>Price the slip</h4><p>Post the legs to <code class="mono" style="font-size:13px">/api/sgp</code> or <code class="mono" style="font-size:13px">/api/parlay</code>. Get each book's quote with its correlation, and the market fair price for the slip.</p></li>
-          <li><h4>Gate your quoting</h4><p>Read the volatility signal before you send a quote. Stable, quote. Volatile, widen or stop. Your rules, your thresholds.</p></li>
+          <li><h4>Gate your quoting</h4><p>Read the signal before you send a quote. On the board, quote. Pulled, stop. Your rules, your thresholds.</p></li>
         </ol>
 
     <div class="devrow">
@@ -1357,7 +1358,7 @@
       </details>
       <details>
         <summary>What does the volatility and off-board signal do?</summary>
-        <p>It watches the sources behind each leg of a slip and returns a per-market state your quoting logic can act on: quote, widen or stop. It flags when a market has been pulled off the board, with a reason, and when the price underneath a slip is moving too fast to quote. When the market settles, the signal clears.</p>
+        <p>It watches the sources behind each leg of a slip and returns a per-market state your quoting logic can act on: quote or stop. It flags when a market has been pulled off the board, with a reason, and when the price underneath a slip is moving too fast to quote. When the market settles, the signal clears.</p>
       </details>
       <details>
         <summary>How is the market fair price for parlays and SGPs calculated?</summary>
