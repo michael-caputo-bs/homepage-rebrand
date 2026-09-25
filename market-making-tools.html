@@ -20,7 +20,9 @@
     - Nothing on this page says Betstamp trades or makes markets itself.
     - No API pricing. No client names.
     - "the True Line" always with "the". No emoji, no exclamation marks.
-      SHIP GATE (Michael, 2026-09-22): this page publishes only when all three tools are live. Nothing on the page
+      ORDER (Spencer, 2026-09-24): lead with the most differentiated product. Signal first, fair price second, per-book SGP
+  pricing third and cross-linked to /sgp-pricing-engine so the two pages do not compete for the same searches.
+  SHIP GATE (Michael, 2026-09-22): this page publishes only when all three tools are live. Nothing on the page
       is framed as in development. TODO(dev) comments below record what still has to ship before publish.
 
   All TODOs for dev/Spencer are HTML comments prefixed  TODO(dev)  or  TODO(spencer).
@@ -35,8 +37,8 @@
 <!-- ===================== SEO ===================== -->
 <!-- TODO(dev): confirm final slug. Sibling product pages are flat (/sgp-pricing-engine, /prediction-markets-api),
      so /market-making-tools is proposed. Update canonical, og:url and JSON-LD "url" together. -->
-<title>Market Making Tools for SGP &amp; Parlay Pricing | Betstamp API</title>
-<meta name="description" content="Betstamp's Market Making Tool Suite: correlation-aware SGP pricing from every supported book, a market fair price for parlays and SGPs, and a volatility signal that tells you when to stop quoting. One API for RFQ and order-book market makers.">
+<title>Market Making Tools for High-Volume Makers | Betstamp API</title>
+<meta name="description" content="Betstamp's Market Making Tool Suite: a volatility and off-board signal that tells you when to stop quoting, a market fair price for parlays and SGPs, and correlation-aware SGP prices from every supported book. One API for RFQ and order-book market makers.">
 <link rel="canonical" href="https://www.betstamp.com/market-making-tools">
 <meta name="robots" content="index,follow,max-image-preview:large">
 
@@ -45,14 +47,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://www.betstamp.com/market-making-tools">
 <meta property="og:title" content="Market Making Tool Suite | Betstamp API">
-<meta property="og:description" content="Correlation-aware SGP pricing, a market fair price for parlays and SGPs, and a volatility signal for when to stop quoting. The pricing layer behind sharp prop markets, by API.">
+<meta property="og:description" content="Know what to quote and when to stop. A volatility and off-board signal, a market fair price for parlays and SGPs, and correlation-aware SGP pricing, in one API for market makers.">
 <!-- TODO(dev): replace with a 1200x630 page-specific OG image. Wordmark is the site-wide fallback. -->
 <meta property="og:image" content="https://betstamp-public.sfo2.cdn.digitaloceanspaces.com/betstamp-logos/betstamp_wordmark.png">
 <meta property="og:image:alt" content="Betstamp Market Making Tool Suite">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@betstamp">
 <meta name="twitter:title" content="Market Making Tool Suite | Betstamp API">
-<meta name="twitter:description" content="Correlation-aware SGP pricing, a market fair price for parlays and SGPs, and a volatility signal for when to stop quoting. One API.">
+<meta name="twitter:description" content="Know what to quote and when to stop. A volatility and off-board signal, a market fair price for parlays and SGPs, and correlation-aware SGP pricing, in one API for market makers.">
 <meta name="twitter:image" content="https://betstamp-public.sfo2.cdn.digitaloceanspaces.com/betstamp-logos/betstamp_wordmark.png">
 
 <!-- Structured data. TODO(dev): keep "url" in sync with the final slug. No "offers" block on purpose (API pricing is never public). -->
@@ -64,19 +66,19 @@
       "@type": "SoftwareApplication",
       "@id": "https://www.betstamp.com/market-making-tools#product",
       "name": "Betstamp Market Making Tool Suite",
-      "alternateName": "Betstamp SGP Pricing API",
+      "alternateName": "Betstamp Market Maker API",
       "applicationCategory": "BusinessApplication",
       "applicationSubCategory": "Sports betting pricing API",
       "operatingSystem": "Web API",
       "url": "https://www.betstamp.com/market-making-tools",
-      "description": "An API suite for market makers quoting same-game parlays and parlays on RFQ venues, exchanges and prediction markets: correlation-aware SGP pricing from every supported sportsbook, a market fair price for parlays and SGPs, and a volatility and off-board signal that flags when to stop quoting.",
+      "description": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues: a volatility and off-board signal that flags when to stop quoting, a market fair price for parlays and SGPs, and correlation-aware SGP pricing from every supported sportsbook.",
       "featureList": [
+        "Volatility and off-board signal for market makers, with reason codes",
+        "Market fair price for parlays and SGPs",
         "Correlation-aware SGP pricing from 12+ sportsbooks per request",
         "Per-book correlation percentage versus naive leg multiplication",
         "Cross-fixture parlay pricing",
         "Per-request timeout so slow books never hold up a quote",
-        "Market fair price for parlays and SGPs",
-        "Volatility and off-board signal for market makers",
         "REST and Server-Sent Events delivery",
         "Unified fixture, player and market IDs across every source"
       ],
@@ -113,6 +115,67 @@
           "position": 2,
           "name": "Market Making Tool Suite",
           "item": "https://www.betstamp.com/market-making-tools"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the Betstamp Market Making Tool Suite?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It has three parts: a volatility and off-board signal that tells you when to stop quoting, a market fair price for the slip, and each supported sportsbook's own correlated SGP price. It runs on the same market data behind the Betstamp PRO True Line."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the volatility and off-board signal do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It watches the sources behind each leg of a slip and returns a per-market state your quoting logic can act on: quote, widen or stop. It flags when a market has been pulled off the board, with a reason, and when the price underneath a slip is moving too fast to quote. When the market settles, the signal clears."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the market fair price for parlays and SGPs calculated?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is derived from the market's SGP quotes for the same legs, with vig stripped, so it is one independent number for the slip rather than any single book's price. It comes back beside the per-book quotes in the same request and is backtested the way the True Line is. You can also send your own leg prices and have the market's correlation applied on top."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between RFQ and order-book market making, and which tools apply?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In RFQ market making a request arrives with legs and a stake and you return a price within the venue's time limit. The market fair price and per-book correlation are what you quote from, and a per-request timeout keeps a slow book from holding up your answer. In order-book market making you rest orders that stay exposed until you pull them, so the volatility and off-board signal tells you when to pull. Most makers do both."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which prediction markets can I use this with?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All of them. Makers use it on Kalshi, Polymarket, Novig and ProphetX, and it is built for any prediction market or exchange that runs an RFQ system. The suite prices the slip and tells you when not to quote; where you quote is up to you. The same fixture, player and market IDs work across every source in the Betstamp feed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get the data, REST or streaming?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Both. Pricing endpoints are request and response over REST. Market data can be pulled over REST or streamed over Server-Sent Events. Every endpoint authenticates with an X-API-KEY header."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get access?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tell us what you make markets on and where. We scope the suite to your leagues, books and volume, and issue a trial key so you can test it against your own flow."
+          }
         }
       ]
     }
@@ -284,6 +347,8 @@
   .row h3 .acc{color:var(--blue-accent)}
   .row p{font-size:16px;color:var(--ink-78)}
   .row p + p{margin-top:14px}
+  .row .xref{margin-top:18px;font-size:14px;color:var(--ink-62)}
+  .row .xref a{color:var(--blue-accent);text-decoration:underline;text-underline-offset:3px}
   .row .spec{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:10px}
   .row .spec li{font-size:15px;color:var(--ink-78);padding-left:24px;position:relative}
   .row .spec li:before{content:"";position:absolute;left:0;top:8px;width:10px;height:6px;border-left:2px solid var(--blue-accent);border-bottom:2px solid var(--blue-accent);transform:rotate(-45deg)}
@@ -921,8 +986,8 @@
   <div class="wrap hero-grid">
     <div>
       <div class="kicker">Market Making Tool Suite</div>
-      <h1 class="display">SGP &amp; parlay pricing<br class="bp"> for <span class="acc"><span style="white-space:nowrap">high-volume</span><br class="bp"> market makers.</span></h1>
-      <p class="lead">An RFQ lands with legs and a stake. You have milliseconds to answer. The suite gives you each supported book's correlated SGP price, a market fair price to quote against, and a signal for when the market is too volatile to quote at all. One API, built on the same global market data behind the Betstamp PRO True Line.</p>
+      <h1 class="display">Know what to quote.<br class="bp"> <span class="acc">Know when to stop.</span></h1>
+      <p class="lead">Market making tools for high-volume makers. An RFQ lands with legs and a stake and you have milliseconds to answer. The suite tells you when a market is too volatile to quote, gives you a market fair price to quote against, and shows what every supported book is charging for correlation. One API, built on the same global market data behind the Betstamp PRO True Line.</p>
       <div class="cta">
         <!-- TODO(spencer): primary CTA offers a trial key (6 of 9 API leads got one on or right after the call, and all advanced).
              Confirm trials are OK to offer publicly; otherwise revert to "Talk to Sales →". Secondary CTA points down the page by choice.
@@ -935,10 +1000,10 @@
     <!-- Hero visual: one RFQ-style slip run through the suite. ALL NUMBERS ILLUSTRATIVE but internally consistent:
          legs -135 x -115 x +120 = 7.160 decimal (+616 naive). correlation_pct = (7.160 / book decimal - 1) x 100.
          The same slip and numbers are used in the tool 1 chart, tool 2 ladder and the code sample. -->
-    <div class="desk" aria-label="Illustrative example of the suite pricing a same-game slip">
+    <div class="desk" aria-label="Illustrative example of the suite reading a same-game slip">
       <div class="desk-head">
         <span class="t">RFQ · 3 legs · NFL · pregame</span>
-        <span class="pill ok"><span class="dot"></span>Quote</span>
+        <span class="pill warn"><span class="dot"></span>Widen</span>
       </div>
       <div class="legs">
         <div class="leg"><div><b>Home team moneyline</b><small>Match result</small></div><span class="odds">−135</span></div>
@@ -946,14 +1011,13 @@
         <div class="leg"><div><b>WR anytime touchdown</b><small>Player prop</small></div><span class="odds">+120</span></div>
       </div>
       <div class="books">
-        <div class="brow"><span>Book A</span><span class="q">+485</span><span class="c">corr 22.4%</span></div>
-        <div class="brow"><span>Book B</span><span class="q">+470</span><span class="c">corr 25.6%</span></div>
-        <div class="brow"><span>Book C</span><span class="q">+455</span><span class="c">corr 29.0%</span></div>
-        <div class="brow"><span>Book D</span><span class="q">+440</span><span class="c">corr 32.6%</span></div>
+        <div class="brow"><span>Home team moneyline</span><span class="q" style="color:var(--green)">QUOTE</span><span class="c">stable</span></div>
+        <div class="brow"><span>QB passing yards</span><span class="q" style="color:var(--amber)">WIDEN</span><span class="c">3/12 off board</span></div>
+        <div class="brow"><span>WR anytime touchdown</span><span class="q" style="color:var(--green)">QUOTE</span><span class="c">stable</span></div>
         <div class="brow agg"><span>Market fair price</span><span class="q">+498</span><span class="c">vig-free</span></div>
       </div>
       <div class="desk-foot">
-        <span>Volatility: <strong style="color:var(--green)">stable</strong> · last move 41s ago</span>
+        <span>QB yards line moved 249.5 → 262.5, 90s ago · books at +440 to +485</span>
         <span>Illustrative data</span>
       </div>
     </div>
@@ -979,15 +1043,15 @@
 <section id="problem">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Why SGPs and parlays are hard to make</div>
+      <div class="kicker">Why correlated markets are hard to make</div>
       <h2 class="display">Three ways a maker<br class="bp"> <span class="acc">loses on correlated markets.</span></h2>
-      <p>Every book prices the same slip differently, and no one publishes a fair price for it. An RFQ gives you the legs and the stake and expects a price back in milliseconds. The market moves between quotes, and a stale number on a suspended market is a loss you booked yourself.</p>
+      <p>The market moves between quotes, and a stale number on a suspended market is a loss you booked yourself. Every book prices the same slip differently, and no one publishes a fair price for it. An RFQ gives you the legs and the stake and expects a price back in milliseconds.</p>
     </div>
     <div class="three">
       <div class="pcard">
-        <div class="n">01 / PRICING</div>
-        <h3>Naive math misprices every slip</h3>
-        <p>Multiplying leg odds treats the legs as independent. They aren't. Price too generously and you get picked off. Price too cautiously and you get no fills.</p>
+        <div class="n">01 / TIMING</div>
+        <h3>Stale quotes get hit</h3>
+        <p>Injury news, a lineup change, a line pulled from the board. The quote you left out is the one someone takes. You need to know when to widen, and when to stop.</p>
       </div>
       <div class="pcard">
         <div class="n">02 / REFERENCE</div>
@@ -995,9 +1059,9 @@
         <p>Books don't agree on what a correlated slip is worth. Most desks pull a handful of books, blend them by hand and add their own vig. Every quote is anchored to whichever books happen to be open.</p>
       </div>
       <div class="pcard">
-        <div class="n">03 / TIMING</div>
-        <h3>Stale quotes get hit</h3>
-        <p>Injury news, a lineup change, a line pulled from the board. The quote you left out is the one someone takes. You need to know when to widen, and when to stop.</p>
+        <div class="n">03 / PRICING</div>
+        <h3>Naive math misprices every slip</h3>
+        <p>Multiplying leg odds treats the legs as independent. They aren't. Price too generously and you get picked off. Price too cautiously and you get no fills.</p>
       </div>
     </div>
   </div>
@@ -1009,16 +1073,19 @@
     <div class="sec-head">
       <div class="kicker">The Market Making Tool Suite</div>
       <h2 class="display">Three signals. <span class="acc">One API.</span></h2>
-      <p>Betstamp turns global market sources into one real-time view of fair value. The Betstamp PRO True Line does it for player props. The Market Making Tool Suite does it for the markets books struggle with most: parlays and same-game parlays.</p>
+      <p>Betstamp turns global market sources into one real-time view of fair value. The Betstamp PRO True Line does it for player props. The Market Making Tool Suite does it for the markets makers get picked off on most: parlays and same-game parlays.</p>
     </div>
 
     <div class="tools">
-      <!-- TOOL 1 — live today. Facts from the public API reference (/docs/api → POST /api/sgp, POST /api/parlay). -->
+      <!-- TOOL 3 — ships with GitHub #11353. "OTB" = off the board. TODO(dev): page publishes only once this is live. -->
       <article class="tcard">
         <div class="top"><span class="num">01</span></div>
-        <h3>Correlation-aware SGP pricing</h3>
-        <p>Every supported book's real combined price for the slip, with the correlation it's charging made explicit.</p>
-        <a class="more" href="#tool-1">See it priced ↓</a>
+        <h3>Volatility &amp; off-board signal</h3>
+        <p>A per-market read on whether the legs behind a quote are stable, and a plain signal for when to stop pricing.</p>
+        <!-- TODO(spencer): public name. Internal/GitHub name is "Maker OTB volatility signal"; "OTB" reads like a codename to buyers. -->
+        <!-- TODO(dev): is_otb already exists on /api/markets and the stream. What #11353 adds is the maker-grade signal + reason.
+             Do not describe the current is_otb flag as this product (see #10836 on flapping). -->
+        <a class="more" href="#signal">See the signal ↓</a>
       </article>
 
       <!-- TOOL 2 — ships with GitHub #11353 / #10107. TODO(dev): page publishes only once this is live. -->
@@ -1028,18 +1095,15 @@
         <p>One vig-free fair price for the slip, derived from the market's SGP quotes rather than any single book.</p>
         <!-- TODO(spencer): GitHub #10107 says this must ship labelled "beta / directional" and must NOT be called the True Line
              or expose Betstamp's exact internal number. Copy above follows that. Confirm the public name ("Market Fair"?). -->
-        <a class="more" href="#tool-2">What it returns ↓</a>
+        <a class="more" href="#fair">What it returns ↓</a>
       </article>
 
-      <!-- TOOL 3 — ships with GitHub #11353. "OTB" = off the board. TODO(dev): page publishes only once this is live. -->
+      <!-- TOOL 1 — live today. Facts from the public API reference (/docs/api → POST /api/sgp, POST /api/parlay). -->
       <article class="tcard">
         <div class="top"><span class="num">03</span></div>
-        <h3>Volatility &amp; off-board signal</h3>
-        <p>A per-market read on whether the legs behind a quote are stable, and a plain signal for when to stop pricing.</p>
-        <!-- TODO(spencer): public name. Internal/GitHub name is "Maker OTB volatility signal"; "OTB" reads like a codename to buyers. -->
-        <!-- TODO(dev): is_otb already exists on /api/markets and the stream. What #11353 adds is the maker-grade signal + reason.
-             Do not describe the current is_otb flag as this product (see #10836 on flapping). -->
-        <a class="more" href="#tool-3">See the signal ↓</a>
+        <h3>Correlation-aware SGP pricing</h3>
+        <p>Every supported book's real combined price for the slip, with the correlation it's charging made explicit.</p>
+        <a class="more" href="#corr">See it priced ↓</a>
       </article>
     </div>
   </div>
@@ -1049,90 +1113,10 @@
 <section id="detail" style="padding-top:24px;padding-bottom:24px">
   <div class="wrap">
 
-    <!-- Tool 1 detail -->
-    <div class="row" id="tool-1">
+    <!-- Signal detail -->
+    <div class="row" id="signal">
       <div class="copy">
-        <div class="kicker">01 · Correlation-aware SGP pricing</div>
-        <h3>See what every book<br class="bp"> <span class="acc">charges for correlation.</span></h3>
-        <p>Every price is the book's own combined quote for the slip, never the legs multiplied together. When the legs move together, the price shows it.</p>
-        <p>Each book also returns <code class="mono" style="font-size:14px;color:#fff">correlation_pct</code>: how much shorter its quote is than the naive product of the legs. That is the correlation it's charging, as one number you can compare across every book on the slip.</p>
-        <ul class="spec">
-          <li>Every supported book priced in one <code>POST /api/sgp</code> request</li>
-          <li>Set <code>timeout_ms</code> per request, so a slow book never costs you the quote</li>
-          <li>Cross-fixture parlays via <code>/api/parlay</code>, with same-game groups priced by each book's own bet builder</li>
-          <li>Pregame markets across 12+ supported sportsbooks</li>
-          <!-- TODO(spencer): live/in-play SGP is NOT supported today (0 of 264 live legs priced in the 2026-09-22 probe).
-               Say nothing about live here unless there is a dated roadmap commitment. -->
-          <!-- TODO(spencer): the existing /sgp-pricing-engine page claims "under 500ms" and "as game state changes".
-               Code budget is 4s per book (default profile). Reconcile before either page ships. -->
-        </ul>
-      </div>
-      <div class="viz" aria-label="Illustrative correlation charged per book">
-        <div class="t"><span>Correlation charged · 3-leg same-game slip</span><span class="pill">Illustrative</span></div>
-        <div class="body">
-        <div class="bars">
-          <div class="bar"><span>Book A</span><div class="track"><div class="fill" style="width:49%"></div></div><span class="v">22.4%</span></div>
-          <div class="bar"><span>Book B</span><div class="track"><div class="fill" style="width:56%"></div></div><span class="v">25.6%</span></div>
-          <div class="bar"><span>Book C</span><div class="track"><div class="fill" style="width:60%"></div></div><span class="v">27.4%</span></div>
-          <div class="bar"><span>Book D</span><div class="track"><div class="fill" style="width:64%"></div></div><span class="v">29.0%</span></div>
-          <div class="bar"><span>Book E</span><div class="track"><div class="fill" style="width:67%"></div></div><span class="v">30.7%</span></div>
-          <div class="bar"><span>Book F</span><div class="track"><div class="fill" style="width:72%"></div></div><span class="v">32.6%</span></div>
-          <div class="bar"><span>Book G</span><div class="track"><div class="fill" style="width:76%"></div></div><span class="v">34.6%</span></div>
-          <div class="bar"><span>Book H</span><div class="track"><div class="fill" style="width:80%"></div></div><span class="v">36.4%</span></div>
-        </div>
-        <div class="sumrow">
-          <div><b>+616</b>naive product</div>
-          <div><b>+425 to +485</b>book quotes</div>
-          <div><b>14.0 pts</b>correlation spread</div>
-        </div>
-        </div>
-        <p class="note">correlation_pct = (naive_product / decimal − 1) × 100. Books and values are placeholders, not a claim about any operator.</p>
-      </div>
-    </div>
-
-    <!-- Tool 2 detail -->
-    <div class="row" id="tool-2">
-      <div class="copy">
-        <div class="kicker">02 · Market fair price</div>
-        <h3>An independent fair price<br class="bp"> <span class="acc">for correlated markets.</span></h3>
-        <p>The Betstamp PRO True Line gave player props a reference price that doesn't belong to any one book. Parlays and same-game parlays have never had one.</p>
-        <p>The market fair price fills that gap: one vig-free number for the slip, derived from the market's SGP quotes and returned beside the per-book prices in the same response. Quote against the market, not against whichever book happens to be open.</p>
-        <ul class="spec">
-          <li>One fair price per slip, correlation included, vig stripped</li>
-          <li>Same request, same legs, same IDs as <code>/api/sgp</code></li>
-          <li>Backtested the way the True Line is</li>
-          <li>Or bring your own leg prices, and we apply the market's correlation</li>
-          <!-- TODO(dev) SHIP GATE: bring-your-own leg probabilities. Nick call 9/23 said it exists; Jeff's 9/24 chat says a prototype
-               is being built for Mon 9/28. Remove this bullet if it is not live when the page publishes. -->
-        </ul>
-        <!-- TODO(dev): exact field name and response shape TBD per Betstamp GitHub #11353. Visual below is a placeholder. -->
-      </div>
-      <div class="viz" aria-label="Illustrative per-book quotes next to the market fair price">
-        <div class="t"><span>Same slip · book quotes vs fair</span><span class="pill">Illustrative</span></div>
-        <div class="body">
-        <div class="ladder">
-          <div class="lrow hi"><span>Market fair price</span><span class="d">vig-free</span><span class="q">+498</span></div>
-          <div class="lrow"><span>Book A</span><span class="d">−13</span><span class="q">+485</span></div>
-          <div class="lrow"><span>Book B</span><span class="d">−28</span><span class="q">+470</span></div>
-          <div class="lrow"><span>Book C</span><span class="d">−36</span><span class="q">+462</span></div>
-          <div class="lrow"><span>Book D</span><span class="d">−43</span><span class="q">+455</span></div>
-          <div class="lrow"><span>Book E</span><span class="d">−50</span><span class="q">+448</span></div>
-          <div class="lrow"><span>Book F</span><span class="d">−58</span><span class="q">+440</span></div>
-        </div>
-        <div class="sumrow">
-          <div><b>+498</b>fair, vig stripped</div>
-          <div><b>8</b>books priced</div>
-          <div><b>3</b>legs, one fixture</div>
-        </div>
-        </div>
-        <p class="note">Placeholder values, same slip as above. Six of eight books shown; middle column is each book's distance from fair.</p>
-      </div>
-    </div>
-
-    <!-- Tool 3 detail -->
-    <div class="row" id="tool-3">
-      <div class="copy">
-        <div class="kicker">03 · Volatility &amp; off-board signal</div>
+        <div class="kicker">01 · Volatility &amp; off-board signal</div>
         <h3>Know when <span class="acc">to stop quoting.</span></h3>
         <p>You get picked off on the quotes you leave out while the market moves. The signal watches the sources behind each leg and tells you when a market has gone off the board, and why, and when the price underneath a slip is too unstable to quote.</p>
         <p>It returns a per-market state your auto-quoting logic can act on: quote, widen, or stop. When the market settles, the signal clears and you're back in.</p>
@@ -1176,6 +1160,87 @@
       </div>
     </div>
 
+    <!-- Fair price detail -->
+    <div class="row" id="fair">
+      <div class="copy">
+        <div class="kicker">02 · Market fair price</div>
+        <h3>An independent fair price<br class="bp"> <span class="acc">for correlated markets.</span></h3>
+        <p>The Betstamp PRO True Line gave player props a reference price that doesn't belong to any one book. Parlays and same-game parlays have never had one.</p>
+        <p>The market fair price fills that gap: one vig-free number for the slip, derived from the market's SGP quotes and returned beside the per-book prices in the same response. Quote against the market, not against whichever book happens to be open.</p>
+        <ul class="spec">
+          <li>One fair price per slip, correlation included, vig stripped</li>
+          <li>Same request, same legs, same IDs as <code>/api/sgp</code></li>
+          <li>Backtested the way the True Line is</li>
+          <li>Or bring your own leg prices, and we apply the market's correlation</li>
+          <!-- TODO(dev) SHIP GATE: bring-your-own leg probabilities. Nick call 9/23 said it exists; Jeff's 9/24 chat says a prototype
+               is being built for Mon 9/28. Remove this bullet if it is not live when the page publishes. -->
+        </ul>
+        <!-- TODO(dev): exact field name and response shape TBD per Betstamp GitHub #11353. Visual below is a placeholder. -->
+      </div>
+      <div class="viz" aria-label="Illustrative per-book quotes next to the market fair price">
+        <div class="t"><span>Same slip · book quotes vs fair</span><span class="pill">Illustrative</span></div>
+        <div class="body">
+        <div class="ladder">
+          <div class="lrow hi"><span>Market fair price</span><span class="d">vig-free</span><span class="q">+498</span></div>
+          <div class="lrow"><span>Book A</span><span class="d">−13</span><span class="q">+485</span></div>
+          <div class="lrow"><span>Book B</span><span class="d">−28</span><span class="q">+470</span></div>
+          <div class="lrow"><span>Book C</span><span class="d">−36</span><span class="q">+462</span></div>
+          <div class="lrow"><span>Book D</span><span class="d">−43</span><span class="q">+455</span></div>
+          <div class="lrow"><span>Book E</span><span class="d">−50</span><span class="q">+448</span></div>
+          <div class="lrow"><span>Book F</span><span class="d">−58</span><span class="q">+440</span></div>
+        </div>
+        <div class="sumrow">
+          <div><b>+498</b>fair, vig stripped</div>
+          <div><b>8</b>books priced</div>
+          <div><b>3</b>legs, one fixture</div>
+        </div>
+        </div>
+        <p class="note">Placeholder values, same slip as above. Six of eight books shown; middle column is each book's distance from fair.</p>
+      </div>
+    </div>
+
+    <!-- Correlation detail -->
+    <div class="row" id="corr">
+      <div class="copy">
+        <div class="kicker">03 · Correlation-aware SGP pricing</div>
+        <h3>See what every book<br class="bp"> <span class="acc">charges for correlation.</span></h3>
+        <p>Every price is the book's own combined quote for the slip, never the legs multiplied together. When the legs move together, the price shows it.</p>
+        <p>Each book also returns <code class="mono" style="font-size:14px;color:#fff">correlation_pct</code>: how much shorter its quote is than the naive product of the legs. That is the correlation it's charging, as one number you can compare across every book on the slip.</p>
+        <ul class="spec">
+          <li>Every supported book priced in one <code>POST /api/sgp</code> request</li>
+          <li>Set <code>timeout_ms</code> per request, so a slow book never costs you the quote</li>
+          <li>Cross-fixture parlays via <code>/api/parlay</code>, with same-game groups priced by each book's own bet builder</li>
+          <li>Pregame markets across 12+ supported sportsbooks</li>
+          <!-- TODO(spencer): live/in-play SGP is NOT supported today (0 of 264 live legs priced in the 2026-09-22 probe).
+               Say nothing about live here unless there is a dated roadmap commitment. -->
+          <!-- TODO(spencer): the existing /sgp-pricing-engine page claims "under 500ms" and "as game state changes".
+               Code budget is 4s per book (default profile). Reconcile before either page ships. -->
+        </ul>
+        <p class="xref">Same tool, same API. The <a href="https://www.betstamp.com/sgp-pricing-engine">SGP Pricing Engine</a> page covers everyone who uses it, odds sites and apps included. This page is written for market makers.</p>
+      </div>
+      <div class="viz" aria-label="Illustrative correlation charged per book">
+        <div class="t"><span>Correlation charged · 3-leg same-game slip</span><span class="pill">Illustrative</span></div>
+        <div class="body">
+        <div class="bars">
+          <div class="bar"><span>Book A</span><div class="track"><div class="fill" style="width:49%"></div></div><span class="v">22.4%</span></div>
+          <div class="bar"><span>Book B</span><div class="track"><div class="fill" style="width:56%"></div></div><span class="v">25.6%</span></div>
+          <div class="bar"><span>Book C</span><div class="track"><div class="fill" style="width:60%"></div></div><span class="v">27.4%</span></div>
+          <div class="bar"><span>Book D</span><div class="track"><div class="fill" style="width:64%"></div></div><span class="v">29.0%</span></div>
+          <div class="bar"><span>Book E</span><div class="track"><div class="fill" style="width:67%"></div></div><span class="v">30.7%</span></div>
+          <div class="bar"><span>Book F</span><div class="track"><div class="fill" style="width:72%"></div></div><span class="v">32.6%</span></div>
+          <div class="bar"><span>Book G</span><div class="track"><div class="fill" style="width:76%"></div></div><span class="v">34.6%</span></div>
+          <div class="bar"><span>Book H</span><div class="track"><div class="fill" style="width:80%"></div></div><span class="v">36.4%</span></div>
+        </div>
+        <div class="sumrow">
+          <div><b>+616</b>naive product</div>
+          <div><b>+425 to +485</b>book quotes</div>
+          <div><b>14.0 pts</b>correlation spread</div>
+        </div>
+        </div>
+        <p class="note">correlation_pct = (naive_product / decimal − 1) × 100. Books and values are placeholders, not a claim about any operator.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1208,19 +1273,19 @@
     { <span class="c">… WR anytime touchdown, same fixture …</span> }
   ]
 }</pre></div>
-          <div><pre><span class="c">// response (per-book fields as documented)</span>
+          <div><pre><span class="c">// response</span>
 {
+  <span class="c">// the signal and the market fair price</span>
+  <span class="k">"volatility"</span>: { <span class="k">"state"</span>: <span class="s">"volatile"</span>, <span class="k">"action"</span>: <span class="s">"widen"</span>,
+                  <span class="k">"reason"</span>: <span class="s">"off_board"</span>, <span class="k">"leg"</span>: <span class="n">2</span> },
+  <span class="k">"fair_price"</span>: { <span class="k">"american"</span>: <span class="s">"+498"</span>, <span class="k">"decimal"</span>: <span class="n">5.98</span> },
+
+  <span class="c">// per-book fields, as documented today</span>
   <span class="k">"draftkings"</span>: { <span class="k">"american"</span>: <span class="s">"+485"</span>, <span class="k">"decimal"</span>: <span class="n">5.85</span>,
-                  <span class="k">"correlation_pct"</span>: <span class="n">22.4</span>,
-                  <span class="k">"correlation_pp"</span>: <span class="n">3.13</span>,
-                  <span class="k">"deeplink"</span>: <span class="s">"https://…"</span> },
+                  <span class="k">"correlation_pct"</span>: <span class="n">22.4</span>, <span class="k">"deeplink"</span>: <span class="s">"https://…"</span> },
   <span class="k">"fanduel"</span>:    { <span class="k">"american"</span>: <span class="s">"+470"</span>, <span class="k">"decimal"</span>: <span class="n">5.70</span>,
                   <span class="k">"correlation_pct"</span>: <span class="n">25.6</span>, <span class="c">…</span> },
-  <span class="k">"betmgm"</span>:     { <span class="k">"error"</span>: <span class="s">"market not found (leg 2)"</span> },
-
-  <span class="c">// market fair price and volatility state</span>
-  <span class="k">"fair_price"</span>: { <span class="k">"american"</span>: <span class="s">"+498"</span>, <span class="k">"decimal"</span>: <span class="n">5.98</span> },
-  <span class="k">"volatility"</span>: { <span class="k">"state"</span>: <span class="s">"stable"</span>, <span class="k">"action"</span>: <span class="s">"quote"</span> }
+  <span class="k">"betmgm"</span>:     { <span class="k">"error"</span>: <span class="s">"market not found (leg 2)"</span> }
 }</pre></div>
         </div>
       </div>
@@ -1241,37 +1306,6 @@
            /api/parlay and "default 250,000 requests"/month. Reframe the 250k as a starting allowance before quoting numbers;
            makers benchmark against OddsBlaze (200 SGP req/min). -->
       <div><h4>Your clock, not ours</h4><p>An RFQ waits for nobody. Set <code class="mono" style="font-size:13px">timeout_ms</code> and the response comes back when you said it should. Books that answered are priced. Books that didn't are marked, not waited for.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== WHO IT'S FOR ===================== -->
-<section id="who">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">Who it's for</div>
-      <h2 class="display">Made for the <span class="acc">sell side.</span></h2>
-      <p>For anyone who hangs prices, solo or on a desk. Not the ones who take them.</p>
-    </div>
-    <div class="who">
-      <div class="wcard">
-        <h3>RFQ makers</h3>
-        <p>Price same-game combos on any RFQ venue in the time the request allows, with a number you can defend.</p>
-        <ul class="use">
-          <li>Per-book correlation as a cross-check on your model</li>
-          <li>Market fair price to quote against</li>
-          <li>Cross-fixture parlays in the same API</li>
-        </ul>
-      </div>
-      <div class="wcard">
-        <h3>Order-book makers</h3>
-        <p>Resting orders are exposed until you pull them. Know when the market underneath has moved, and pull first.</p>
-        <ul class="use">
-          <li>Off-the-board status with a reason</li>
-          <li>Volatility state per market</li>
-          <li>One set of IDs across books and exchanges</li>
-        </ul>
-      </div>
     </div>
   </div>
 </section>
@@ -1303,6 +1337,48 @@
       <div class="fcard"><h4>Prediction Markets API</h4><p>Order books, top-of-book, traded volume and fixture-level liquidity from the major prediction markets and exchanges, on the same IDs.</p><a href="https://www.betstamp.com/prediction-markets-api">Prediction Markets API →</a></div>
       <div class="fcard"><h4>SGP odds comparison</h4><p>Build any same-game parlay and compare its price across every supported book, in the PRO Odds Screen or over the API.</p><a href="https://www.betstamp.com/sgp-pricing-engine">SGP Pricing Engine →</a></div>
       <div class="fcard"><h4>Sportsbook Pricing Feed</h4><p>Sharp reference pricing for operators, built from 200+ books and seasons of closing lines.</p><a href="https://www.betstamp.com/sportsbook-pricing-feed">Sportsbook Pricing Feed →</a></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===================== FAQ ===================== -->
+<!-- Placed below the CTA on purpose (Spencer, 2026-09-24): more indexable content for LLM and AI search without slowing the pitch. Mirrors the FAQPage JSON-LD. -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head center" style="text-align:center">
+      <div class="kicker">FAQ</div>
+      <h2 class="display">Questions, <span class="acc">answered.</span></h2>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>What is the Betstamp Market Making Tool Suite?</summary>
+        <p>An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It has three parts: a volatility and off-board signal that tells you when to stop quoting, a market fair price for the slip, and each supported sportsbook's own correlated SGP price. It runs on the same market data behind the Betstamp PRO True Line.</p>
+      </details>
+      <details>
+        <summary>What does the volatility and off-board signal do?</summary>
+        <p>It watches the sources behind each leg of a slip and returns a per-market state your quoting logic can act on: quote, widen or stop. It flags when a market has been pulled off the board, with a reason, and when the price underneath a slip is moving too fast to quote. When the market settles, the signal clears.</p>
+      </details>
+      <details>
+        <summary>How is the market fair price for parlays and SGPs calculated?</summary>
+        <p>It is derived from the market's SGP quotes for the same legs, with vig stripped, so it is one independent number for the slip rather than any single book's price. It comes back beside the per-book quotes in the same request and is backtested the way the True Line is. You can also send your own leg prices and have the market's correlation applied on top.</p>
+      </details>
+      <details>
+        <summary>What is the difference between RFQ and order-book market making, and which tools apply?</summary>
+        <p>In RFQ market making a request arrives with legs and a stake and you return a price within the venue's time limit. The market fair price and per-book correlation are what you quote from, and a per-request timeout keeps a slow book from holding up your answer. In order-book market making you rest orders that stay exposed until you pull them, so the volatility and off-board signal tells you when to pull. Most makers do both.</p>
+      </details>
+      <details>
+        <summary>Which prediction markets can I use this with?</summary>
+        <p>All of them. Makers use it on Kalshi, Polymarket, Novig and ProphetX, and it is built for any prediction market or exchange that runs an RFQ system. The suite prices the slip and tells you when not to quote; where you quote is up to you. The same fixture, player and market IDs work across every source in the Betstamp feed.</p>
+      </details>
+      <details>
+        <summary>How do I get the data, REST or streaming?</summary>
+        <p>Both. Pricing endpoints are request and response over REST. Market data can be pulled over REST or streamed over Server-Sent Events. Every endpoint authenticates with an X-API-KEY header.</p>
+      </details>
+      <details>
+        <summary>How do I get access?</summary>
+        <p>Tell us what you make markets on and where. We scope the suite to your leagues, books and volume, and issue a trial key so you can test it against your own flow.</p>
+      </details>
     </div>
   </div>
 </section>
@@ -1828,7 +1904,7 @@
   // 1. Tag what should reveal, with a stagger index inside each group.
   var groups = [
     '.pcard','.tcard','.wcard','.fcard','.devrow > div','.steps-row > li',
-    '.sec-head > *','.how-head > *','.row .copy > *','.stat','.band .wrap > *','.hero-grid > div:first-child > *'
+    '.sec-head > *','.how-head > *','.row .copy > *','.stat','.faq details','.band .wrap > *','.hero-grid > div:first-child > *'
   ];
   groups.forEach(function(sel){
     var els = document.querySelectorAll(sel);
