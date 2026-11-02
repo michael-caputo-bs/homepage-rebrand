@@ -7,7 +7,7 @@ window.PRO_FIT_CONFIG = {
 
   BOOK_URL: "https://calendly.com/betstampliam/betstamp-pro-free-demo",
   SELF_SERVE_URL: "https://pro.betstamp.com/create-account-trial",
-  TELEGRAM_URL: "https://t.me/REPLACE_ME",
+  TELEGRAM_URL: "https://t.me/michaelcaputo",
 
   PARAM_KEYS: [
     "name", "email", "phone", "lead_type", "unit_size", "budget",
