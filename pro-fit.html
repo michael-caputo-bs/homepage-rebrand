@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Betstamp PRO — Is a demo the right next step?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0B1826;
+    --navy-raised: #12243A;
+    --blue: #40A0DB;
+    --blue-dark: #2587C3;
+    --white: #FFFFFF;
+    --text: rgba(255,255,255,0.78);
+    --muted: rgba(255,255,255,0.58);
+    --line: rgba(255,255,255,0.12);
+    --line-strong: rgba(255,255,255,0.28);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: 672px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 640px) { .wrap { padding: 0 24px; } }
+
+  .topbar { padding: 20px 0 0; }
+  .wordmark {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    color: var(--white); font-weight: 800; font-size: 17px;
+    letter-spacing: -0.01em; text-decoration: none;
+  }
+  .wordmark .pro {
+    font-size: 11px; font-weight: 800; letter-spacing: 0.12em;
+    color: var(--navy); background: var(--blue);
+    padding: 2px 6px; border-radius: 4px; transform: translateY(-2px);
+  }
+
+  .hero { padding: 40px 0 8px; }
+  @media (min-width: 640px) { .hero { padding: 64px 0 8px; } }
+  h1 {
+    color: var(--white);
+    font-size: 30px; line-height: 1.15; font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 640px) { h1 { font-size: 40px; } }
+  .subhead { margin-top: 16px; font-size: 17px; color: var(--text); }
+  @media (min-width: 640px) { .subhead { font-size: 18px; } }
+
+  section { margin-top: 36px; }
+  h2 {
+    color: var(--white); font-size: 15px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+  }
+
+  .checklist { list-style: none; margin-top: 16px; display: grid; gap: 14px; }
+  .checklist li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; }
+  .check {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(64,160,219,0.16); color: var(--blue);
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .check svg { width: 14px; height: 14px; }
+
+  .math {
+    margin-top: 36px;
+    background: var(--navy-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--blue);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 15px;
+  }
+  .math strong { color: var(--white); font-weight: 700; }
+
+  .cta { margin-top: 36px; display: grid; gap: 20px; scroll-margin-top: 24px; }
+  .cta-option { display: grid; gap: 8px; }
+  .btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 56px; padding: 14px 20px;
+    border-radius: 10px; border: 2px solid transparent;
+    font-family: inherit; font-size: 17px; font-weight: 700; letter-spacing: -0.005em;
+    text-decoration: none; cursor: pointer; text-align: center;
+    transition: background-color .15s, border-color .15s, color .15s, box-shadow .2s;
+  }
+  .btn:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+  .btn-primary { background: var(--blue); color: var(--navy); }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-secondary {
+    background: transparent; color: rgba(255,255,255,0.86);
+    border-color: var(--line-strong); font-weight: 600; font-size: 16px; min-height: 52px;
+  }
+  .btn-secondary:hover { border-color: var(--blue-dark); color: var(--white); }
+  .micro { font-size: 13.5px; color: var(--muted); text-align: center; }
+
+  .btn.is-emphasized { box-shadow: 0 0 0 4px rgba(64,160,219,0.35), 0 10px 30px rgba(64,160,219,0.25); }
+  .btn.is-emphasized.pulse { animation: pulse 1.4s ease-out 2; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(64,160,219,0.55), 0 10px 30px rgba(64,160,219,0.25); }
+    100% { box-shadow: 0 0 0 14px rgba(64,160,219,0), 0 10px 30px rgba(64,160,219,0.25); }
+  }
+  @media (prefers-reduced-motion: reduce) { .btn.is-emphasized.pulse { animation: none; } }
+
+  .result {
+    display: none;
+    border-radius: 10px; padding: 14px 16px;
+    font-weight: 600; color: var(--white);
+    border: 1px solid var(--line-strong);
+    background: rgba(255,255,255,0.05);
+  }
+  .result.show { display: flex; gap: 10px; align-items: flex-start; }
+  .result.fit { border-color: var(--blue); background: rgba(64,160,219,0.14); }
+  .result svg { flex: none; width: 20px; height: 20px; margin-top: 2px; color: var(--blue); }
+
+  .fitcheck {
+    margin-top: 36px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--navy-raised);
+  }
+  .fitcheck summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 16px 18px; color: var(--white); font-weight: 600;
+    border-radius: var(--radius);
+  }
+  .fitcheck summary::-webkit-details-marker { display: none; }
+  .fitcheck summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .fitcheck summary .chev { transition: transform .2s; color: var(--blue); flex: none; }
+  .fitcheck[open] summary .chev { transform: rotate(180deg); }
+  .fitcheck-body { padding: 4px 18px 20px; display: grid; gap: 22px; }
+
+  .q { display: grid; gap: 10px; border: 0; }
+  .q-label { color: var(--white); font-weight: 600; font-size: 15px; }
+  .select {
+    appearance: none; -webkit-appearance: none;
+    width: 100%; min-height: 48px; padding: 12px 40px 12px 14px;
+    font-family: inherit; font-size: 16px; color: var(--white);
+    background: var(--navy) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2340A0DB' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 14px center;
+    border: 1px solid var(--line-strong); border-radius: 8px;
+  }
+  .select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(64,160,219,0.3); }
+  .select option { color: #0B1826; background: #FFFFFF; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { position: relative; }
+  .pill input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .pill span {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 10px 14px;
+    border: 1px solid var(--line-strong); border-radius: 8px;
+    font-size: 15px; color: var(--text); background: var(--navy);
+    transition: border-color .15s, background-color .15s, color .15s;
+  }
+  .pill input:hover + span { border-color: var(--blue-dark); }
+  .pill input:checked + span { border-color: var(--blue); background: rgba(64,160,219,0.16); color: var(--white); }
+  .pill input:focus-visible + span { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  .btn-check { min-height: 52px; }
+  .btn-check:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-check:disabled:hover { background: var(--blue); }
+
+  footer {
+    margin-top: 56px; padding: 24px 0 40px;
+    border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; justify-content: space-between;
+    font-size: 14px; color: var(--muted);
+  }
+  footer .wordmark { font-size: 15px; }
+  footer a.tg { color: var(--blue); text-decoration: none; font-weight: 600; }
+  footer a.tg:hover { color: var(--white); text-decoration: underline; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <span class="wordmark">Betstamp <span class="pro">PRO</span></span>
+    </header>
+
+    <main>
+      <div class="hero">
+        <h1>Before you book: is a PRO demo the right next step?</h1>
+        <p class="subhead">Betstamp PRO is built for bettors who already win and move real volume. If that's you, a 30-minute call with our team is the fastest way to see it on the markets you bet.</p>
+      </div>
+
+      <section aria-labelledby="who-heading">
+        <h2 id="who-heading">Who gets the most out of a PRO demo</h2>
+        <ul class="checklist">
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>You're already profitable and looking for better prices, not a betting education.</span>
+          </li>
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>You already pay for an odds tool (or you've outgrown one) and want sharper coverage: props, live, sharp books.</span>
+          </li>
+          <li>
+            <span class="check" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>You have the bankroll to get real money down every month.</span>
+          </li>
+        </ul>
+      </section>
+
+      <aside class="math">
+        <strong>Rough math:</strong> $50K a month in action at a 5% ROI is about $2,500 in profit. That's the scale where a pro screen pays for itself.
+      </aside>
+
+      <div class="cta" id="cta" data-emphasis="book">
+        <div class="result" id="result" role="status" aria-live="polite"></div>
+        <div class="cta-option">
+          <a class="btn btn-primary" id="btn-book" href="#">That's me, pick a time</a>
+          <p class="micro">30 minutes, one-on-one. Can't make it? Reschedule from your confirmation email.</p>
+        </div>
+        <div class="cta-option">
+          <a class="btn btn-secondary" id="btn-self" href="#">Not ready for a call yet</a>
+          <p class="micro">Look around at your own pace. You can book a call anytime.</p>
+        </div>
+      </div>
+
+      <details class="fitcheck" id="fitcheck">
+        <summary>
+          <span>Not sure? Check if you're a fit</span>
+          <svg class="chev" width="14" height="9" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+        </summary>
+        <form class="fitcheck-body" id="fit-form" novalidate>
+          <div id="fit-questions" style="display:grid;gap:22px"></div>
+          <button type="submit" class="btn btn-primary btn-check" id="btn-check" disabled>Check my fit</button>
+        </form>
+      </details>
+    </main>
+
+    <footer>
+      <span class="wordmark">Betstamp <span class="pro">PRO</span></span>
+      <a class="tg" id="tg-link" href="#" target="_blank" rel="noopener">Questions? Message us on Telegram</a>
+    </footer>
+  </div>
+
+<script src="/pro-fit.config.js"></script>
+<script>
+(function () {
+  var C = window.PRO_FIT_CONFIG;
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var search = new URLSearchParams(window.location.search);
+  var state = { params: {}, fitResult: null, answers: {} };
+  C.PARAM_KEYS.forEach(function (k) { state.params[k] = (search.get(k) || "").trim(); });
+
+  function buildUrl(base, keys) {
+    var url = new URL(base);
+    keys.forEach(function (k) { if (state.params[k]) url.searchParams.set(k, state.params[k]); });
+    return url.toString();
+  }
+
+  function payload(event, extra) {
+    var body = { event: event, timestamp: new Date().toISOString() };
+    C.PARAM_KEYS.forEach(function (k) { body[k] = state.params[k]; });
+    if (state.fitResult) body.fit_result = state.fitResult;
+    body.page = C.PAGE;
+    body.variant = C.VARIANT;
+    return Object.assign(body, extra || {});
+  }
+
+  function track(event, extra) {
+    var body = payload(event, extra);
+    if (!C.OPTIN_WEBHOOK_URL) {
+      console.log("[pro-fit] " + event, body);
+      return Promise.resolve();
+    }
+    try {
+      return fetch(C.OPTIN_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) {
+      return Promise.resolve();
+    }
+  }
+
+  function trackThenGo(event, link, e) {
+    if (e.defaultPrevented) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+      track(event);
+      return;
+    }
+    e.preventDefault();
+    var href = link.href;
+    var done = false;
+    function go() { if (done) return; done = true; window.location.href = href; }
+    track(event).then(go, go);
+    setTimeout(go, C.REDIRECT_MAX_WAIT_MS);
+  }
+
+  var btnBook = document.getElementById("btn-book");
+  var btnSelf = document.getElementById("btn-self");
+  btnBook.href = buildUrl(C.BOOK_URL, C.BOOK_PARAM_KEYS);
+  btnSelf.href = buildUrl(C.SELF_SERVE_URL, C.SELF_SERVE_PARAM_KEYS);
+  document.getElementById("tg-link").href = C.TELEGRAM_URL;
+
+  btnBook.addEventListener("click", function (e) { trackThenGo("click_book", btnBook, e); });
+  btnSelf.addEventListener("click", function (e) { trackThenGo("click_self_serve", btnSelf, e); });
+
+  var cta = document.getElementById("cta");
+  var result = document.getElementById("result");
+  var checkIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/><path d="M6 10.5l2.5 2.5L14 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var infoIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/><path d="M10 9v5M10 6.2v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+
+  function setEmphasis(which) {
+    var emphasized = which === "self" ? btnSelf : btnBook;
+    var other = which === "self" ? btnBook : btnSelf;
+    emphasized.classList.remove("btn-secondary");
+    emphasized.classList.add("btn-primary", "is-emphasized");
+    other.classList.remove("btn-primary", "is-emphasized", "pulse");
+    other.classList.add("btn-secondary");
+    cta.setAttribute("data-emphasis", which);
+    emphasized.classList.remove("pulse");
+    void emphasized.offsetWidth;
+    emphasized.classList.add("pulse");
+    return emphasized;
+  }
+
+  function showResult(fit) {
+    result.className = "result show " + (fit ? "fit" : "not-fit");
+    result.innerHTML = (fit ? checkIcon : infoIcon) + "<span></span>";
+    result.querySelector("span").textContent = fit ? C.RESULT_COPY.fit : C.RESULT_COPY.not_fit;
+    var target = setEmphasis(fit ? "book" : "self");
+    cta.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    setTimeout(function () { target.focus({ preventScroll: true }); }, reduceMotion ? 0 : 450);
+  }
+
+  function optionFor(key, value) {
+    var opts = C.FIT_QUESTIONS[key].options;
+    for (var i = 0; i < opts.length; i++) if (opts[i].value === value) return opts[i];
+    return null;
+  }
+
+  function scoreFit(a) {
+    var r = C.FIT_RULES;
+    var bankroll = optionFor("bankroll", a.bankroll);
+    var bet = optionFor("bet_size", a.bet_size);
+    var stakes = (bankroll && bankroll.min >= r.minBankroll) || (bet && bet.min >= r.minBetSize);
+    var record = r.toolUseFit.indexOf(a.tool_use) !== -1 || r.upOverallFit.indexOf(a.up_overall) !== -1;
+    return !!(stakes && record);
+  }
+
+  var fitcheck = document.getElementById("fitcheck");
+  if (!C.FIT_RULES.enabled) {
+    fitcheck.remove();
+  } else {
+    var form = document.getElementById("fit-form");
+    var questions = document.getElementById("fit-questions");
+    var btnCheck = document.getElementById("btn-check");
+    var keys = Object.keys(C.FIT_QUESTIONS);
+
+    keys.forEach(function (key) {
+      var q = C.FIT_QUESTIONS[key];
+      var id = "q-" + key;
+      if (q.type === "select") {
+        var wrap = document.createElement("div");
+        wrap.className = "q";
+        var label = document.createElement("label");
+        label.className = "q-label";
+        label.htmlFor = id;
+        label.textContent = q.label;
+        var select = document.createElement("select");
+        select.className = "select";
+        select.id = id;
+        select.name = key;
+        var ph = document.createElement("option");
+        ph.value = "";
+        ph.textContent = "Select one";
+        ph.disabled = true;
+        ph.selected = true;
+        select.appendChild(ph);
+        q.options.forEach(function (o) {
+          var opt = document.createElement("option");
+          opt.value = o.value;
+          opt.textContent = o.label;
+          select.appendChild(opt);
+        });
+        wrap.appendChild(label);
+        wrap.appendChild(select);
+        questions.appendChild(wrap);
+      } else {
+        var fs = document.createElement("fieldset");
+        fs.className = "q";
+        var legend = document.createElement("legend");
+        legend.className = "q-label";
+        legend.textContent = q.label;
+        legend.style.marginBottom = "10px";
+        var pills = document.createElement("div");
+        pills.className = "pills";
+        q.options.forEach(function (o) {
+          var lab = document.createElement("label");
+          lab.className = "pill";
+          var input = document.createElement("input");
+          input.type = "radio";
+          input.name = key;
+          input.value = o.value;
+          var span = document.createElement("span");
+          span.textContent = o.label;
+          lab.appendChild(input);
+          lab.appendChild(span);
+          pills.appendChild(lab);
+        });
+        fs.appendChild(legend);
+        fs.appendChild(pills);
+        questions.appendChild(fs);
+      }
+    });
+
+    function readAnswers() {
+      var data = new FormData(form);
+      var a = {};
+      keys.forEach(function (k) { a[k] = data.get(k) || ""; });
+      return a;
+    }
+
+    form.addEventListener("change", function () {
+      var a = readAnswers();
+      btnCheck.disabled = keys.some(function (k) { return !a[k]; });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var a = readAnswers();
+      if (keys.some(function (k) { return !a[k]; })) return;
+      state.answers = a;
+      var fit = scoreFit(a);
+      state.fitResult = fit ? "fit" : "not_fit";
+      track("fitcheck_submit", {
+        fit_bankroll: a.bankroll,
+        fit_bet_size: a.bet_size,
+        fit_tool_use: a.tool_use,
+        fit_up_overall: a.up_overall
+      });
+      showResult(fit);
+    });
+
+    var opened = false;
+    fitcheck.addEventListener("toggle", function () {
+      if (fitcheck.open && !opened) {
+        opened = true;
+        track("fitcheck_open");
+      }
+    });
+  }
+
+  track("page_view");
+})();
+</script>
+</body>
+</html>
