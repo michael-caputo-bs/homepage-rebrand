@@ -19,7 +19,6 @@ window.PRO_FIT_CONFIG = {
   FIT_RULES: {
     enabled: true,
     minBankroll: 25000,
-    minBetSize: 250,
     toolUseFit: ["now", "past"],
     upOverallFit: ["yes"]
   },
@@ -33,17 +32,6 @@ window.PRO_FIT_CONFIG = {
         { value: "5k_25k", label: "$5K–$25K", min: 5000 },
         { value: "25k_100k", label: "$25K–$100K", min: 25000 },
         { value: "100k_plus", label: "$100K+", min: 100000 }
-      ]
-    },
-    bet_size: {
-      label: "Typical bet size",
-      type: "select",
-      options: [
-        { value: "0_100", label: "$0–100", min: 0 },
-        { value: "100_250", label: "$100–250", min: 100 },
-        { value: "250_500", label: "$250–500", min: 250 },
-        { value: "500_1k", label: "$500–1K", min: 500 },
-        { value: "1k_plus", label: "$1K+", min: 1000 }
       ]
     },
     tool_use: {

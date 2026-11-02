@@ -38,7 +38,7 @@ Payload:
 }
 ```
 
-`fitcheck_submit` also carries `fit_bankroll`, `fit_bet_size`, `fit_tool_use`, `fit_up_overall`.
+`fitcheck_submit` also carries `fit_bankroll`, `fit_tool_use`, `fit_up_overall`.
 
 Button clicks fire the event, then redirect as soon as it resolves or after 300 ms, whichever comes first.
 

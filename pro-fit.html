@@ -342,8 +342,7 @@
   function scoreFit(a) {
     var r = C.FIT_RULES;
     var bankroll = optionFor("bankroll", a.bankroll);
-    var bet = optionFor("bet_size", a.bet_size);
-    var stakes = (bankroll && bankroll.min >= r.minBankroll) || (bet && bet.min >= r.minBetSize);
+    var stakes = bankroll && bankroll.min >= r.minBankroll;
     var record = r.toolUseFit.indexOf(a.tool_use) !== -1 || r.upOverallFit.indexOf(a.up_overall) !== -1;
     return !!(stakes && record);
   }
@@ -435,7 +434,6 @@
       state.fitResult = fit ? "fit" : "not_fit";
       track("fitcheck_submit", {
         fit_bankroll: a.bankroll,
-        fit_bet_size: a.bet_size,
         fit_tool_use: a.tool_use,
         fit_up_overall: a.up_overall
       });
