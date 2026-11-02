@@ -18,7 +18,7 @@ window.PRO_FIT_CONFIG = {
 
   FIT_RULES: {
     enabled: true,
-    minBankroll: 25000,
+    minBankroll: 10000,
     toolUseFit: ["now", "past"],
     upOverallFit: ["yes"]
   },
@@ -29,7 +29,8 @@ window.PRO_FIT_CONFIG = {
       type: "select",
       options: [
         { value: "under_5k", label: "Under $5K", min: 0 },
-        { value: "5k_25k", label: "$5K–$25K", min: 5000 },
+        { value: "5k_10k", label: "$5K–$10K", min: 5000 },
+        { value: "10k_25k", label: "$10K–$25K", min: 10000 },
         { value: "25k_100k", label: "$25K–$100K", min: 25000 },
         { value: "100k_plus", label: "$100K+", min: 100000 }
       ]
