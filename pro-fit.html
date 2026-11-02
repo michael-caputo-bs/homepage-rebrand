@@ -185,7 +185,7 @@
   <main class="container">
     <div class="eyebrow">Betstamp PRO</div>
     <h1>Before you book: is Betstamp PRO <em>the right tool for you?</em></h1>
-    <p class="intro">Betstamp PRO is the most premium odds screen on the market, built for professional and high-level bettors to find and scale player prop edges. If that's you, a 30-minute call with our team is the fastest way to see it on the markets you bet.</p>
+    <p class="intro">Betstamp PRO is the odds screen built for professional bettors and syndicates to find and scale player prop edges. If that's you, a 30-minute call with our team is the fastest way to see it on the markets you bet.</p>
 
     <section aria-labelledby="who-heading">
       <div class="eyebrow">Who it's for</div>
@@ -328,6 +328,7 @@
     result.className = "result show " + (fit ? "fit" : "not-fit");
     result.innerHTML = (fit ? checkIcon : infoIcon) + "<span></span>";
     result.querySelector("span").textContent = fit ? C.RESULT_COPY.fit : C.RESULT_COPY.not_fit;
+    btnBook.textContent = fit ? C.BOOK_LABEL.default : C.BOOK_LABEL.not_fit;
     var target = setEmphasis(fit ? "book" : "self");
     cta.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     setTimeout(function () { target.focus({ preventScroll: true }); }, reduceMotion ? 0 : 450);

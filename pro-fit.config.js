@@ -58,6 +58,11 @@ window.PRO_FIT_CONFIG = {
 
   RESULT_COPY: {
     fit: "You're a fit. Grab a time below.",
-    not_fit: "Most bettors at your stage get more out of exploring on their own first."
+    not_fit: "Based on your answers, starting on your own is the fastest way in. You can book a call anytime."
+  },
+
+  BOOK_LABEL: {
+    default: "That's me, pick a time",
+    not_fit: "Book a 30-minute demo"
   }
 };
