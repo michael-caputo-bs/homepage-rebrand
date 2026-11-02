@@ -5,6 +5,9 @@ window.PRO_FIT_CONFIG = {
   OPTIN_WEBHOOK_URL: window.NEXT_PUBLIC_OPTIN_WEBHOOK_URL || "",
   REDIRECT_MAX_WAIT_MS: 300,
 
+  UTM_STORAGE_KEY: "betstamp_pro_fit_utm",
+  UTM_TTL_MS: 10 * 24 * 60 * 60 * 1000,
+
   BOOK_URL: "https://calendly.com/betstampliam/betstamp-pro-free-demo",
   SELF_SERVE_URL: "https://pro.betstamp.com/create-account-trial",
   TELEGRAM_URL: "https://t.me/michaelcaputo",
@@ -59,10 +62,4 @@ window.PRO_FIT_CONFIG = {
   RESULT_COPY: {
     fit: "You're a fit. Grab a time below.",
     not_fit: "Based on your answers, starting on your own is the fastest way in. You can book a call anytime."
-  },
-
-  BOOK_LABEL: {
-    default: "That's me, pick a time",
-    not_fit: "Book a 30-minute demo"
-  }
-};
+  }};

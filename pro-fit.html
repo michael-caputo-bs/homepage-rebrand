@@ -75,14 +75,6 @@
   .check svg { width: 18px; height: 18px; }
   .checklist li span:last-child { padding-top: 5px; }
 
-  .math {
-    margin-top: 32px; text-align: left;
-    background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--orange);
-    border-radius: 10px; padding: 18px 22px;
-    box-shadow: 0 2px 8px rgba(10,23,41,.04);
-    font-size: 15px; line-height: 1.6; color: var(--slate);
-  }
-  .math strong { color: var(--navy); font-weight: 700; }
 
   .cta { margin-top: 40px; display: grid; gap: 18px; scroll-margin-top: 24px; }
   .cta-option { display: grid; gap: 8px; }
@@ -204,16 +196,12 @@
           <span>You have the bankroll to get real money down every month.</span>
         </li>
       </ul>
-
-      <aside class="math">
-        <strong>Rough math:</strong> $50K a month in action at a 5% ROI. Run that number, and you'll see the scale where a pro screen pays for itself.
-      </aside>
     </section>
 
     <div class="cta" id="cta" data-emphasis="book">
       <div class="result" id="result" role="status" aria-live="polite"></div>
       <div class="cta-option">
-        <a class="btn btn-primary" id="btn-book" href="#">That's me, pick a time</a>
+        <a class="btn btn-primary" id="btn-book" href="#">Book a 30-minute demo</a>
         <p class="micro">30 minutes, one-on-one. Can't make it? Reschedule from your confirmation email.</p>
       </div>
       <div class="cta-option">
@@ -248,6 +236,20 @@
   var search = new URLSearchParams(window.location.search);
   var state = { params: {}, fitResult: null, answers: {} };
   C.PARAM_KEYS.forEach(function (k) { state.params[k] = (search.get(k) || "").trim(); });
+
+  var utmKeys = C.PARAM_KEYS.filter(function (k) { return k.indexOf("utm_") === 0; });
+  try {
+    if (utmKeys.some(function (k) { return state.params[k]; })) {
+      var fresh = {};
+      utmKeys.forEach(function (k) { if (state.params[k]) fresh[k] = state.params[k]; });
+      localStorage.setItem(C.UTM_STORAGE_KEY, JSON.stringify({ params: fresh, timestamp: Date.now() }));
+    } else {
+      var stored = JSON.parse(localStorage.getItem(C.UTM_STORAGE_KEY) || "null");
+      if (stored && Date.now() - stored.timestamp < C.UTM_TTL_MS) {
+        utmKeys.forEach(function (k) { if (stored.params[k]) state.params[k] = stored.params[k]; });
+      }
+    }
+  } catch (e) {}
 
   function buildUrl(base, keys) {
     var url = new URL(base);
@@ -328,7 +330,6 @@
     result.className = "result show " + (fit ? "fit" : "not-fit");
     result.innerHTML = (fit ? checkIcon : infoIcon) + "<span></span>";
     result.querySelector("span").textContent = fit ? C.RESULT_COPY.fit : C.RESULT_COPY.not_fit;
-    btnBook.textContent = fit ? C.BOOK_LABEL.default : C.BOOK_LABEL.not_fit;
     var target = setEmphasis(fit ? "book" : "self");
     cta.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     setTimeout(function () { target.focus({ preventScroll: true }); }, reduceMotion ? 0 : 450);
