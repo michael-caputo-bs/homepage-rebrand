@@ -8,112 +8,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/funnel.css">
 <style>
-  :root {
-    --navy: #0A1729;
-    --navy-2: #142745;
-    --slate: #3A4656;
-    --muted: #5E7590;
-    --muted-2: #8BA2B8;
-    --blue: #3E92CC;
-    --blue-dark: #1E5A85;
-    --blue-soft: #E8F2FA;
-    --orange: #EE7722;
-    --orange-hover: #FF8C3D;
-    --bg: #FFFFFF;
-    --bg-soft: #F4F6F9;
-    --border: #E2E8EF;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body {
-    background: var(--bg);
-    color: var(--slate);
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.55;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  svg { display: block; max-width: 100%; }
-
-  .container { max-width: 672px; margin: 0 auto; padding: 48px 16px 32px; text-align: center; }
-  @media (min-width: 640px) { .container { padding: 28px 24px 48px; } }
-
-  .eyebrow { color: var(--blue); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 8px; }
-
-  h1 {
-    font-family: "Anton", "Inter", sans-serif; font-weight: 400;
-    font-size: clamp(36px, 4.6vw, 44px); line-height: 1.02; letter-spacing: .005em;
-    color: var(--navy); text-transform: uppercase; margin-bottom: 12px;
-  }
-  h1 em, h2 em { color: var(--blue); font-style: normal; }
-
-  .intro { max-width: 600px; margin: 0 auto; color: var(--slate); font-size: 16px; line-height: 1.55; }
-
-  section { margin-top: 32px; }
+  section { margin-top: 22px; }
+  @media (min-width: 640px) { section { margin-top: 28px; } }
   h2 {
     font-family: "Anton", "Inter", sans-serif; font-weight: 400;
-    font-size: clamp(26px, 3.4vw, 30px); line-height: 1.05; letter-spacing: .005em;
-    color: var(--navy); text-transform: uppercase; margin-bottom: 14px;
+    font-size: clamp(22px, 3.4vw, 28px); line-height: 1.05; letter-spacing: .005em;
+    color: var(--navy); text-transform: uppercase; margin-bottom: 12px;
   }
 
   .checklist { list-style: none; display: grid; gap: 8px; text-align: left; }
   .checklist li {
     background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-    padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start;
-    font-size: 15px; color: var(--navy); line-height: 1.5;
+    padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start;
+    font-size: 14px; color: var(--navy); line-height: 1.45;
   }
+  @media (min-width: 640px) { .checklist li { padding: 12px 16px; gap: 12px; font-size: 15px; } }
   .check {
-    flex: 0 0 auto; width: 28px; height: 28px; border-radius: 7px;
+    flex: 0 0 auto; width: 24px; height: 24px; border-radius: 6px;
     background: var(--blue-soft); color: var(--blue);
     display: flex; align-items: center; justify-content: center;
   }
-  .check svg { width: 16px; height: 16px; }
-  .checklist li span:last-child { padding-top: 2px; }
+  @media (min-width: 640px) { .check { width: 28px; height: 28px; border-radius: 7px; } }
+  .check svg { width: 15px; height: 15px; }
+  .checklist li span:last-child { padding-top: 1px; }
+  @media (min-width: 640px) { .checklist li span:last-child { padding-top: 3px; } }
 
-
-  .cta { margin-top: 28px; display: grid; gap: 18px; scroll-margin-top: 24px; }
-  .cta-option { display: grid; gap: 8px; }
-  .btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; min-height: 52px; padding: 14px 28px;
-    border-radius: 8px; border: 2px solid transparent;
-    font-family: "Inter", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .01em;
-    text-decoration: none; cursor: pointer; text-align: center;
-    transition: all .15s ease;
-  }
-  .btn:focus-visible { outline: 3px solid var(--navy); outline-offset: 3px; }
-  .btn-primary { background: var(--orange); border-color: var(--orange); color: #fff; }
-  .btn-primary:hover { background: var(--orange-hover); border-color: var(--orange-hover); transform: translateY(-1px); }
-  .btn-primary::after { content: "→"; margin-left: 2px; font-weight: 600; }
-  .btn-secondary { background: var(--bg); color: var(--blue); border-color: var(--blue); }
-  .btn-secondary:hover { background: var(--blue-soft); }
-  .micro { font-size: 13px; color: var(--muted); }
-
-  .btn.is-emphasized { box-shadow: 0 0 0 4px rgba(238,119,34,.22), 0 10px 26px rgba(238,119,34,.30); }
-  .btn.is-emphasized.pulse { animation: pulse 1.4s ease-out 2; }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(238,119,34,.5), 0 10px 26px rgba(238,119,34,.30); }
-    100% { box-shadow: 0 0 0 14px rgba(238,119,34,0), 0 10px 26px rgba(238,119,34,.30); }
-  }
-  @media (prefers-reduced-motion: reduce) { .btn.is-emphasized.pulse { animation: none; } }
-
-  .result {
-    display: none; text-align: left;
-    border-radius: 10px; padding: 14px 16px;
-    font-size: 15px; font-weight: 600; color: var(--navy);
-    border: 1px solid var(--border); background: var(--bg-soft);
-  }
-  .result.show { display: flex; gap: 10px; align-items: flex-start; }
-  .result.fit { border-color: var(--blue); background: var(--blue-soft); color: var(--blue-dark); }
-  .result svg { flex: none; width: 20px; height: 20px; margin-top: 1px; color: var(--blue); }
+  .cta { margin-top: 20px; display: grid; gap: 8px; }
+  @media (min-width: 640px) { .cta { margin-top: 24px; } }
+  .self-link { margin-top: 6px; font-size: 14px; }
 
   .fitcheck {
-    margin-top: 40px; text-align: left;
+    margin-top: 32px; text-align: left;
     background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px;
   }
   .fitcheck summary {
@@ -157,27 +84,24 @@
   .btn-check:disabled { opacity: .4; cursor: not-allowed; }
   .btn-check:disabled:hover { background: var(--blue); border-color: var(--blue); }
 
-  footer {
-    max-width: 672px; margin: 0 auto; padding: 24px 16px 40px;
-    border-top: 1px solid var(--border);
-    display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between;
-    font-size: 14px;
+  .result {
+    display: none; scroll-margin-bottom: 24px;
+    border-radius: 10px; padding: 16px;
+    border: 1px solid var(--border); background: var(--bg);
   }
-  @media (min-width: 640px) { footer { padding: 24px 24px 48px; } }
-  .wordmark {
-    font-family: "Anton", "Inter", sans-serif; font-weight: 400; font-size: 18px;
-    letter-spacing: .02em; text-transform: uppercase; color: var(--navy);
-  }
-  .wordmark em { color: var(--blue); font-style: normal; }
-  footer a.tg { color: var(--blue); text-decoration: none; font-weight: 700; }
-  footer a.tg:hover { color: var(--blue-dark); text-decoration: underline; }
+  .result.show { display: grid; gap: 14px; }
+  .result.fit { border-color: var(--blue); background: var(--blue-soft); }
+  .result-msg { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; font-weight: 600; color: var(--navy); }
+  .result.fit .result-msg { color: var(--blue-dark); }
+  .result-msg svg { flex: none; width: 20px; height: 20px; margin-top: 1px; color: var(--blue); }
+  .result-alt { text-align: center; font-size: 14px; }
 </style>
 </head>
 <body>
   <main class="container">
     <div class="eyebrow">Betstamp PRO</div>
     <h1>Before you book: is Betstamp PRO <em>the right tool for you?</em></h1>
-    <p class="intro">Betstamp PRO is the odds screen built for professional bettors and syndicates to find and scale player prop edges. If that's you, a 30-minute call with our team is the fastest way to see it on the markets you bet.</p>
+    <p class="intro">Betstamp PRO is the odds screen built for sophisticated bettors and syndicates to find and scale player prop edges.</p>
 
     <section aria-labelledby="who-heading">
       <h2 id="who-heading">Who gets the most out of a <em>PRO demo</em></h2>
@@ -192,21 +116,15 @@
         </li>
         <li>
           <span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-          <span>You have the bankroll to get real money down every month.</span>
+          <span>You bet from a set bankroll and track your ROI.</span>
         </li>
       </ul>
     </section>
 
-    <div class="cta" id="cta" data-emphasis="book">
-      <div class="result" id="result" role="status" aria-live="polite"></div>
-      <div class="cta-option">
-        <a class="btn btn-primary" id="btn-book" href="#">Book a 30-minute demo</a>
-        <p class="micro">30 minutes, one-on-one. Can't make it? Reschedule from your confirmation email.</p>
-      </div>
-      <div class="cta-option">
-        <a class="btn btn-secondary" id="btn-self" href="#">Not ready for a call yet</a>
-        <p class="micro">Look around at your own pace. You can book a call anytime.</p>
-      </div>
+    <div class="cta" id="cta">
+      <a class="btn btn-primary" id="btn-book" href="/book-demo">Book a 30-minute demo</a>
+      <p class="micro">30 minutes, one-on-one. Can't make it? Reschedule from your confirmation email.</p>
+      <p class="self-link"><a class="text-link" id="link-self" href="#">Rather explore the screen on your own first? Start here →</a></p>
     </div>
 
     <details class="fitcheck" id="fitcheck">
@@ -217,6 +135,7 @@
       <form class="fitcheck-body" id="fit-form" novalidate>
         <div id="fit-questions" style="display:grid;gap:22px"></div>
         <button type="submit" class="btn btn-check" id="btn-check" disabled>Check my fit</button>
+        <div class="result" id="result" role="status" aria-live="polite"></div>
       </form>
     </details>
   </main>
@@ -226,112 +145,45 @@
     <a class="tg" id="tg-link" href="#" target="_blank" rel="noopener">Questions? Message us on Telegram</a>
   </footer>
 
+<script src="/funnel.config.js"></script>
+<script src="/funnel.js"></script>
 <script src="/pro-fit.config.js"></script>
 <script>
 (function () {
+  var F = window.Funnel;
   var C = window.PRO_FIT_CONFIG;
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var search = new URLSearchParams(window.location.search);
-  var state = { params: {}, fitResult: null, answers: {} };
-  C.PARAM_KEYS.forEach(function (k) { state.params[k] = (search.get(k) || "").trim(); });
+  F.bindLink(document.getElementById("btn-book"), "click_book", F.bookHref());
+  F.bindLink(document.getElementById("link-self"), "click_self_serve", F.selfServeHref());
 
-  var utmKeys = C.PARAM_KEYS.filter(function (k) { return k.indexOf("utm_") === 0; });
-  try {
-    if (utmKeys.some(function (k) { return state.params[k]; })) {
-      var fresh = {};
-      utmKeys.forEach(function (k) { if (state.params[k]) fresh[k] = state.params[k]; });
-      localStorage.setItem(C.UTM_STORAGE_KEY, JSON.stringify({ params: fresh, timestamp: Date.now() }));
-    } else {
-      var stored = JSON.parse(localStorage.getItem(C.UTM_STORAGE_KEY) || "null");
-      if (stored && Date.now() - stored.timestamp < C.UTM_TTL_MS) {
-        utmKeys.forEach(function (k) { if (stored.params[k]) state.params[k] = stored.params[k]; });
-      }
-    }
-  } catch (e) {}
-
-  function buildUrl(base, keys) {
-    var url = new URL(base);
-    keys.forEach(function (k) { if (state.params[k]) url.searchParams.set(k, state.params[k]); });
-    return url.toString();
-  }
-
-  function payload(event, extra) {
-    var body = { event: event, timestamp: new Date().toISOString() };
-    C.PARAM_KEYS.forEach(function (k) { body[k] = state.params[k]; });
-    if (state.fitResult) body.fit_result = state.fitResult;
-    body.page = C.PAGE;
-    body.variant = C.VARIANT;
-    return Object.assign(body, extra || {});
-  }
-
-  function track(event, extra) {
-    var body = payload(event, extra);
-    if (!C.OPTIN_WEBHOOK_URL) {
-      console.log("[pro-fit] " + event, body);
-      return Promise.resolve();
-    }
-    try {
-      return fetch(C.OPTIN_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-        keepalive: true
-      }).catch(function () {});
-    } catch (e) {
-      return Promise.resolve();
-    }
-  }
-
-  function trackThenGo(event, link, e) {
-    if (e.defaultPrevented) return;
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
-      track(event);
-      return;
-    }
-    e.preventDefault();
-    var href = link.href;
-    var done = false;
-    function go() { if (done) return; done = true; window.location.href = href; }
-    track(event).then(go, go);
-    setTimeout(go, C.REDIRECT_MAX_WAIT_MS);
-  }
-
-  var btnBook = document.getElementById("btn-book");
-  var btnSelf = document.getElementById("btn-self");
-  btnBook.href = buildUrl(C.BOOK_URL, C.BOOK_PARAM_KEYS);
-  btnSelf.href = buildUrl(C.SELF_SERVE_URL, C.SELF_SERVE_PARAM_KEYS);
-  document.getElementById("tg-link").href = C.TELEGRAM_URL;
-
-  btnBook.addEventListener("click", function (e) { trackThenGo("click_book", btnBook, e); });
-  btnSelf.addEventListener("click", function (e) { trackThenGo("click_self_serve", btnSelf, e); });
-
-  var cta = document.getElementById("cta");
   var result = document.getElementById("result");
   var checkIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/><path d="M6 10.5l2.5 2.5L14 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   var infoIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="2"/><path d="M10 9v5M10 6.2v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 
-  function setEmphasis(which) {
-    var emphasized = which === "self" ? btnSelf : btnBook;
-    var other = which === "self" ? btnBook : btnSelf;
-    emphasized.classList.remove("btn-secondary");
-    emphasized.classList.add("btn-primary", "is-emphasized");
-    other.classList.remove("btn-primary", "is-emphasized", "pulse");
-    other.classList.add("btn-secondary");
-    cta.setAttribute("data-emphasis", which);
-    emphasized.classList.remove("pulse");
-    void emphasized.offsetWidth;
-    emphasized.classList.add("pulse");
-    return emphasized;
+  function makeLink(className, label, event, href) {
+    var a = document.createElement("a");
+    a.className = className;
+    a.textContent = label;
+    F.bindLink(a, event, href);
+    return a;
   }
 
   function showResult(fit) {
+    var R = C.RESULT_COPY;
     result.className = "result show " + (fit ? "fit" : "not-fit");
-    result.innerHTML = (fit ? checkIcon : infoIcon) + "<span></span>";
-    result.querySelector("span").textContent = fit ? C.RESULT_COPY.fit : C.RESULT_COPY.not_fit;
-    var target = setEmphasis(fit ? "book" : "self");
-    cta.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-    setTimeout(function () { target.focus({ preventScroll: true }); }, reduceMotion ? 0 : 450);
+    result.innerHTML = '<div class="result-msg">' + (fit ? checkIcon : infoIcon) + "<span></span></div>";
+    result.querySelector(".result-msg span").textContent = fit ? R.fit : R.not_fit;
+    if (fit) {
+      result.appendChild(makeLink("btn btn-primary", R.fit_cta, "click_book", F.bookHref()));
+    } else {
+      result.appendChild(makeLink("btn btn-primary", R.not_fit_cta, "click_self_serve", F.selfServeHref()));
+      var alt = document.createElement("p");
+      alt.className = "result-alt";
+      alt.appendChild(makeLink("text-link", R.not_fit_book, "click_book", F.bookHref()));
+      result.appendChild(alt);
+    }
+    result.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
   }
 
   function optionFor(key, value) {
@@ -430,10 +282,9 @@
       e.preventDefault();
       var a = readAnswers();
       if (keys.some(function (k) { return !a[k]; })) return;
-      state.answers = a;
       var fit = scoreFit(a);
-      state.fitResult = fit ? "fit" : "not_fit";
-      track("fitcheck_submit", {
+      F.set("fit_result", fit ? "fit" : "not_fit");
+      F.track("fitcheck_submit", {
         fit_bankroll: a.bankroll,
         fit_tool_use: a.tool_use,
         fit_up_overall: a.up_overall
@@ -445,12 +296,12 @@
     fitcheck.addEventListener("toggle", function () {
       if (fitcheck.open && !opened) {
         opened = true;
-        track("fitcheck_open");
+        F.track("fitcheck_open");
       }
     });
   }
 
-  track("page_view");
+  F.init(C.PAGE);
 })();
 </script>
 </body>

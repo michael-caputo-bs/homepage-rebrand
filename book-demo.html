@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Book Your Betstamp PRO Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/funnel.css">
+<style>
+  .container { max-width: 900px; padding-bottom: 0; }
+  .embed-wrap { max-width: 1120px; margin: 0 auto; }
+  #calendly { width: 100%; min-width: 320px; height: 1100px; min-height: 700px; }
+  @media (min-width: 1000px) { #calendly { height: 720px; } }
+  .embed-fallback { padding: 48px 16px; text-align: center; font-size: 15px; }
+
+  .sooner {
+    max-width: 672px; margin: 32px auto 48px; padding: 0 16px;
+  }
+  .sooner-card {
+    background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--blue);
+    border-radius: 12px; padding: 22px 20px; text-align: center;
+    display: grid; gap: 14px;
+  }
+  .sooner-card h2 {
+    font-family: "Anton", "Inter", sans-serif; font-weight: 400;
+    font-size: clamp(22px, 3.4vw, 28px); line-height: 1.05; letter-spacing: .005em;
+    color: var(--navy); text-transform: uppercase;
+  }
+  @media (min-width: 640px) { .sooner-card .btn { width: auto; margin: 0 auto; } }
+</style>
+</head>
+<body>
+  <main>
+    <div class="container">
+      <div class="eyebrow">Betstamp PRO</div>
+      <h1>Pick a time for your <em>30&#8209;minute demo.</em></h1>
+    </div>
+
+    <div class="embed-wrap">
+      <div id="calendly"></div>
+    </div>
+
+    <div class="sooner">
+      <div class="sooner-card">
+        <h2>Don't see a time <em>that works?</em></h2>
+        <a class="btn btn-secondary" id="btn-sooner" href="#">Message us and we'll set one up</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span class="wordmark">Betstamp <em>PRO</em></span>
+    <a class="tg" id="tg-link" href="#" target="_blank" rel="noopener">Questions? Message us on Telegram</a>
+  </footer>
+
+<script src="/funnel.config.js"></script>
+<script src="/funnel.js"></script>
+<script>
+(function () {
+  var F = window.Funnel;
+  var C = F.config;
+  var lead = F.getLead();
+  var utms = F.getUtms();
+
+  var calendlyUrl = F.withParams(C.CALENDLY_URL, Object.assign(
+    { name: lead.name, email: lead.email },
+    utms,
+    { hide_gdpr_banner: "1" }
+  ));
+
+  var mount = document.getElementById("calendly");
+
+  function fallback() {
+    mount.innerHTML = '<p class="embed-fallback"><a class="text-link" target="_blank" rel="noopener">Open the booking calendar →</a></p>';
+    mount.querySelector("a").href = calendlyUrl;
+  }
+
+  var script = document.createElement("script");
+  script.src = C.CALENDLY_WIDGET_JS;
+  script.async = true;
+  script.onload = function () {
+    if (!window.Calendly) return fallback();
+    window.Calendly.initInlineWidget({ url: calendlyUrl, parentElement: mount });
+  };
+  script.onerror = fallback;
+  document.head.appendChild(script);
+
+  var booked = false;
+  window.addEventListener("message", function (e) {
+    if (e.origin !== "https://calendly.com" || !e.data || e.data.event !== "calendly.event_scheduled") return;
+    if (booked) return;
+    booked = true;
+    var p = e.data.payload || {};
+    F.trackThenGo("demo_booked", F.withParams(C.DEMO_CONFIRMED_URL, { name: lead.name, email: lead.email }), {
+      calendly_event_uri: (p.event && p.event.uri) || "",
+      calendly_invitee_uri: (p.invitee && p.invitee.uri) || ""
+    });
+  });
+
+  F.bindLink(document.getElementById("btn-sooner"), "click_chat_sooner", C.CHAT_SOONER_URL);
+
+  F.init("book-demo");
+})();
+</script>
+</body>
+</html>

@@ -1,23 +1,5 @@
 window.PRO_FIT_CONFIG = {
   PAGE: "pro-fit",
-  VARIANT: "v1",
-
-  OPTIN_WEBHOOK_URL: window.NEXT_PUBLIC_OPTIN_WEBHOOK_URL || "",
-  REDIRECT_MAX_WAIT_MS: 300,
-
-  UTM_STORAGE_KEY: "betstamp_pro_fit_utm",
-  UTM_TTL_MS: 10 * 24 * 60 * 60 * 1000,
-
-  BOOK_URL: "https://calendly.com/betstampliam/betstamp-pro-free-demo",
-  SELF_SERVE_URL: "https://pro.betstamp.com/create-account-trial",
-  TELEGRAM_URL: "https://t.me/michaelcaputo",
-
-  PARAM_KEYS: [
-    "name", "email", "phone", "lead_type", "unit_size", "budget",
-    "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"
-  ],
-  BOOK_PARAM_KEYS: ["name", "email", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"],
-  SELF_SERVE_PARAM_KEYS: ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"],
 
   FIT_RULES: {
     enabled: true,
@@ -60,6 +42,10 @@ window.PRO_FIT_CONFIG = {
   },
 
   RESULT_COPY: {
-    fit: "You're a fit. Grab a time below.",
-    not_fit: "Based on your answers, starting on your own is the fastest way in. You can book a call anytime."
-  }};
+    fit: "You're a fit.",
+    fit_cta: "Book a 30-minute demo",
+    not_fit: "Based on your answers, starting on your own is the fastest way in. You can book a call anytime.",
+    not_fit_cta: "Explore the screen",
+    not_fit_book: "Book a demo anyway"
+  }
+};
