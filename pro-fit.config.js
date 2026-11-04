@@ -45,7 +45,7 @@ window.PRO_FIT_CONFIG = {
     fit: "You're a fit.",
     fit_cta: "Book a 30-minute demo",
     not_fit: "Based on your answers, we'd recommend starting here.",
-    not_fit_cta: "Create your account",
+    not_fit_cta: "Explore Betstamp PRO",
     not_fit_book: "Book a demo anyway"
   }
 };
