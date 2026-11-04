@@ -16,20 +16,9 @@
   @media (min-width: 1000px) { #calendly { height: 660px; } }
   .embed-fallback { padding: 48px 16px; text-align: center; font-size: 15px; }
 
-  .sooner {
-    max-width: 672px; margin: 24px auto 48px; padding: 0 16px;
-  }
-  .sooner-card {
-    background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--blue);
-    border-radius: 12px; padding: 22px 20px; text-align: center;
-    display: grid; gap: 14px;
-  }
-  .sooner-card h2 {
-    font-family: "Anton", "Inter", sans-serif; font-weight: 400;
-    font-size: clamp(22px, 3.4vw, 28px); line-height: 1.05; letter-spacing: .005em;
-    color: var(--navy); text-transform: uppercase;
-  }
-  @media (min-width: 640px) { .sooner-card .btn { width: auto; margin: 0 auto; } }
+  .sooner { max-width: 560px; margin: 0 auto; font-size: 15px; line-height: 1.5; color: var(--navy); font-weight: 700; }
+  .sooner a { display: inline-block; }
+  main { padding-bottom: 32px; }
 </style>
 </head>
 <body>
@@ -37,17 +26,11 @@
     <div class="container">
       <div class="eyebrow">Betstamp PRO</div>
       <h1>Pick a time for your <em>30&#8209;minute demo.</em></h1>
+      <p class="sooner">Don't see a time that works, or want to chat sooner? <a class="text-link" id="btn-sooner" href="#">Message us and we'll set one up →</a></p>
     </div>
 
     <div class="embed-wrap">
       <div id="calendly"></div>
-    </div>
-
-    <div class="sooner">
-      <div class="sooner-card">
-        <h2>Don't see a time that works, or want to <em>chat sooner?</em></h2>
-        <a class="btn btn-secondary" id="btn-sooner" href="#">Message us and we'll set one up</a>
-      </div>
     </div>
   </main>
 
