@@ -44,7 +44,7 @@ window.PRO_FIT_CONFIG = {
   RESULT_COPY: {
     fit: "You're a fit.",
     fit_cta: "Book a 30-minute demo",
-    not_fit: "Based on your answers, starting on your own is the fastest way in. You can book a call anytime.",
+    not_fit: "Based on your answers, we'd recommend starting here.",
     not_fit_cta: "Start here",
     not_fit_book: "Book a demo anyway"
   }
