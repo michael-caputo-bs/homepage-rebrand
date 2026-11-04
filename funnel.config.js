@@ -9,7 +9,7 @@ window.FUNNEL_CONFIG = {
   CALENDLY_URL: "https://calendly.com/betstampliam/betstamp-pro-free-demo",
   CALENDLY_WIDGET_JS: "https://assets.calendly.com/assets/external/widget.js",
   DEMO_CONFIRMED_URL: "https://betstamp.com/demo-confirmed",
-  CHAT_SOONER_URL: "https://forms.fillout.com/t/REPLACE_ME",
+  CHAT_SOONER_URL: "https://forms.fillout.com/t/oYBtozcrGJus",
   TELEGRAM_URL: "https://t.me/michaelcaputo",
 
   LEAD_KEYS: ["name", "email", "phone", "lead_type", "unit_size", "budget"],

@@ -27,7 +27,7 @@
     <div class="container">
       <div class="eyebrow">Betstamp PRO</div>
       <h1>Pick a time for your <em>30&#8209;minute demo.</em></h1>
-      <p class="sooner">Don't see a time that works, or want to chat sooner? <a class="text-link" id="btn-sooner" href="#">Message us and we'll set one up →</a></p>
+      <p class="sooner">Don't see a time that works, or want to chat sooner? <a class="text-link" id="btn-sooner" href="#" target="_blank" rel="noopener">Message us and we'll set one up →</a></p>
     </div>
 
     <div class="embed-wrap">
@@ -90,7 +90,9 @@
     });
   });
 
-  F.bindLink(document.getElementById("btn-sooner"), "click_chat_sooner", C.CHAT_SOONER_URL);
+  var sooner = document.getElementById("btn-sooner");
+  sooner.href = F.withParams(C.CHAT_SOONER_URL, Object.assign({ name: lead.name, email: lead.email }, utms));
+  sooner.addEventListener("click", function () { F.track("click_chat_sooner"); });
 
   F.init("book-demo");
 })();
