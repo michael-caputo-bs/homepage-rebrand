@@ -12,12 +12,12 @@
 <style>
   .container { max-width: 900px; padding-bottom: 0; }
   .embed-wrap { max-width: 1120px; margin: 0 auto; }
-  #calendly { width: 100%; min-width: 320px; height: 1100px; min-height: 700px; }
-  @media (min-width: 1000px) { #calendly { height: 720px; } }
+  #calendly { width: 100%; min-width: 320px; height: 1000px; }
+  @media (min-width: 1000px) { #calendly { height: 660px; } }
   .embed-fallback { padding: 48px 16px; text-align: center; font-size: 15px; }
 
   .sooner {
-    max-width: 672px; margin: 32px auto 48px; padding: 0 16px;
+    max-width: 672px; margin: 24px auto 48px; padding: 0 16px;
   }
   .sooner-card {
     background: var(--bg-soft); border: 1px solid var(--border); border-left: 3px solid var(--blue);
@@ -45,7 +45,7 @@
 
     <div class="sooner">
       <div class="sooner-card">
-        <h2>Don't see a time <em>that works?</em></h2>
+        <h2>Don't see a time that works, or want to <em>chat sooner?</em></h2>
         <a class="btn btn-secondary" id="btn-sooner" href="#">Message us and we'll set one up</a>
       </div>
     </div>
@@ -83,12 +83,18 @@
   script.async = true;
   script.onload = function () {
     if (!window.Calendly) return fallback();
-    window.Calendly.initInlineWidget({ url: calendlyUrl, parentElement: mount });
+    window.Calendly.initInlineWidget({ url: calendlyUrl, parentElement: mount, resize: true });
   };
   script.onerror = fallback;
   document.head.appendChild(script);
 
   var booked = false;
+  window.addEventListener("message", function (e) {
+    if (e.origin !== "https://calendly.com" || !e.data || e.data.event !== "calendly.page_height") return;
+    var h = parseInt(e.data.payload && e.data.payload.height, 10);
+    if (h > 300) mount.style.height = h + "px";
+  });
+
   window.addEventListener("message", function (e) {
     if (e.origin !== "https://calendly.com" || !e.data || e.data.event !== "calendly.event_scheduled") return;
     if (booked) return;
