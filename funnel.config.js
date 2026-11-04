@@ -1,7 +1,7 @@
 window.FUNNEL_CONFIG = {
   VARIANT: "v1",
 
-  OPTIN_WEBHOOK_URL: window.NEXT_PUBLIC_OPTIN_WEBHOOK_URL || "",
+  OPTIN_WEBHOOK_URL: window.NEXT_PUBLIC_OPTIN_WEBHOOK_URL || "https://michaelbetstamp.app.n8n.cloud/webhook/pro-fit-events",
   REDIRECT_MAX_WAIT_MS: 300,
 
   BOOK_DEMO_PATH: "/book-demo",
