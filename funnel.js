@@ -95,6 +95,8 @@
     page = pageName;
     var tg = document.getElementById("tg-link");
     if (tg) tg.href = C.TELEGRAM_URL;
+    var mail = document.getElementById("email-link");
+    if (mail) mail.href = "mailto:" + C.SALES_EMAIL;
     track("page_view");
   }
 

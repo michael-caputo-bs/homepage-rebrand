@@ -11,6 +11,7 @@ window.FUNNEL_CONFIG = {
   DEMO_CONFIRMED_URL: "https://betstamp.com/demo-confirmed",
   CHAT_SOONER_URL: "https://forms.fillout.com/t/oYBtozcrGJus",
   TELEGRAM_URL: "https://t.me/michaelcaputo",
+  SALES_EMAIL: "sales@betstamppro.com",
 
   LEAD_KEYS: ["name", "email", "phone", "lead_type", "unit_size", "budget"],
   UTM_KEYS: ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"],
