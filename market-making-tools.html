@@ -387,13 +387,13 @@
   .codebox .split > div{min-width:0}
   .codebox .split > div + div{border-left:1px solid var(--hair)}
   @media(max-width:720px){.codebox .split{grid-template-columns:minmax(0,1fr)}.codebox .split > div + div{border-left:0;border-top:1px solid var(--hair)}}
-  .devrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+  .devrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px;align-items:stretch}
+  @media(min-width:601px){.devrow{grid-auto-rows:1fr}}
   @media(max-width:1000px){.devrow{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:600px){.devrow{grid-template-columns:1fr}}
   .devrow div{background:#fff;border:1px solid var(--light-hair);border-radius:14px;padding:22px;box-shadow:0 4px 14px rgba(10,23,41,.05)}
   .devrow h4{font-size:16px;font-weight:800;margin-bottom:6px}
   .devrow p{font-size:14px;color:var(--l-body)}
-  .devrow p code{overflow-wrap:anywhere;font-size:12px!important}
 
   /* who */
   .who{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:48px}
@@ -1302,8 +1302,8 @@
       <!-- TODO(spencer): no request-rate number on purpose. Docs say 25 req/s per key; 60/min on /api/parlay and
            "default 250,000 requests"/month. Reframe the 250k as a starting allowance before quoting numbers. -->
       <div><h4>Your clock, not ours</h4><p>An RFQ waits for nobody. Set <code class="mono" style="font-size:13px">timeout_ms</code> and the response comes back when you said it should. Books that answered are priced. Books that didn't are marked, not waited for.</p></div>
-      <div><h4>Your scope, your product</h4><p>Pay for the leagues and books you quote, not a bundle you'll use 30% of. No restrictions on what you build with the data.</p></div>
-      <div><h4>Errors that tell you what to do</h4><p>On multi-game parlays, <code class="mono" style="font-size:13px">missing_odds_for_entries</code>, <code class="mono" style="font-size:13px">cannot_be_combined</code> and <code class="mono" style="font-size:13px">upstream_error</code> tell your code whether a retry will help. On same-game slips, each book that can't price says why. Either way you don't burn requests on slips that won't price.</p></div>
+      <div><h4>Your scope, your product</h4><p>Pay for the leagues and books you quote, not a bundle you'll use 30% of. Add leagues, books or the fair pricing add-on as you scale. No restrictions on what you build with the data.</p></div>
+      <div><h4>Errors that tell you what to do</h4><p>Every book that can't price a slip says why, and parlay errors come back as clear codes that tell your code whether a retry will help. No wasted requests on slips that won't price.</p></div>
     </div>
   </div>
 </section>
