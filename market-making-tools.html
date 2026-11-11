@@ -982,7 +982,7 @@
     </div>
 
     <!-- Hero visual: an RFQ arrives and is quoted automatically by the maker's own rule. No person in the loop. ALL NUMBERS ILLUSTRATIVE:
-         legs -135 x -115 x +120. timeout_ms = 400: Books A/B/C answer by 385ms, Book D is cut off at 400ms, quote sent at 0.41s. Market avg +472 = mean of A/B/C.
+         legs -135 x -115 x +120. Books A/B/C answer by 385ms and the quote goes out at 0.41s; Book D comes back at 832ms, past the 0.8s window, so it is marked timed out. Market avg +472 = mean of A/B/C.
          The rule applies the margin to market_avg; result shown as +465. -->
     <div class="desk auto" aria-label="Illustrative RFQ quoted automatically from the maker's own rule">
       <div class="desk-head rfq">
@@ -1000,7 +1000,7 @@
         <div class="brow" style="--d:0"><span>Book A</span><span class="q">+485</span><span class="ms">212ms</span></div>
         <div class="brow" style="--d:1"><span>Book B</span><span class="q">+470</span><span class="ms">340ms</span></div>
         <div class="brow" style="--d:2"><span>Book C</span><span class="q">+462</span><span class="ms">385ms</span></div>
-        <div class="brow out" style="--d:3"><span>Book D<span class="mini">timeout_ms</span></span><span class="q">timed out</span><span class="ms">400ms</span></div>
+        <div class="brow out" style="--d:3"><span>Book D<span class="mini">timeout_ms</span></span><span class="q">timed out</span><span class="ms">832ms</span></div>
         </div>
       </div>
       <div class="rule">
