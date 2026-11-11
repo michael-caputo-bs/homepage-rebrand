@@ -164,6 +164,7 @@
   h2.display{font-size:clamp(34px,4.6vw,51px);margin:14px 0 18px}
   .display .acc{color:var(--blue-accent)}
   h1,h2,h3{text-wrap:balance}
+  p,li{text-wrap:pretty}
   .light .display .acc{color:var(--blue-deep)}
   .kicker{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;letter-spacing:2.3px;text-transform:uppercase;color:var(--blue-accent)}
   .light .kicker{color:var(--blue-deep)}
@@ -223,10 +224,10 @@
 
   /* desk panel (hero visual) */
   .desk{background:var(--card);border:1px solid var(--hair);border-radius:var(--radius);padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
-  .desk.auto{padding:12px 16px}
-  .desk.auto .desk-head{margin-bottom:8px}
+  .desk.auto{padding:10px 16px}
+  .desk.auto .desk-head{margin-bottom:6px}
   .desk.auto .legs{gap:4px;margin-bottom:8px}
-  .desk.auto .leg{padding:3px 10px;font-size:12.5px;border-radius:8px}
+  .desk.auto .leg{padding:2px 10px;font-size:12.5px;border-radius:8px}
   .desk.auto .desk-foot{margin-top:6px}
   .desk.auto .leg b{font-weight:600}
   .desk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
@@ -261,9 +262,8 @@
   .desk-head.rfq .pill{flex:none}
   .desk-label{font-weight:700;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--stat-label);margin:0 0 4px}
   .resp{border-top:1px solid var(--hair);padding-top:7px;margin-bottom:8px}
-  .resp .rows{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:16px}
-  @media(max-width:600px){.resp .rows{grid-template-columns:minmax(0,1fr)}}
-  .resp .brow{grid-template-columns:1fr auto 42px;gap:8px;padding:3px 0;font-size:12.5px}
+  .resp .rows{display:grid;grid-template-columns:minmax(0,1fr)}
+  .resp .brow{grid-template-columns:1fr auto 52px;gap:10px;padding:1px 0;line-height:1.4;font-size:12.5px}
   .resp .brow + .brow{border-top:0}
   .resp .brow > span{white-space:nowrap}
   .resp .ms{font-family:'JetBrains Mono',monospace;color:var(--ink-42);font-size:11.5px;text-align:right}
@@ -342,6 +342,7 @@
   .row .spec code{font-family:'JetBrains Mono',monospace;font-size:13px;color:#fff;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px}
   .viz{background:var(--card);border:1px solid var(--hair);border-radius:var(--radius);padding:26px;display:flex;flex-direction:column}
   .viz .body{flex:1;display:flex;flex-direction:column;justify-content:center}
+  #corr .viz{align-self:center}
   .sumrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px;padding-top:18px;border-top:1px solid var(--hair)}
   .sumrow div{font-size:11px;color:var(--ink-42);letter-spacing:.6px;text-transform:uppercase}
   .sumrow b{display:block;font-family:'JetBrains Mono',monospace;font-size:16px;color:#fff;letter-spacing:0;text-transform:none;margin-bottom:3px}
@@ -392,6 +393,7 @@
   .devrow div{background:#fff;border:1px solid var(--light-hair);border-radius:14px;padding:22px;box-shadow:0 4px 14px rgba(10,23,41,.05)}
   .devrow h4{font-size:16px;font-weight:800;margin-bottom:6px}
   .devrow p{font-size:14px;color:var(--l-body)}
+  .devrow p code{overflow-wrap:anywhere;font-size:12px!important}
 
   /* who */
   .who{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:48px}
@@ -1848,6 +1850,19 @@
   </div>
 </footer>
 
+
+<!-- Orphan guard: text-wrap:pretty is not applied everywhere, so bind each paragraph's last two words. -->
+<script>
+(function(){
+  document.querySelectorAll('main p, section p, header p, .steps p, .tcard p, .pcard p, .row li, .devrow p, .fcard p').forEach(function(el){
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, last = null;
+    while ((n = w.nextNode())) if (/\S/.test(n.data)) last = n;
+    if (!last || last.parentNode.closest('code')) return;
+    var t = last.data.replace(/\s+$/, ''), i = t.lastIndexOf(' ');
+    if (i > 0) last.data = t.slice(0, i) + ' ' + t.slice(i + 1) + last.data.slice(t.length);
+  });
+})();
+</script>
 
 <!-- Motion. Vanilla JS, no dependencies. TODO(dev): port to the site's existing intersection/animation helpers if any. -->
 <script>
