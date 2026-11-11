@@ -473,7 +473,10 @@
   :focus-visible{outline:2px solid var(--blue-accent);outline-offset:3px}
 
   /* ===== mobile-only (<768px) ===== */
-  .devhint{display:none;margin-top:6px;font-size:12px;color:var(--l-muted)}
+  .devdots{display:none}
+  .devdot{width:8px;height:8px;border-radius:50%;background:#c2d0de;border:0;padding:0;cursor:pointer;transition:background-color .2s,width .2s;-webkit-appearance:none;appearance:none}
+  .devdot.is-active{background:var(--blue);width:24px;border-radius:4px}
+  .devdot:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .codebox .mcode{display:none}
   @media(max-width:767px){
     .kicker{font-size:10.5px;letter-spacing:1.2px;white-space:nowrap}
@@ -486,10 +489,11 @@
     .codebox .bar2 span + span{display:none}
   }
   @media(max-width:600px){
-    .devrow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:32px -20px 0;padding:0 20px 10px;scroll-padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .devrow{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:20px;gap:16px;margin:32px -20px 0;padding:4px 20px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
     .devrow::-webkit-scrollbar{display:none}
-    .devrow > div{flex:0 0 82%;scroll-snap-align:start}
-    .devhint{display:block}
+    .devrow > div{flex:0 0 86%;scroll-snap-align:center;position:relative;overflow:hidden;border:1.5px solid var(--blue);border-radius:12px;padding:24px}
+    .devrow > div::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
+    .devdots{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:12px}
   }
 
 </style>
@@ -1338,7 +1342,7 @@
       <div><h4>Your scope, your product</h4><p>Pay for the leagues and books you quote, not a bundle you'll use 30% of. Add leagues, books or the fair pricing add-on as you scale. No restrictions on what you build with the data.</p></div>
       <div><h4>Errors that tell you what to do</h4><p>Every book that can't price a slip says why, and parlay errors come back as clear codes that tell your code whether a retry will help. No wasted requests on slips that won't price.</p></div>
     </div>
-    <p class="devhint">Swipe for more →</p>
+    <div class="devdots" role="tablist" aria-label="How it works tile pagination"><button type="button" class="devdot is-active" aria-label="Show tile 1" aria-current="true"></button><button type="button" class="devdot" aria-label="Show tile 2"></button><button type="button" class="devdot" aria-label="Show tile 3"></button><button type="button" class="devdot" aria-label="Show tile 4"></button><button type="button" class="devdot" aria-label="Show tile 5"></button><button type="button" class="devdot" aria-label="Show tile 6"></button></div>
   </div>
 </section>
 
@@ -1895,6 +1899,35 @@
     var t = last.data.replace(/\s+$/, ''), i = t.lastIndexOf(' ');
     if (i > 0) last.data = t.slice(0, i) + ' ' + t.slice(i + 1) + last.data.slice(t.length);
   });
+})();
+</script>
+
+<!-- How-it-works carousel (phones): dots track the active tile and jump on tap. Swiping on past the last tile
+     hands the gesture to the page, so the reader keeps scrolling down instead of hitting a dead end. -->
+<script>
+(function(){
+  var row = document.querySelector('.devrow'), dots = document.querySelectorAll('.devdot');
+  if (!row || !dots.length) return;
+  var tiles = row.children;
+  function active(){
+    var mid = row.scrollLeft + row.clientWidth / 2, best = 0, bd = Infinity;
+    for (var i = 0; i < tiles.length; i++){ var c = tiles[i].offsetLeft + tiles[i].offsetWidth / 2, d = Math.abs(c - mid); if (d < bd){ bd = d; best = i; } }
+    for (var j = 0; j < dots.length; j++){ dots[j].classList.toggle('is-active', j === best); if (j === best) dots[j].setAttribute('aria-current', 'true'); else dots[j].removeAttribute('aria-current'); }
+  }
+  row.addEventListener('scroll', active, { passive: true });
+  for (var k = 0; k < dots.length; k++) (function(i){
+    dots[i].addEventListener('click', function(){ var t = tiles[i]; row.scrollTo({ left: t.offsetLeft - (row.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' }); });
+  })(k);
+  var lastX = null, lastY = null;
+  row.addEventListener('touchstart', function(e){ lastX = e.touches[0].clientX; lastY = e.touches[0].clientY; }, { passive: true });
+  row.addEventListener('touchmove', function(e){
+    if (lastX === null) return;
+    var x = e.touches[0].clientX, y = e.touches[0].clientY, dx = lastX - x, dy = lastY - y;
+    lastX = x; lastY = y;
+    var atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 2;
+    if (atEnd && dx > 0 && Math.abs(dx) > Math.abs(dy)) window.scrollBy({ top: dx * 1.5, behavior: 'instant' });
+  }, { passive: true });
+  row.addEventListener('touchend', function(){ lastX = lastY = null; }, { passive: true });
 })();
 </script>
 
