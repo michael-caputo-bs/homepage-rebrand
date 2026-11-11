@@ -18,8 +18,9 @@
     - Nothing on this page says Betstamp trades or makes markets itself.
     - No API pricing. No client names.
     - "the True Line" always with "the". No emoji, no exclamation marks.
-  ORDER (v3, 2026-11-11): four ways to price, maker's choice. Book prices + market average first (cross-linked to
-  /sgp-pricing-engine so the two pages do not compete for the same searches), your own odds second, Betstamp fair price third.
+  ORDER (v4, 2026-11-11): four ways to price, maker's choice. Book prices first (cross-linked to /sgp-pricing-engine so the
+  two pages do not compete for the same searches), your own odds second, the fair pricing add-on (market average + Betstamp
+  fair price) third. The fair price is described only as Betstamp's proprietary fair-price model, never as an average of books.
   market_avg averages only the books named in the request (checked in the platform source, 2026-11-11).
   SGP and parlay pricing is pull-only; only leg-level market data streams.
 
@@ -133,7 +134,7 @@
           "name": "What is the Betstamp Market Making Tool Suite?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It returns each supported sportsbook's own correlated price with the correlation it's charging and pricing at your own leg odds, and can add the market average and a vig-free Betstamp fair price in the same response, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line."
+            "text": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It returns each supported sportsbook's own correlated price with the correlation it's charging and pricing at your own leg odds, and, on the fair pricing add-on, the market average and a no-vig Betstamp fair price for same-game slips, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line."
           }
         },
         {
@@ -146,10 +147,10 @@
         },
         {
           "@type": "Question",
-          "name": "How is the market fair price for parlays and SGPs calculated?",
+          "name": "How is the Betstamp fair price calculated?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It is derived from the market's SGP quotes for the same legs, with vig stripped, so it is one independent number for the slip rather than any single book's price. It comes back beside the per-book quotes and the market average in the same request."
+            "text": "It comes from Betstamp's proprietary fair-price model, built in-house by the team behind the Betstamp PRO True Line. It returns a no-vig estimate of what a same-game slip is really worth, beside the per-book prices and market average in the same response, on the fair pricing add-on. For multi-game parlays, quote off the per-book prices."
           }
         },
         {
@@ -239,6 +240,7 @@
   h1.display{font-size:clamp(44px,5vw,62px)}
   h2.display{font-size:clamp(34px,4.6vw,51px);margin:14px 0 18px}
   .display .acc{color:var(--blue-accent)}
+  h1,h2,h3{text-wrap:balance}
   .light .display .acc{color:var(--blue-deep)}
   .kicker{font-family:'Inter',sans-serif;font-weight:700;font-size:13px;letter-spacing:2.3px;text-transform:uppercase;color:var(--blue-accent)}
   .light .kicker{color:var(--blue-deep)}
@@ -298,6 +300,12 @@
 
   /* desk panel (hero visual) */
   .desk{background:var(--card);border:1px solid var(--hair);border-radius:var(--radius);padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+  .desk.auto{padding:12px 16px}
+  .desk.auto .desk-head{margin-bottom:8px}
+  .desk.auto .legs{gap:4px;margin-bottom:8px}
+  .desk.auto .leg{padding:3px 10px;font-size:12.5px;border-radius:8px}
+  .desk.auto .desk-foot{margin-top:6px}
+  .desk.auto .leg b{font-weight:600}
   .desk-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
   .desk-head .t{font-weight:700;font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--stat-label)}
   .pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border-radius:999px;border:1px solid var(--hair);color:var(--ink-62)}
@@ -324,36 +332,29 @@
   .lrow.ref .q{color:var(--ink-78)}
   .hero .lead .lead-in{display:block;font-weight:700;color:var(--blue-accent);margin-bottom:8px}
   .desk-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:11px;color:var(--ink-42);letter-spacing:.4px}
-  .desk-head.rfq{gap:12px;align-items:flex-start}
-  .desk-head.rfq .t{line-height:1.5}
+  .desk-head.rfq{gap:12px;align-items:center}
+  .desk-head.rfq .t{white-space:nowrap}
+  @media(max-width:480px){.desk-head.rfq{flex-wrap:wrap;gap:6px}.desk-head.rfq .t{white-space:normal}}
   .desk-head.rfq .pill{flex:none}
-  @media(max-width:480px){.desk-head.rfq{flex-wrap:wrap}}
-  .desk-label{font-weight:700;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;color:var(--stat-label);margin:0 0 6px}
-  .resp{border-top:1px solid var(--hair);padding-top:12px;margin-bottom:14px}
-  .resp .brow{grid-template-columns:1fr auto 64px}
-  .resp .ms{font-family:'JetBrains Mono',monospace;color:var(--ink-42);font-size:12px;text-align:right}
+  .desk-label{font-weight:700;font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--stat-label);margin:0 0 4px}
+  .resp{border-top:1px solid var(--hair);padding-top:7px;margin-bottom:8px}
+  .resp .rows{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:16px}
+  @media(max-width:600px){.resp .rows{grid-template-columns:minmax(0,1fr)}}
+  .resp .brow{grid-template-columns:1fr auto 42px;gap:8px;padding:3px 0;font-size:12.5px}
+  .resp .brow + .brow{border-top:0}
+  .resp .brow > span{white-space:nowrap}
+  .resp .ms{font-family:'JetBrains Mono',monospace;color:var(--ink-42);font-size:11.5px;text-align:right}
   .resp .brow.out{color:var(--ink-42)}
   .resp .brow.out .q{color:var(--ink-42);text-decoration:line-through;font-family:'Inter',sans-serif;font-size:12px}
-  .resp .mini{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);border:1px solid rgba(255,213,107,.3);border-radius:999px;padding:1px 7px;margin-left:8px;white-space:nowrap}
+  .resp .mini{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--amber);border:1px solid rgba(255,213,107,.3);border-radius:999px;padding:1px 6px;margin-left:6px;white-space:nowrap}
   @media(prefers-reduced-motion:no-preference){
-    .resp .brow{animation:arrive .45s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(.35s + var(--d,0) * .35s)}
+    .resp .brow,.autoq{animation:arrive .45s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(.35s + var(--d,0) * .35s)}
   }
   @keyframes arrive{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .basis{border-top:1px solid var(--hair);padding-top:12px}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-  .chip{font:600 12px/1 'Inter',sans-serif;padding:8px 12px;border-radius:999px;border:1px solid var(--hair);background:rgba(255,255,255,.03);color:var(--ink-62);cursor:pointer;transition:background .15s,border-color .15s,color .15s}
-  .chip:hover{border-color:rgba(64,160,219,.5);color:#fff}
-  .chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
-  .bvals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
-  @media(max-width:480px){.bvals{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  .bval{border:1px solid transparent;border-radius:8px;padding:7px 8px;font-size:11px;color:var(--ink-42);transition:background .15s,border-color .15s,color .15s}
-  .bval b{display:block;font-family:'JetBrains Mono',monospace;font-weight:500;font-size:14px;color:var(--ink-42);margin-top:2px}
-  .bval.on{border-color:rgba(64,160,219,.4);background:rgba(64,160,219,.08);color:#fff}
-  .bval.on b{color:var(--blue-accent)}
-  .quote{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding:12px 14px;border-radius:10px;background:rgba(64,160,219,.08);border:1px solid rgba(64,160,219,.25)}
-  .quote .lbl{font-size:13px;color:var(--ink-78)}
-  .quote .q{font-family:'JetBrains Mono',monospace;font-size:20px;color:#fff;margin-left:10px}
-  .quote .send{font-weight:600;font-size:13px;padding:8px 14px;border-radius:8px;background:var(--blue-deep);color:#fff;white-space:nowrap}
+  .rule{border-top:1px solid var(--hair);padding-top:7px}
+  .rule-line{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-78);background:rgba(255,255,255,.03);border:1px solid var(--hair);border-radius:8px;padding:5px 10px}
+  .autoq{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:6px;padding:6px 12px;border-radius:10px;background:rgba(64,160,219,.08);border:1px solid rgba(64,160,219,.25);font-size:13px;color:var(--ink-78)}
+  .autoq .q{font-family:'JetBrains Mono',monospace;font-size:16px;color:#fff;margin-left:10px}
 
   /* stat strip */
   .stats{padding:46px 0}
@@ -387,7 +388,7 @@
   @media(max-width:1000px){.tools.q4{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:600px){.tools.q4{grid-template-columns:1fr}}
   .tcard{background:#fff;border:1px solid var(--light-hair);border-radius:14px;padding:30px 26px;box-shadow:0 4px 14px rgba(10,23,41,.05);display:flex;flex-direction:column}
-  .tcard .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .tcard .top{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:26px}
   .tcard .num{font-family:'Anton',sans-serif;font-size:15px;color:var(--blue);letter-spacing:.5px}
   .tcard h3{font-size:20px;font-weight:800;letter-spacing:-.3px;margin:16px 0 10px;line-height:1.2}
   .tcard p{font-size:15px;color:var(--l-body)}
@@ -399,6 +400,7 @@
   .light .pill{border-color:var(--light-hair);color:var(--l-muted)}
   .light .pill.live{color:#1a8a5a;border-color:rgba(26,138,90,.3)}
   .light .pill.dev{color:#b06a00;border-color:rgba(176,106,0,.3)}
+  .light .pill.addon{color:var(--blue-deep);border-color:var(--blue);letter-spacing:.6px;padding:4px 9px;font-size:10.5px}
 
   /* feature rows */
   .row{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:stretch;padding:72px 0}
@@ -1038,8 +1040,8 @@
   <div class="wrap hero-grid">
     <div>
       <div class="kicker">Market Making Tool Suite</div>
-      <h1 class="display">Quote every RFQ<br class="bp"> <span class="acc">with confidence.</span></h1>
-      <p class="lead"><strong class="lead-in">Price every RFQ. Win more fills.</strong>Market making tools for high-volume makers, built for parlays and same-game parlays. Every book's correlated price, the market average, your own odds or our fair price, back within the timeout you set. One API, built on the same market data behind the Betstamp PRO True Line.</p>
+      <h1 class="display">Quote more RFQs<br class="bp"> <span class="acc">with confidence.</span></h1>
+      <p class="lead"><strong class="lead-in">Price more RFQs. Win more fills.</strong>Market making tools for high-volume makers, built for parlays and same-game parlays. Every book's correlated price, the market average, your own odds or our fair price, back within the timeout you set. One API, built on the same market data behind the Betstamp PRO True Line.</p>
       <div class="cta">
         <!-- TODO(spencer): primary CTA offers a trial key. Confirm trials are OK to offer publicly; otherwise revert to "Talk to Sales →". -->
         <a class="btn btn-primary" href="https://www.betstamp.com/pro/register?utm_term=mm_suite_hero">Get a trial key →</a>
@@ -1047,45 +1049,32 @@
       </div>
     </div>
 
-    <!-- Hero visual: an incoming RFQ and every basis the maker can price it off. ALL NUMBERS ILLUSTRATIVE:
-         legs -135 x -115 x +120 = 7.160 decimal (+616 naive). Books A/B/C answer inside timeout_ms, Book D does not.
-         Market avg +472 = mean of A/B/C (the API averages only the books in the request). Quote = basis less ~1.2% margin.
-         Chips are buttons (aria-pressed) so Enter/Space work; the script at the end of the page swaps the highlighted value and quote. -->
-    <div class="desk" aria-label="Illustrative incoming RFQ priced off a basis the maker chooses">
+    <!-- Hero visual: an RFQ arrives and is quoted automatically by the maker's own rule. No person in the loop. ALL NUMBERS ILLUSTRATIVE:
+         legs -135 x -115 x +120. Books A/B/C answer inside timeout_ms, Book D does not. Market avg +472 = mean of A/B/C.
+         The rule applies the margin to market_avg; result shown as +465. -->
+    <div class="desk auto" aria-label="Illustrative RFQ quoted automatically from the maker's own rule">
       <div class="desk-head rfq">
-        <span class="t">Incoming RFQ · Prediction market · 3 legs · $250 stake</span>
+        <span class="t">Incoming RFQ · 3 legs · $250</span>
         <span class="pill warn">0.8s to respond</span>
       </div>
       <div class="legs">
-        <div class="leg"><div><b>Home team moneyline</b><small>Match result</small></div><span class="odds">−135</span></div>
-        <div class="leg"><div><b>QB Over 249.5 passing yds</b><small>Player prop</small></div><span class="odds">−115</span></div>
-        <div class="leg"><div><b>WR anytime touchdown</b><small>Player prop</small></div><span class="odds">+120</span></div>
+        <div class="leg"><b>Home team moneyline</b><span class="odds">−135</span></div>
+        <div class="leg"><b>QB Over 249.5 passing yds</b><span class="odds">−115</span></div>
+        <div class="leg"><b>WR anytime touchdown</b><span class="odds">+120</span></div>
       </div>
       <div class="resp">
         <div class="desk-label">Book responses</div>
+        <div class="rows">
         <div class="brow" style="--d:0"><span>Book A</span><span class="q">+485</span><span class="ms">212ms</span></div>
         <div class="brow" style="--d:1"><span>Book B</span><span class="q">+470</span><span class="ms">340ms</span></div>
         <div class="brow" style="--d:2"><span>Book C</span><span class="q">+462</span><span class="ms">515ms</span></div>
         <div class="brow out" style="--d:3"><span>Book D<span class="mini">timeout_ms</span></span><span class="q">timed out</span><span class="ms">800ms</span></div>
-      </div>
-      <div class="basis">
-        <div class="desk-label" id="basis-label">Price off</div>
-        <div class="chips" role="group" aria-labelledby="basis-label">
-          <button type="button" class="chip" data-basis="book" data-quote="+478" aria-pressed="false">Book</button>
-          <button type="button" class="chip" data-basis="avg" data-quote="+465" aria-pressed="true">Market avg</button>
-          <button type="button" class="chip" data-basis="own" data-quote="+505" aria-pressed="false">Your odds</button>
-          <button type="button" class="chip" data-basis="fair" data-quote="+491" aria-pressed="false">Fair</button>
-        </div>
-        <div class="bvals">
-          <div class="bval" data-basis="book">Book A<b>+485</b></div>
-          <div class="bval on" data-basis="avg">Market avg<b>+472</b></div>
-          <div class="bval" data-basis="own">Your odds<b>+512</b></div>
-          <div class="bval" data-basis="fair">Fair<b>+498</b></div>
         </div>
       </div>
-      <div class="quote">
-        <span class="lbl">Your quote<span class="q" id="hero-quote" aria-live="polite">+465</span></span>
-        <span class="send" aria-hidden="true">→ Send</span>
+      <div class="rule">
+        <div class="desk-label">Your quoting rule</div>
+        <div class="rule-line">basis = market_avg · margin −1.5% · max risk $500</div>
+        <div class="autoq" style="--d:4"><span>Auto-quoted<span class="q">+465</span></span><span class="pill ok">✓ sent · 0.41s</span></div>
       </div>
       <div class="desk-foot">
         <span></span>
@@ -1147,7 +1136,7 @@
     <div class="sec-head">
       <div class="kicker">The Market Making Tool Suite</div>
       <h2 class="display">Four ways to price. <span class="acc">One request.</span></h2>
-      <p>Some desks quote off the one book they trust. Some blend the books they think are sharpest. Some run their own model. The API gives you every input, so you price the slip your way.</p>
+      <p>Some desks quote off the one book they trust. Some blend the books they think are sharpest. Some run their own model. Betstamp's pricing engine gives you every input, so you price the slip your way.</p>
     </div>
 
     <div class="tools q4">
@@ -1160,23 +1149,23 @@
 
       <article class="tcard">
         <div class="top"><span class="num">02</span></div>
-        <h3>Market average</h3>
-        <p>The average of the books you request, calculated for you. Pick the books and it's your own blend.</p>
-        <a class="more" href="#corr">See every book ↓</a>
-      </article>
-
-      <article class="tcard">
-        <div class="top"><span class="num">03</span></div>
         <h3>Your odds</h3>
         <p>Send your own leg odds and we apply the market's correlation, even on lines no book offers.</p>
         <a class="more" href="#own-odds">Bring your odds ↓</a>
       </article>
 
       <article class="tcard">
-        <div class="top"><span class="num">04</span></div>
+        <div class="top"><span class="num">03</span><span class="pill addon">Fair pricing add-on</span></div>
+        <h3>Market average</h3>
+        <p>The average of the books you request, with outliers removed, calculated for you. Narrow the books and it's your own blend.</p>
+        <a class="more" href="#fair">See the add-on ↓</a>
+      </article>
+
+      <article class="tcard">
+        <div class="top"><span class="num">04</span><span class="pill addon">Fair pricing add-on</span></div>
         <h3>Betstamp fair price</h3>
-        <p>An independent, vig-free fair price for the slip, built from the market's SGP quotes.</p>
-        <a class="more" href="#fair">What it returns ↓</a>
+        <p>A no-vig estimate of what a same-game slip is really worth, from Betstamp's proprietary fair-price model.</p>
+        <a class="more" href="#fair">See the add-on ↓</a>
       </article>
     </div>
   </div>
@@ -1189,14 +1178,12 @@
     <!-- Correlation detail -->
     <div class="row" id="corr">
       <div class="copy">
-        <div class="kicker">01 · Book prices + market average</div>
-        <h3>See every book's price,<br class="bp"> <span class="acc">and what it charges for correlation.</span></h3>
+        <div class="kicker">01 · Book prices</div>
+        <h3>See every book's price,<br class="bp"> <span class="acc">and what it charges<br class="bp"> for correlation.</span></h3>
         <p>Every price is the book's own combined quote for the slip, never the legs multiplied together. When the legs move together, the price shows it.</p>
         <p>Each book also returns <code class="mono" style="font-size:14px;color:#fff">correlation_pct</code> and <code class="mono" style="font-size:14px;color:#fff">correlation_pp</code>: how much shorter its quote is than the naive product of the legs. Books hold differently on the same slip, so this is the number that tells you what each one is really charging.</p>
-        <p>The market average comes back in the same response, built from the books you asked for. Quote off one book, the average, or your own blend.</p>
         <ul class="spec">
           <li>Every supported book priced in one <code>POST /api/sgp</code> request, with <code>correlation_pct</code> and <code>correlation_pp</code></li>
-          <li>Market average returned in the same response</li>
           <li>Multi-game parlays via <code>POST /api/parlay</code>, with same-game groups priced by each book's own bet builder</li>
           <li>On parlays, <code>allow_missing_entries</code> prices the legs a book has and lists the ones it's missing</li>
           <li>Set <code>timeout_ms</code> per request, so a slow book never costs you the quote</li>
@@ -1224,7 +1211,6 @@
           <div><b>+425 to +485</b>book quotes</div>
           <div><b>14.0 pts</b>correlation spread</div>
         </div>
-        <div class="lrow ref" style="margin-top:14px"><span>Market average</span><span class="d">requested books</span><span class="q">+461</span></div>
         </div>
         <p class="note">correlation_pct = (naive_product / decimal − 1) × 100. Books and values are placeholders, not a claim about any operator.</p>
       </div>
@@ -1234,14 +1220,13 @@
     <div class="row" id="own-odds">
       <div class="copy">
         <div class="kicker">02 · Price at your own odds</div>
-        <h3>Your number on every leg.<br class="bp"> <span class="acc">The market's correlation on top.</span></h3>
+        <h3 style="font-size:clamp(28px,3.1vw,36px)">Your number on every leg.<br class="bp"> <span class="acc">The market's correlation on top.</span></h3>
         <p>You already price the legs. What you don't have is how they move together. Send your own odds for each leg with <code class="mono" style="font-size:14px;color:#fff">custom_odds</code>. We apply the correlation the sportsbooks are pricing into that combination and return the slip price you'd quote, built on your model instead of theirs.</p>
         <p>If no book offers that exact line, we estimate from the nearby lines books do offer, so an alt number or a line sharper than the market still gets priced.</p>
         <ul class="spec">
           <li>Your leg prices in, correlated slip price out</li>
           <li>Correlation taken from how books price the same combination</li>
           <li>Prices lines no book offers, estimated from nearby lines</li>
-          <li>Built for exchanges, prediction-market makers, offshore books and in-house SGP models</li>
         </ul>
       </div>
       <!-- Math: +105 x -120 x +140 = 2.05 x 1.8333 x 2.40 = 9.02 decimal (+802). Correlated +690 (7.90) = 14.2% shorter. -->
@@ -1268,20 +1253,24 @@
     <!-- Fair price detail. API: include_fair on /api/sgp and /api/parlay adds "fair" and "market_avg" entries. -->
     <div class="row" id="fair">
       <div class="copy">
-        <div class="kicker">03 · Betstamp fair price</div>
-        <h3>An independent fair price<br class="bp"> <span class="acc">for correlated markets.</span></h3>
-        <p>The Betstamp PRO True Line gave player props a reference price that doesn't belong to any one book. Parlays and same-game parlays have never had one.</p>
-        <p>The fair price fills that gap: one vig-free number for the slip, derived from the market's SGP quotes and returned beside the per-book prices in the same response. Use it as your quote basis, or as a check on the book or blend you already trust.</p>
+        <div class="kicker">03 · Fair pricing add-on</div>
+        <h3>The market average and a no-vig fair price,<br class="bp"> <span class="acc">in the same response.</span></h3>
+        <p>Add fair pricing to your key and every same-game request also returns two reference prices beside the per-book quotes.</p>
+        <p>The market average is the average of the books you request, with outliers removed so one strange price can't drag it. Narrow the books and it's your own blend.</p>
+        <p>The Betstamp fair price is a no-vig estimate of what the slip is really worth, from Betstamp's proprietary fair-price model, built in-house by the team behind the Betstamp PRO True Line. Every same-game price you see has the book's margin built in. This is the number without it. Quote off it, or use it as a check on the book or blend you already trust.</p>
         <ul class="spec">
-          <li>One vig-free fair price per slip, correlation included</li>
+          <li>Market average and fair price, together on the fair pricing add-on</li>
           <li>Add <code>include_fair</code> to the same <code>/api/sgp</code> request: same legs, same IDs</li>
+          <li>Outliers removed before either number is calculated</li>
+          <li>Same-game slips; multi-game parlays return book prices</li>
         </ul>
       </div>
-      <div class="viz" aria-label="Illustrative per-book quotes next to the Betstamp fair price">
-        <div class="t"><span>Same slip · book quotes vs fair</span><span class="pill">Illustrative</span></div>
+      <div class="viz" aria-label="Illustrative per-book quotes next to the market average and Betstamp fair price">
+        <div class="t"><span>Same slip · market average and fair vs books</span><span class="pill">Illustrative</span></div>
         <div class="body">
         <div class="ladder">
-          <div class="lrow hi"><span>Market fair price</span><span class="d">vig-free</span><span class="q">+498</span></div>
+          <div class="lrow hi"><span>Betstamp fair price</span><span class="d">no-vig</span><span class="q">+498</span></div>
+          <div class="lrow ref"><span>Market average</span><span class="d">−37</span><span class="q">+461</span></div>
           <div class="lrow"><span>Book A</span><span class="d">−13</span><span class="q">+485</span></div>
           <div class="lrow"><span>Book B</span><span class="d">−28</span><span class="q">+470</span></div>
           <div class="lrow"><span>Book C</span><span class="d">−36</span><span class="q">+462</span></div>
@@ -1290,7 +1279,7 @@
           <div class="lrow"><span>Book F</span><span class="d">−58</span><span class="q">+440</span></div>
         </div>
         <div class="sumrow">
-          <div><b>+498</b>fair, vig stripped</div>
+          <div><b>+498</b>no-vig fair</div>
           <div><b>8</b>books priced</div>
           <div><b>3</b>legs, one fixture</div>
         </div>
@@ -1379,7 +1368,7 @@
 <section id="access" class="band">
   <div class="wrap">
     <div class="kicker" style="margin-bottom:12px">Talk to a data expert</div>
-    <h2 class="display">Price every quote <span class="acc">your way.</span></h2>
+    <h2 class="display">Price more RFQs <span class="acc">your way.</span></h2>
     <p>Tell us what you make markets on and where. We'll scope the suite to your leagues, books and volume, and have a key in your hands the same week.</p>
     <!-- TODO(spencer): "same week" reflects current practice (keys issued on or right after the call). Remove if not a commitment. -->
     <div class="cta">
@@ -1419,15 +1408,15 @@
     <div class="faq">
       <details open>
         <summary>What is the Betstamp Market Making Tool Suite?</summary>
-        <p>An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It returns each supported sportsbook's own correlated price with the correlation it's charging and pricing at your own leg odds, and can add the market average and a vig-free Betstamp fair price in the same response, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line.</p>
+        <p>An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It returns each supported sportsbook's own correlated price with the correlation it's charging and pricing at your own leg odds, and, on the fair pricing add-on, the market average and a no-vig Betstamp fair price for same-game slips, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line.</p>
       </details>
       <details>
         <summary>Do I have to use the Betstamp fair price?</summary>
         <p>No. Many makers quote off a single book they trust, a blend of a few books, or their own model. The API returns every book's correlated price, prices your own leg odds with <code>custom_odds</code>, and can add the market average and fair price to the same response. Use whichever basis fits your strategy.</p>
       </details>
       <details>
-        <summary>How is the market fair price for parlays and SGPs calculated?</summary>
-        <p>It is derived from the market's SGP quotes for the same legs, with vig stripped, so it is one independent number for the slip rather than any single book's price. It comes back beside the per-book quotes and the market average in the same request.</p>
+        <summary>How is the Betstamp fair price calculated?</summary>
+        <p>It comes from Betstamp's proprietary fair-price model, built in-house by the team behind the Betstamp PRO True Line. It returns a no-vig estimate of what a same-game slip is really worth, beside the per-book prices and market average in the same response, on the fair pricing add-on. For multi-game parlays, quote off the per-book prices.</p>
       </details>
       <details>
         <summary>Can I price slips at my own odds?</summary>
@@ -1967,23 +1956,6 @@
   </div>
 </footer>
 
-
-<!-- Hero "Price off" chips: native buttons, so Tab/Enter/Space work without extra handlers. No motion involved. -->
-<script>
-(function(){
-  var chips = document.querySelectorAll('.desk .chip');
-  var vals = document.querySelectorAll('.desk .bval');
-  var out = document.getElementById('hero-quote');
-  for (var i = 0; i < chips.length; i++){
-    chips[i].addEventListener('click', function(){
-      var basis = this.getAttribute('data-basis');
-      for (var j = 0; j < chips.length; j++) chips[j].setAttribute('aria-pressed', chips[j] === this ? 'true' : 'false');
-      for (var k = 0; k < vals.length; k++) vals[k].classList.toggle('on', vals[k].getAttribute('data-basis') === basis);
-      if (out) out.textContent = this.getAttribute('data-quote');
-    });
-  }
-})();
-</script>
 
 <!-- Motion. Vanilla JS, no dependencies. TODO(dev): port to the site's existing intersection/animation helpers if any. -->
 <script>
