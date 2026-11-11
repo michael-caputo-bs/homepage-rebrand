@@ -359,6 +359,14 @@
   .lrow .d{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-42);min-width:64px;text-align:right}
   .viz .note{margin-top:14px;font-size:11px;color:var(--ink-42);letter-spacing:.3px}
 
+  /* mid-page cta */
+  .midcta{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:var(--card);border:1px solid var(--hair);border-radius:var(--radius);padding:28px 32px;margin:8px 0 56px}
+  .midcta .t{font-family:'Anton','Inter',sans-serif;text-transform:uppercase;font-size:clamp(24px,2.4vw,30px);line-height:1.05;color:#fff;text-wrap:balance}
+  .midcta .t .acc{color:var(--blue-accent)}
+  .midcta p{margin-top:8px;font-size:15px;color:var(--ink-78);max-width:52ch}
+  .midcta .cta{display:flex;gap:12px;flex-wrap:wrap}
+  @media(max-width:600px){.midcta{padding:24px 20px}}
+
   /* how it works */
   .how-head{max-width:720px}
   .how-head .lead{margin-top:4px}
@@ -1080,14 +1088,14 @@
         <div class="top"><span class="num">03</span></div>
         <h3>Market average</h3>
         <p>The average of the books you request, with outliers removed, calculated for you. Narrow the books and it's your own blend.</p>
-        <a class="more" href="#fair">See the add-on ↓</a>
+        <a class="more" href="#fair">See the average ↓</a>
       </article>
 
       <article class="tcard">
         <div class="top"><span class="num">04</span></div>
         <h3>Betstamp fair price</h3>
         <p>A no-vig estimate of what a same-game slip is really worth, from Betstamp's proprietary fair-price model.</p>
-        <a class="more" href="#fair">See the add-on ↓</a>
+        <a class="more" href="#fair">See the fair price ↓</a>
       </article>
     </div>
   </div>
@@ -1210,6 +1218,18 @@
       </div>
     </div>
 
+
+    <!-- Mid-page CTA. TODO(spencer): same trial-key caveat as the hero CTA. -->
+    <div class="midcta">
+      <div>
+        <div class="t">Try it on <span class="acc">your own slips.</span></div>
+        <p>Get a trial key and price your own RFQs against every supported book, your own odds and the fair price.</p>
+      </div>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://www.betstamp.com/pro/register?utm_term=mm_suite_mid_cta">Get a trial key →</a>
+        <a class="btn btn-ghost" href="https://www.betstamp.com/pro/register?utm_term=mm_suite_mid_sales">Talk to Sales</a>
+      </div>
+    </div>
   </div>
 </section>
 
