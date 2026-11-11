@@ -45,7 +45,7 @@
 <!-- TODO(dev): confirm final slug. Sibling product pages are flat (/sgp-pricing-engine, /prediction-markets-api),
      so /market-making-tools is proposed. Update canonical, og:url and JSON-LD "url" together. -->
 <title>Market Making Tools for Parlays &amp; SGPs | Betstamp API</title>
-<meta name="description" content="Market making tools for parlays and same-game parlays. A vig-free fair price for the slip, the market average, every book's correlated price, and pricing at your own leg odds, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
+<meta name="description" content="Market making tools for parlays and same-game parlays. Every book's correlated price, pricing at your own leg odds, and an add-on for the market average and a no-vig fair price, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
 <link rel="canonical" href="https://www.betstamp.com/market-making-tools">
 <meta name="robots" content="index,follow,max-image-preview:large">
 
@@ -54,14 +54,14 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://www.betstamp.com/market-making-tools">
 <meta property="og:title" content="Market Making Tool Suite | Betstamp API">
-<meta property="og:description" content="Market making tools for parlays and same-game parlays. A vig-free fair price for the slip, the market average, every book's correlated price, and pricing at your own leg odds, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
+<meta property="og:description" content="Market making tools for parlays and same-game parlays. Every book's correlated price, pricing at your own leg odds, and an add-on for the market average and a no-vig fair price, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
 <!-- TODO(dev): replace with a 1200x630 page-specific OG image. Wordmark is the site-wide fallback. -->
 <meta property="og:image" content="https://betstamp-public.sfo2.cdn.digitaloceanspaces.com/betstamp-logos/betstamp_wordmark.png">
 <meta property="og:image:alt" content="Betstamp Market Making Tool Suite">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@betstamp">
 <meta name="twitter:title" content="Market Making Tool Suite | Betstamp API">
-<meta name="twitter:description" content="Market making tools for parlays and same-game parlays. A vig-free fair price for the slip, the market average, every book's correlated price, and pricing at your own leg odds, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
+<meta name="twitter:description" content="Market making tools for parlays and same-game parlays. Every book's correlated price, pricing at your own leg odds, and an add-on for the market average and a no-vig fair price, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
 <meta name="twitter:image" content="https://betstamp-public.sfo2.cdn.digitaloceanspaces.com/betstamp-logos/betstamp_wordmark.png">
 
 <!-- Structured data. TODO(dev): keep "url" in sync with the final slug. No "offers" block on purpose (API pricing is never public). -->
@@ -78,12 +78,12 @@
       "applicationSubCategory": "Sports betting pricing API",
       "operatingSystem": "Web API",
       "url": "https://www.betstamp.com/market-making-tools",
-      "description": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues: correlation-aware SGP pricing from every supported sportsbook, the market average of the books you request, pricing at your own leg odds with the market's correlation applied, and a vig-free Betstamp fair price, so makers quote off whichever basis they trust.",
+      "description": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues: correlation-aware SGP pricing from every supported sportsbook, the market average of the books you request, pricing at your own leg odds with the market's correlation applied, and a no-vig Betstamp fair price, so makers quote off whichever basis they trust.",
       "featureList": [
         "Correlation-aware SGP pricing from 14+ supported sportsbooks",
         "Market average of the requested books for the slip",
         "Pricing at your own leg odds with the market's correlation applied",
-        "Vig-free Betstamp fair price for parlays and SGPs",
+        "No-vig Betstamp fair price for parlays and SGPs",
         "Per-book correlation_pct and correlation_pp versus naive leg multiplication",
         "Multi-game parlay pricing with partial-leg support",
         "Per-request timeout so slow books never hold up a quote",
@@ -1038,7 +1038,7 @@
     <div class="four">
       <div class="pcard">
         <div class="n">01 / SPEED</div>
-        <h3>The fastest good price wins.</h3>
+        <h3>The RFQ won't wait for the slowest book.</h3>
         <p>An RFQ closes in milliseconds. If your pricing waits on the slowest book, someone else's quote fills while yours is still loading. You need the price back on your clock, not the books'.</p>
       </div>
       <div class="pcard">
@@ -1290,12 +1290,12 @@
           <li><h4>Authenticate once</h4><p>Every endpoint takes an <code class="mono" style="font-size:13px">X-API-KEY</code> header. Entitlements set which leagues, books and products your key can reach.</p></li>
           <li><h4>Resolve your legs</h4><p>Pull fixtures, players and markets from the reference endpoints. The same IDs work everywhere, so a leg you built from the markets feed prices without remapping.</p></li>
           <li><h4>Price the slip</h4><p>Post legs, or legs plus your own odds, to <code class="mono" style="font-size:13px">/api/sgp</code>, or multi-game legs to <code class="mono" style="font-size:13px">/api/parlay</code>. Add <code class="mono" style="font-size:13px">include_fair</code> for the fair price and market average.</p></li>
-          <li><h4>Quote</h4><p>Pick your basis (one book, the market average, your own odds or the fair price), apply your margin and send. Your rules, your thresholds.</p></li>
+          <li><h4>Quote</h4><p>Set your basis (one book, the market average, your own odds or the fair price), your margin and your risk limits. Your system quotes every RFQ that passes your rules automatically.</p></li>
         </ol>
 
     <div class="devrow">
       <div><h4>Request/response pricing</h4><p>SGP and parlay pricing is pull-only: send the slip, get the prices. Leg-level market data can also stream over Server-Sent Events if your plan includes the feeds.</p></div>
-      <div><h4>Unified IDs + venue mapping</h4><p>One fixture, player and market model across sportsbooks, exchanges, prediction markets and DFS. Sportsbook, exchange and prediction-market legs share the same fixture, player and market IDs, so cross-venue quoting starts from one model, not a mapping table.</p></div>
+      <div><h4>Unified IDs + venue mapping</h4><p>One fixture, player and market model across sportsbooks, exchanges, prediction markets and DFS. A Kalshi leg and a DraftKings leg resolve to the same market, so cross-venue quoting needs no mapping table.</p></div>
       <div><h4>Limits sized to your flow</h4><p>Request rate and monthly volume scale to your workflow. Quoting a million RFQs a day is a scoping conversation, not a ceiling. Every error says exactly which cap you hit.</p></div>
       <!-- TODO(spencer): no request-rate number on purpose. Docs say 25 req/s per key; 60/min on /api/parlay and
            "default 250,000 requests"/month. Reframe the 250k as a starting allowance before quoting numbers. -->
