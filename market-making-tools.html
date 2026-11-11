@@ -133,7 +133,7 @@
           "name": "What is the Betstamp Market Making Tool Suite?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. Every request can return each supported sportsbook's own correlated price with the correlation it's charging, the market average, pricing at your own leg odds, and a vig-free Betstamp fair price, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line."
+            "text": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It returns each supported sportsbook's own correlated price with the correlation it's charging and pricing at your own leg odds, and can add the market average and a vig-free Betstamp fair price in the same response, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line."
           }
         },
         {
@@ -141,7 +141,7 @@
           "name": "Do I have to use the Betstamp fair price?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Many makers quote off a single book they trust, a blend of a few books, or their own model. The API returns every book's correlated price and the market average, prices your own leg odds with custom_odds, and adds the fair price if you request it. Use whichever basis fits your strategy."
+            "text": "No. Many makers quote off a single book they trust, a blend of a few books, or their own model. The API returns every book's correlated price, prices your own leg odds with custom_odds, and can add the market average and fair price to the same response. Use whichever basis fits your strategy."
           }
         },
         {
@@ -197,7 +197,7 @@
           "name": "How do I get access?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Tell us what you make markets on and where. We scope the suite to your leagues, books and volume, and issue a trial key so you can test it against your own flow."
+            "text": "Tell us what you make markets on and where. We scope the suite to your leagues, books and volume, and issue a trial key so you can test it against your own flow. We'll scope which pricing outputs you need (book prices only, or with the market average and fair price) along with your leagues, books and volume."
           }
         }
       ]
@@ -1147,7 +1147,7 @@
     <div class="sec-head">
       <div class="kicker">The Market Making Tool Suite</div>
       <h2 class="display">Four ways to price. <span class="acc">One request.</span></h2>
-      <p>Some desks quote off the one book they trust. Some blend the books they think are sharpest. Some run their own model. Every request returns every input, so you price the slip your way.</p>
+      <p>Some desks quote off the one book they trust. Some blend the books they think are sharpest. Some run their own model. The API gives you every input, so you price the slip your way.</p>
     </div>
 
     <div class="tools q4">
@@ -1419,11 +1419,11 @@
     <div class="faq">
       <details open>
         <summary>What is the Betstamp Market Making Tool Suite?</summary>
-        <p>An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. Every request can return each supported sportsbook's own correlated price with the correlation it's charging, the market average, pricing at your own leg odds, and a vig-free Betstamp fair price, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line.</p>
+        <p>An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues. It returns each supported sportsbook's own correlated price with the correlation it's charging and pricing at your own leg odds, and can add the market average and a vig-free Betstamp fair price in the same response, so you can quote off whichever basis you trust. It runs on the same market data behind the Betstamp PRO True Line.</p>
       </details>
       <details>
         <summary>Do I have to use the Betstamp fair price?</summary>
-        <p>No. Many makers quote off a single book they trust, a blend of a few books, or their own model. The API returns every book's correlated price and the market average, prices your own leg odds with <code>custom_odds</code>, and adds the fair price if you request it. Use whichever basis fits your strategy.</p>
+        <p>No. Many makers quote off a single book they trust, a blend of a few books, or their own model. The API returns every book's correlated price, prices your own leg odds with <code>custom_odds</code>, and can add the market average and fair price to the same response. Use whichever basis fits your strategy.</p>
       </details>
       <details>
         <summary>How is the market fair price for parlays and SGPs calculated?</summary>
@@ -1451,7 +1451,7 @@
       </details>
       <details>
         <summary>How do I get access?</summary>
-        <p>Tell us what you make markets on and where. We scope the suite to your leagues, books and volume, and issue a trial key so you can test it against your own flow.</p>
+        <p>Tell us what you make markets on and where. We scope the suite to your leagues, books and volume, and issue a trial key so you can test it against your own flow. We'll scope which pricing outputs you need (book prices only, or with the market average and fair price) along with your leagues, books and volume.</p>
       </details>
     </div>
   </div>
