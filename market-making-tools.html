@@ -44,8 +44,8 @@
 <!-- ===================== SEO ===================== -->
 <!-- TODO(dev): confirm final slug. Sibling product pages are flat (/sgp-pricing-engine, /prediction-markets-api),
      so /market-making-tools is proposed. Update canonical, og:url and JSON-LD "url" together. -->
-<title>Market Making Tools for Parlays &amp; SGPs | Betstamp API</title>
-<meta name="description" content="Market making tools for parlays and same-game parlays. Every book's correlated price, pricing at your own leg odds, and an add-on for the market average and a no-vig fair price, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
+<title>Prediction Market Making Tools for Kalshi &amp; Polymarket Parlays | Betstamp</title>
+<meta name="description" content="Market making tools for prediction markets. Price Kalshi and Polymarket parlays, combos and same-game parlays off every sportsbook's correlated price, your own leg odds or a no-vig fair price, in one API built for RFQ market makers.">
 <link rel="canonical" href="https://www.betstamp.com/market-making-tools">
 <meta name="robots" content="index,follow,max-image-preview:large">
 
@@ -53,15 +53,15 @@
 <meta property="og:site_name" content="betstamp">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://www.betstamp.com/market-making-tools">
-<meta property="og:title" content="Market Making Tool Suite | Betstamp API">
-<meta property="og:description" content="Market making tools for parlays and same-game parlays. Every book's correlated price, pricing at your own leg odds, and an add-on for the market average and a no-vig fair price, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
+<meta property="og:title" content="Prediction Market Making Tools | Betstamp">
+<meta property="og:description" content="Market making tools for prediction markets. Price Kalshi and Polymarket parlays, combos and same-game parlays off every sportsbook's correlated price, your own leg odds or a no-vig fair price, in one API built for RFQ market makers.">
 <!-- TODO(dev): replace with a 1200x630 page-specific OG image. Wordmark is the site-wide fallback. -->
 <meta property="og:image" content="https://betstamp-public.sfo2.cdn.digitaloceanspaces.com/betstamp-logos/betstamp_wordmark.png">
 <meta property="og:image:alt" content="Betstamp Market Making Tool Suite">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@betstamp">
-<meta name="twitter:title" content="Market Making Tool Suite | Betstamp API">
-<meta name="twitter:description" content="Market making tools for parlays and same-game parlays. Every book's correlated price, pricing at your own leg odds, and an add-on for the market average and a no-vig fair price, in one API for RFQ makers on Kalshi, Polymarket, Novig and ProphetX.">
+<meta name="twitter:title" content="Prediction Market Making Tools | Betstamp">
+<meta name="twitter:description" content="Market making tools for prediction markets. Price Kalshi and Polymarket parlays, combos and same-game parlays off every sportsbook's correlated price, your own leg odds or a no-vig fair price, in one API built for RFQ market makers.">
 <meta name="twitter:image" content="https://betstamp-public.sfo2.cdn.digitaloceanspaces.com/betstamp-logos/betstamp_wordmark.png">
 
 <!-- Structured data. TODO(dev): keep "url" in sync with the final slug. No "offers" block on purpose (API pricing is never public). -->
@@ -78,7 +78,8 @@
       "applicationSubCategory": "Sports betting pricing API",
       "operatingSystem": "Web API",
       "url": "https://www.betstamp.com/market-making-tools",
-      "description": "An API suite for market makers pricing parlays and same-game parlays on exchanges, prediction markets and RFQ venues: correlation-aware SGP pricing from every supported sportsbook, the market average of the books you request, pricing at your own leg odds with the market's correlation applied, and a no-vig Betstamp fair price, so makers quote off whichever basis they trust.",
+      "description": "Market making tools for prediction markets. Price Kalshi and Polymarket parlays, combos and same-game parlays off every sportsbook's correlated price, your own leg odds or a no-vig fair price, in one API built for RFQ market makers.",
+      "keywords": "prediction market making, kalshi market making, polymarket market making, kalshi combos, kalshi parlays, rfq pricing, sgp pricing api",
       "featureList": [
         "Correlation-aware SGP pricing from 14+ supported sportsbooks",
         "Market average of the requested books for the slip",
@@ -1003,9 +1004,9 @@
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="kicker">Market Making Tool Suite</div>
+      <div class="kicker">Prediction Market Making Tools</div>
       <h1 class="display">Quote more RFQs<br class="bp"> <span class="acc">with confidence.</span></h1>
-      <p class="lead"><strong class="lead-in">Price more RFQs. Win more fills.</strong>Market making tools for high-volume makers, built for parlays and same-game parlays. Every book's correlated price, the market average, your own odds or our fair price, back within the timeout you set. One API, built on the same market data behind the Betstamp PRO True Line.</p>
+      <p class="lead"><strong class="lead-in">Price more RFQs. Win more fills.</strong>Market making tools for prediction markets, built for Kalshi and Polymarket parlays, combos and same-game parlays. Every book's correlated price, the market average, your own odds or our fair price, back within the timeout you set. One API, built on the same market data behind the Betstamp PRO True Line.</p>
       <div class="cta">
         <!-- TODO(spencer): primary CTA offers a trial key. Confirm trials are OK to offer publicly; otherwise revert to "Talk to Sales →". -->
         <a class="btn btn-primary" href="https://www.betstamp.com/pro/register?utm_term=mm_suite_hero">Get a trial key →</a>
@@ -1014,9 +1015,9 @@
     </div>
 
     <!-- Hero visual: an RFQ arrives and is quoted automatically by the maker's own rule. No person in the loop. ALL NUMBERS ILLUSTRATIVE:
-         legs -135 x -115 x +120. Books A/B/C answer by 385ms and the quote goes out at 0.41s; Book D comes back at 647ms, past the 0.5s window, so it is marked timed out. Market avg +472 = mean of A/B/C.
+         legs -135 x -115 x +120. Books A/B/C answer by 385ms and the quote goes out at 0.41s; Book D is cut off at 400ms by timeout_ms and marked timed out. Market avg +472 = mean of A/B/C.
          The rule applies the margin to market_avg; result shown as +465. -->
-    <div class="desk auto" aria-label="Illustrative RFQ quoted automatically from the maker's own rule">
+    <div class="desk auto" role="img" aria-label="Illustrative Kalshi-style RFQ market making dashboard showing sportsbook responses and an auto-quoted parlay price">
       <div class="desk-head rfq">
         <span class="t">Incoming RFQ · 3 legs · $250</span>
         <span class="pill warn">0.5s to respond</span>
@@ -1032,7 +1033,7 @@
         <div class="brow" style="--d:0"><span>Book A</span><span class="q">+485</span><span class="ms">212ms</span></div>
         <div class="brow" style="--d:1"><span>Book B</span><span class="q">+470</span><span class="ms">340ms</span></div>
         <div class="brow" style="--d:2"><span>Book C</span><span class="q">+462</span><span class="ms">385ms</span></div>
-        <div class="brow out" style="--d:3"><span>Book D<span class="mini">timeout_ms</span></span><span class="q">timed out</span><span class="ms">647ms</span></div>
+        <div class="brow out" style="--d:3"><span>Book D<span class="mini">timeout_ms</span></span><span class="q">timed out</span><span class="ms">400ms</span></div>
         </div>
       </div>
       <div class="rule">
@@ -1067,7 +1068,7 @@
     <div class="sec-head">
       <div class="kicker">Why correlated markets are hard to make</div>
       <h2 class="display">Four ways a maker<br class="bp"> <span class="acc">loses on correlated markets.</span></h2>
-      <p>Four places correlated quoting goes wrong, and how the suite handles each one.</p>
+      <p>Where market making on prediction markets goes wrong with correlated combos, and how the suite handles each one.</p>
     </div>
     <div class="four">
       <div class="pcard">
@@ -1104,7 +1105,7 @@
     <div class="sec-head">
       <div class="kicker">The Market Making Tool Suite</div>
       <h2 class="display">Four ways to price. <span class="acc">One request.</span></h2>
-      <p>Some desks quote off the one book they trust. Some blend the books they think are sharpest. Some run their own model. Betstamp's pricing engine gives you every input, so you price the slip your way.</p>
+      <p>Some desks quote off the one book they trust. Some blend the books they think are sharpest. Some run their own model. Betstamp's pricing engine gives you every input, so you price the slip your way. Built for market making on Kalshi, Polymarket, Novig and ProphetX.</p>
     </div>
 
     <div class="tools q4">
@@ -1148,7 +1149,7 @@
       <div class="copy">
         <div class="kicker">01 · Book prices</div>
         <h3>See every book's price,<br class="bp"> <span class="acc">and what it charges<br class="bp"> for correlation.</span></h3>
-        <p>Every price is the book's own combined quote for the slip, never the legs multiplied together. When the legs move together, the price shows it.</p>
+        <p>Every price is the book's own combined quote for the parlay or combo, never the legs multiplied together. When the legs move together, the price shows it.</p>
         <p>Each book also returns <code class="mono" style="font-size:14px;color:#fff">correlation_pct</code> and <code class="mono" style="font-size:14px;color:#fff">correlation_pp</code>: how much shorter its quote is than the naive product of the legs. Books hold differently on the same slip, so this is the number that tells you what each one is really charging.</p>
         <ul class="spec">
           <li>Every supported book priced in one <code>POST /api/sgp</code> request, with <code>correlation_pct</code> and <code>correlation_pp</code></li>
@@ -1161,7 +1162,7 @@
         </ul>
         <p class="xref">Same tool, same API. The <a href="https://www.betstamp.com/sgp-pricing-engine">SGP Pricing Engine</a> page covers everyone who uses it, odds sites and apps included. This page is written for market makers.</p>
       </div>
-      <div class="viz" aria-label="Illustrative correlation charged per book">
+      <div class="viz" role="img" aria-label="Illustrative correlation charged by each sportsbook on a same-game parlay">
         <div class="t"><span>Correlation charged · 3-leg same-game slip</span><span class="pill">Illustrative</span></div>
         <div class="body">
         <div class="bars">
@@ -1233,7 +1234,7 @@
           <li>Same-game slips; multi-game parlays return book prices</li>
         </ul>
       </div>
-      <div class="viz" aria-label="Illustrative per-book quotes next to the market average and Betstamp fair price">
+      <div class="viz" role="img" aria-label="Illustrative market average and no-vig fair price versus sportsbook quotes">
         <div class="t"><span>Same slip · market average and fair vs books</span><span class="pill">Illustrative</span></div>
         <div class="body">
         <div class="ladder">
@@ -1277,7 +1278,7 @@
     <div class="how-head">
       <div class="kicker">How it works</div>
         <h2 class="display">Built to sit inside<br class="bp"> <span class="acc">your pricing stack.</span></h2>
-        <p class="lead">API first. One key, one schema, one set of fixture, player and market IDs across every source. Send the slip, get every price back. One request per RFQ.</p>
+        <p class="lead">API first. One key, one schema, one set of fixture, player and market IDs across every source. Whether you're answering a Kalshi RFQ or quoting a Polymarket combo, send the slip and get every price back. One request per RFQ.</p>
     </div>
 
       <!-- Snippet built from the POST /api/sgp request/response schema in the public API reference (checked 2026-11-11).
