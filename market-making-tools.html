@@ -1015,7 +1015,7 @@
     </div>
 
     <!-- Hero visual: an RFQ arrives and is quoted automatically by the maker's own rule. No person in the loop. ALL NUMBERS ILLUSTRATIVE:
-         legs -135 x -115 x +120. Books A/B/C answer by 385ms and the quote goes out at 0.41s; Book D is cut off at the 500ms window by timeout_ms and marked timed out. Market avg +472 = mean of A/B/C.
+         legs -135 x -115 x +120. Books A/B/C answer by 385ms; Book D is cut off at the 500ms window by timeout_ms and marked timed out, and the quote goes out at 0.5s. Market avg +472 = mean of A/B/C.
          The rule applies the margin to market_avg; result shown as +465. -->
     <div class="desk auto" role="img" aria-label="Illustrative Kalshi-style RFQ market making dashboard showing sportsbook responses and an auto-quoted parlay price">
       <div class="desk-head rfq">
@@ -1039,7 +1039,7 @@
       <div class="rule">
         <div class="desk-label">Your quoting rule</div>
         <div class="rule-line">basis = market_avg · margin −1.5% · max risk $500</div>
-        <div class="autoq" style="--d:4"><span>Auto-quoted<span class="q">+465</span></span><span class="pill ok">✓ sent · 0.41s</span></div>
+        <div class="autoq" style="--d:4"><span>Auto-quoted<span class="q">+465</span></span><span class="pill ok">✓ sent · 0.5s</span></div>
       </div>
       <div class="desk-foot">
         <span></span>
