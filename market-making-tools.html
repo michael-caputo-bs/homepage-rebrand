@@ -300,10 +300,16 @@
   @media(max-width:900px){.three{grid-template-columns:1fr}}
   .four{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:48px}
   @media(max-width:760px){.four{grid-template-columns:1fr}}
-  .pcard{background:var(--card);border:1px solid var(--hair);border-radius:var(--radius);padding:28px 26px}
+  @media(min-width:761px){.four{grid-auto-rows:1fr}}
+  .pcard{background:var(--card);border:1px solid var(--hair);border-radius:var(--radius);padding:28px 26px;display:flex;flex-direction:column}
   .pcard .n{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--blue-accent);letter-spacing:1px}
   .pcard h3{font-size:20px;font-weight:800;letter-spacing:-.2px;margin:12px 0 10px;color:#fff}
   .pcard p{font-size:15px;color:var(--ink-78)}
+  .pcard .pfix{display:flex;gap:8px;margin-top:auto;padding-top:16px;border-top:1px solid var(--hair);font-size:15px;font-weight:600;line-height:1.5;color:#fff;text-decoration:none;transition:color .2s}
+  .pcard > p{margin-bottom:18px}
+  .pcard .pfix .ar{color:#40A0DB;flex:none}
+  .pcard .pfix:hover{color:#40A0DB}
+  .pcard .pfix:focus-visible{outline:2px solid #40A0DB;outline-offset:4px;border-radius:2px}
 
   /* tool cards */
   .tools{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
@@ -1049,7 +1055,7 @@
 <div class="light stats">
   <div class="wrap grid">
     <div class="stat"><b>200+</b><span>Market sources</span></div>
-    <div class="stat"><b>14+</b><span>Books priced per SGP request</span></div>
+    <div class="stat"><b>14+</b><span>Books in every SGP request</span></div>
     <div class="stat"><b>90%+</b><span>Pregame SGP requests priced</span></div>
     <div class="stat"><b>1</b><span>ID model across every source</span></div>
   </div>
@@ -1061,28 +1067,32 @@
     <div class="sec-head">
       <div class="kicker">Why correlated markets are hard to make</div>
       <h2 class="display">Four ways a maker<br class="bp"> <span class="acc">loses on correlated markets.</span></h2>
-      <p>An RFQ wants a price back before the window closes. Every book prices the same slip differently, no one publishes a fair price for it, and books don't offer every leg.</p>
+      <p>Four places correlated quoting goes wrong, and how the suite handles each one.</p>
     </div>
     <div class="four">
       <div class="pcard">
         <div class="n">01 / SPEED</div>
         <h3>The RFQ won't wait for the slowest book.</h3>
-        <p>An RFQ closes in milliseconds. If your pricing waits on the slowest book, someone else's quote fills while yours is still loading. You need the price back on your clock, not the books'.</p>
+        <p>An RFQ closes in milliseconds, and the slowest book sets your pace if you let it.</p>
+        <a class="pfix" href="#how"><span class="ar" aria-hidden="true">→</span><span>Set timeout_ms. Slow books are marked, not waited for.</span></a>
       </div>
       <div class="pcard">
         <div class="n">02 / REFERENCE</div>
         <h3>No single number to anchor to.</h3>
-        <p>Whether you trust one book, blend three or run your own model, you're pulling and normalizing every book yourself, one request at a time. And no one publishes a fair price for the slip to check yourself against.</p>
+        <p>Whether you trust one book, blend three or run a model, nobody hands you a single number for the slip.</p>
+        <a class="pfix" href="#fair"><span class="ar" aria-hidden="true">→</span><span>Quote off one book, the market average or a no-vig fair price.</span></a>
       </div>
       <div class="pcard">
         <div class="n">03 / PRICING</div>
         <h3>Naive math misprices every slip.</h3>
-        <p>Multiplying leg odds treats the legs as independent. They aren't. Price too generously and you get picked off. Price too cautiously and you get no fills.</p>
+        <p>Multiplying leg odds treats correlated legs as independent, so you either get picked off or get no fills.</p>
+        <a class="pfix" href="#corr"><span class="ar" aria-hidden="true">→</span><span>Every book's own correlated price, with the correlation it's charging.</span></a>
       </div>
       <div class="pcard">
         <div class="n">04 / COVERAGE</div>
         <h3>The slip you can't price is the fill you don't get.</h3>
-        <p>One leg isn't offered, or not at that line, and the whole request errors out. You either pass or quote blind. That usually happens on the most correlated slips, on the busiest nights of the week.</p>
+        <p>One leg isn't offered at that line and the whole request errors out, usually on the busiest nights.</p>
+        <a class="pfix" href="#own-odds"><span class="ar" aria-hidden="true">→</span><span>Send your own leg odds and we price it, even on lines no book offers.</span></a>
       </div>
     </div>
   </div>
