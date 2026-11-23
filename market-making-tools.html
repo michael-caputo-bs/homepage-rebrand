@@ -81,7 +81,7 @@
       "description": "Market making tools for prediction markets. Price Kalshi and Polymarket parlays, combos and same-game parlays off every sportsbook's correlated price, your own leg odds or a no-vig fair price, in one API built for RFQ market makers.",
       "keywords": "prediction market making, kalshi market making, polymarket market making, kalshi combos, kalshi parlays, rfq pricing, sgp pricing api",
       "featureList": [
-        "Correlation-aware SGP pricing from 14+ supported sportsbooks",
+        "Correlation-aware SGP pricing from 10+ supported sportsbooks",
         "Market average of the requested books for the slip",
         "Pricing at your own leg odds with the market's correlation applied",
         "No-vig Betstamp fair price for parlays and SGPs",
@@ -1103,7 +1103,7 @@
           <li>Multi-game parlays via <code>POST /api/parlay</code>, with same-game groups priced by each book's own bet builder</li>
           <li>On parlays, <code>allow_missing_entries</code> prices the legs a book has and lists the ones it's missing</li>
           <li>Set <code>timeout_ms</code> per request, so a slow book never costs you the quote</li>
-          <li>14+ supported sportsbooks</li>
+          <li>10+ supported sportsbooks</li>
           <!-- TODO(spencer): live/in-play SGP is NOT supported today (0 of 264 live legs priced in the 2026-09-22 probe).
                Say nothing about live here unless there is a dated roadmap commitment. -->
         </ul>
